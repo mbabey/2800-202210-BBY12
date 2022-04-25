@@ -48,6 +48,13 @@ To commit changes, type:
 
 Note: if necessary, longer commit messages can be created with `git commit -m` which will take you to a text editor. Write your commit message, save, and close to commit.
 
+### Pushing ###
+To make doubly sure you are on the correct branch, type:
+`git branch`
+
+To push commited changes to the desired branch, type:
+`git push`
+
 ### Merging Branches ###
 To merge branches:
  1. Go to the repository on GitHub.
@@ -64,5 +71,4 @@ There are other ways to merge using the command line that can be googled if desi
 
 ### Troubleshooting ###
 Things are bound to get messy at some point. There are many resources online which can be helpful for solving git-related issues. for example, [Oh Sh*t Git](ohshitgit.com).
-If things are really bad, get in touch with a team member. Code erasure would be unfortunate.
-
+If things are really bad, get in touch with a team member.

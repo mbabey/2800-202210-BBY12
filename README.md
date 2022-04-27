@@ -27,7 +27,8 @@ ID names should be in the format `id-(id-item-name)`
 # Git Guide #
 
 ### Pulling ###
-Warning: Always pull from a branch before you make changes, lest you run into merge conflicts
+Warning: Always pull from a branch before you make changes, lest you run into merge conflicts.
+
 To pull from a branch, navigate to the branch and type:
 `git pull`
 

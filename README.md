@@ -10,7 +10,6 @@ Git branches should not be deleted after they have been merged. It can be useful
 Git commit messages should be made in the present tense.
  - eg: 'Add login functionality and storage of user IDs. Bug remains with redirect after login.'
 
-
 ### Code ###
 Functions and variables should be named clearly and in camel case.
  - eg: A variable that stores the number of clicks should be labelled 'numClicks' or 'numUserClicks'
@@ -18,8 +17,20 @@ Functions and variables should be named clearly and in camel case.
 
 Every line should end with a semi-colon.
 
+Class names should be in the format `class-(class-item-name)`
+ - eg: A username form input should have the class name `class-login-input`
+
+ID names should be in the format `id-(id-item-name)`
+ - eg: A login form should have the id name `id-login-form`
+
 ---
 # Git Guide #
+
+### Pulling ###
+Warning: Always pull from a branch before you make changes, lest you run into merge conflicts.
+
+To pull from a branch, navigate to the branch and type:
+`git pull`
 
 ### Creating and Moving To a New Branch ###
 To create a new branch, type:

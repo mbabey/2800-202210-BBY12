@@ -1,12 +1,48 @@
+:root {
+    /* Colours */
+    --primary: #588676;
+    --primary-light: #86b6a5;
+    --primary-dark: #2c594a;
+    --primary-text: #ffeb88;
+    --secondary: #5f86be;
+    --secondary-light: #91b6f1;
+    --secondary-dark: #2c598e;
+    --secondary-text: #dff7ff;
+    /* End Colours */
+}
+
+body {
+    margin: 0 auto;
+    display: grid;
+    grid-template-rows: minmax(20%, 30%) auto;
+    grid-template-columns: 100%;
+}
+
+#id-pseudonav {
+    background-color: var(--primary);
+    height: 100%;
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
+}
+
+#id-content {
+    grid-row: 2 / span 1;
+    grid-column: 1 / span 1;
+}
+
 #id-login-block {
-    position: absolute;
+    position: relative;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%); /* Aligns center of screen. */
-
 }
 
 #id-login-block > form {
     display: flex;
     flex-direction: column;
+}
+
+#id-login-block > form > .class-login-input {
+    border: 1px black solid;
+    
 }

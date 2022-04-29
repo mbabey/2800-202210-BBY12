@@ -1,4 +1,4 @@
-# Conventions #
+## Conventions ##
 
 ### Git Branches ###
 Git branches should be named in the format 'feature-(feature-name)'.

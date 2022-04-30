@@ -14,7 +14,8 @@
 body {
     margin: 0 auto;
     display: grid;
-    grid-template-rows: minmax(20%, 30%) auto;
+    min-height: 100vh;
+    grid-template-rows: minmax(10%, 100px) auto;
     grid-template-columns: 100%;
 }
 
@@ -25,16 +26,29 @@ body {
     grid-column: 1 / span 1;
 }
 
-#id-content {
+#id-nav-logo {
+    width: auto;
+    height: auto;
+}
+
+#id-wrapper {
     grid-row: 2 / span 1;
     grid-column: 1 / span 1;
+    display: grid;
+    grid-template-rows: 100%;
+    grid-template-columns: 55% 45%;
 }
 
 #id-login-block {
-    position: relative;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%); /* Aligns center of screen. */
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
+    margin: auto;
+    min-width: 380px;
+    max-width: 50%;
+}
+
+#id-login-block p {
+    text-align: center;
 }
 
 #id-login-block > form {
@@ -44,5 +58,31 @@ body {
 
 #id-login-block > form > .class-login-input {
     border: 1px black solid;
-    
+    padding: 1rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    background-color: rgba(128, 128, 128, 0.3);
 }
+
+#id-login-block > form > #id-login-submit {
+    padding: .7rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    background-color: green;
+    color: white;
+}
+
+#id-login-block a {
+    color: var(--primary-light);
+    text-decoration: none;
+}
+
+#id-welcome {
+    grid-row: 1 / span 1;
+    grid-column: 2 / span 1;
+    background-color: var(--primary-light);
+    color: var(--primary-text);
+}
+

@@ -11,52 +11,59 @@
     /* End Colours */
 }
 
+html,
 body {
     margin: 0 auto;
-    display: grid;
+}
+
+#wrapper {
     min-height: 100vh;
-    grid-template-rows: minmax(10%, 100px) auto;
-    grid-template-columns: 100%;
+    display: grid;
+    grid-template-rows: minmax(10vh, 100px) auto;
 }
 
-#id-pseudonav {
+#pseudonav {
     background-color: var(--primary);
-    height: 100%;
     grid-row: 1 / span 1;
-    grid-column: 1 / span 1;
+    display: grid;
+    grid-template-columns: 10% 1fr;
 }
 
-#id-nav-logo {
-    width: auto;
+#nav-logo-background {
+    grid-column: 1 / span 1;
+    background-color: var(--primary-text);
+    max-width: 150px;
+    min-width: 100px;
+}
+
+#nav-logo {
+    width: 80%;
     height: auto;
 }
 
-#id-wrapper {
+#content {
     grid-row: 2 / span 1;
-    grid-column: 1 / span 1;
     display: grid;
-    grid-template-rows: 100%;
     grid-template-columns: 55% 45%;
 }
 
-#id-login-block {
-    grid-row: 1 / span 1;
+#login-block {
     grid-column: 1 / span 1;
     margin: auto;
     min-width: 380px;
     max-width: 50%;
 }
 
-#id-login-block p {
-    text-align: center;
+#login-block p {
+text-align: center;
 }
 
-#id-login-block > form {
+#login-block > form {
     display: flex;
     flex-direction: column;
 }
 
-#id-login-block > form > .class-login-input {
+#login-block > form > .login-input {
     border: 1px black solid;
     padding: 1rem;
     margin-top: 10px;
@@ -65,7 +72,7 @@ body {
     background-color: rgba(128, 128, 128, 0.3);
 }
 
-#id-login-block > form > #id-login-submit {
+#login-block > form > #login-submit {
     padding: .7rem;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -74,15 +81,39 @@ body {
     color: white;
 }
 
-#id-login-block a {
-    color: var(--primary-light);
+#login-block a {
     text-decoration: none;
 }
 
-#id-welcome {
-    grid-row: 1 / span 1;
-    grid-column: 2 / span 1;
-    background-color: var(--primary-light);
-    color: var(--primary-text);
+#login-block a:link,
+#login-block a:visited {
+    color: var(--primary-light);
 }
 
+#login-block a:focus,
+#login-block a:hover {
+    text-decoration: underline;
+}
+
+#login-block a:active {
+    text-decoration: underline;
+    color: var(--primary-dark);
+}
+
+#welcome {
+    grid-column: 2 / span 1;
+    background-color: var(--primary-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#welcome h1 {
+    color: white;
+    text-align: center;
+}
+
+#welcome p {
+    color: green;
+}

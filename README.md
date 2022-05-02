@@ -17,11 +17,7 @@ Functions and variables should be named clearly and in camel case.
 
 Every line should end with a semi-colon.
 
-Class names should be in the format `class-(class-item-name)`
- - eg: A username form input should have the class name `class-login-input`
-
-ID names should be in the format `id-(id-item-name)`
- - eg: A login form should have the id name `id-login-form`
+Class and ID names should be in the format `class-item-name`
 
 ---
 # Git Guide #

@@ -1,3 +1,30 @@
+:root {
+    /*Colours*/
+    --primary: #588676;
+    --primary-light: #86b6a5;
+    --primary-dark: #2c594a;
+    --primary-text: #ffeb88;
+    --secondary: #5f86be;
+    --secondary-light: #91b6f1;
+    --secondary-dark: #2c598e;
+    --secondary-text: #dff7ff;
+}
+
+html,
+body {
+    margin: 0 auto;
+}
+
+.navbar-placeholder {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    height: 10vh;
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+    background-color: var(--primary-dark);
+}
+
 main {
     display: grid;
     height: 100vh;

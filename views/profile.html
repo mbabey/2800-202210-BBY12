@@ -5,7 +5,7 @@
   <title>Profile Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/styles/profile.css">
+  <link rel="stylesheet" type="text/css" href="../styles/profile.css">
 </head>
 
 <body>
@@ -15,9 +15,12 @@
   <main>
 
     <div class="left-profile">
-      <div class="profile-picture"></div>
-      <div class="profile-name"></div>
-      <div class="edit-profile"><a href="#">Edit Profile</a></div>
+      
+      <div class="profile-head">
+        <div class="profile-picture"><img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image"></div>
+        <div class="profile-name">Business name</div>
+        <div class="edit-profile"><a href="#">Edit Profile</a></div>
+      </div>
       <div class="profile-info-container">
         <div class="biz-type"></div>
         <div class="contact-info"></div>
@@ -28,7 +31,7 @@
 
     <div class="right-post">
       <button type="button" class="service-board-tab">Service Board</button>
-      <button type="button" class="product-board-tab">Product Board</button>
+      <button type="button" class="product-post-tab">Product Board</button>
       <!--hide in the desktop view-->
       <button type="button" class="profile-tab">Profile</button>
       <div class="my-post">My Product Post</div>
@@ -38,7 +41,7 @@
   </main>
 
   <!--hide in the desktop view-->
-<footer class="footer-placeholder"></footer>
+  <footer class="footer-placeholder"></footer>
 
 </body>
 

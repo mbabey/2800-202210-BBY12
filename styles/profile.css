@@ -1,0 +1,61 @@
+main {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 34% 33% 33%;
+    grid-template-rows: 100%;
+    grid-gap: 0.5rem;
+}
+
+/*left profile */
+.left-profile {
+    grid-column: 1 / span 1;
+
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(10%, 10);
+}
+
+.profile-picture{
+
+}
+
+.profile-name{
+
+}
+
+.edit-profile{
+
+}
+
+.profile-info-container{
+    
+}
+
+.profile-description{
+
+}
+
+/*right posts area*/
+.right-post {
+    grid-column: 2 / span 2;
+}
+
+.service-board-tab{
+
+}
+
+.product-board-tab{
+
+}
+
+.profile-tab{
+    display: none;
+}
+
+.my-post{
+
+}
+
+.post-location{
+    
+}

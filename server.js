@@ -61,3 +61,4 @@ app.get('/create-account', (req, res) => {
     let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
     res.send(createAccountPage);
 });
+

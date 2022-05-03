@@ -1,14 +1,17 @@
+body{
+    margin-top: 3%;
+}
 main {
     display: grid;
     height: 100vh;
-    grid-template-columns: 34% 33% 33%;
+    grid-template-columns: 30% 35% 35%;
     grid-template-rows: 100%;
     grid-gap: 0.5rem;
 }
 
 /*left profile */
 .left-profile {
-    background-color: blue;
+    background-color: #86B6A5;
     grid-column: 1 / span 1;
 
     display: grid;
@@ -16,30 +19,51 @@ main {
     grid-template-rows: repeat(10%, 10);
 }
 
-.profile-picture{
-    background-color:aliceblue;
+.profile-picture {
     grid-row: 1 / span 2;
 }
 
-.profile-head{
-    background-color: blueviolet;
+.profile-picture > img {
+    border-radius: 50%;
+    
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+}
+
+.profile-head {
     grid-row: 3 / span 1;
+    text-align: center;
 }
 
-
-.profile-info-container{
-    background-color: brown;
+.profile-info-container {
+    background-color: white;
     grid-row: 4 / span 2;
+
+    margin: auto;
+    border-radius: 25px;
+    border: 2px solid;
+    padding: 25%;
+    width: 10%;
+    height: 1%; 
+    
 }
 
-.profile-description{
-    background-color: orange;
+.profile-description {
+    background-color: white;
     grid-row: 6 / span 5;
+
+    margin: auto;
+    border-radius: 25px;
+    border: 2px solid;
+    padding: 25%;
+    width: 10%;
+    height: 10%;
 }
 
 /*right posts area*/
 .right-post {
-    background-color: purple;
     grid-column: 2 / span 2;
 
     display: grid;
@@ -47,31 +71,36 @@ main {
     grid-template-rows: repeat(10%, 10);
 }
 
-.service-board-tab{
-    background-color: lightblue;
+.service-board-tab {
+    background-color: #2C598E;
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
 }
 
-.product-board-tab{
-    background-color: green;
+.product-board-tab {
+    background-color: #5F86BE;
     grid-column: 2 / span 1;
     grid-row: 1 / span 1;
 }
 
-.profile-tab{
-    background-color: beige;
+.profile-tab {
+    background-color: #588676;
     display: none;
 }
 
-.my-post{
-    background-color: red;
+.my-post {
+    background-color: #91B6F1;
     grid-column: 1 / span 2;
     grid-row: 2 / span 1;
+    text-align: center;
 }
 
-.post-location{
-    background-color: gray;
+.post-location {
+    background-color: white;
     grid-column: 1 / span 2;
     grid-row: 3 / span 8;
+}
+
+@media only screen and (max-width: 500px) {
+    
 }

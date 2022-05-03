@@ -38,7 +38,7 @@ body {
     background-color: var(--primary-light);
     display: grid;
     grid-column: 1 / span 1;
-    grid-row: 2 / span 3;
+    grid-row: 2 / span 4;
     grid-template-columns: 100%;
     grid-template-rows: 25% repeat(2, 1fr) 10%;
     height: 100%;
@@ -64,7 +64,7 @@ body {
 }
 
 .profile-name {
-    font-size: 23px;
+    font-size: 25px;
     font-weight: bold;
     margin-top: 4%;
 }
@@ -140,9 +140,7 @@ body {
 }
 
 .footer-placeholder {
-    background-color: var(--primary-dark);
-    grid-column: 1 / span 3;
-    grid-row: 5 / span 1;
+    display: none;
 }
 
 @media only screen and (max-width: 500px) {

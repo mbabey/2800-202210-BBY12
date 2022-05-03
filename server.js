@@ -30,8 +30,8 @@ app.listen(port, () => {
 });
 
 app.get('/', (req, res) => {
-    console.log(req.session.success);
-    if (req.session.user) {
+    console.log(req.session);
+    if (req.session.loggedIn) {
         res.redirect('/profile'); // /profile for now, but will be /home in later versions 
     } else {
         res.redirect('/login');
@@ -39,54 +39,36 @@ app.get('/', (req, res) => {
 });
 
 app.route('/login')
-    .get((req, res, next) => {
+    .get((req, res) => {
         let loginPage = fs.readFileSync('./views/login.html', 'utf8');
         res.send(loginPage);
-        next();
     })
-    .post((req, res, next) => {
+    .post((req, res, ) => {
         let email = req.body.email.trim();
-        console.log(email);
-        console.log(req.body.password);
-
         con.query('Select * from (`user`) Where (`username` = ?) AND (`password` = ?)', [email, req.body.password], function(err, results, fields) { // Change `username` to `email` in legit database
             if (results.length > 0) { //TODO: Change condition to password check;
-                console.log(results[0]);
-                //req.session.loggedIn = true;
-                req.session.regenerate(function() {
-                    // Store the user's primary key
-                    // in the session store to be retrieved,
-                    // or in this case the entire user object
-                    req.session.user = email;
-                    req.session.success = 'Authenticated as ' + email +
-                        ' click to <a href="/logout">logout</a>. ' +
-                        ' You may now access <a href="/restricted">/restricted</a>.';
-                    // res.redirect('/');
-                });
+                req.session.loggedIn = true;
+                req.session.email = email;
+                req.session.save();
             } else {
                 console.log("Email/password combination not found");
             }
         });
         res.redirect('/');
-        next();
     });
 
 app.get('/profile', (req, res) => {
-    console.log("At /profile");
-    console.log(req.session);
+    let profilePage = fs.readFileSync('./views/temp-profile.html', 'utf8');
+    res.send(profilePage);
 });
 
-app.get('/create-account', (req, res, next) => {
+app.get('/create-account', (req, res) => {
     let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
     res.send(createAccountPage);
-    next();
 });
 
 app.get('/logout', (req, res) => {
     req.session.destroy(function() {
         res.redirect('/');
     });
-
-    // req.session.loggedIn = false;
-    // res.redirect('/');
 });

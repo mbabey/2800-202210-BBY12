@@ -55,23 +55,23 @@ body {
     grid-template-columns: 55% 45%;
 }
 
-#login-block {
+#create-block {
     grid-column: 1 / span 1;
     margin: auto;
     min-width: 380px;
     width: 50%;
 }
 
-#login-block p {
+#create-block p {
 text-align: center;
 }
 
-#login-block > form {
+#create-block > form {
     display: flex;
     flex-direction: column;
 }
 
-#login-block > form > .login-input {
+#create-block > form > .login-input {
     border: 1px black solid;
     padding: 1rem;
     margin-top: 10px;
@@ -80,7 +80,7 @@ text-align: center;
     background-color: rgba(128, 128, 128, 0.3);
 }
 
-#login-block > form > #login-submit {
+#create-block > form > #create-submit {
     padding: .7rem;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -95,7 +95,7 @@ text-align: center;
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#login-block > form > #login-submit::after {
+#create-block > form > #create-submit::after {
     content: '';
     position: absolute;
     z-index: -1;
@@ -109,35 +109,35 @@ text-align: center;
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-#login-block > form > #login-submit:focus,
-#login-block > form > #login-submit:hover {
+#create-block > form > #create-submit:focus,
+#create-block > form > #create-submit:hover {
     transform: scale(1.025, 1.025);
 }
 
-#login-block > form > #login-submit:focus::after,
-#login-block > form > #login-submit:hover::after {
+#create-block > form > #create-submit:focus::after,
+#create-block > form > #create-submit:hover::after {
     opacity: 1;
 }
 
-#login-block > form > #login-submit:active {
+#create-block > form > #create-submit:active {
     transform: scale(1);
 }
 
-#login-block a {
+#create-block a {
     text-decoration: none;
 }
 
-#login-block a:link,
-#login-block a:visited {
+#create-block a:link,
+#create-block a:visited {
     color: var(--primary-light);
 }
 
-#login-block a:focus,
-#login-block a:hover {
+#create-block a:focus,
+#create-block a:hover {
     text-decoration: underline;
 }
 
-#login-block a:active {
+#create-block a:active {
     text-decoration: underline;
     color: var(--primary-dark);
 }
@@ -190,7 +190,7 @@ text-align: center;
         grid-template-columns: 100%;
     }
 
-    #login-block {
+    #create-block {
         min-width: 256px;
         width: 72%;
     }

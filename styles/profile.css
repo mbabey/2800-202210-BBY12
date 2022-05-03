@@ -8,6 +8,7 @@
     --secondary-light: #91b6f1;
     --secondary-dark: #2c598e;
     --secondary-text: #dff7ff;
+    --border: #707070;
 }
 
 html,
@@ -16,102 +17,117 @@ body {
 }
 
 .navbar-placeholder {
+    background-color: var(--primary-dark);
     display: grid;
+    height: 10vh;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    height: 10vh;
-    grid-column: 1 / span 1;
+    grid-column: 1 / span 3;
     grid-row: 1 / span 1;
-    background-color: var(--primary-dark);
 }
 
-main {
+.container {
     display: grid;
     height: 100vh;
     grid-template-columns: 30% 35% 35%;
-    grid-template-rows: 100%;
-    grid-gap: 0.5rem;
+    grid-template-rows: 10% repeat(3, 1fr) 15%;
 }
 
 /*left profile */
 .left-profile {
-    background-color: #86B6A5;
-    grid-column: 1 / span 1;
-
+    background-color: var(--primary-light);
     display: grid;
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 3;
     grid-template-columns: 100%;
-    grid-template-rows: repeat(10%, 10);
+    grid-template-rows: 25% repeat(2, 1fr) 10%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.left-profile::-webkit-scrollbar {
+    display: none;
 }
 
 .profile-head {
-    grid-row: 1 / span 3;
+    grid-row: 1 / span 1;
     text-align: center;
+    margin-top: 10%;
 }
 
-.profile-picture > img {
-    border-radius: 50%;
-    
+.profile-picture>img {
     display: block;
+    border-radius: 50%;
+    width: 30%;
     margin-left: auto;
     margin-right: auto;
-    width: 30%;
 }
 
+.profile-name {
+    font-size: 23px;
+    font-weight: bold;
+    margin-top: 4%;
+}
 
+.edit-profile {
+    margin-top: 2%;
+}
 
-.profile-info-container {
+.edit-profile a {
+    color: var(--secondary-dark);
+    text-decoration: none;
+}
+
+.profile-info {
     background-color: white;
-    grid-row: 4 / span 2;
-
     margin: auto;
     border-radius: 25px;
     border: 2px solid;
+    border-color: var(--border);
     padding: 25%;
-    width: 10%;
-    height: 1%; 
-    
+    width: 40%;
+    margin-top: 10%;
 }
 
 .profile-description {
     background-color: white;
-    grid-row: 6 / span 5;
-
     margin: auto;
     border-radius: 25px;
     border: 2px solid;
+    border-color: var(--border);
     padding: 25%;
-    width: 10%;
-    height: 10%;
+    width: 40%;
+    height: 65%;
 }
 
 /*right posts area*/
 .right-post {
-    grid-column: 2 / span 2;
-
     display: grid;
+    grid-column: 2 / span 2;
+    grid-row: 2 / span 2;
     grid-template-columns: 50% 50%;
     grid-template-rows: repeat(10%, 10);
 }
 
 .service-board-tab {
-    background-color: #2C598E;
+    background-color: var(--secondary-dark);
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
 }
 
 .product-post-tab {
-    background-color: #5F86BE;
+    background-color: var(--secondary);
     grid-column: 2 / span 1;
     grid-row: 1 / span 1;
 }
 
 .profile-tab {
-    background-color: #588676;
+    background-color: var(--primary);
     display: none;
 }
 
 .my-post {
-    background-color: #91B6F1;
+    background-color: var(--secondary-light);
     grid-column: 1 / span 2;
     grid-row: 2 / span 1;
     text-align: center;
@@ -123,50 +139,54 @@ main {
     grid-row: 3 / span 8;
 }
 
+.footer-placeholder {
+    background-color: var(--primary-dark);
+    grid-column: 1 / span 3;
+    grid-row: 5 / span 1;
+}
 
 @media only screen and (max-width: 500px) {
-    
-    main{
+
+    main {
         display: grid;
         grid-template-columns: 33% 33% 33%;
         grid-template-rows: repeat(1fr, 9);
     }
 
-    .service-board-tab{
+    .service-board-tab {
         background-color: #2C598E;
         grid-column: 1 / span 1;
         grid-row: 1 / span 1;
     }
 
-    .product-post-tab{
+    .product-post-tab {
         background-color: #5F86BE;
         grid-column: 2 / span 1;
         grid-row: 1 / span 1;
     }
 
-    .profile-tab{
+    .profile-tab {
         background-color: #588676;
         grid-column: 3 / span 1;
         grid-row: 1 / span 1;
     }
 
-    .profile-head{
+    .profile-head {
         background-color: #86B6A5;
         grid-column: 1 / span 3;
         grid-row: 2 / span 2;
     }
 
-    .profile-info-container{
+    .profile-info-container {
         grid-column: 1 / span 3;
         grid-row: 3 / span 3;
 
         border: 2px solid;
     }
 
-    .profile-description{
+    .profile-description {
         grid-column: 1 / span 3;
         grid-row: 6 / span 3;
-
         border: 2px solid;
     }
 

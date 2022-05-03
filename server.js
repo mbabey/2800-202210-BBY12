@@ -11,6 +11,19 @@ app.use(express.static(__dirname + '/views'));
 app.use(session({ secret: 'shoredoes', name: 'groopsess', resave: false, saveUninitialized: true }));
 
 const port = 8000;
+
+const con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'comp2800'
+});
+
+con.connect(function(err) {
+    if (err) throw err;
+    console.log("SQL Connected");
+});
+
 app.listen(port, () => {
     console.log('Gro-Operate running on port: ' + port);
 });
@@ -28,23 +41,20 @@ app.route('/login')
         let loginPage = fs.readFileSync('./views/login.html', 'utf8');
         res.send(loginPage);
 
-        const con = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'store'
-        });
+    })
+    .post((req, res) => {
+        let username = req.body.username.trim();
+        console.log(username);
+        console.log(req.body.password);
 
-        con.connect(function (err) {
-            if (err) throw err;
-            console.log("SQL Poggers");
-            con.query("SELECT * FROM `user`", function (err, result, fields) {
-                if (err) throw err;
-                console.log(result);
-            });
+        con.query('Select * from `user` Where `username` = ?', [username], function(err, results, fields) {
+            if (results.length > 0) { //TODO: Change condition to password check;
+                console.log(results[0]);
+            } else {
+                console.log("Username password combination not found");
+            }
         });
-    }).post((req, res) => {
-        console.log('Login Post');
+        res.redirect('/');
     });
 
 app.get('/create-account', (req, res) => {

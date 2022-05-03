@@ -11,7 +11,7 @@ const {
 //function to create database by running this file in node
 async function init() {
     //promise that allows code to execute in a synchronous manner
-    const mysql = require("mysql2");
+    const mysql = require("mysql2/promise");
 
     const connection = await mysql.createConnection({
         //change to 127.0.0.1 for macOS
@@ -47,7 +47,7 @@ async function init() {
         await connection.query(userRecords, [recordValues]);
     }
 
-    const createDBAndUserTable2 = `use user;
+    const createDBAndUserTable2 = `use grooperate;
     CREATE TABLE IF NOT EXISTS user_timeline (
         ID int NOT NULL AUTO_INCREMENT,
         user_ID int NOT NULL,
@@ -61,15 +61,19 @@ async function init() {
         FOREIGN KEY (user_ID) REFERENCES user(ID) ON UPDATE CASCADE ON DELETE CASCADE);`;
     //SELECT user.ID
     await connection.query(createDBAndUserTable2);
-    const [rows2, fields2] = await connection.query("SELECT * FROM user_timeline");
+    // const [rows2, fields2] = await connection.query("SELECT * FROM user_timeline");
 
-    if (rows2.length == 0) {
-        let userRecords = "INSERT into  (INSERT into (ID, user_ID, business_type, business_owner_name, business_owner_email_address, business_address, date_time, description) values ?";
-        let recordValues = [
-        ];
-        //call userRecords, insert recordValues
-        await connection.query(userRecords, [recordValues]);
-    }
+    // if (rows2.length == 0) {
+    //     let userRecords = "insert into user_timeline (user_ID, business_type, business_owner_first_name, business_owner_first_name, business_owner_email_address, business_address, date_time, description) values ?";
+    //     let recordValues = [
+    //         [1, "Cafe", "Olivia Brown", "3:22 PM", "5"],
+    //         [2, "Coffee Roaster", "I've never met nobody like you. Had friends and I've had buddies, it's true.", "3:22 PM", "5"],
+    //         [3, "Soap Maker", "I've never met nobody like you. Had friends and I've had buddies, it's true.", "3:22 PM", "5"],
+    //         [4, "Tutoring", "I've never met nobody like you. Had friends and I've had buddies, it's true.", "3:22 PM", "5"]
+    //     ];
+    //     //call userRecords, insert recordValues
+    //     await connection.query(userRecords, [recordValues]);
+    // }
 
 
     connection.end();

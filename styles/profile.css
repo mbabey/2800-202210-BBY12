@@ -8,6 +8,7 @@ main {
 
 /*left profile */
 .left-profile {
+    background-color: blue;
     grid-column: 1 / span 1;
 
     display: grid;
@@ -16,46 +17,61 @@ main {
 }
 
 .profile-picture{
-
+    background-color:aliceblue;
+    grid-row: 1 / span 2;
 }
 
-.profile-name{
-
+.profile-head{
+    background-color: blueviolet;
+    grid-row: 3 / span 1;
 }
 
-.edit-profile{
-
-}
 
 .profile-info-container{
-    
+    background-color: brown;
+    grid-row: 4 / span 2;
 }
 
 .profile-description{
-
+    background-color: orange;
+    grid-row: 6 / span 5;
 }
 
 /*right posts area*/
 .right-post {
+    background-color: purple;
     grid-column: 2 / span 2;
+
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: repeat(10%, 10);
 }
 
 .service-board-tab{
-
+    background-color: lightblue;
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
 }
 
 .product-board-tab{
-
+    background-color: green;
+    grid-column: 2 / span 1;
+    grid-row: 1 / span 1;
 }
 
 .profile-tab{
+    background-color: beige;
     display: none;
 }
 
 .my-post{
-
+    background-color: red;
+    grid-column: 1 / span 2;
+    grid-row: 2 / span 1;
 }
 
 .post-location{
-    
+    background-color: gray;
+    grid-column: 1 / span 2;
+    grid-row: 3 / span 8;
 }

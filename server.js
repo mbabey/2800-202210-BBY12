@@ -32,20 +32,24 @@ app.route('/login')
             host: 'localhost',
             user: 'root',
             password: '',
-            database: 'store'
+            database: 'comp2800'
         });
 
-        con.connect(function (err) {
+        con.connect(function(err) {
             if (err) throw err;
             console.log("SQL Poggers");
-            con.query("SELECT * FROM `user`", function (err, result, fields) {
+            con.query("SELECT * FROM `user`", function(err, result, fields) {
                 if (err) throw err;
                 console.log(result);
             });
         });
-    }).post((req, res) => {
-        console.log('Login Post');
+    })
+    .post((req, res) => {
+        console.log(bodyparser.json());
+        res.redirect('/');
     });
+
+
 
 app.get('/create-account', (req, res) => {
     let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');

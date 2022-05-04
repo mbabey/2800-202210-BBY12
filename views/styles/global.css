@@ -19,7 +19,7 @@ body {
 .container {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: minmax(10vh, 50px) auto;
+  grid-template-rows: minmax(50px, 50px) auto;
 }
 
 nav {
@@ -35,27 +35,22 @@ nav {
   justify-content: space-between;
 }
 
-#nav-wrapper div {
+#nav-wrapper > div,
+#nav-wrapper > div #nav-search, 
+#nav-wrapper > div .nav-button {
   display: flex;
   flex-direction: row;
 }
 
-#nav-right {
-  margin-left: 10%;
-}
-
-#nav-left {
-  margin-right: 10%;
-}
-
-#nav-right .nav-button,
-#nav-left .nav-button {
-  align-items: center;
-  cursor: pointer;
-}
-
 nav svg {
   color: white;
+}
+
+#nav-search {
+  align-items: center;
+  cursor: pointer;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 #nav-search input {
@@ -74,8 +69,10 @@ nav svg {
 }
 
 .nav-button {
-  padding-left: 5px;
-  padding-right: 5px;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -83,50 +80,40 @@ nav svg {
   background-color: var(--secondary-light);
 }
 
-#nav-profile:active,
-#nav-profile:focus {
-  animation: profile-reveal 1s ease infinite;
-}
-
-@keyframes profile-reveal {
-  0% {transform: scaleX(1);}
-  100% {transform: scaleX(2);}
-}
-
-#nav-profile ul {
-  padding: 0;
-  top: 0;
-  position: absolute;
-  display: none;
-  list-style: none;
-}
-
-#nav-profile:focus ul {
-  display: block;
+#nav-profile {
+  display: inline-block;
   position: relative;
-  bottom: 0;  
 }
 
-.nav-button > ul > li {
-  float: left !important;
-  border: none;
-}
-
-.nav-button a {
+#nav-profile-dropdown {
   display: block;
-  padding: 8px;
-  width: 100px;
-  color: #757575;
+  z-index: -1;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  opacity: 0;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+#nav-profile:hover #nav-profile-dropdown {
+  opacity: 1;
+  z-index: 1;
+}
+
+#nav-profile-dropdown a {
+  color: white;
+  padding: 0.7rem 1rem;
   text-decoration: none;
+  display: block;
   text-align: center;
+  border: 1px solid var(--secondary-dark);
+  background-color: var(--secondary-dark);
 }
 
-.nav-button li:hover a {
-  color: rgb(75, 75, 75);
-}
+#nav-profile-dropdown a:hover {
+  background-color: var(--secondary-light);
 
-.nav-button ul ul a:hover {
-  background: var(--primary-text);
 }
 
 

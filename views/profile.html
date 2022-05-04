@@ -18,13 +18,15 @@
     <nav>
       <div id="nav-wrapper">
         <div id="nav-left">
-          <div id="nav-home" class="nav-button">home</div>
+          <div id="nav-home" class="nav-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="48" width="48"><path fill="currentColor" d="M8 42V18L24.1 6L40 18V42H28.3V27.75H19.65V42ZM11 39H16.65V24.75H31.3V39H37V19.5L24.1 9.75L11 19.5ZM24 24.35Z"/></svg>
+          </div>
           <div id="nav-admin" class="nav-button">
             <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="24" width="24"><path fill="currentColor" d="M24 25.15ZM11.65 44 16.3 28.8 4 20H19.2L24 4L28.8 20H44L31.7 28.8L36.35 44L24 34.6ZM17.15 35.85 24 30.65 30.85 35.85 28.1 27.2 34.4 23.1H26.85L24 14.45L21.15 23.1H13.6L19.9 27.2Z"/></svg>
           </div>
         </div>
         <div id="nav-right">
-          <div id="nav-search" class="nav-button">
+          <div id="nav-search">
             <form action="post">
               <input type="text" placeholder="Search" name="nav-search">
               <button>
@@ -40,16 +42,12 @@
           </div>
           <!-- when hover, drop down -->
           <div id="nav-profile" class="nav-button">
-            <!-- <ul>
-              <li> -->
                 <span id="profile-name">NAME</span>
                 <svg xmlns="http://www.w3.org/2000/svg" id="Outline" viewbox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12,12A6,6,0,1,0,6,6,6.006,6.006,0,0,0,12,12ZM12,2A4,4,0,1,1,8,6,4,4,0,0,1,12,2Z"/><path fill="currentColor" d="M12,14a9.01,9.01,0,0,0-9,9,1,1,0,0,0,2,0,7,7,0,0,1,14,0,1,1,0,0,0,2,0A9.01,9.01,0,0,0,12,14Z"/></svg>
-                <ul>
-                  <li><a href="#" hidden id="profile-profile">Account Settings</a></li>
-                  <li><a href="#" hidden id="profile-logout">Log Out</a></li>
-                </ul>
-             <!-- </li>
-            </ul> -->
+                <div id="nav-profile-dropdown">
+                  <a href="#" id="profile-profile">Account Settings</a>
+                  <a href="#" id="profile-logout">Log Out</a>
+                </div>
           </div>
         </div>
       </div>

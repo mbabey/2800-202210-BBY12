@@ -48,17 +48,31 @@ app.route('/login')
         let email = req.body.email.trim();
         let pass = req.body.password;        
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
-        con.query('Select * from (`users`) Where (`username` = ?) AND (`password` = ?)', [email, hash], function (err, results, fields) { // Change `username` to `email` in legit database
+        try{
+        con.query('Select * from (`users`) Where (`username` = ?) AND (`password` = ?)', [email, hash], function (err, results,) { // Change `username` to `email` in legit database
             if (results.length > 0) { //TODO: Change condition to password check;
                 req.session.loggedIn = true;
                 req.session.email = email;
-                req.session.save();
+                req.session.admin = false;
+                
+                con.query('Select * from (`admins`) Where (`username` = ?)', [email], function(err, results){
+                    if (err) throw err;
+                    if (results.length > 0){
+                        console.log("in admin true");
+                        req.session.admin = true;
+                    }
+                    req.session.save();
+                })
+                
             } else {
                 console.log("Email/password combination not found");
             }
         });
         res.redirect('/');
-    });
+    } catch(err){
+        res.redirect('/');
+    }
+});
 
 app.get('/profile', (req, res) => {
     let profilePage = fs.readFileSync('./views/temp-profile.html', 'utf8');

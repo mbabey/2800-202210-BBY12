@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const fs = require("fs");
 const mysql = require('mysql2');
+const crypto = require('crypto');
+//const hash = crypto.createHash('sha256').update(pass).digest('hex');
 
 // Notice that this is a 'POST'
 app.post('/add-users', function (req, res) {
@@ -14,7 +16,7 @@ app.post('/add-users', function (req, res) {
       host: 'localhost',
       user: 'root',
       password: '',
-      database: 'grooperate'
+      database: 'comp2800'
     });
     connection.connect();
     // TO PREVENT SQL INJECTION, DO THIS:
@@ -35,8 +37,8 @@ app.post('/add-users', function (req, res) {
 
 
 
-// Post that updates values to change data stored in db
-app.post('/update-users', function (req, res) {
+// Put that updates values to change data stored in db
+app.put('/update-users', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
   let connection = mysql.createConnection({

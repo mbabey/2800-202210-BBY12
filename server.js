@@ -66,7 +66,7 @@ app.route('/login')
     });
 
 app.get('/profile', (req, res) => {
-    let profilePage = fs.readFileSync('./views/temp-profile.html', 'utf8');
+    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
     res.send(profilePage);
 });
 

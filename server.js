@@ -91,7 +91,7 @@ app.get('/logout', (req, res) => {
 });
 
 //grab data from the logged-in user table in db
-//haven't tested localhost:8000/get-users yet because I can't login properly, need to test later
+//not working
 app.get('/get-users', function (req, res) {
 
     let connection = mysql.createConnection({
@@ -101,17 +101,47 @@ app.get('/get-users', function (req, res) {
       database: 'comp2800'
     });
     connection.connect();
-    //need to grab from that specific logged-in user
-    let session_email = req.session.email;
-    connection.query('SELECT fName, lName, email, password FROM users WHERE email = ?', [session_email], function (error, results, fields) {
+    
+    //fetch from that specific logged-in user
+    //need the current session's username to locate the data, not sure if it's working
+    let session_username = req.session.username;
+    connection.query('SELECT (`fName`, `lName`, `email`, `password`) FROM (`bby12users`) WHERE (`username` = ?)', [session_username], function (error, results, fields) {
         if (error) {
             console.log(error);
         }
         console.log('Rows returned are: ', results);
         res.send({ status: "success", rows: results });
-
+  
     });
     connection.end();
-
-
-});
+  
+  
+  });
+  
+  // Post that updates values to change data stored in db
+  app.post('/update-users', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+  
+    let connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      database: 'comp2800'
+    });
+    connection.connect();
+  console.log("update values", req.body.username, req.body.fName, req.body.lName,
+  req.body.email, req.body.password)
+    connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?',
+          [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+          function (error, results, fields) {
+      if (error) {
+          console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({ status: "Success", msg: "User information updated." });
+  
+    });
+    connection.end();
+  
+  });
+  

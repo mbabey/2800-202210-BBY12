@@ -80,6 +80,11 @@ footer svg {
   transform: translateX(-2px);
 }
 
+#nav-wrapper a,
+#footer-wrapper a {
+  height: 100%;
+}
+
 .nav-button {
   cursor: pointer;
   height: 100%;
@@ -152,24 +157,20 @@ footer {
     width: 100vw;
     height: 50px;
     bottom: 0;
-    right: 0;
+    left: 0;
   }
 
-  #footer-wrapper {
-    /* margin-left: 10%; */
-    /* margin-right: 10%; */
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  #footer-wrapper div {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
+#footer-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
   
+#footer-wrapper a {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 } 

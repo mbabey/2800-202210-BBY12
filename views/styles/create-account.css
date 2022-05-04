@@ -87,10 +87,10 @@ text-align: center;
 }
 
 #create-block > form {
-    height: 80%;
+    height: 22.4rem;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 20% 25% repeat(2, 20%) 15%; /* might need to have height in px */
+    grid-template-rows: 3.8rem 5.8rem 3.8rem 5rem 4rem; /* size in rem so form scales with font size. */
     gap: 3px;
 }
 
@@ -227,6 +227,7 @@ text-align: center;
     }
 
     #create-block {
+        grid-column: 1 / span 1;
         min-width: 256px;
         width: 72%;
     }

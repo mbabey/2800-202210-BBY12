@@ -11,14 +11,14 @@ const {
 //function to create database by running this file in node
 async function init() {
     //promise that allows code to execute in a synchronous manner
-    const mysql = require("mysql2");
+    const mysql = require("mysql2/promise");
 
     const connection = await mysql.createConnection({
         //change to 127.0.0.1 for macOS
-        host: "127.0.0.1",
+        host: "localhost",
         user: "root",
         //change password if necessary
-        password: " ",
+        password: "",
         multipleStatements: true
     });
     //create the database if not exist and create table for users

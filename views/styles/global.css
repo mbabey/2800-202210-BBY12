@@ -14,5 +14,33 @@
 html,
 body {
     margin: 0 auto;
-    font-size: 15px;
 }
+
+.container {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: minmax(10vh, 50px) auto;
+}
+
+nav {
+  background-color: var(--primary-dark);
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav div {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.nav-search {
+  max-height: 1rem; /* 1rem = 16px or 16pt font size, if the browser has a different font size specified, 1 rem will be that font size */
+}
+
+@media only screen and (max-width: 800px) {
+
+} 

@@ -5,8 +5,8 @@
   <title>Profile Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="../styles/global.css">
-  <link rel="stylesheet" type="text/css" href="../styles/profile.css">
+  <link rel="stylesheet" type="text/css" href="./styles/global.css">
+  <link rel="stylesheet" type="text/css" href="./styles/profile.css">
 </head>
 
 <body>
@@ -15,29 +15,47 @@
 
   <div class="container">
 
-    <nav class="navbar-placeholder"></nav>
-
-    <div class="left-profile">
-      <div class="profile-head">
-        <div class="profile-picture"><img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image"></div>
-        <div class="profile-name">Business Name</div>
-        <div class="edit-profile"><a href="#">Edit Profile</a></div>
-        <div class="profile-info">
-          <div class="biz-type"></div>
-          <div class="contact-info"></div>
-          <div class="location-info"></div>
+    <nav>
+        <div id="nav-left">
+          <div id="nav-home" class="nav-button">home</div>
+          <div id="nav-admin" class="nav-button">admin</div>
         </div>
-        <div class="profile-description"></div>
-      </div>
-    </div>
+        <div id="nav-right">
+          <div id="nav-search" class="nav-button"><input type="text"></div>
+          <div id="nav-post" class="nav-button">post</div>
+          <div id="nav-chat" class="nav-button">chat</div>
+          <div id="nav-profile" class="nav-button">
+            <span id="profile-name">NAME image</span>
+            <!-- when clicking, drop down -->
+            <div hidden id="profile-profile"></div>
+            <div hidden id="profile-logout"></div> 
+          </div>
+        </div>
+    </nav>
 
-    <div class="right-post">
-      <button type="button" class="service-board-tab">Service Board</button>
-      <button type="button" class="product-post-tab">Product Board</button>
-      <!--hide in the desktop view-->
-      <button type="button" class="profile-tab">Profile</button>
-      <div class="my-post">My Product Post</div>
-      <div class="post-location"></div>
+    <div id="content">
+      <div class="left-profile">
+        <div class="profile-head">
+          <div class="profile-picture"><img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image"></div>
+          <div class="profile-name">Business Name</div>
+          <div class="edit-profile"><a href="#">Edit Profile</a></div>
+          <div class="profile-info">
+            <div class="biz-type"></div>
+            <div class="contact-info"></div>
+            <div class="location-info"></div>
+          </div>
+          <div class="profile-description"></div>
+        </div>
+      </div>
+  
+      <div class="right-post">
+        <button type="button" class="service-board-tab">Service Board</button>
+        <button type="button" class="product-post-tab">Product Board</button>
+        <!--hide in the desktop view-->
+        <button type="button" class="profile-tab">Profile</button>
+        <div class="my-post">My Product Post</div>
+        <div class="post-location"></div>
+      </div>
     </div>
 
     <!--hide in the desktop view-->

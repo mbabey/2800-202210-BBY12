@@ -16,7 +16,7 @@ body {
     margin: 0 auto;
 }
 
-#wrapper {
+.container {
     min-height: 100vh;
     display: grid;
     grid-template-rows: minmax(15vh, 100px) auto;

@@ -18,17 +18,20 @@
     <nav>
         <div id="nav-left">
           <div id="nav-home" class="nav-button">home</div>
-          <div id="nav-admin" class="nav-button">admin</div>
+          <div id="nav-admin" class="nav-button"><img class="nav-svg" src="/views/svg/star.svg" alt="Administration"></div>
         </div>
         <div id="nav-right">
-          <div id="nav-search" class="nav-button"><input type="text"></div>
-          <div id="nav-post" class="nav-button">post</div>
-          <div id="nav-chat" class="nav-button">chat</div>
+          <div id="nav-search" class="nav-button"><span><input type="text"><img class="nav-svg" src="/views/svg/search.svg" alt=""></span></div>
+          <div id="nav-post" class="nav-button"><img class="nav-svg" src="/views/svg/post.svg" alt="Post"></div>
+          <div id="nav-chat" class="nav-button"><img class="nav-svg" src="/views/svg/chat_bubble.svg" alt="Chat"></div>
           <div id="nav-profile" class="nav-button">
-            <span id="profile-name">NAME image</span>
+            <span id="profile-name">NAME</span>
+            <img class="nav-svg" src="/views/svg/user.svg" alt="Profile" onclick="dropdown()">
             <!-- when clicking, drop down -->
-            <div hidden id="profile-profile"></div>
-            <div hidden id="profile-logout"></div> 
+            <div id="dropdown-menu" class="dropdown-content"> 
+              <a href="#" hidden id="profile-profile">Account Settings</a>
+              <a href="#" hidden id="profile-logout">Log Out</a> 
+            </div>
           </div>
         </div>
     </nav>
@@ -63,7 +66,7 @@
 
   </div>
 
-
+<script src="/scripts/navbar-function.js"></script>
 </body>
 
 </html>

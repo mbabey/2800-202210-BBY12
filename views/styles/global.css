@@ -28,7 +28,6 @@ nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
 }
 
 nav div {
@@ -37,8 +36,46 @@ nav div {
   gap: 10px;
 }
 
+#nav-right div,
+#nav-left div {
+  align-items: center;
+  cursor: pointer;
+}
+
+.nav-svg {
+  height: 20px;
+  width: auto;
+}
+
 .nav-search {
   max-height: 1rem; /* 1rem = 16px or 16pt font size, if the browser has a different font size specified, 1 rem will be that font size */
+}
+
+#nav-profile {
+  position: relative;
+  /* display: inline-block; */
+}
+
+/* Referenced from https://www.w3schools.com/howto/howto_js_dropdown.asp */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #dff7ff;
+  min-width: 200px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #86b6a5;
+}
+
+.show {
+  display: block;
 }
 
 @media only screen and (max-width: 800px) {

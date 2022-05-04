@@ -75,6 +75,7 @@ app.get('/create-account', (req, res) => {
 });
 
 //grab data from the logged-in user table in db
+//haven't tested localhost:8000/get-users yet because I can't login properly, need to test later
 app.get('/get-users', function (req, res) {
 
     let connection = mysql.createConnection({

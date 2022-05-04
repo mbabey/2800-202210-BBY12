@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Lato&display=swap');
+
 :root {
   /*Colours*/
   --primary: #588676;
@@ -13,7 +15,12 @@
 
 html,
 body {
-    margin: 0 auto;
+  margin: 0 auto;
+  font-family: 'Lato', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Alegreya Sans SC', sans-serif;    
 }
 
 .container {

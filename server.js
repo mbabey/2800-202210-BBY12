@@ -78,8 +78,10 @@ app.route('/create-account')
     .post((req, res) => {
         if (createAccount.createAccount(req, res)) {
             login(req, req.body["username"]);
+            //res.send({ status: "success", msg: "Record added." });
             res.redirect('/');
         } else {
+            //res.send({ status: "fail", msg: "Record not added." });
             res.redirect('/create-account');
         }
 
@@ -99,7 +101,6 @@ function login(req, user) {
     con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function(err, results) {
         if (err) throw err;
         if (results.length > 0) {
-            console.log("in admin true");
             req.session.admin = true;
         }
         req.session.save();

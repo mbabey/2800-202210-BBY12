@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const crypto = require('crypto');
+const { render } = require('express/lib/response');
 
 module.exports = {
     createAccount: function(req, res) {
@@ -11,30 +12,43 @@ module.exports = {
             database: 'comp2800'
         });
         connection.connect();
-        let username = req.body.username;
-        let pass = req.body.password;
-        let success = false;
-        if (checkUsername(username, req) && checkPassword(pass, req)) {
-            console.log(req.body);
-            let location = req.body["location-street"] + ", " + req.body["location-city"] + ", " + req.body["location-country"];
-            console.log(location);
-            //console.log([username, pass, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]]);
-            success = true;
-        } else console.log("not same");
-        // const hash = crypto.createHash('sha256').update(pass).digest('hex');
-        // connection.query('INSERT INTO bby12users (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', 
-        // [username, hash, req.body["first-name"],req.body["last-name"],req.body["company-name"],req.body["email"],req.body["phone-num"],location, req.body["description"]],
-        //     function(error, results, fields) {
-        //         if (error) {
-        //             console.log(error);
-        //         }
-        //         //console.log('Rows returned are: ', results);
-        //         res.send({ status: "success", msg: "Record added." });
+        let success = insertDB(req, connection)
+            .then(function(result) {
+                return result;
+            })
+            .catch(function(err) {
+                console.log("Promise rejection error: " + err);
+                return false;
+            });
 
-        //     });
         connection.end();
         return success;
     }
+};
+
+
+function insertDB(req, connection) {
+    return new Promise((resolve, reject) => {
+        let username = req.body.username;
+        let pass = req.body.password;
+        if (checkUsername(username, req) && checkPassword(pass, req)) {
+            //console.log(req.body);
+            //console.log(location);
+            //console.log([username, pass, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]]);
+            const hash = crypto.createHash('sha256').update(pass).digest('hex');
+            let location = req.body["location-street"] + ", " + req.body["location-city"] + ", " + req.body["location-country"];
+            connection.query('INSERT INTO bby12users (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]],
+                function(err) {
+                    if (err) {
+                        reject(new Error("Insert failed"));
+                    } else {
+                        resolve(true);
+                    }
+                });
+        } else {
+            reject(new Error("Username/Password do not match"));
+        };
+    });
 };
 
 function checkUsername(username, req) {

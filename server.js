@@ -5,6 +5,7 @@ const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
+const crypto = require('crypto');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/views'));
@@ -20,7 +21,7 @@ const con = mysql.createConnection({
     database: 'comp2800'
 });
 
-con.connect(function(err) {
+con.connect(function (err) {
     if (err) throw err;
     console.log("SQL Connected");
 });
@@ -39,13 +40,15 @@ app.get('/', (req, res) => {
 });
 
 app.route('/login')
-    .get((req, res) => {
-        let loginPage = fs.readFileSync('./views/login.html', 'utf8');
-        res.send(loginPage);
+.get((req, res) => {
+    let loginPage = fs.readFileSync('./views/login.html', 'utf8');
+    res.send(loginPage);
     })
-    .post((req, res, ) => {
+    .post((req, res,) => {
         let email = req.body.email.trim();
-        con.query('Select * from (`user`) Where (`username` = ?) AND (`password` = ?)', [email, req.body.password], function(err, results, fields) { // Change `username` to `email` in legit database
+        let pass = req.body.password;        
+        const hash = crypto.createHash('sha256').update(pass).digest('hex');
+        con.query('Select * from (`users`) Where (`username` = ?) AND (`password` = ?)', [email, hash], function (err, results, fields) { // Change `username` to `email` in legit database
             if (results.length > 0) { //TODO: Change condition to password check;
                 req.session.loggedIn = true;
                 req.session.email = email;
@@ -68,7 +71,7 @@ app.get('/create-account', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy(function() {
+    req.session.destroy(function () {
         res.redirect('/');
     });
 });

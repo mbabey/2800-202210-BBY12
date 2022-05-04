@@ -38,7 +38,6 @@ nav {
 #nav-wrapper div {
   display: flex;
   flex-direction: row;
-  gap: 10px;
 }
 
 #nav-right {
@@ -74,46 +73,60 @@ nav svg {
   transform: translateX(-2px);
 }
 
-.nav-button ul {
+.nav-button {
+  padding-left: 5px;
+  padding-right: 5px;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.nav-button:hover {
+  background-color: var(--secondary-light);
+}
+
+#nav-profile:active,
+#nav-profile:focus {
+  animation: profile-reveal 1s ease infinite;
+}
+
+@keyframes profile-reveal {
+  0% {transform: scaleX(1);}
+  100% {transform: scaleX(2);}
+}
+
+#nav-profile ul {
   padding: 0;
   top: 0;
-  background: var(--secondary-light);
   position: absolute;
   display: none;
   list-style: none;
 }
 
-.nav-button > ul {
-  background: var(--primary-dark);
-  position: relative;
-  display: inline-table;
-}
-
-.nav-button > ul > li > ul {
-  top: 100%;
-}
-
-.nav-button li:hover > ul {
+#nav-profile:focus ul {
   display: block;
+  position: relative;
+  bottom: 0;  
 }
 
-.nav-button ul li:hover {
-  background: var(--primary);
+.nav-button > ul > li {
+  float: left !important;
+  border: none;
 }
 
 .nav-button a {
   display: block;
-  padding: 10px;
+  padding: 8px;
+  width: 100px;
   color: #757575;
   text-decoration: none;
+  text-align: center;
 }
 
 .nav-button li:hover a {
-  color: white;
+  color: rgb(75, 75, 75);
 }
 
 .nav-button ul ul a:hover {
-  background: var(--primary-dark);
+  background: var(--primary-text);
 }
 
 

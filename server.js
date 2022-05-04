@@ -90,3 +90,28 @@ app.get('/logout', (req, res) => {
     });
 });
 
+//grab data from the logged-in user table in db
+//haven't tested localhost:8000/get-users yet because I can't login properly, need to test later
+app.get('/get-users', function (req, res) {
+
+    let connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      database: 'comp2800'
+    });
+    connection.connect();
+    //need to grab from that specific logged-in user
+    let session_email = req.session.email;
+    connection.query('SELECT fName, lName, email, password FROM users WHERE email = ?', [session_email], function (error, results, fields) {
+        if (error) {
+            console.log(error);
+        }
+        console.log('Rows returned are: ', results);
+        res.send({ status: "success", rows: results });
+
+    });
+    connection.end();
+
+
+});

@@ -1,12 +1,12 @@
 //importing libaries 
 const express = require("express");
-
-//initialize express app
-const app = express();
 const fs = require("fs");
 const {
     JSDOM
 } = require('jsdom');
+
+//initialize express app
+const app = express();
 
 //function to create database by running this file in node
 async function init() {
@@ -14,70 +14,45 @@ async function init() {
     const mysql = require("mysql2/promise");
 
     const connection = await mysql.createConnection({
-        //change to 127.0.0.1 for macOS
+        //change to 127.0.0.1 for macOS & localhost for windows
         host: "127.0.0.1",
         user: "root",
         //change password if necessary
         password: " ",
         multipleStatements: true
     });
-    //create the database if not exist and create table for users
-    const createDBAndUserTable = `CREATE DATABASE IF NOT EXISTS grooperate;
-        use grooperate;
-        CREATE TABLE IF NOT EXISTS user (
-        ID int NOT NULL AUTO_INCREMENT,
-        user_name varchar(50) NOT NULL,
-        first_name varchar(50) NOT NULL,
-        last_name varchar(50) NOT NULL,
-        email_address varchar(50) NOT NULL,
-        password varchar(50) NOT NULL,
-        PRIMARY KEY (ID));`;
-    await connection.query(createDBAndUserTable);
-    const [rows, fields] = await connection.query("SELECT * FROM user");
 
+    //create the database if not exist and create table for users
+    const createDBAndUserTable = `CREATE DATABASE IF NOT EXISTS comp2800;
+        use comp2800;
+        CREATE TABLE IF NOT EXISTS users (
+        username VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255),
+        fName VARCHAR(255),
+        lName VARCHAR(255),
+        email VARCHAR(255),
+        phoneNo VARCHAR(255),
+        description LONGTEXT,
+        profilePic VARCHAR(255),
+        PRIMARY KEY (username));`;
+    await connection.query(createDBAndUserTable);
+
+    const [rows, fields] = await connection.query("SELECT * FROM users");
     if (rows.length == 0) {
-        let userRecords = "insert into user (user_name, first_name, last_name, email_address, password) values ?";
+        let userRecords = "insert into users (username, password, fName, lName, email, phoneNo, description, profilePic) values ?";
         let recordValues = [
-            ["oliviabrown", "Olivia", "Brown", "oliviabrown@123.com", "demodemo"],
-            ["btyyn", "Betty", "Nguyen", "bnguyen@bcit.ca", "demodemo"],
-            ["carolinelin", "Caroline", "Lin", "carolinelin@123.com", "demodemo"],
-            ["meimei", "Mei", "Lee", "4town4ever@gmail.com", "demodemo"]
+            ["oliviabrown", "demodemo", "Olivia", "Brown", "oliviabrown@123.com", "604-256-3453", "", ""],
+            ["btyyn", "demodemo", "Betty", "Nguyen", "bnguyen@bcit.ca", "604-256-2391", "", ""],
+            ["carolinelin", "demodemo", "Caroline", "Lin", "carolinelin@123.com", "604-256-6958", "", ""],
+            ["meimei", "demodemo", "Mei", "Lee", "4town4ever@gmail.com", "604-256-5991", "", ""]
         ];
         //call userRecords, insert recordValues
         await connection.query(userRecords, [recordValues]);
+    } else {
+        console.log("Cannot connect and write to database.");
     }
-
-    const createDBAndUserTable2 = `use grooperate;
-    CREATE TABLE IF NOT EXISTS user_timeline (
-        ID int NOT NULL AUTO_INCREMENT,
-        user_ID int NOT NULL,
-        business_type varchar(50) NOT NULL,
-        business_owner_name varchar(50) NOT NULL,
-        business_owner_email_address varchar(50) NOT NULL,
-        business_address varchar(10) NOT NULL,
-        date_time DATETIME(0) NOT NULL,
-        description varchar(500) NOT NULL,
-        PRIMARY KEY (ID),
-        FOREIGN KEY (user_ID) REFERENCES user(ID) ON UPDATE CASCADE ON DELETE CASCADE);`;
-    //SELECT user.ID
-    await connection.query(createDBAndUserTable2);
-    // const [rows2, fields2] = await connection.query("SELECT * FROM user_timeline");
-
-    // if (rows2.length == 0) {
-    //     let userRecords = "insert into user_timeline (user_ID, business_type, business_owner_first_name, business_owner_first_name, business_owner_email_address, business_address, date_time, description) values ?";
-    //     let recordValues = [
-    //         [1, "Cafe", "Olivia Brown", "3:22 PM", "5"],
-    //         [2, "Coffee Roaster", "I've never met nobody like you. Had friends and I've had buddies, it's true.", "3:22 PM", "5"],
-    //         [3, "Soap Maker", "I've never met nobody like you. Had friends and I've had buddies, it's true.", "3:22 PM", "5"],
-    //         [4, "Tutoring", "I've never met nobody like you. Had friends and I've had buddies, it's true.", "3:22 PM", "5"]
-    //     ];
-    //     //call userRecords, insert recordValues
-    //     await connection.query(userRecords, [recordValues]);
-    // }
-
-
     connection.end();
-    console.log("Server is now running on port 8000.");
+    console.log("Connected to database. Listening on port 8000!");
 }
 
 //run server on port

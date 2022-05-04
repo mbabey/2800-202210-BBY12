@@ -18,8 +18,8 @@ function getUser() {
                     for (let i = 0; i < data.rows.length; i++) {
                         let row = data.rows[i];
                         //console.log("row", row);
-                        str += ("<div class='first_name'><span>" + row.first_name
-                            + "</span></div>" + "<div class='last_name'><span>" + row.last_name
+                        str += ("<div class='first_name'><span>" + row.fName
+                            + "</span></div>" + "<div class='last_name'><span>" + row.lName
                             + "</span></div>" + "<div class='email'><span>" + row.email
                             + "</span></div>" + "<div class='password'><span>"
                             + row.password + "</span></div>");
@@ -63,7 +63,7 @@ function getUser() {
             console.log("ERROR", this.status);
         }
     }
-    xhr.open("GET", "/get-users");//need to jump into server side to add code
+    xhr.open("GET", "/get-users");//need to check the server side /get-users after the login works
     xhr.send();
 }
 getUser();
@@ -158,7 +158,9 @@ function editCell(e) {
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             //console.log("dataToSend", "id=" + dataToSend.id + "&email=" + dataToSend.email);
-            xhr.send("id=" + dataToSend.id + "&email=" + dataToSend.email); //sending to the server side, so need to update that too set first_name=?,....  send everything
+            //sending to the server side, so need to update that to set fName=?,....  send everything
+            //cannot check /update-user for now because can't login properly
+            xhr.send("fName=" + dataToSend.fName + "&lName=" + dataToSend.lName + "&email=" + dataToSend.email + "&password=" + dataToSend.password); 
 
         }
     });

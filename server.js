@@ -47,16 +47,16 @@ app.route('/login')
         res.send(loginPage);
     })
     .post((req, res, ) => {
-        let username = req.body.username.trim();
+        let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [email, hash], function(err, results, ) { // Change `username` to `email` in legit database
-                if (results.length > 0) { //TODO: Change condition to password check;
-                    login(req, email);
+            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function(err, results, ) {
+                if (results && results.length > 0) {
+                    login(req, user);
 
                 } else {
-                    console.log("Email/password combination not found");
+                    console.log("Username/password combination not found");
                 }
             });
             res.redirect('/');
@@ -86,12 +86,12 @@ app.get('/logout', (req, res) => {
     });
 });
 
-function login(req) {
+function login(req, user) {
     req.session.loggedIn = true;
-    req.session.email = email;
+    req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [email], function(err, results) {
+    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function(err, results) {
         if (err) throw err;
         if (results.length > 0) {
             console.log("in admin true");

@@ -75,7 +75,7 @@ app.route('/login')
     });
 
 app.get('/profile', (req, res) => {
-    let profilePage = fs.readFileSync('./views/temp-profile.html', 'utf8');
+    let profilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
     res.send(profilePage);
 });
 
@@ -89,3 +89,4 @@ app.get('/logout', (req, res) => {
         res.redirect('/');
     });
 });
+

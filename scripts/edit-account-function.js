@@ -1,3 +1,5 @@
+'use strict';
+
 //populate the 'account-info' div dynamically
 function getUser() {
 

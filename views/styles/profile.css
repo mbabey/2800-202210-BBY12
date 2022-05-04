@@ -106,10 +106,6 @@
     grid-row: 3 / span 8;
 }
 
-.footer-placeholder {
-    display: none;
-}
-
 @media only screen and (max-width: 800px) {
 
     #content {

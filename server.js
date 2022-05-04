@@ -47,29 +47,6 @@ app.route('/login')
         res.send(loginPage);
     })
     .post((req, res, ) => {
-<<<<<<< HEAD
-        let email = req.body.email.trim();
-        let pass = req.body.password;
-        const hash = crypto.createHash('sha256').update(pass).digest('hex');
-        try {
-            con.query('Select * from (`BBY12users`) Where (`username` = ?) AND (`password` = ?)', [email, hash], function(err, results, ) { // Change `username` to `email` in legit database
-                if (results.length > 0) { //TODO: Change condition to password check;
-                    req.session.loggedIn = true;
-                    req.session.email = email;
-                    req.session.admin = false;
-
-                    con.query('Select * from (`BBY12admins`) Where (`username` = ?)', [email], function(err, results) {
-                        if (err) throw err;
-                        if (results.length > 0) {
-                            console.log("in admin true");
-                            req.session.admin = true;
-                        }
-                        req.session.save();
-                    })
-
-                } else {
-                    console.log("Email/password combination not found");
-=======
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
@@ -80,7 +57,6 @@ app.route('/login')
 
                 } else {
                     console.log("Username/password combination not found");
->>>>>>> feature-create-account
                 }
             });
             res.redirect('/');

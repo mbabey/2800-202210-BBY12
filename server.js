@@ -4,6 +4,7 @@ const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
+const crypto = require('crypto');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/views'));
@@ -43,15 +44,26 @@ app.route('/login')
 
     })
     .post((req, res) => {
-        let username = req.body.username.trim();
-        console.log(username);
-        console.log(req.body.password);
-
-        con.query('Select * from `user` Where `username` = ?', [username], function(err, results, fields) {
+        let email = req.body.email.trim();
+        let pass = req.body.password;        
+        const hash = crypto.createHash('sha256').update(pass).digest('hex');
+        con.query('Select * from (`users`) Where (`username` = ?) AND (`password` = ?)', [email, hash], function (err, results,) { // Change `username` to `email` in legit database
             if (results.length > 0) { //TODO: Change condition to password check;
-                console.log(results[0]);
+                req.session.loggedIn = true;
+                req.session.email = email;
+                req.session.admin = false;
+                
+                con.query('Select * from (`admins`) Where (`username` = ?)', [email], function(err, results){
+                    if (err) throw err;
+                    if (results.length > 0){
+                        console.log("in admin true");
+                        req.session.admin = true;
+                    }
+                    req.session.save();
+                })
+                
             } else {
-                console.log("Username password combination not found");
+                console.log("Email/password combination not found");
             }
         });
         res.redirect('/');
@@ -62,3 +74,27 @@ app.get('/create-account', (req, res) => {
     res.send(createAccountPage);
 });
 
+//grab data from the logged-in user table in db
+app.get('/get-users', function (req, res) {
+
+    let connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      database: 'comp2800'
+    });
+    connection.connect();
+    //need to grab from that specific logged-in user
+    let session_email = req.session.email;
+    connection.query('SELECT fName, lName, email, password FROM users WHERE email = ?', [session_email], function (error, results, fields) {
+        if (error) {
+            console.log(error);
+        }
+        console.log('Rows returned are: ', results);
+        res.send({ status: "success", rows: results });
+
+    });
+    connection.end();
+
+
+});

@@ -47,6 +47,7 @@ app.route('/login')
         res.send(loginPage);
     })
     .post((req, res, ) => {
+
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');

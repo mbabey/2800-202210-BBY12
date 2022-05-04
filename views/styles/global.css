@@ -97,23 +97,6 @@ nav svg {
   display: block;
 }
 
-.nav-button ul ul ul {
-  left: 100%;
-  border-left: 1px solid white;
-  top: -1px;
-}
-
-.nav-button li {
-  float: none;
-  border-top: 1px solid #6b727c;
-  position: relative;
-}
-
-.nav-button > ul > li {
-  float: left !important;
-  border: none;
-}
-
 .nav-button ul li:hover {
   background: var(--primary);
 }

@@ -11,7 +11,7 @@
 .container {
     display: grid;
     height: 100vh;
-    grid-template-columns: 40% 35% 35%;
+    grid-template-columns: 35% 35% 35%;
     grid-template-rows: 10% repeat(3, 1fr) 15%;
 }
 
@@ -41,7 +41,7 @@
     clip-path: circle(43% at center);
 }
 .profile-picture>img {
-    width: 70%;
+    width: 50%;
     background: white;
 }
 
@@ -125,7 +125,7 @@
     display: none;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 800px) {
 
     main {
         display: grid;

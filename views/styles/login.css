@@ -34,7 +34,7 @@ body {
     width: 150px;
     min-height: 15vh;
     max-height: 100%;
-    clip-path: circle(40% at center);
+    clip-path: circle(30% at center);
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -160,7 +160,7 @@ text-align: center;
     color: rgb(55, 124, 55);
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 690px) {
     #wrapper {
         min-height: 100vh;
         display: grid;

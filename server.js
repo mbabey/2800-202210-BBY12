@@ -47,24 +47,13 @@ app.route('/login')
         res.send(loginPage);
     })
     .post((req, res, ) => {
-        let email = req.body.email.trim();
+        let username = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('Select * from (`users`) Where (`username` = ?) AND (`password` = ?)', [email, hash], function(err, results, ) { // Change `username` to `email` in legit database
+            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [email, hash], function(err, results, ) { // Change `username` to `email` in legit database
                 if (results.length > 0) { //TODO: Change condition to password check;
-                    req.session.loggedIn = true;
-                    req.session.email = email;
-                    req.session.admin = false;
-
-                    con.query('Select * from (`admins`) Where (`username` = ?)', [email], function(err, results) {
-                        if (err) throw err;
-                        if (results.length > 0) {
-                            console.log("in admin true");
-                            req.session.admin = true;
-                        }
-                        req.session.save();
-                    })
+                    login(req, email);
 
                 } else {
                     console.log("Email/password combination not found");
@@ -88,6 +77,7 @@ app.route('/create-account')
     })
     .post((req, res) => {
         createAccount.createAccount(req, res);
+        res.redirect('/');
     });
 
 app.get('/logout', (req, res) => {
@@ -95,3 +85,18 @@ app.get('/logout', (req, res) => {
         res.redirect('/');
     });
 });
+
+function login(req) {
+    req.session.loggedIn = true;
+    req.session.email = email;
+    req.session.admin = false;
+
+    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [email], function(err, results) {
+        if (err) throw err;
+        if (results.length > 0) {
+            console.log("in admin true");
+            req.session.admin = true;
+        }
+        req.session.save();
+    });
+}

@@ -21,7 +21,7 @@ const con = mysql.createConnection({
     database: 'comp2800'
 });
 
-con.connect(function (err) {
+con.connect(function(err) {
     if (err) throw err;
     console.log("SQL Connected");
 });
@@ -40,39 +40,39 @@ app.get('/', (req, res) => {
 });
 
 app.route('/login')
-.get((req, res) => {
-    let loginPage = fs.readFileSync('./views/login.html', 'utf8');
-    res.send(loginPage);
+    .get((req, res) => {
+        let loginPage = fs.readFileSync('./views/login.html', 'utf8');
+        res.send(loginPage);
     })
-    .post((req, res,) => {
+    .post((req, res, ) => {
         let email = req.body.email.trim();
-        let pass = req.body.password;        
+        let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
-        try{
-        con.query('Select * from (`users`) Where (`username` = ?) AND (`password` = ?)', [email, hash], function (err, results,) { // Change `username` to `email` in legit database
-            if (results.length > 0) { //TODO: Change condition to password check;
-                req.session.loggedIn = true;
-                req.session.email = email;
-                req.session.admin = false;
-                
-                con.query('Select * from (`admins`) Where (`username` = ?)', [email], function(err, results){
-                    if (err) throw err;
-                    if (results.length > 0){
-                        console.log("in admin true");
-                        req.session.admin = true;
-                    }
-                    req.session.save();
-                })
-                
-            } else {
-                console.log("Email/password combination not found");
-            }
-        });
-        res.redirect('/');
-    } catch(err){
-        res.redirect('/');
-    }
-});
+        try {
+            con.query('Select * from (`BBY12users`) Where (`username` = ?) AND (`password` = ?)', [email, hash], function(err, results, ) { // Change `username` to `email` in legit database
+                if (results.length > 0) { //TODO: Change condition to password check;
+                    req.session.loggedIn = true;
+                    req.session.email = email;
+                    req.session.admin = false;
+
+                    con.query('Select * from (`BBY12admins`) Where (`username` = ?)', [email], function(err, results) {
+                        if (err) throw err;
+                        if (results.length > 0) {
+                            console.log("in admin true");
+                            req.session.admin = true;
+                        }
+                        req.session.save();
+                    })
+
+                } else {
+                    console.log("Email/password combination not found");
+                }
+            });
+            res.redirect('/');
+        } catch (err) {
+            res.redirect('/');
+        }
+    });
 
 app.get('/profile', (req, res) => {
     let profilePage = fs.readFileSync('./views/temp-profile.html', 'utf8');
@@ -85,7 +85,7 @@ app.get('/create-account', (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy(function () {
+    req.session.destroy(function() {
         res.redirect('/');
     });
 });

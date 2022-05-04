@@ -27,7 +27,7 @@ function getUser() {
                     //console.log(str);
                     document.getElementsByClassName("account-info").innerHTML = str;
 
-                    // select all spans under the email class of td elements
+                    // select all spans under the email class of div elements
                     let first_name_records = document.querySelectorAll("div[class='first_name'] span");
                     for (let j = 0; j < first_name_records.length; j++) {
                         first_name_records[j].addEventListener("click", editCell);
@@ -63,10 +63,10 @@ function getUser() {
             console.log("ERROR", this.status);
         }
     }
-    xhr.open("GET", "/get-users");//not sure what this is, need to ask someone -CL
+    xhr.open("GET", "/get-users");//need to jump into server side to add code
     xhr.send();
 }
-getCustomers();
+getUser();
 
 //to edit the cells, e for event
 function editCell(e) {

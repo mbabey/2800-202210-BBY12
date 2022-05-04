@@ -74,8 +74,11 @@ module.exports = {
         connection.connect();
         let username = req.body.username;
         let pass = req.body.password;
-        if (username === req.body["username-verify"] && pass === req.body["password-verify"]) console.log("same");
-        else console.log("not same");
+        let success = false;
+        if (username === req.body["username-verify"] && pass === req.body["password-verify"]) {
+            console.log("same");
+            success = true;
+        } else console.log("not same");
         // const hash = crypto.createHash('sha256').update(pass).digest('hex');
         // connection.query('INSERT INTO bby12users (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', 
         // [username, hash, req.body["first-name"],req.body["last-name"],req.body["company-name"],req.body["email"],req.body["phone-num"],location, req.body["description"]],
@@ -88,5 +91,6 @@ module.exports = {
 
         //     });
         connection.end();
+        return success;
     }
 };

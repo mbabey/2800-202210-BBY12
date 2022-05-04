@@ -76,8 +76,13 @@ app.route('/create-account')
         res.send(createAccountPage);
     })
     .post((req, res) => {
-        createAccount.createAccount(req, res);
-        res.redirect('/');
+        if (createAccount.createAccount(req, res)) {
+            login(req, req.body["username"]);
+            res.redirect('/');
+        } else {
+            res.redirect('/create-account');
+        }
+
     });
 
 app.get('/logout', (req, res) => {

@@ -52,12 +52,32 @@ body {
 #content {
     grid-row: 2 / span 1;
     display: grid;
-    grid-template-columns: 55% 45%;
+    grid-template-columns: 35% 65%;
+}
+
+#welcome {
+    grid-column: 1 / span 1;
+    background-color: var(--primary-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#welcome h1 {
+    color: white;
+    text-align: center;
+}
+
+#welcome p {
+    color: rgb(55, 124, 55);
 }
 
 #create-block {
-    grid-column: 1 / span 1;
-    margin: auto;
+    grid-column: 2 / span 1;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
     min-width: 380px;
     width: 50%;
 }
@@ -67,20 +87,54 @@ text-align: center;
 }
 
 #create-block > form {
+    height: 80%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 20% 25% repeat(2, 20%) 15%; /* might need to have height in px */
+    gap: 3px;
+}
+
+#create-block > form > div {
     display: flex;
     flex-direction: column;
 }
 
-#create-block > form > .login-input {
+#create-block > form > #username-block {
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
+}
+#create-block > form > #password-block {
+    grid-row: 1 / span 1;
+    grid-column: 2 / span 1;
+}
+#create-block > form > #name-block {
+    grid-row: 2 / span 1;
+    grid-column: 1 / span 1;
+}
+#create-block > form > #location-block {
+    grid-row: 2 / span 1;
+    grid-column: 2 / span 1;
+}
+#create-block > form > #contact-block {
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 2;
+}
+#create-block > form > #description-block {
+    grid-row: 4 / span 1;
+    grid-column: 1 / span 2;
+}
+
+#create-block > form > div > .create-input {
     border: 1px black solid;
-    padding: 1rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding: 0.3rem;
+    margin: 2px;
     text-align: center;
     background-color: rgba(128, 128, 128, 0.3);
 }
 
 #create-block > form > #create-submit {
+    grid-row: 5 / span 1;
+    grid-column: 1 / span 2;
     padding: .7rem;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -140,24 +194,6 @@ text-align: center;
 #create-block a:active {
     text-decoration: underline;
     color: var(--primary-dark);
-}
-
-#welcome {
-    grid-column: 2 / span 1;
-    background-color: var(--primary-light);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-#welcome h1 {
-    color: white;
-    text-align: center;
-}
-
-#welcome p {
-    color: rgb(55, 124, 55);
 }
 
 @media only screen and (max-width: 800px) {

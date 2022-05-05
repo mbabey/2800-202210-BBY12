@@ -17,9 +17,9 @@ app.use(session({ secret: 'shoredoes', name: 'groopsess', resave: false, saveUni
 const port = 8000;
 
 const con = mysql.createConnection({
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'root',
-    password: '',
+    password: ' ',
     database: 'comp2800'
 });
 
@@ -175,5 +175,31 @@ app.get('/get-users', function (req, res) {
     connection.end();
   
   });
+
+  app.get('/admin-view-accounts', function (req, res) {
+    if (req.session.loggedIn && req.session.admin == true) {
+        let session_username = req.session.username;
+        con.query(
+            "SELECT * FROM BBY12Admins WHERE BBY12Admins.username = ?", [session_username], function (err, results, fields) {
+                console.log("results: ", results);
+                console.log("results from db:", results, "and the # of records returned", results.length);
+
+                if (err) {
+                    console.log(err);
+                }
+                let list = "<ul>";
+                for (let i = 0; i < results.length; i++) {
+                    list += "<li>"+ results[i].username + "</li>";
+                }
+                list += "</ul>";
+                let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+                res.send(adminViewAccountsPage + list);
+        
+            });
+            con.end();
+    } else {
+        res.redirect("/");
+    }
+});
   
 

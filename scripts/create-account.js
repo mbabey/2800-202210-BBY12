@@ -1,3 +1,4 @@
+'use strict';
 const mysql = require('mysql2');
 const crypto = require('crypto');
 const { render } = require('express/lib/response');

@@ -178,37 +178,22 @@ app.get('/get-users', function (req, res) {
   
   });
 
-
-                    let table = "<table><tr>";
-                    let row = "<td>" + results[i].username + "</td>"
-                    for (let i = 0; i < results.length; i++) {
-                        table += row;
-                    }
-                    table += "</tr></table>";
-                    let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-                    res.send(adminViewAccountsPage + table);
-            
-                } else {
-                    res.redirect("/");
-                }
-            });
-
-
-app.get('/admin-view-accounts', function (req, res) {
+  app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
-        let users = 'SELECT * FROM bby12admins';
+        let users = 'SELECT * FROM bby12users';
         con.query(users, function (err, results, fields) {
             if (err) throw err;
             console.log(results);
+            let table = "<table id='user-list'><tr><th>User</th></tr>";
+            for (let i = 0; i < results.length; i++) {
+                table += "<tr><td>" + results[i].username + "</td></tr>";
+            }
+            table += "</table>";
+            let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+            res.type("text/html");
+            res.send(adminViewAccountsPage + table);
         })
-        let table = "<table><tr>";
-                    let row = "<td>" + results[i].username + "</td>"
-                    for (let i = 0; i < results.length; i++) {
-                        table += row;
-                    }
-                    table += "</tr></table>";
-                    let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-                    res.send(adminViewAccountsPage + table);
+
         } else {
         res.redirect("/");
     }

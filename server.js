@@ -201,9 +201,10 @@ app.get('/admin-view-accounts', function (req, res) {
         con.query(users, function (err, results, fields) {
             if (err) throw err;
             console.log(results);
-            let table = "<table id='user-list'>";
+            let table = "<table id='user-accounts'><th>User Accounts</th>";
             for (let i = 0; i < results.length; i++) {
-                table += "<tr><td>" + results[i].username + "</td></tr>";
+                table += "<tr><td>" + results[i].username + "</td><td>" 
+                + results[i].fName + "</td><td>" + results[i].lName + "</td></tr>";
             }
             table += "</table>";
             let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
@@ -213,7 +214,6 @@ app.get('/admin-view-accounts', function (req, res) {
             res.send(adminViewAccPage);
         });
 
-       
         } else {
         res.redirect("/");
     }

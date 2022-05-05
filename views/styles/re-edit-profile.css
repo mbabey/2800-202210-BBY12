@@ -1,0 +1,48 @@
+.profile-header-wrapper {
+
+    background-color: var(--primary-light);
+}
+
+.profile-header {
+    margin: 0 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.profile-header h4:after,
+.profile-header h3:after {
+    content: "";
+    display: block;
+    border-bottom: 3px solid var(--secondary-dark);
+    width: 1rem;
+}
+
+.profile-header p {
+    margin: 0;
+}
+
+.profile-name {
+    text-align: right;
+}
+
+.profile-description {
+    width: 30%;
+    position: absolute;
+    top: 225px;
+    left: 2%;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+    height: 8rem;
+    overflow: scroll;
+}
+
+.profile-description::-webkit-scrollbar {
+    display: none;
+}
+
+.profile-description h3 {
+    text-align: center;
+}

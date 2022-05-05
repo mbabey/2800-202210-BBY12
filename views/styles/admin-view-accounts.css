@@ -1,0 +1,48 @@
+#container {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: minmax(15vh, 100px) auto;
+}
+
+#pseudonav {
+  background-color: var(--primary-dark);
+  grid-row: 1 / span 1;
+  display: grid;
+  grid-template-columns: 20% 1fr;
+}
+
+#nav-logo-background {
+  background-color: var(--secondary-text);
+  width: 150px;
+  min-height: 15vh;
+  max-height: 100%;
+  clip-path: circle(30% at center);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-left: 50px;
+  position: relative;
+}
+
+#nav-logo {
+  width: auto;
+  height: auto;
+  position: relative;
+  padding: 10%;
+}
+
+.dashboard-header {
+  background-color: var(--primary-text);
+}
+
+#dashboard-title {
+  font-size: 30px;
+  text-align: center;
+}
+
+#content {
+  grid-row: 2 / span 1;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 20% 80%;
+}

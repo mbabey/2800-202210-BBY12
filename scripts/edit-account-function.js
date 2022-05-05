@@ -1,3 +1,5 @@
+'use strict';
+
 //populate the 'account-info' div dynamically
 function getUser() {
 
@@ -24,7 +26,7 @@ function getUser() {
                             + "</span></div>" + "<div class='password'><span>"
                             + row.password + "</span></div>");
                     }
-                    //console.log(str);
+                    console.log(str);
                     document.getElementsByClassName("account-info").innerHTML = str;
 
                     // select all spans under the email class of div elements
@@ -63,7 +65,7 @@ function getUser() {
             console.log("ERROR", this.status);
         }
     }
-    xhr.open("GET", "/get-users");//need to check the server side /get-users after the login works
+    xhr.open("GET", "/get-users");//stuck on producing a /get-users
     xhr.send();
 }
 getUser();

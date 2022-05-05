@@ -1,34 +1,7 @@
-#container {
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: minmax(15vh, 100px) auto;
-}
-
-#pseudonav {
-    background-color: var(--primary-dark);
-    grid-row: 1 / span 1;
-    display: grid;
-    grid-template-columns: 20% 1fr;
-}
-
-#nav-logo-background {
-    background-color: var(--secondary-text);
-    width: 150px;
-    min-height: 15vh;
-    max-height: 100%;
-    clip-path: circle(30% at center);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-left: 50px;
-    position: relative;
-}
-
-#nav-logo {
-    width: auto;
-    height: auto;
-    position: relative;
-    padding: 10%;
+#content {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: minmax(100px, 20%) 1fr;
 }
 
 .dashboard-header {
@@ -38,13 +11,6 @@
 #dashboard-title {
     font-size: 30px;
     text-align: center;
-}
-
-#content {
-    grid-row: 2 / span 1;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 20% 80%;
 }
 
 #admin-button-group {
@@ -58,8 +24,20 @@
     flex-direction: column;
 }
 
-#admin-button-group>a {
-    text-decoration: none;
+#admin-button-group > .admin-button {
+  text-decoration: none;
+  padding: 1rem;
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: rgb(193, 193, 193);
+  color: black;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  padding: 1rem;
 }
 
 #admin-button-group>.admin-button {

@@ -1,7 +1,7 @@
 #content {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: minmax(100px, 20%) 1fr;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: minmax(100px, 20%) 1fr;
 }
 
 .dashboard-header {
@@ -24,20 +24,20 @@
     flex-direction: column;
 }
 
-#admin-button-group > .admin-button {
-  text-decoration: none;
-  padding: 1rem;
-  font-size: 18px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  text-align: center;
-  background-color: rgb(193, 193, 193);
-  color: black;
-  border: none;
-  cursor: pointer;
-  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  padding: 1rem;
+#admin-button-group>.admin-button {
+    text-decoration: none;
+    padding: 1rem;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    background-color: rgb(193, 193, 193);
+    color: black;
+    border: none;
+    cursor: pointer;
+    -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    padding: 1rem;
 }
 
 #admin-button-group>.admin-button {
@@ -88,14 +88,6 @@
 }
 
 @media only screen and (max-width: 800px) {
-    #pseudonav {
-        display: flex;
-        justify-content: center;
-        margin: 0px;
-    }
-    #nav-logo-background {
-        margin: 0px;
-    }
     #content {
         grid-template-rows: 10% 90%;
     }

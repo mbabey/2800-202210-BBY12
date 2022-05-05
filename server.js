@@ -178,31 +178,40 @@ app.get('/get-users', function (req, res) {
   
   });
 
-  app.get('/admin-view-accounts', function (req, res) {
-    if (req.session.loggedIn && req.session.admin == true) {
-        let user = results[i].username;
-        con.query(
-            "SELECT * FROM BBY12Admins", [user], function (err, results, fields) {
-                console.log("results: ", results);
-                console.log("results from db:", results, "and the # of records returned", results.length);
 
-                if (err) {
-                    console.log(err);
+                    let table = "<table><tr>";
+                    let row = "<td>" + results[i].username + "</td>"
+                    for (let i = 0; i < results.length; i++) {
+                        table += row;
+                    }
+                    table += "</tr></table>";
+                    let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+                    res.send(adminViewAccountsPage + table);
+            
+                } else {
+                    res.redirect("/");
                 }
-                let table = "<table><tr>";
-                let row = "<td>" + results[i].username + "</td>"
-                for (let i = 0; i < results.length; i++) {
-                    table += row;
-                }
-                table += "</tr></table>";
-                let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-                res.send(adminViewAccountsPage + table);
-        
             });
-            con.end();
-    } else {
+
+
+app.get('/admin-view-accounts', function (req, res) {
+    if (req.session.loggedIn && req.session.admin == true) {
+        let users = 'SELECT * FROM bby12admins';
+        con.query(users, function (err, results, fields) {
+            if (err) throw err;
+            console.log(results);
+        })
+        let table = "<table><tr>";
+                    let row = "<td>" + results[i].username + "</td>"
+                    for (let i = 0; i < results.length; i++) {
+                        table += row;
+                    }
+                    table += "</tr></table>";
+                    let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+                    res.send(adminViewAccountsPage + table);
+        } else {
         res.redirect("/");
     }
 });
-  
+
 

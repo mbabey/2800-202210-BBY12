@@ -58,6 +58,10 @@
     flex-direction: column;
 }
 
+#admin-button-group>a {
+    text-decoration: none;
+}
+
 #admin-button-group>.admin-button {
     padding: 5px;
     margin-top: 10px;

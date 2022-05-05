@@ -89,11 +89,12 @@ app.route('/admin-add-account')
         res.send(accountAddPage);
     })
     .post((req, res) => {
-        createAccount.createAccount(req, res)
+        createAccount.createAdmin(req, res)
             .then(function(result) {
                 res.redirect('/admin-dashboard');
             })
             .catch(function(err) {
+                console.log("Promise rejection error: " + err);
                 res.redirect('/admin-add-account');
             });
     });

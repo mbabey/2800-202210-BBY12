@@ -6,13 +6,24 @@ const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
 const crypto = require('crypto');
+const {
+    JSDOM
+} = require('jsdom');
 
 const createAccount = require('./scripts/create-account');
+const res = require('express/lib/response');
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+    extended: true
+}));
 app.use(express.static(__dirname + '/views'));
 
-app.use(session({ secret: 'shoredoes', name: 'groopsess', resave: false, saveUninitialized: true }));
+app.use(session({
+    secret: 'shoredoes',
+    name: 'groopsess',
+    resave: false,
+    saveUninitialized: true
+}));
 
 const port = 8000;
 
@@ -25,7 +36,7 @@ const con = mysql.createConnection({
     database: 'comp2800'
 });
 
-con.connect(function(err) {
+con.connect(function (err) {
     if (err) throw err;
     console.log("SQL Connected");
 });
@@ -56,7 +67,7 @@ app.route('/login')
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function(err, results, ) {
+            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function (err, results, ) {
                 if (results && results.length > 0) {
                     login(req, user);
 
@@ -103,7 +114,7 @@ app.route('/create-account')
     });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy(function() {
+    req.session.destroy(function () {
         res.redirect('/');
     });
 });
@@ -114,7 +125,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function(err, results) {
+    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function (err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -128,13 +139,13 @@ function login(req, user) {
 app.get('/get-users', function (req, res) {
 
     let connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'comp2800'
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'comp2800'
     });
     connection.connect();
-    
+
     //fetch from that specific logged-in user
     //need the current session's username to locate the data, not sure if it's working
     let session_username = req.session.username;
@@ -143,60 +154,72 @@ app.get('/get-users', function (req, res) {
             console.log(error);
         }
         console.log('Rows returned are: ', results);
-        res.send({ status: "success", rows: results });
-  
+        res.send({
+            status: "success",
+            rows: results
+        });
+
     });
     connection.end();
-  
-  
-  });
-  
-  // Post that updates values to change data stored in db
-  app.post('/update-users', function (req, res) {
+
+
+});
+
+// Post that updates values to change data stored in db
+app.post('/update-users', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-  
+
     let connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'comp2800'
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'comp2800'
     });
     connection.connect();
-  console.log("update values", req.body.username, req.body.fName, req.body.lName,
-  req.body.email, req.body.password)
+    console.log("update values", req.body.username, req.body.fName, req.body.lName,
+        req.body.email, req.body.password)
     connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?',
-          [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-          function (error, results, fields) {
-      if (error) {
-          console.log(error);
-      }
-      //console.log('Rows returned are: ', results);
-      res.send({ status: "Success", msg: "User information updated." });
-  
-    });
-    connection.end();
-  
-  });
+        [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+        function (error, results, fields) {
+            if (error) {
+                console.log(error);
+            }
+            //console.log('Rows returned are: ', results);
+            res.send({
+                status: "Success",
+                msg: "User information updated."
+            });
 
-  app.get('/admin-view-accounts', function (req, res) {
+        });
+    connection.end();
+
+});
+
+app.get('/', (req, res) => {
+    let adminViewAccPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+    res.send(adminViewAccPage);
+});
+
+app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let users = 'SELECT * FROM bby12users';
         con.query(users, function (err, results, fields) {
             if (err) throw err;
             console.log(results);
-            let table = "<table id='user-list'><tr><th>User</th></tr>";
+            let table = "<table id='user-list'>";
             for (let i = 0; i < results.length; i++) {
                 table += "<tr><td>" + results[i].username + "</td></tr>";
             }
             table += "</table>";
-            let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-            res.type("text/html");
-            res.send(adminViewAccountsPage + table);
-        })
+            let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+            let adminViewAccDOM = new JSDOM(adminViewAcc);
+            adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
+            let adminViewAccPage = adminViewAccDOM.serialize();
+            res.send(adminViewAccPage);
+        });
 
+       
         } else {
         res.redirect("/");
     }
 });
-
-

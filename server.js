@@ -180,22 +180,23 @@ app.get('/get-users', function (req, res) {
 
   app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
-        let session_username = req.session.username;
+        let user = results[i].username;
         con.query(
-            "SELECT * FROM BBY12Admins WHERE BBY12Admins.username = ?", [session_username], function (err, results, fields) {
+            "SELECT * FROM BBY12Admins", [user], function (err, results, fields) {
                 console.log("results: ", results);
                 console.log("results from db:", results, "and the # of records returned", results.length);
 
                 if (err) {
                     console.log(err);
                 }
-                let list = "<ul>";
+                let table = "<table><tr>";
+                let row = "<td>" + results[i].username + "</td>"
                 for (let i = 0; i < results.length; i++) {
-                    list += "<li>"+ results[i].username + "</li>";
+                    table += row;
                 }
-                list += "</ul>";
+                table += "</tr></table>";
                 let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-                res.send(adminViewAccountsPage + list);
+                res.send(adminViewAccountsPage + table);
         
             });
             con.end();

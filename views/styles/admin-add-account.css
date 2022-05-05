@@ -172,19 +172,24 @@
 }
 
 @media only screen and (max-width: 800px) {
+    .container {
+        position: absolute;
+        width: 100%;
+        min-height: 0;
+        max-height: 80vh;
+    }
+    #content {
+        display: block;
+        margin: 0px 5%;
+        grid-template-rows: 10% 90%;
+    }
     .dashboard-header {
-        display: table;
+        display: block;
     }
     #dashboard-title {
         font-size: 25px;
-        display: table-cell;
+        display: block;
         vertical-align: middle;
-    }
-    #content {
-        grid-row: 2 / span 1;
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 10% 90%;
     }
     #create-block {
         grid-column: 1 / span 1;

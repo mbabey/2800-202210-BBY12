@@ -6,12 +6,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./styles/login.css">
+
+    <link rel="stylesheet" href="./styles/global.css">
+    <link rel="stylesheet" href="./styles/login.css">
 </head>
 
 <body>
 
-    <div id="wrapper">
+    <div class="container">
         <header id="pseudonav">
             <div id="nav-logo-background">
                 <img id="nav-logo" src="./images/Logo.png" alt="Gro-Operate">
@@ -22,7 +24,7 @@
             <div id="login-block">
                 <p><b>Sign In</b></p>
                 <form method="post" name="/submit-form">
-                    <input name="email" class="login-input" type="text" placeholder="Email Address">
+                    <input name="username" class="login-input" type="text" placeholder="Username">
                     <input name="password" class="login-input" type="password" placeholder="Password">
                     <button id="login-submit" type="submit" value="submit">Sign In</button>
                 </form>

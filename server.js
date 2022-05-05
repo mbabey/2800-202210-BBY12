@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
         if (req.session.admin)
             res.redirect('/admin-dashboard'); // TEMP show case that admin accounts are different, will remove once dash board button is implemented
         else
-            res.redirect('/profile'); // /profile for now, but will be /home in later versions 
+            res.redirect('/edit-profile'); // /edit-profile for now, but will be /home in later versions 
     } else {
         res.redirect('/login');
     }
@@ -69,11 +69,14 @@ app.route('/login')
     });
 
 app.get('/profile', (req, res) => {
-  //Change to views/profile
-    let profilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
-
+    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
     res.send(profilePage);
 });
+
+app.get('/edit-profile', (req, res) => {
+    let editProfilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
+    res.send(editProfilePage);
+})
 
 app.get('/admin-dashboard', (req, res) => {
     let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');

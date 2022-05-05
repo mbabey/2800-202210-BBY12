@@ -2,12 +2,13 @@
     margin: 0;
     display: grid;
     grid-template-columns: 25% 1fr 25%;
+    background-color:  rgb(240, 240, 240);
 }
 
 .profile-head {
     position: fixed;
     top: 100px;
-    left: 1%;
+    left: 2%;
     box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     height: auto;
@@ -62,6 +63,7 @@
 
 .post {
     margin: 15px 0;
+    background-color: white;
     box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     height: auto;

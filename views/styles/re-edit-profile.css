@@ -8,6 +8,10 @@
     justify-content: center;
 }
 
+.profile-picture {
+    padding: 0 10px;
+}
+
 .profile-picture img {
     border-radius: 50%;
     width: 100%;
@@ -97,6 +101,7 @@
     }
     
     .profile-picture {
+        padding: 0;
         width: 200px;
         height: auto;
     }
@@ -153,11 +158,10 @@
     }
     
     .profile-picture {
+        padding: 0;
         grid-row: 1 / span 1;
         width: auto;
         height: auto;
-        /* display: flex;
-        justify-content: center; */
     }
 
     .profile-picture img {

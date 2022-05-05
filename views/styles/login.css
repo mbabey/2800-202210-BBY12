@@ -1,3 +1,9 @@
+#wrapper {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: minmax(100px, 10vh) auto;
+}
+
 #pseudonav {
     background-color: var(--primary-dark);
     grid-row: 1 / span 1;
@@ -6,23 +12,21 @@
 }
 
 #nav-logo-background {
+    position: relative;
     background-color: var(--secondary-text);
+    margin-left: 50px;
     width: 150px;
-    min-height: 15vh;
-    max-height: 100%;
+    height: auto;
     clip-path: circle(30% at center);
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    margin-left: 50px;
-    position: relative;
+    align-items: center;
 }
 
 #nav-logo {
     width: auto;
-    height: auto;
+    height: 90px;
     position: relative;
-    padding: 10%;
 }
 
 #content {
@@ -140,7 +144,7 @@ text-align: center;
     #wrapper {
         min-height: 100vh;
         display: grid;
-        grid-template-rows: minmax(15vh, 100px) auto;
+        grid-template-rows: minmax(100px, 10vh) auto;
     }
     
     #pseudonav {
@@ -150,12 +154,10 @@ text-align: center;
     }
 
     #nav-logo-background {
-     margin: 0px;
+        margin: 0px;
     }
     
     #nav-logo {
-        width: auto;
-        height: auto;
         position: relative;
         padding: 10%;
     }

@@ -1,51 +1,31 @@
-nav {
-  background-color: var(--primary-dark);
-  display: grid;
-  height: 15vh;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  grid-column: 1 / span 3;
-  grid-row: 1 / span 1;
-}
-
 .container {
   display: grid;
-  height: 100vh;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 15% 35% 50% 55%;
+  grid-template-rows: 35% 50% 55%;
 }
 
 .profile-header {
   background-color: var(--primary);
   grid-column: 1 / span 3;
-  grid-row: 2 / span 2;
+  grid-row: 1 / span 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   text-align: center;
-  overflow: hidden;
 }
 
-.profile-head {
-  grid-column: 2 / span 1;
-  display: block;
-  justify-content: center;
-}
-
-.profile-header img {
-  clip-path: circle(40% at center);
-  margin-top: 10%;
+.profile-picture img {
+  width: auto;
+  height: 80%;
+  border-radius: 50%;
 }
 
 .profile-name {
   grid-column: 2 / span 1;
-  font-size: 25px;
-  font-weight: bold;
-  
 }
 
 .edit-profile-text {
   grid-column: 2 / span 1;
-  font-size: 20px;
+  font-size: 1.5rem;
 }
 
 .edit-profile-text a {
@@ -55,7 +35,7 @@ nav {
 
 .content {
   grid-column: 1 / span 3;
-  grid-row: 4 / span 1;
+  grid-row: 2 / span 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(7, 1fr);

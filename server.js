@@ -20,7 +20,7 @@ const port = 8000;
 const con = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: ' ',
+    password: '',
     database: 'comp2800'
 });
 
@@ -78,12 +78,28 @@ app.get('/profile', (req, res) => {
 app.get('/edit-profile', (req, res) => {
     let editProfilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
     res.send(editProfilePage);
-})
+});
 
 app.get('/admin-dashboard', (req, res) => {
     let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
     res.send(adminDashPage);
 });
+
+app.route('/admin-add-account')
+    .get((req, res) => {
+        let accountAddPage = fs.readFileSync('./views/admin-add-account.html', 'utf8');
+        res.send(accountAddPage);
+    })
+    .post((req, res) => {
+        createAccount.createAdmin(req, res)
+            .then(function(result) {
+                res.redirect('/admin-dashboard');
+            })
+            .catch(function(err) {
+                console.log("Promise rejection error: " + err);
+                res.redirect('/admin-add-account');
+            });
+    });
 
 app.route('/create-account')
     .get((req, res) => {
@@ -91,14 +107,17 @@ app.route('/create-account')
         res.send(createAccountPage);
     })
     .post((req, res) => {
-        if (createAccount.createAccount(req, res)) {
-            login(req, req.body["username"]);
-            //res.send({ status: "success", msg: "Record added." });
-            res.redirect('/');
-        } else {
-            //res.send({ status: "fail", msg: "Record not added." });
-            res.redirect('/create-account');
-        }
+        createAccount.createAccount(req, res)
+            .then(function(result) {
+                login(req, req.body["username"]);
+                //res.send({ status: "success", msg: "Record added." });
+                res.redirect('/');
+            })
+            .catch(function(err) {
+                console.log("Promise rejection error: " + err);
+                //res.send({ status: "fail", msg: "Record not added." });
+                res.redirect('/create-account');
+            });
 
     });
 
@@ -125,64 +144,64 @@ function login(req, user) {
 
 //grab data from the logged-in user table in db
 //not working
-app.get('/get-users', function (req, res) {
+app.get('/get-users', function(req, res) {
 
     let connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'comp2800'
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'comp2800'
     });
     connection.connect();
-    
+
     //fetch from that specific logged-in user
     //need the current session's username to locate the data, not sure if it's working
     let session_username = req.session.username;
-    connection.query('SELECT (`fName`, `lName`, `email`, `password`) FROM (`bby12users`) WHERE (`username` = ?)', [session_username], function (error, results, fields) {
+    connection.query('SELECT (`fName`, `lName`, `email`, `password`) FROM (`bby12users`) WHERE (`username` = ?)', [session_username], function(error, results, fields) {
         if (error) {
             console.log(error);
         }
         console.log('Rows returned are: ', results);
         res.send({ status: "success", rows: results });
-  
+
     });
     connection.end();
-  
-  
-  });
-  
-  // Post that updates values to change data stored in db
-  app.post('/update-users', function (req, res) {
+
+
+});
+
+// Post that updates values to change data stored in db
+app.post('/update-users', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
-  
+
     let connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'comp2800'
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'comp2800'
     });
     connection.connect();
-  console.log("update values", req.body.username, req.body.fName, req.body.lName,
-  req.body.email, req.body.password)
-    connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?',
-          [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-          function (error, results, fields) {
-      if (error) {
-          console.log(error);
-      }
-      //console.log('Rows returned are: ', results);
-      res.send({ status: "Success", msg: "User information updated." });
-  
-    });
-    connection.end();
-  
-  });
+    console.log("update values", req.body.username, req.body.fName, req.body.lName,
+        req.body.email, req.body.password);
+    connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+        function(error, results, fields) {
+            if (error) {
+                console.log(error);
+            }
+            //console.log('Rows returned are: ', results);
+            res.send({ status: "Success", msg: "User information updated." });
 
-  app.get('/admin-view-accounts', function (req, res) {
+        });
+    connection.end();
+
+});
+
+app.get('/admin-view-accounts', function(req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let session_username = req.session.username;
         con.query(
-            "SELECT * FROM BBY12Admins WHERE BBY12Admins.username = ?", [session_username], function (err, results, fields) {
+            "SELECT * FROM BBY12Admins WHERE BBY12Admins.username = ?", [session_username],
+            function(err, results, fields) {
                 console.log("results: ", results);
                 console.log("results from db:", results, "and the # of records returned", results.length);
 
@@ -191,17 +210,15 @@ app.get('/get-users', function (req, res) {
                 }
                 let list = "<ul>";
                 for (let i = 0; i < results.length; i++) {
-                    list += "<li>"+ results[i].username + "</li>";
+                    list += "<li>" + results[i].username + "</li>";
                 }
                 list += "</ul>";
                 let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
                 res.send(adminViewAccountsPage + list);
-        
+
             });
-            con.end();
+        con.end();
     } else {
         res.redirect("/");
     }
 });
-  
-

@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const { render } = require('express/lib/response');
 
 module.exports = {
-    createAccount: function(req, res) {
+    createAccount: async function(req, res) {
         res.setHeader('Content-Type', 'application/json');
         let connection = mysql.createConnection({
             host: 'localhost',
@@ -13,15 +13,31 @@ module.exports = {
             database: 'comp2800'
         });
         connection.connect();
-        let success = insertDB(req, connection)
-            .then(function(result) {
-                return result;
-            })
-            .catch(function(err) {
-                console.log("Promise rejection error: " + err);
-                return false;
-            });
+        let success = await insertDB(req, connection);
+        connection.end();
+        return success;
+    },
 
+    createAdmin: async function(req, res) {
+        res.setHeader('Content-Type', 'application/json');
+        let connection = mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '',
+            database: 'comp2800'
+        });
+        connection.connect();
+        let success = insertDB(req, connection);
+        await success
+            .then(function(result) {
+                insertAdmin(req.body.username, connection)
+                    .then()
+                    .catch(function(err) {
+                        console.log("Promise rejection error: " + err);
+                    });
+            }).catch(function(err) {
+                console.log("Promise rejection error: " + err);
+            });
         connection.end();
         return success;
     }
@@ -41,7 +57,7 @@ function insertDB(req, connection) {
             connection.query('INSERT INTO bby12users (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]],
                 function(err) {
                     if (err) {
-                        reject(new Error("Insert failed"));
+                        reject(new Error("User Insert failed"));
                     } else {
                         resolve(true);
                     }
@@ -52,8 +68,22 @@ function insertDB(req, connection) {
     });
 };
 
+function insertAdmin(username, connection) {
+    return new Promise((resolve, reject) => {
+        connection.query('INSERT INTO bby12admins values(?)', [username],
+            function(err) {
+                if (err) {
+                    console.log(err);
+                    reject(new Error("Admin Insert failed"));
+                } else {
+                    resolve(true);
+                }
+            });
+    });
+}
+
 function checkUsername(username, req) {
-    return (username && username === req.body["username-verify"]); // TODO: Add additional checks: ie. min length
+    return (username); //&& username === req.body["username-verify"]); // TODO: Add additional checks: ie. min length
 }
 
 function checkPassword(pass, req) {

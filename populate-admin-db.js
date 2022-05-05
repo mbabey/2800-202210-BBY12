@@ -23,8 +23,8 @@ async function init() {
     });
   
     //create the database if not exist and create table for users
-    const createDBAndUserTable = `CREATE DATABASE IF NOT EXISTS BBY12;
-        use BBY12;
+    const createDBAndUserTable = `CREATE DATABASE IF NOT EXISTS comp2800;
+        use comp2800;
         CREATE TABLE IF NOT EXISTS BBY12Users (
             username VARCHAR(255) NOT NULL UNIQUE,
             password VARCHAR(255) NOT NULL,
@@ -39,8 +39,8 @@ async function init() {
             PRIMARY KEY (username));`;
     await connection.query(createDBAndUserTable);
   
-    const createDBAndTables2 = `CREATE DATABASE IF NOT EXISTS BBY12;
-      use BBY12;
+    const createDBAndTables2 = `CREATE DATABASE IF NOT EXISTS comp2800;
+      use comp2800;
       CREATE TABLE IF NOT EXISTS BBY12Admins (
         username VARCHAR(255) NOT NULL UNIQUE,
         PRIMARY KEY (username),

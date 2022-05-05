@@ -172,5 +172,31 @@ app.get('/get-users', function (req, res) {
     connection.end();
   
   });
+
+app.get('/admin-view-accounts', function (req, res) {
+    if (req.session.loggedIn && req.session.admin == true) {
+        let session_username = req.session.username;
+        let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+        con.query(
+            "SELECT * FROM BBY12Admins WHERE BBY12Admins.username = ?", [session_username], function (err, results, fields) {
+                console.log("results: ", results);
+                console.log("results from db:", results, "and the # of records returned", results.length);
+
+                if (err) {
+                    console.log(err);
+                }
+                let table = "<table><tr><th>Username</th></tr>";
+                for (let i = 0; i < results.length; i++) {
+                    table += "<tr><td>"+ results[i].username + "</td></tr>";
+                }
+                table += "</table>";
+                res.type("text/html");
+                res.send(adminViewAccountsPage);
+            });
+            con.end();
+    } else {
+        res.redirect("/");
+    }
+});
   
 

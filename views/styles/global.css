@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Lato&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Lato:wght@300&display=swap%27');
 :root {
   /*Colours*/
   --primary: #588676;
@@ -174,3 +173,10 @@ footer {
 }
 
 } 
+h3 {
+  font-family: 'Alegreya Sans SC', sans-serif;
+}
+
+button {
+  font-family: 'Lato', sans-serif;
+}

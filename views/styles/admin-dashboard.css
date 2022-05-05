@@ -47,10 +47,6 @@
   grid-template-rows: 20% 80%;
 }
 
-p {
-  font-size: 15px;
-}
-
 #admin-button-group {
   grid-column: 1 / span 1;
   margin: auto;
@@ -73,6 +69,7 @@ p {
   cursor: pointer;
   -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  padding: 1rem;
 }
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
@@ -103,4 +100,15 @@ p {
 
 #admin-button-group > .admin-button:active {
   transform: scale(1);
+}
+
+@media only screen and (max-width: 500px) {
+  #pseudonav {
+    display: flex;
+    justify-content: center;
+  }
+
+  #nav-logo-background {
+    margin: 0;
+  }
 }

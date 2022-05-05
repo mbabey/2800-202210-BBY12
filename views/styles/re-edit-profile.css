@@ -10,6 +10,8 @@
 
 .profile-picture img {
     border-radius: 50%;
+    width: 100%;
+    height: auto;
 }
 
 .profile-header h4:after,
@@ -86,4 +88,114 @@
 
 .profile-description::-webkit-scrollbar-thumb {
     background: var(--secondary-dark);
+}
+
+@media only screen and (min-width: 600px) and (max-width: 800px) {
+    .profile-header {
+        justify-content: space-between;
+        margin: 0 2%;
+    }
+    
+    .profile-picture {
+        width: 200px;
+        height: auto;
+    }
+
+    .profile-name {
+        text-align: left;
+        position: relative;
+    }
+
+    .edit-profile {
+        position: absolute;
+        top: 75%;
+    }
+
+    .profile-info {
+        text-align: right;
+    }
+
+    .profile-info h3,
+    .profile-info h4 {
+        margin: .3rem 0;
+        position: relative;
+    }
+
+    .profile-header h4:after,
+    .profile-header h3:after {
+        position: absolute;
+        bottom: -2px;
+        right: 0;
+    }
+
+    .profile-description {
+        width: 70%;
+        min-width: 300px;
+        max-height: 8rem;
+        transform: translateY(-5px);
+    }
+
+    .profile-description p {
+        font-size: 1rem;
+    }
+
+    .post-block {
+        width: 96%;
+    }
+
+}
+
+@media only screen and (max-width: 599px) {
+    .profile-header {
+        justify-content: space-between;
+        margin: 0 2%;
+    }
+    
+    .profile-picture {
+        width: 200px;
+        height: auto;
+    }
+
+    .profile-name {
+        text-align: left;
+        position: relative;
+    }
+
+    .edit-profile {
+        position: absolute;
+        top: 75%;
+    }
+
+    .profile-info {
+        text-align: right;
+    }
+
+    .profile-info h3,
+    .profile-info h4 {
+        margin: .3rem 0;
+        position: relative;
+    }
+
+    .profile-header h4:after,
+    .profile-header h3:after {
+        position: absolute;
+        bottom: -2px;
+        right: 0;
+    }
+
+    .profile-description {
+        width: 70%;
+        min-width: 300px;
+        max-height: 8rem;
+        transform: translateY(-5px);
+    }
+
+    .profile-description p {
+        font-size: 1rem;
+    }
+
+    .post-block {
+        width: 96%;
+    }
+
 }

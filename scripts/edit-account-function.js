@@ -1,3 +1,5 @@
+'use strict';
+
 //populate the 'account-info' div dynamically
 function getUser() {
 
@@ -18,16 +20,16 @@ function getUser() {
                     for (let i = 0; i < data.rows.length; i++) {
                         let row = data.rows[i];
                         //console.log("row", row);
-                        str += ("<div class='first_name'><span>" + row.first_name
-                            + "</span></div>" + "<div class='last_name'><span>" + row.last_name
+                        str += ("<div class='first_name'><span>" + row.fName
+                            + "</span></div>" + "<div class='last_name'><span>" + row.lName
                             + "</span></div>" + "<div class='email'><span>" + row.email
                             + "</span></div>" + "<div class='password'><span>"
                             + row.password + "</span></div>");
                     }
-                    //console.log(str);
+                    console.log(str);
                     document.getElementsByClassName("account-info").innerHTML = str;
 
-                    // select all spans under the email class of td elements
+                    // select all spans under the email class of div elements
                     let first_name_records = document.querySelectorAll("div[class='first_name'] span");
                     for (let j = 0; j < first_name_records.length; j++) {
                         first_name_records[j].addEventListener("click", editCell);
@@ -63,10 +65,10 @@ function getUser() {
             console.log("ERROR", this.status);
         }
     }
-    xhr.open("GET", "/get-users");//not sure what this is, need to ask someone -CL
+    xhr.open("GET", "/get-users");//stuck on producing a /get-users
     xhr.send();
 }
-getCustomers();
+getUser();
 
 //to edit the cells, e for event
 function editCell(e) {
@@ -158,7 +160,9 @@ function editCell(e) {
             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             //console.log("dataToSend", "id=" + dataToSend.id + "&email=" + dataToSend.email);
-            xhr.send("id=" + dataToSend.id + "&email=" + dataToSend.email); //sending to the server side, so need to update that too set first_name=?,....  send everything
+            //sending to the server side, so need to update that to set fName=?,....  send everything
+            //cannot check /update-user for now because can't login properly
+            xhr.send("fName=" + dataToSend.fName + "&lName=" + dataToSend.lName + "&email=" + dataToSend.email + "&password=" + dataToSend.password); 
 
         }
     });

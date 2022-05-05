@@ -2,7 +2,6 @@
     margin: 0;
     display: grid;
     grid-template-columns: 25% 1fr 25%;
-    background-color:  rgb(240, 240, 240);
 }
 
 .profile-head {
@@ -59,24 +58,5 @@
 
 .post-block {
     grid-column: 2 / span 1;
-}
-
-.post {
-    margin: 15px 0;
-    background-color: white;
-    box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    height: auto;
-    padding: 10px;
-}
-
-.post .post-images {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-}
-
-.post .post-images img {
-    width: 20%;
-    height: auto;
+    width: 100% !important;
 }

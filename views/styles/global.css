@@ -16,6 +16,7 @@ html,
 body {
   margin: 0 auto;
   font-family: 'Lato', sans-serif;
+  background-color:  rgb(240, 240, 240);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,6 +29,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 nav {
+  z-index: 1;
   position: fixed;
   top: 0;
   left: 0;
@@ -138,6 +140,32 @@ footer svg {
 footer {
   display: none;
 }
+
+.post-block {
+  margin: 0 auto;
+  width: 50%;
+}
+
+.post {
+  margin: 15px 0;
+  background-color: white;
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: auto;
+  padding: 10px;
+}
+
+.post .post-images {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.post .post-images img {
+  width: 20%;
+  height: auto;
+}
+
 
 @media only screen and (max-width: 800px) {
   

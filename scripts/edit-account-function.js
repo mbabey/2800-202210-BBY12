@@ -12,19 +12,19 @@ function getUser() {
 
                 //what's this.reponseText referring to?  
                 let data = JSON.parse(this.responseText);
+                console.log(data);
                 if (data.status == "success") {
-
+                    console.log("data status: success");
                     let str = `        <h3>My Account</h3>`;
 
 
                     for (let i = 0; i < data.rows.length; i++) {
                         let row = data.rows[i];
                         //console.log("row", row);
-                        str += ("<div class='first_name'><span>" + row.fName
-                            + "</span></div>" + "<div class='last_name'><span>" + row.lName
-                            + "</span></div>" + "<div class='email'><span>" + row.email
-                            + "</span></div>" + "<div class='password'><span>"
-                            + row.password + "</span></div>");
+                        str += ("<div class='first_name'><span>" + row.fName + "</span></div>" 
+                            + "<div class='last_name'><span>" + row.lName + "</span></div>" 
+                            + "<div class='email'><span>" + row.email + "</span></div>" 
+                            + "<div class='password'><span>" + row.password + "</span></div>");
                     }
                     console.log(str);
                     document.getElementsByClassName("account-info").innerHTML = str;
@@ -65,7 +65,7 @@ function getUser() {
             console.log("ERROR", this.status);
         }
     }
-    xhr.open("GET", "/get-users");//stuck on producing a /get-users
+    xhr.open("GET", "/get-users");//working
     xhr.send();
 }
 getUser();

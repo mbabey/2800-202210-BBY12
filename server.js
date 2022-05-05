@@ -23,7 +23,7 @@ const con = mysql.createConnection({
     database: 'comp2800'
 });
 
-con.connect(function(err) {
+con.connect(function (err) {
     if (err) throw err;
     console.log("SQL Connected");
 });
@@ -49,12 +49,12 @@ app.route('/login')
         let loginPage = fs.readFileSync('./views/login.html', 'utf8');
         res.send(loginPage);
     })
-    .post((req, res, ) => {
+    .post((req, res,) => {
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function(err, results, ) {
+            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function (err, results,) {
                 if (results && results.length > 0) {
                     login(req, user);
 
@@ -69,7 +69,7 @@ app.route('/login')
     });
 
 app.get('/profile', (req, res) => {
-  //Change to views/profile
+    //Change to views/profile
     let profilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
 
     res.send(profilePage);
@@ -98,7 +98,7 @@ app.route('/create-account')
     });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy(function() {
+    req.session.destroy(function () {
         res.redirect('/');
     });
 });
@@ -109,7 +109,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function(err, results) {
+    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function (err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -123,54 +123,55 @@ function login(req, user) {
 app.get('/get-users', function (req, res) {
 
     let connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'comp2800'
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'comp2800'
     });
     connection.connect();
-    
+
     //fetch from that specific logged-in user
     //need the current session's username to locate the data, not sure if it's working
+    //* is originally (`fName`, `lName`, `email`, `password`), some syntax problem occurred so we're using * now
     let session_username = req.session.username;
-    connection.query('SELECT (`fName`, `lName`, `email`, `password`) FROM (`bby12users`) WHERE (`username` = ?)', [session_username], function (error, results, fields) {
+    connection.query('SELECT * FROM (`bby12users`) WHERE (`username` = ?)', [session_username], function (error, results, fields) {
         if (error) {
             console.log(error);
         }
         console.log('Rows returned are: ', results);
         res.send({ status: "success", rows: results });
-  
+
     });
     connection.end();
-  
-  
-  });
-  
-  // Post that updates values to change data stored in db
-  app.post('/update-users', function (req, res) {
+
+
+});
+
+// Post that updates values to change data stored in db
+app.post('/update-users', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-  
+
     let connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'comp2800'
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'comp2800'
     });
     connection.connect();
-  console.log("update values", req.body.username, req.body.fName, req.body.lName,
-  req.body.email, req.body.password)
+    console.log("update values", req.body.username, req.body.fName, req.body.lName,
+        req.body.email, req.body.password)
     connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?',
-          [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-          function (error, results, fields) {
-      if (error) {
-          console.log(error);
-      }
-      //console.log('Rows returned are: ', results);
-      res.send({ status: "Success", msg: "User information updated." });
-  
-    });
+        [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+        function (error, results, fields) {
+            if (error) {
+                console.log(error);
+            }
+            //console.log('Rows returned are: ', results);
+            res.send({ status: "Success", msg: "User information updated." });
+
+        });
     connection.end();
-  
-  });
-  
+
+});
+
 

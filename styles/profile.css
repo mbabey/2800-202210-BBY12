@@ -1,9 +1,18 @@
-
-#content {
+.navbar-placeholder {
+    background-color: var(--primary-dark);
     display: grid;
-    /* height: 100%; */
-    grid-template-columns: 30% 35% 35%;
-    grid-template-rows: repeat(3, 1fr) 15%;
+    height: 10vh;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-column: 1 / span 3;
+    grid-row: 1 / span 1;
+}
+
+.container {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 40% 35% 35%;
+    grid-template-rows: 10% repeat(3, 1fr) 15%;
 }
 
 /*left profile */
@@ -11,7 +20,7 @@
     background-color: var(--primary-light);
     display: grid;
     grid-column: 1 / span 1;
-    grid-row: 1 / span 4;
+    grid-row: 2 / span 4;
     grid-template-columns: 100%;
     grid-template-rows: 25% repeat(2, 1fr) 10%;
     height: 100%;
@@ -32,8 +41,14 @@
     clip-path: circle(43% at center);
 }
 .profile-picture>img {
-    width: 50%;
+    width: 70%;
     background: white;
+}
+
+.profile-name {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 4%;
 }
 
 .edit-profile {
@@ -71,9 +86,9 @@
 .right-post {
     display: grid;
     grid-column: 2 / span 2;
-    grid-row: 1 / span 2;
+    grid-row: 2 / span 2;
     grid-template-columns: 50% 50%;
-    grid-template-rows: repeat(10, 10%);
+    grid-template-rows: repeat(10%, 10);
 }
 
 .service-board-tab {
@@ -106,15 +121,16 @@
     grid-row: 3 / span 8;
 }
 
-@media only screen and (max-width: 800px) {
+.footer-placeholder {
+    display: none;
+}
 
-    #content {
+@media only screen and (max-width: 500px) {
+
+    main {
+        display: grid;
         grid-template-columns: 33% 33% 33%;
-        grid-template-rows: 2rem 5rem 1fr;
-    }
-
-    .my-post {
-        display: none;
+        grid-template-rows: repeat(1fr, 9);
     }
 
     .service-board-tab {
@@ -130,7 +146,6 @@
     }
 
     .profile-tab {
-        display: block;
         background-color: #588676;
         grid-column: 3 / span 1;
         grid-row: 1 / span 1;
@@ -139,7 +154,7 @@
     .profile-head {
         background-color: #86B6A5;
         grid-column: 1 / span 3;
-        grid-row: 2 / span 1;
+        grid-row: 2 / span 2;
     }
 
     .profile-info-container {

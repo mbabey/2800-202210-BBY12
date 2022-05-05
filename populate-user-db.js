@@ -1,3 +1,5 @@
+//this file contains old code that does not match the current database schema
+
 //importing libaries 
 const express = require("express");
 const fs = require("fs");

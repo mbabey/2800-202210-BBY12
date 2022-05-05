@@ -17,8 +17,10 @@ app.use(session({ secret: 'shoredoes', name: 'groopsess', resave: false, saveUni
 const port = 8000;
 
 const con = mysql.createConnection({
+    //change to local host on windows
     host: '127.0.0.1',
     user: 'root',
+    //change to no password
     password: ' ',
     database: 'comp2800'
 });

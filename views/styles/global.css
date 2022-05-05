@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Lato:wght@300&display=swap%27');
+:root {
+  /*Colours*/
+  --primary: #588676;
+  --primary-light: #86b6a5;
+  --primary-dark: #2c594a;
+  --primary-text: #ffeb88;
+  --secondary: #5f86be;
+  --secondary-light: #91b6f1;
+  --secondary-dark: #2c598e;
+  --secondary-text: #dff7ff;
+  --border: #707070;
+}
+
+html,
+body {
+    margin: 0 auto;
+    font-size: 15px;
+}
+
+h3 {
+  font-family: 'Alegreya Sans SC', sans-serif;
+}
+
+button {
+  font-family: 'Lato', sans-serif;
+}

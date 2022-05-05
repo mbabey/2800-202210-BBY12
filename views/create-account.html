@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Gro-Operate | Create Account</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/create-account.css">
+    <script defer type="text/javascript" src="../scripts/create-account.js"></script>
+    <link href="./images/favicon.ico" rel="icon" type="image/x-icon"/>
+</head>
+<body>
+    <div id="wrapper">
+        <header id="pseudonav">
+          <div id="nav-logo-background">
+            <img id="nav-logo" src="./images/Logo.png" alt="Gro-Operate">
+          </div>
+      </header>
+      
+      <div id="content">
+        <div id="welcome">
+          <h1>New here?</h1>
+          <p>Welcome to Gro-Operate!</p>
+        </div>
+        <div id="create-block">
+          <p><b>Create Account</b></p>
+          <form method="post">
+            <div id="username-block" class="input-wrapper">
+              <input name="username" type="text" placeholder="Username" class="create-input">
+              <input name="username-verify" type="text" placeholder="Verify Username" class="create-input">
+            </div>
+            <div id="password-block" class="input-wrapper">
+              <input name="password" type="password" placeholder="Password" class="create-input">
+              <input name="password-verify" type="password" placeholder="Verify Password" class="create-input">
+            </div>
+            <div id="name-block" class="input-wrapper">
+              <input name="first-name" type="text" placeholder="First Name" class="create-input">
+              <input name="last-name" type="text" placeholder="Last Name" class="create-input">
+              <input name="company-name" type="text" placeholder="Business Name" class="create-input">
+            </div>
+            <div id="location-block" class="input-wrapper">
+              <input name="location-country" type="text" placeholder="Country" class="create-input">
+              <input name="location-city" type="text" placeholder="City" class="create-input">
+              <input name="location-street" type="text" placeholder="Street Address" class="create-input">
+            </div>
+            <div id="contact-block" class="input-wrapper">
+              <input name="email" type="text" placeholder="Email" class="create-input">
+              <input name="phone-num" type="text" placeholder="Phone Number" class="create-input">
+            </div>
+            <input id="description-block" name="description" type="text" placeholder="Business description" class="create-input">
+            <button id="create-submit" type="submit" value="submit">Create Account</button>
+          </form>
+          <p>Already have an account? <a href="/">Sign in!</a></p>
+        </div>
+
+      </div>
+      
+      </div>
+</body>
+</html>

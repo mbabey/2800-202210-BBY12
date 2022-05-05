@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-    #container {
-=======
 #container {
     min-height: 100vh;
     display: grid;
@@ -114,34 +111,10 @@ p {
 
 @media only screen and (max-width: 800px) {
     #wrapper {
->>>>>>> 07f3bb7242498ac089d7925ff251600180fc711a
         min-height: 100vh;
         display: grid;
         grid-template-rows: minmax(15vh, 100px) auto;
     }
-<<<<<<< HEAD
-    
-    #pseudonav {
-        background-color: var(--primary-dark);
-        grid-row: 1 / span 1;
-        display: grid;
-        grid-template-columns: 20% 1fr;
-    }
-    
-    #nav-logo-background {
-        background-color: var(--secondary-text);
-        width: 150px;
-        min-height: 15vh;
-        max-height: 100%;
-        clip-path: circle(30% at center);
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        margin-left: 50px;
-        position: relative;
-    }
-    
-=======
     #pseudonav {
         display: flex;
         justify-content: center;
@@ -150,52 +123,12 @@ p {
     #nav-logo-background {
         margin: 0px;
     }
->>>>>>> 07f3bb7242498ac089d7925ff251600180fc711a
     #nav-logo {
         width: auto;
         height: auto;
         position: relative;
         padding: 10%;
     }
-<<<<<<< HEAD
-    
-    .dashboard-header {
-        background-color: var(--primary-text);
-    }
-    
-    #dashboard-title {
-        font-size: 30px;
-        text-align: center;
-    }
-    
-    #content {
-        grid-row: 2 / span 1;
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 20% 80%;
-    }
-    
-    p {
-        font-size: 15px;
-    }
-    
-    #admin-button-group {
-        grid-column: 1 / span 1;
-        margin: auto;
-        min-width: 300px;
-        max-width: 480px;
-        width: 50%;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    #admin-button-group>.admin-button {
-        padding: 5px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        text-align: center;
-=======
     #content {
         grid-row: 2 / span 1;
         display: grid;
@@ -237,119 +170,11 @@ p {
         height: 100%;
         text-align: center;
         font-size: 30px;
->>>>>>> 07f3bb7242498ac089d7925ff251600180fc711a
         background-color: rgb(193, 193, 193);
         color: black;
         border: none;
         cursor: pointer;
-<<<<<<< HEAD
-        -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-        transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-        padding: 1rem;
-    }
-    /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
-    /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-    
-    #admin-button-group>.admin-button::after {
-        content: '';
-        position: absolute;
-        z-index: -1;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
-        opacity: 0;
-        -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-        transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
-    
-    #admin-button-group>.admin-button:focus,
-    #admin-button-group>.admin-button:hover {
-        transform: scale(1.025, 1.025);
-    }
-    
-    #admin-button-group>.admin-button:focus::after,
-    #admin-button-group>.admin-button:hover::after {
-        opacity: 1;
-    }
-    
-    #admin-button-group>.admin-button:active {
-        transform: scale(1);
-    }
-    
-    @media only screen and (max-width: 800px) {
-        #wrapper {
-            min-height: 100vh;
-            display: grid;
-            grid-template-rows: minmax(15vh, 100px) auto;
-        }
-        #pseudonav {
-            display: flex;
-            justify-content: center;
-            margin: 0px;
-        }
-        #nav-logo-background {
-            margin: 0px;
-        }
-        #nav-logo {
-            width: auto;
-            height: auto;
-            position: relative;
-            padding: 10%;
-        }
-        #content {
-            grid-row: 2 / span 1;
-            display: grid;
-            grid-template-rows: 10% 90%;
-            grid-template-columns: 100%;
-        }
-        .dashboard-header {
-            height: 100%;
-            min-height: 0;
-            max-height: none;
-            display: table;
-        }
-        #dashboard-title {
-            font-size: 25px;
-            display: table-cell;
-            vertical-align: middle;
-            text-align: center;
-        }
-        #admin-button-group {
-            grid-column: 1 / span 1;
-            margin: 0 auto;
-            min-width: none;
-            max-width: none;
-            min-height: none;
-            max-height: none;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            flex-direction: column;
-        }
-        #admin-button-group>.admin-button {
-            padding: 0% 0%;
-            margin: 0px;
-            width: 100%;
-            min-width: 0;
-            max-width: none;
-            min-height: 0;
-            max-height: none;
-            height: 100%;
-            text-align: center;
-            font-size: 30px;
-            background-color: rgb(193, 193, 193);
-            color: black;
-            border: none;
-            cursor: pointer;
-            -webkit-transition: none;
-            transition: none;
-        }
-    }
-=======
         -webkit-transition: none;
         transition: none;
     }
 }
->>>>>>> 07f3bb7242498ac089d7925ff251600180fc711a

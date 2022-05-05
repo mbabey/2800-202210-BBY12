@@ -158,8 +158,6 @@ text-align: center;
     }
     
     #nav-logo {
-        width: auto;
-        height: 90px;
         position: relative;
         padding: 10%;
     }

@@ -8,7 +8,7 @@ const mysql = require('mysql2');
 const crypto = require('crypto');
 
 const createAccount = require('./scripts/create-account');
-const { dbInitialize } = require('./db-init');
+const dbInitialize = require('./db-init');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/views'));

@@ -171,22 +171,14 @@ function login(req, user) {
     });
 }
 
-//grab data from the logged-in user table in db
 app.get('/get-users', function (req, res) {
-    //fetch from that specific logged-in user
-    //need the current session's username to locate the data, not sure if it's working
-    let session_username = req.session.username;
-    con.query('SELECT * WHERE username = ?', [session_username], function (error, results, fields) {
+    con.query('SELECT * FROM bby12users WHERE username = ?', [req.session.username], function (error, results, fields) {
         if (error) {
             console.log(error);
         }
         console.log('Rows returned are: ', results);
         res.send({ status: "success", rows: results });
-
     });
-    con.end();
-
-
 });
 
 // Post that updates values to change data stored in db

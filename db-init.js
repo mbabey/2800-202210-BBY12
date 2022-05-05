@@ -9,18 +9,17 @@ module.exports = {
             password: '',
             multipleStatements: true
         });
-        let success = initDB(con)
+        initDB(con)
             .then((result) => {
                 if (result)
                     console.log("Database initialized successfully");
-                else 
-                    console.log("Database already initialized.");
+                else
+                    console.log("Database already initialized");
                 return result;
             }).catch((err) => {
-                console.log("Could not initialize database.\n" + err);
+                console.log("Could not initialize database\n" + err);
                 return false;
             });
-        return success;
     }
 }
 

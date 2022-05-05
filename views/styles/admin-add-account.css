@@ -172,26 +172,19 @@
 }
 
 @media only screen and (max-width: 800px) {
-    #wrapper {
-        min-height: 100vh;
-        display: grid;
-        grid-template-rows: minmax(100px, 15vh) auto;
-    }
-    #nav-logo-background {
-        margin: 0px;
-    }
-    #nav-logo {
-        position: relative;
-        padding: 10%;
-    }
     .dashboard-header {
-        margin-top: 50px;
-        background-color: var(--primary-text);
+        display: table;
+    }
+    #dashboard-title {
+        font-size: 25px;
+        display: table-cell;
+        vertical-align: middle;
     }
     #content {
         grid-row: 2 / span 1;
         display: grid;
         grid-template-columns: 100%;
+        grid-template-rows: 10% 90%;
     }
     #create-block {
         grid-column: 1 / span 1;

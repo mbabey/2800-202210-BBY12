@@ -16,6 +16,7 @@ html,
 body {
   margin: 0 auto;
   font-family: 'Lato', sans-serif;
+  background-color:  rgb(240, 240, 240);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -24,21 +25,22 @@ h1, h2, h3, h4, h5, h6 {
 
 .container {
   min-height: 100vh;
-  margin-top: 50px;
+  margin-top: 85px;
 }
 
 nav {
+  z-index: 1;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 50px;
-  background-color: var(--primary-dark);
+  height: 85px;
+  background-color: white;
 }
 
 nav svg,
 footer svg {
-  color: white;
+  color: var(--primary-dark);
 }
 
 #nav-wrapper {
@@ -59,9 +61,10 @@ footer svg {
 }
 
 #nav-search {
-  cursor: pointer;
-  padding-left: 5px;
-  padding-right: 5px;
+  /* cursor: pointer; */
+  border: 1px solid var(--primary-dark);
+  border-radius: 3px;
+  margin-right: 20px;
 }
 
 #nav-search input {
@@ -74,9 +77,11 @@ footer svg {
   background: none;
   float: right;
   height: 1.6rem;
-  border: 1px solid white;
-  border-radius: 3px;
-  transform: translateX(-2px);
+  border: none;
+  cursor: pointer;
+  background-color: rgb(227, 227, 227);
+  /* border-radius: 3px; */
+  /* transform: translateX(-2px); */
 }
 
 #nav-wrapper a,
@@ -93,7 +98,7 @@ footer svg {
 }
 
 .nav-button:hover {
-  background-color: var(--secondary-light);
+  background-color: var(--primary-light);
 }
 
 #nav-profile {
@@ -105,7 +110,7 @@ footer svg {
   display: none;
   z-index: -1;
   position: absolute;
-  top: 50px;
+  top: 85px;
   right: 0;
   opacity: 0;
   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
@@ -136,9 +141,36 @@ footer {
   display: none;
 }
 
+.post-block {
+  margin: 0 auto;
+  width: 50%;
+}
+
+.post {
+  margin: 15px 0;
+  background-color: white;
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: auto;
+  padding: 10px;
+}
+
+.post .post-images {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.post .post-images img {
+  width: 20%;
+  height: auto;
+}
+
+
 @media only screen and (max-width: 800px) {
   
   .container {
+    margin-top: 50px;
     margin-bottom: 50px;
   }
 
@@ -149,10 +181,14 @@ footer {
     display: none !important;
   }
 
+  nav {
+    height: 50px;
+  }
+
   footer {
     display: block;
     position: fixed;
-    background-color: var(--primary-dark);
+    background-color: rgb(247, 247, 247);
     width: 100vw;
     height: 50px;
     bottom: 0;
@@ -173,10 +209,3 @@ footer {
 }
 
 } 
-h3 {
-  font-family: 'Alegreya Sans SC', sans-serif;
-}
-
-button {
-  font-family: 'Lato', sans-serif;
-}

@@ -69,7 +69,9 @@ app.route('/login')
     });
 
 app.get('/profile', (req, res) => {
-    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
+  //Change to views/profile
+    let profilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
+
     res.send(profilePage);
 });
 
@@ -101,6 +103,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
+
 function login(req, user) {
     req.session.loggedIn = true;
     req.session.username = user;
@@ -114,3 +117,60 @@ function login(req, user) {
         req.session.save();
     });
 }
+
+//grab data from the logged-in user table in db
+//not working
+app.get('/get-users', function (req, res) {
+
+    let connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      database: 'comp2800'
+    });
+    connection.connect();
+    
+    //fetch from that specific logged-in user
+    //need the current session's username to locate the data, not sure if it's working
+    let session_username = req.session.username;
+    connection.query('SELECT (`fName`, `lName`, `email`, `password`) FROM (`bby12users`) WHERE (`username` = ?)', [session_username], function (error, results, fields) {
+        if (error) {
+            console.log(error);
+        }
+        console.log('Rows returned are: ', results);
+        res.send({ status: "success", rows: results });
+  
+    });
+    connection.end();
+  
+  
+  });
+  
+  // Post that updates values to change data stored in db
+  app.post('/update-users', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+  
+    let connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      database: 'comp2800'
+    });
+    connection.connect();
+  console.log("update values", req.body.username, req.body.fName, req.body.lName,
+  req.body.email, req.body.password)
+    connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?',
+          [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+          function (error, results, fields) {
+      if (error) {
+          console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({ status: "Success", msg: "User information updated." });
+  
+    });
+    connection.end();
+  
+  });
+  
+

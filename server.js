@@ -17,9 +17,9 @@ app.use(session({ secret: 'shoredoes', name: 'groopsess', resave: false, saveUni
 const port = 8000;
 
 const con = mysql.createConnection({
-    host: '127.0.0.1',
+    host: 'localhost',
     user: 'root',
-    password: ' ',
+    password: '',
     database: 'comp2800'
 });
 
@@ -68,7 +68,7 @@ app.route('/login')
         }
     });
 
-//get data from bby12post and format for posts
+//get data from bby12post and format the posts
 app.get('/post', (req, res) => {
 
     if (req.session.loggedIn) {
@@ -182,7 +182,7 @@ app.get('/get-users', function (req, res) {
     //fetch from that specific logged-in user
     //need the current session's username to locate the data, not sure if it's working
     let session_username = req.session.username;
-    connection.query('SELECT (`fName`, `lName`, `email`, `password`) FROM (`bby12users`) WHERE (`username` = ?)', [session_username], function (error, results, fields) {
+    connection.query('SELECT * WHERE username = ?', [session_username], function (error, results, fields) {
         if (error) {
             console.log(error);
         }

@@ -12,6 +12,7 @@ const dbInitialize = require('./db-init');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/scripts'));
 
 app.use(session({ secret: 'shoredoes', name: 'groopsess', resave: false, saveUninitialized: true }));
 
@@ -172,19 +173,10 @@ function login(req, user) {
 
 //grab data from the logged-in user table in db
 app.get('/get-users', function (req, res) {
-
-    let connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'comp2800'
-    });
-    connection.connect();
-
     //fetch from that specific logged-in user
     //need the current session's username to locate the data, not sure if it's working
     let session_username = req.session.username;
-    connection.query('SELECT * WHERE username = ?', [session_username], function (error, results, fields) {
+    con.query('SELECT * WHERE username = ?', [session_username], function (error, results, fields) {
         if (error) {
             console.log(error);
         }
@@ -192,7 +184,7 @@ app.get('/get-users', function (req, res) {
         res.send({ status: "success", rows: results });
 
     });
-    connection.end();
+    con.end();
 
 
 });

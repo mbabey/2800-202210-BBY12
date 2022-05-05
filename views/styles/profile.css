@@ -29,7 +29,7 @@
 }
 
 .profile-picture img {
-    clip-path: circle(43% at center);
+    border-radius: 50%;
 }
 .profile-picture>img {
     width: 50%;

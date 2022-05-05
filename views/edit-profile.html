@@ -6,8 +6,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="./styles/global.css">
-  <link rel="stylesheet" type="text/css" href="./styles/edit-profile.css">
-  <link href="./images/favicon.ico" rel="icon" type="image/x-icon"/>
+  <!-- <link rel="stylesheet" type="text/css" href="./styles/edit-profile.css"> -->
+  <link rel="stylesheet" type="text/css" href="./styles/re-edit-profile.css">
+  <link href="./images/favicon.ico" rel="icon" type="image/x-icon" />
 </head>
 
 <body>
@@ -73,42 +74,85 @@
   </nav>
 
   <div class="container">
-
-    <header class="profile-header">
-      <div class="profile-picture"><img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image"></div>
-      <div class="profile-head">
-        <h1>Business Name</h1>
-        <a href="#">Edit Profile</a>
-      </div>  
-
-
-    </header>
-    <main class="content">
-      <div class="account-info">
-        <!-- <h3>My Account</h3> -->
-        <!-- <p>Edit First Name</p>
-        <p>Edit Last Name</p>
-        <p>Edit Email Address</p>
-        <p>Edit Password</p> -->
-        <a href="/logout">Logout</a>
-        <!--remove later-->
-        <div class="status"></div>
+    <div class="profile-header-wrapper">
+      <div class="profile-header">
+        <div class="profile-name">
+          <h1>Business Name</h1>
+          <p>Type of Business</p>
+          <div class="edit-profile">
+            <a href="#">Edit Profile</a>
+          </div>
+        </div>
+        <div class="profile-picture">
+          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+        </div>
+        <div class="profile-info">
+          <h3>Profile Info</h3>
+          <div class="profile-owner">
+            <p>Business Owner Name</p>
+          </div>
+          <div class="profile-contact">
+            <h4>Contact</h4>
+            <p>Business Email</p>
+            <p>Business Phone</p>
+          </div>
+          <div class="profile-location">
+            <h4>Location</h4>
+            <p>123 Fun St. Vancouver, BC</p>
+          </div>
+        </div>
       </div>
-      <div class="profile-info">
-        <h3>My Profile</h3>
-        <p>Edit Type of Business</p>
-        <h4>Contact</h4>
-        <p>Edit Business Owner Name</p>
-        <p>Edit Business Email</p>
-        <h4>Location</h4>
-        <p>Edit Address</p>
+    </div>
+    <div class="profile-description">
+      <h3>Description</h3>
+      <p>I am an independant woman look at me go I do it all I read I write I sell drugs I surf I drink I drive I
+        box I square dance I make stone tools I dig tunnels I jump rope I dance I I I I sell soap :) Also I do more
+        because I am ambitious I play guitar I sing I write poetry I lament the loss of humanity I howl at the moon I
+        rub dirt on my cheeks I sleep in a bed of thorns I ride the breeze of my whims in a bed of flowers</p>
       </div>
-      <div class="profile-description">
-        <h3>Description</h3>
-        <p>Placeholder description.</p>
+    <div class="post-block">
+      <div class="post">
+        <h1 class="post-title">This Girl's Business With an Opportunity</h1>
+        <h3 class="post-business-name">Brought to you by this girl</h3>
+        <div class="post-images">
+          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+        </div>
+        <p class="post-description">Something to do with business here I bet everyone likes to do business especially
+          when money is on the line my father chose business over the quality of my childhood but I can't blame him its
+          just business.</p>
+        <p class="post-timestamp"><small>posted on today</small></p>
       </div>
-    </main>
+      <div class="post">
+        <h1 class="post-title">This Girl's Business With an Opportunity</h1>
+        <h3 class="post-business-name">Brought to you by this girl</h3>
+        <div class="post-images">
+          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+        </div>
+        <p class="post-description">Something to do with business here I bet everyone likes to do business especially
+          when money is on the line my father chose business over the quality of my childhood but I can't blame him its
+          just business.</p>
+        <p class="post-timestamp"><small>posted on today</small></p>
+      </div>
+      <div class="post">
+        <h1 class="post-title">This Girl's Business With an Opportunity</h1>
+        <h3 class="post-business-name">Brought to you by this girl</h3>
+        <div class="post-images">
+          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+        </div>
+        <p class="post-description">Something to do with business here I bet everyone likes to do business especially
+          when money is on the line my father chose business over the quality of my childhood but I can't blame him its
+          just business.</p>
+        <p class="post-timestamp"><small>posted on today</small></p>
+      </div>
+    </div>
   </div>
+
 
   <footer>
     <div id="footer-wrapper">

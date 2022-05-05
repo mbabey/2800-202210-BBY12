@@ -17,9 +17,9 @@ app.use(session({ secret: 'shoredoes', name: 'groopsess', resave: false, saveUni
 const port = 8000;
 
 const con = mysql.createConnection({
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'root',
-    password: '',
+    password: ' ',
     database: 'comp2800'
 });
 
@@ -173,10 +173,9 @@ app.get('/get-users', function (req, res) {
   
   });
 
-app.get('/admin-view-accounts', function (req, res) {
+  app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let session_username = req.session.username;
-        let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
         con.query(
             "SELECT * FROM BBY12Admins WHERE BBY12Admins.username = ?", [session_username], function (err, results, fields) {
                 console.log("results: ", results);
@@ -185,13 +184,14 @@ app.get('/admin-view-accounts', function (req, res) {
                 if (err) {
                     console.log(err);
                 }
-                let table = "<table><tr><th>Username</th></tr>";
+                let list = "<ul>";
                 for (let i = 0; i < results.length; i++) {
-                    table += "<tr><td>"+ results[i].username + "</td></tr>";
+                    list += "<li>"+ results[i].username + "</li>";
                 }
-                table += "</table>";
-                res.type("text/html");
-                res.send(adminViewAccountsPage);
+                list += "</ul>";
+                let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+                res.send(adminViewAccountsPage + list);
+        
             });
             con.end();
     } else {

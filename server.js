@@ -35,7 +35,10 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
     console.log(req.session);
     if (req.session.loggedIn) {
-        res.redirect('/profile'); // /profile for now, but will be /home in later versions 
+        if (req.session.admin)
+            res.redirect('/admin-dashboard'); // TEMP show case that admin accounts are different, will remove once dash board button is implemented
+        else
+            res.redirect('/profile'); // /profile for now, but will be /home in later versions 
     } else {
         res.redirect('/login');
     }
@@ -47,7 +50,6 @@ app.route('/login')
         res.send(loginPage);
     })
     .post((req, res, ) => {
-
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
@@ -67,8 +69,13 @@ app.route('/login')
     });
 
 app.get('/profile', (req, res) => {
-    let profilePage = fs.readFileSync('./views/temp-profile.html', 'utf8');
+    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
     res.send(profilePage);
+});
+
+app.get('/admin-dashboard', (req, res) => {
+    let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
+    res.send(adminDashPage);
 });
 
 app.route('/create-account')

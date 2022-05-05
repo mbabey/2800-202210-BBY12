@@ -195,11 +195,6 @@ app.post('/update-users', function (req, res) {
 
 });
 
-app.get('/', (req, res) => {
-    let adminViewAccPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-    res.send(adminViewAccPage);
-});
-
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let users = 'SELECT * FROM bby12users';

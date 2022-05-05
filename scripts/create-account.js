@@ -12,15 +12,7 @@ module.exports = {
             database: 'comp2800'
         });
         connection.connect();
-        let success = insertDB(req, connection)
-            .then(function(result) {
-                return result;
-            })
-            .catch(function(err) {
-                console.log("Promise rejection error: " + err);
-                return false;
-            });
-
+        let success = insertDB(req, connection);
         connection.end();
         return success;
     }

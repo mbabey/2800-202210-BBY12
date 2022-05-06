@@ -17,6 +17,7 @@ app.use(express.urlencoded({
     extended: true
 }));
 app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/scripts'));
 
 app.use(session({
     secret: 'shoredoes',
@@ -28,11 +29,9 @@ app.use(session({
 const port = 8000;
 
 const con = mysql.createConnection({
-    //change to local host on windows
-    host: '127.0.0.1',
+    host: 'localhost',
     user: 'root',
-    //change to no password
-    password: ' ',
+    password: '',
     database: 'comp2800'
 });
 
@@ -63,12 +62,12 @@ app.route('/login')
         let loginPage = fs.readFileSync('./views/login.html', 'utf8');
         res.send(loginPage);
     })
-    .post((req, res, ) => {
+    .post((req, res,) => {
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function (err, results, ) {
+            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function (err, results,) {
                 if (results && results.length > 0) {
                     login(req, user);
 
@@ -82,9 +81,56 @@ app.route('/login')
         }
     });
 
-app.get('/profile', (req, res) => {
-    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
-    res.send(profilePage);
+//get data from bby12post and format the posts
+app.get('/post', (req, res) => {
+
+    if (req.session.loggedIn) {
+
+        console.log("Logged in from username:" + req.session.username);
+
+        let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
+        let profileDOM = new JSDOM(profile);
+
+        profileDOM.window.document.getElementsByTagName("title").innerHTML
+            = "Gro-Operate | " + req.session.fName + "'s Profile";
+        profileDOM.window.document.getElementsByID("profile-name").innerHTML
+            = req.session.username;
+
+        
+        connection.query(
+            
+            `SELECT * FROM BBY12post WHERE username = "${req.session.username}";`,
+            function (error, results, fields) {
+                // results is an array of records, in JSON format
+                console.log("Results from DB", results);
+                myResults = results;
+
+                if (error) {
+                    console.log(error);
+                }
+                // get data, format output
+                let postSection = "<div class='post-block>";
+                let post;
+                for (let i = 0; i < results.length; i++) {
+                    post += "<div class='post'><h1 class='post-title'>" + results[i].postTitle + "</h1><h3 class='post-business-name'>" + results[i].businessName 
+                        + "</h3><div class='post-images'>" + "</div><p class='post-description'>" + results[i].content
+                        + "</p><p class='post-timestamp'><small>" + results[i].timestamp + "</small></p></div>";
+                }
+                // don't forget the end
+                postSection += "</div>"
+                var profilePage = profileDOM.serialize();//this is the profile page
+                res.send(profilePage + postSection); //sends the profile page and the posts
+            });
+
+
+
+
+    } else {
+        // not logged in - no session and no access, redirect to home!
+        res.redirect("/");
+    }
+
+
 });
 
 app.get('/edit-profile', (req, res) => {
@@ -135,35 +181,14 @@ function login(req, user) {
     });
 }
 
-//grab data from the logged-in user table in db
-//not working
 app.get('/get-users', function (req, res) {
-
-    let connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'comp2800'
-    });
-    connection.connect();
-
-    //fetch from that specific logged-in user
-    //need the current session's username to locate the data, not sure if it's working
-    let session_username = req.session.username;
-    connection.query('SELECT (`fName`, `lName`, `email`, `password`) FROM (`bby12users`) WHERE (`username` = ?)', [session_username], function (error, results, fields) {
+    con.query('SELECT * FROM bby12users WHERE username = ?', [req.session.username], function (error, results, fields) {
         if (error) {
             console.log(error);
         }
-        console.log('Rows returned are: ', results);
-        res.send({
-            status: "success",
-            rows: results
-        });
-
+        res.setHeader('content-type', 'application/json');
+        res.send(results);
     });
-    connection.end();
-
-
 });
 
 // Post that updates values to change data stored in db
@@ -186,10 +211,7 @@ app.post('/update-users', function (req, res) {
                 console.log(error);
             }
             //console.log('Rows returned are: ', results);
-            res.send({
-                status: "Success",
-                msg: "User information updated."
-            });
+            res.send({ status: "Success", msg: "User information updated." });
 
         });
     connection.end();

@@ -10,7 +10,7 @@ module.exports = {
             host: 'localhost',
             user: 'root',
             password: '',
-            database: 'comp2800'
+            database: 'COMP2800'
         });
         connection.connect();
         let success = await insertDB(req, connection);

@@ -29,9 +29,9 @@ app.listen(port, () => {
     dbInitialize.dbInitialize()
         .then(() => {
             con = mysql.createConnection({
-                host: '127.0.0.1',
+                host: 'localhost',
                 user: 'root',
-                password: ' ',
+                password: '',
                 database: 'COMP2800'
             });
         }).then(() => {
@@ -87,7 +87,6 @@ app.route('/create-account')
             .catch(function(err) {
                 res.redirect('/create-account');
             });
-
     });
 
 app.get('/logout', (req, res) => {
@@ -175,7 +174,7 @@ function login(req, user) {
 
 app.get('/get-users', function(req, res) {
     con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
-        if (error) throw error;
+        if (error) throw err;
         res.setHeader('content-type', 'application/json');
         res.send(results);
     });
@@ -197,11 +196,11 @@ app.get('/admin-view-accounts', function(req, res) {
         con.query(users, function(err, results, fields) {
             if (err) throw err;
 
-            let table = "<table id='profile-table'><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Business Name</th></tr>";
+            let table = "<table><tr><th>Username</th><th class=\"admin-user-info-desktop\">First Name</th><th class=\"admin-user-info-desktop\">Last Name</th><th class=\"admin-user-info-desktop\">Business Name</th></tr>";
             for (let i = 0; i < results.length; i++) {
-                table += "<tr><td>" + results[i].username + "</td><td>" +
-                    results[i].fName + "</td><td>" + results[i].lName + "</td><td>" +
-                    results[i].cName + "</td></tr>";
+                table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info-desktop\">" 
+                + results[i].fName + "</td><td class=\"admin-user-info-desktop\">" + results[i].lName + "</td><td class=\"admin-user-info-desktop\">" 
+                + results[i].cName + "</td></tr>";
             }
             table += "</table>";
             let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
@@ -235,7 +234,7 @@ app.get('/home', (req, res) => {
                         "</h3><div class='post-images'>" + "</div><p class='post-description'>" + results[i].content +
                         "</p><p class='post-timestamp'><small>" + results[i].timestamp + "</small></p></div>";
                 }
-                postSection += "</div>"
+                postSection += "</div>";
                 var profilePage = profileDOM.serialize();
                 res.send(profilePage + postSection);
             });

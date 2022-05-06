@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    dbInitialize: async function () {
+    dbInitialize: async function() {
         const mysql = require('mysql2/promise');
         const con = await mysql.createConnection({
             host: 'localhost',
@@ -10,13 +10,8 @@ module.exports = {
             multipleStatements: true
         });
         initDB(con)
-            .then((result) => {
-                if (result)
-                    console.log("Database initialized successfully");
-                else
-                    console.log("Database already initialized");
-            }).catch((err) => {
-                console.log("Could not initialize database\n" + err);
+            .then()
+            .catch((err) => {
                 return false;
             });
     }
@@ -82,8 +77,7 @@ async function initDB(con) {
             ['user', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Mike', 'Hawk', 'Birthink Inc.', 'Not-for-profit Think Tank', 'mikey@business.gov', '(123) 456-7890', 'Swift Current, Saskatchewan', 'Birthink Inc. is the reason to get up in the morning; its the reason to go to bed at night.', 'img.jpg']
         ];
         await con.query(records, [values], (err) => {
-            if (err)
-                console.log('Error occured:' + err);
+            if (err);
         });
     } else {
         firstInit = false;
@@ -91,10 +85,12 @@ async function initDB(con) {
     [rows, fields] = await con.query('SELECT * FROM bby12admins');
     if (rows.length == 0) {
         let records = 'INSERT INTO BBY12admins VALUES ?';
-        let values = [['test']];
+        let values = [
+            ['test']
+        ];
         await con.query(records, [values], (err) => {
-            if (err)
-                console.log('Error occured:' + err);
+            if (err);
+
         });
     } else {
         firstInit = false;
@@ -111,7 +107,7 @@ async function initDB(con) {
         ]
         await con.query(records, [values], (err) => {
             if (err)
-                console.log('Error occured:' + err);
+            ;
         });
     } else {
         firstInit = false;

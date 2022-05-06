@@ -33,7 +33,7 @@ const con = mysql.createConnection({
     database: 'comp2800'
 });
 
-con.connect(function (err) {
+con.connect(function(err) {
     if (err) throw err;
     console.log("SQL Connected");
 });
@@ -61,12 +61,12 @@ app.route('/login')
         let loginPage = fs.readFileSync('./views/login.html', 'utf8');
         res.send(loginPage);
     })
-    .post((req, res,) => {
+    .post((req, res, ) => {
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex'); // this is kinda insecure; we should encrypt before we send
         try {
-            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function (err, results,) {
+            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function(err, results, ) {
                 if (results && results.length > 0) {
                     login(req, user);
                 } else {
@@ -86,12 +86,12 @@ app.route('/create-account')
     })
     .post((req, res) => {
         createAccount.createAccount(req, res)
-            .then(function (result) {
+            .then(function(result) {
                 login(req, req.body["username"]);
                 //res.send({ status: "success", msg: "Record added." });
                 res.redirect('/');
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 console.log("Promise rejection error: " + err);
                 //res.send({ status: "fail", msg: "Record not added." });
                 res.redirect('/create-account');
@@ -100,7 +100,7 @@ app.route('/create-account')
     });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy(function () {
+    req.session.destroy(function() {
         res.redirect('/');
     });
 });
@@ -111,7 +111,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function (err, results) {
+    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function(err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -137,16 +137,14 @@ app.route('/admin-add-account')
     })
     .post((req, res) => {
         createAccount.createAdmin(req, res)
-            .then(function (result) {
+            .then(function(result) {
                 res.redirect('/admin-dashboard');
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 console.log("Promise rejection error: " + err);
                 res.redirect('/admin-add-account');
             });
     });
-
-<<<<<<< HEAD
 app.route('/create-account')
     .get((req, res) => {
         let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
@@ -168,7 +166,7 @@ app.route('/create-account')
     });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy(function () {
+    req.session.destroy(function() {
         res.redirect('/');
     });
 });
@@ -179,7 +177,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function (err, results) {
+    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function(err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -224,10 +222,10 @@ app.post('/update-users', function(req, res) {
 
 });
 
-app.get('/admin-view-accounts', function (req, res) {
+app.get('/admin-view-accounts', function(req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let users = 'SELECT * FROM bby12users';
-        con.query(users, function (err, results, fields) {
+        con.query(users, function(err, results, fields) {
             if (err) throw err;
             console.log(results);
             let table = "<table id='user-accounts'><th>User Accounts</th>";
@@ -258,7 +256,7 @@ app.get('/post', (req, res) => {
         profileDOM.window.document.getElementsByID("profile-name").innerHTML = req.session.username;
         connection.query(
             `SELECT * FROM BBY12post WHERE username = "${req.session.username}";`,
-            function (error, results, fields) {
+            function(error, results, fields) {
                 // results is an array of records, in JSON format
                 console.log("Results from DB", results);
                 myResults = results;
@@ -284,8 +282,8 @@ app.get('/post', (req, res) => {
     }
 });
 
-app.get('/get-users', function (req, res) {
-    con.query('SELECT * FROM bby12users WHERE username = ?', [req.session.username], function (error, results, fields) {
+app.get('/get-users', function(req, res) {
+    con.query('SELECT * FROM bby12users WHERE username = ?', [req.session.username], function(error, results, fields) {
         if (error) {
             console.log(error);
         }
@@ -295,7 +293,7 @@ app.get('/get-users', function (req, res) {
 });
 
 // Post that updates values to change data stored in db
-app.post('/update-users', function (req, res) {
+app.post('/update-users', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
 
     let connection = mysql.createConnection({
@@ -308,7 +306,7 @@ app.post('/update-users', function (req, res) {
     console.log("update values", req.body.username, req.body.fName, req.body.lName,
         req.body.email, req.body.password)
     connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-        function (error, results, fields) {
+        function(error, results, fields) {
             if (error) {
                 console.log(error);
             }

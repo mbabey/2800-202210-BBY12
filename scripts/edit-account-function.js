@@ -1,6 +1,7 @@
 'use strict';
 
 //populate the 'account-info' div dynamically
+//need to update according to the current layout
 function getUser() {
 
     const xhr = new XMLHttpRequest();
@@ -70,103 +71,112 @@ function getUser() {
 }
 getUser();
 
-//to edit the cells, e for event
-function editCell(e) {
+// //to edit the cells, e for event
+// function editCell(e) {
 
-    // add a listener for clicking on the field to change info
-    // span's text
-    let spanText = e.target.innerHTML;
-    // span's parent (div)
-    let parent = e.target.parentNode;
-    // create a new input, and add a key listener to it
-    let input = document.createElement("input");
-    input.value = spanText;
-    input.addEventListener("keyup", function (e) {
-        let s = null;
-        let v = null;
-        // pressed enter
-        if (e.key == 13) { //changed e.which to e.key because e.which is deprecated, 13 is the enter key
-            v = input.value;
-            let newSpan = document.createElement("span"); //create a new element span
-            // have to wire an event listener to the new element
-            newSpan.addEventListener("click", editCell);
-            newSpan.innerHTML = v;
-            parent.innerHTML = "";
-            parent.appendChild(newSpan);
+//     // add a listener for clicking on the field to change info
+//     // span's text
+//     let spanText = e.target.innerHTML;
+//     // span's parent (div)
+//     let parent = e.target.parentNode;
+//     // create a new input, and add a key listener to it
+//     let input = document.createElement("input");
+//     input.value = spanText;
+//     input.addEventListener("keyup", function (e) {
+//         let s = null;
+//         let v = null;
+//         // pressed enter
+//         if (e.key == 13) { //changed e.which to e.key because e.which is deprecated, 13 is the enter key
+//             v = input.value;
+//             let newSpan = document.createElement("span"); //create a new element span
+//             // have to wire an event listener to the new element
+//             newSpan.addEventListener("click", editCell);
+//             newSpan.innerHTML = v;
+//             parent.innerHTML = "";
+//             parent.appendChild(newSpan);
             
-            //if newSpan is within the first name div OR the last name div OR the email div OR the password div
-            //do different dataToSend
+//             //if newSpan is within the first name div OR the last name div OR the email div OR the password div
+//             //do different dataToSend
 
 
-            if (document.getElementsByClassName("first_name")){
-                let dataToSend = {
-                    last_name: parent.parentNode.querySelector(".last_name").innerHTML,
-                    email: parent.parentNode.querySelector(".email").innerHTML,
-                    password: parent.parentNode.querySelector(".password").innerHTML,
-                    first_name: v
-                }
+//             if (document.getElementsByClassName("first_name")){
+//                 let dataToSend = {
+//                     last_name: parent.parentNode.querySelector(".last_name").innerHTML,
+//                     email: parent.parentNode.querySelector(".email").innerHTML,
+//                     password: parent.parentNode.querySelector(".password").innerHTML,
+//                     first_name: v
+//                 }
 
-            } else if (document.getElementsByClassName("last_name")){
-                let dataToSend = {
-                    first_name: parent.parentNode.querySelector(".first_name").innerHTML,
-                    email: parent.parentNode.querySelector(".email").innerHTML,
-                    password: parent.parentNode.querySelector(".password").innerHTML,
-                    last_name: v
-                }
+//             } else if (document.getElementsByClassName("last_name")){
+//                 let dataToSend = {
+//                     first_name: parent.parentNode.querySelector(".first_name").innerHTML,
+//                     email: parent.parentNode.querySelector(".email").innerHTML,
+//                     password: parent.parentNode.querySelector(".password").innerHTML,
+//                     last_name: v
+//                 }
 
-            } else if (document.getElementsByClassName("email")){
-                let dataToSend = {
-                    first_name: parent.parentNode.querySelector(".first_name").innerHTML,
-                    last_name: parent.parentNode.querySelector(".last_name").innerHTML,
-                    password: parent.parentNode.querySelector(".password").innerHTML,
-                    email: v
-                }
+//             } else if (document.getElementsByClassName("email")){
+//                 let dataToSend = {
+//                     first_name: parent.parentNode.querySelector(".first_name").innerHTML,
+//                     last_name: parent.parentNode.querySelector(".last_name").innerHTML,
+//                     password: parent.parentNode.querySelector(".password").innerHTML,
+//                     email: v
+//                 }
 
-            } else if (document.getElementsByClassName("password")){
-                let dataToSend = {
-                    first_name: parent.parentNode.querySelector(".first_name").innerHTML,
-                    last_name: parent.parentNode.querySelector(".last_name").innerHTML,
-                    email: parent.parentNode.querySelector(".email").innerHTML,
-                    password: v
-                }
+//             } else if (document.getElementsByClassName("password")){
+//                 let dataToSend = {
+//                     first_name: parent.parentNode.querySelector(".first_name").innerHTML,
+//                     last_name: parent.parentNode.querySelector(".last_name").innerHTML,
+//                     email: parent.parentNode.querySelector(".email").innerHTML,
+//                     password: v
+//                 }
 
-            } else {
+//             } else {
 
-            }
+//             }
 
-            // now send
-            const xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-                if (this.readyState == XMLHttpRequest.DONE) {
+//             // now send
+//             const xhr = new XMLHttpRequest();
+//             xhr.onload = function () {
+//                 if (this.readyState == XMLHttpRequest.DONE) {
 
-                    // 200 means everthing worked
-                    if (xhr.status === 200) {
-                        document.getElementsByClassName("status").innerHTML = "Record updated.";
-                        getCustomers();
+//                     // 200 means everthing worked
+//                     if (xhr.status === 200) {
+//                         document.getElementsByClassName("status").innerHTML = "Record updated.";
+//                         getCustomers();
 
 
-                    } else {
+//                     } else {
 
-                        // not a 200, could be anything (404, 500, etc.)
-                        console.log(this.status);
+//                         // not a 200, could be anything (404, 500, etc.)
+//                         console.log(this.status);
 
-                    }
+//                     }
 
-                } else {
-                    console.log("ERROR", this.status);
-                }
-            }
-            xhr.open("POST", "/update-user");
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            //console.log("dataToSend", "id=" + dataToSend.id + "&email=" + dataToSend.email);
-            //sending to the server side, so need to update that to set fName=?,....  send everything
-            //cannot check /update-user for now because can't login properly
-            xhr.send("fName=" + dataToSend.fName + "&lName=" + dataToSend.lName + "&email=" + dataToSend.email + "&password=" + dataToSend.password); 
+//                 } else {
+//                     console.log("ERROR", this.status);
+//                 }
+//             }
+//             xhr.open("POST", "/update-user");
+//             xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+//             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//             //console.log("dataToSend", "id=" + dataToSend.id + "&email=" + dataToSend.email);
+//             //sending to the server side, so need to update that to set fName=?,....  send everything
+//             //cannot check /update-user for now because can't login properly
+//             xhr.send("fName=" + dataToSend.fName + "&lName=" + dataToSend.lName + "&email=" + dataToSend.email + "&password=" + dataToSend.password); 
 
-        }
-    });
-    parent.innerHTML = "";
-    parent.appendChild(input);
+//         }
+//     });
+//     parent.innerHTML = "";
+//     parent.appendChild(input);
 
-}
+// }
+
+document.getElementById("edit-button").addEventListener("click", function (event) {
+    document.getElementById("profile-owner-name").contentEditable = true;
+    document.getElementById("profile-contact-email").contentEditable = true;
+    document.getElementById("profile-contact-phone").contentEditable = true;
+    document.getElementById("profile-location-address").contentEditable = true;
+    document.getElementById("edit-status").innerHTML = "Click on the fields to edit."
+    event.preventDefault();
+  });

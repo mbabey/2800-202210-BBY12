@@ -11,6 +11,7 @@ const createAccount = require('./scripts/create-account');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/scripts'));
 
 app.use(session({ secret: 'shoredoes', name: 'groopsess', resave: false, saveUninitialized: true }));
 
@@ -38,7 +39,7 @@ app.get('/', (req, res) => {
         if (req.session.admin)
             res.redirect('/admin-dashboard'); // TEMP show case that admin accounts are different, will remove once dash board button is implemented
         else
-            res.redirect('/profile'); // /profile for now, but will be /home in later versions 
+            res.redirect('/edit-profile'); // /edit-profile for now, but will be /home in later versions 
     } else {
         res.redirect('/login');
     }
@@ -69,11 +70,14 @@ app.route('/login')
     });
 
 app.get('/profile', (req, res) => {
-    //Change to views/profile
-    let profilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
-
+    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
     res.send(profilePage);
 });
+
+app.get('/edit-profile', (req, res) => {
+    let editProfilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
+    res.send(editProfilePage);
+})
 
 app.get('/admin-dashboard', (req, res) => {
     let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
@@ -161,17 +165,43 @@ app.post('/update-users', function (req, res) {
     console.log("update values", req.body.username, req.body.fName, req.body.lName,
         req.body.email, req.body.password)
     connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?',
-        [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-        function (error, results, fields) {
-            if (error) {
-                console.log(error);
-            }
-            //console.log('Rows returned are: ', results);
-            res.send({ status: "Success", msg: "User information updated." });
-
-        });
+          [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+          function (error, results, fields) {
+      if (error) {
+          console.log(error);
+      }
+      //console.log('Rows returned are: ', results);
+      res.send({ status: "Success", msg: "User information updated." });
+  
+    });
     connection.end();
+  
+  });
 
+  app.get('/admin-view-accounts', function (req, res) {
+    if (req.session.loggedIn && req.session.admin == true) {
+        let session_username = req.session.username;
+        con.query(
+            "SELECT * FROM BBY12Admins WHERE BBY12Admins.username = ?", [session_username], function (err, results, fields) {
+                console.log("results: ", results);
+                console.log("results from db:", results, "and the # of records returned", results.length);
+
+                if (err) {
+                    console.log(err);
+                }
+                let list = "<ul>";
+                for (let i = 0; i < results.length; i++) {
+                    list += "<li>"+ results[i].username + "</li>";
+                }
+                list += "</ul>";
+                let adminViewAccountsPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+                res.send(adminViewAccountsPage + list);
+        
+            });
+            con.end();
+    } else {
+        res.redirect("/");
+    }
 });
-
+  
 

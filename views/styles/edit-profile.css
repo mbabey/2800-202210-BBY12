@@ -1,51 +1,32 @@
-nav {
-  background-color: var(--primary-dark);
-  display: grid;
-  height: 15vh;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-  grid-column: 1 / span 3;
-  grid-row: 1 / span 1;
-}
-
 .container {
+  min-height: 100vh;
   display: grid;
-  height: 100vh;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 15% 35% 50% 55%;
+  grid-template-rows: 35% 50% 55%;
 }
 
 .profile-header {
   background-color: var(--primary);
   grid-column: 1 / span 3;
-  grid-row: 2 / span 2;
+  grid-row: 1 / span 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   text-align: center;
-  overflow: hidden;
 }
 
-.profile-head {
-  grid-column: 2 / span 1;
-  display: block;
-  justify-content: center;
-}
-
-.profile-header img {
-  clip-path: circle(40% at center);
-  margin-top: 10%;
+.profile-picture img {
+  width: auto;
+  height: 80%;
+  border-radius: 50%;
 }
 
 .profile-name {
   grid-column: 2 / span 1;
-  font-size: 25px;
-  font-weight: bold;
-  
 }
 
 .edit-profile-text {
   grid-column: 2 / span 1;
-  font-size: 20px;
+  font-size: 1.5rem;
 }
 
 .edit-profile-text a {
@@ -55,12 +36,13 @@ nav {
 
 .content {
   grid-column: 1 / span 3;
-  grid-row: 4 / span 1;
+  grid-row: 2 / span 1;
   display: grid;
+  height: 40vh;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(7, 1fr);
-  padding: 3%;
-  margin: 5%;
+  justify-items: center;
+  padding: 2rem;
 }
 
 .account-info {
@@ -84,7 +66,7 @@ nav {
     display: grid;
     height: 100vh;
     grid-template-columns: 100%;
-    grid-template-rows: 10% 25% 25% 10%;
+    grid-template-rows: 10% 35%;
     margin: auto;
   }
 
@@ -99,9 +81,7 @@ nav {
 
   .profile-header {
     background-color: var(--primary);
-    grid-row: 2 / span 2;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-row: 2 / span 1;
     text-align: center;
     overflow: hidden;
   }
@@ -110,12 +90,14 @@ nav {
     display: block;
   }
 
+  .profile-picture {
+    clip-path: circle(50% at center);
+  }
+
   .profile-picture>img {
-    clip-path: circle(30% at center);
     grid-column: 2 / span 1;
     grid-row: 1 / span 2;
-    margin-top: 0%;
-    height: 30vh;
+    width: 100%;
   }
 
   .profile-name {
@@ -127,14 +109,13 @@ nav {
   
   .edit-profile-text {
     grid-column: 2 / span 1;
-    grid-row: 3 / span 1;
     font-size: 15px;
   }
 
   .account-info {
-    height: 35vh;
     grid-column: 2 / span 1;
-    grid-row: 3 / span 2;
+    justify-items: center;
+    margin-top: 20%;
   }
 
   .profile-info {

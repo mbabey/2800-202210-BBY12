@@ -1,0 +1,15 @@
+.dashboard-header {
+  background-color: var(--primary-text);
+}
+
+#dashboard-title {
+  font-size: 30px;
+  text-align: center;
+}
+
+#content {
+  grid-row: 2 / span 1;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 20% 80%;
+}

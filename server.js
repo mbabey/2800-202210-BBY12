@@ -35,7 +35,7 @@ app.listen(port, () => {
                 database: 'COMP2800'
             });
         }).then(() => {
-            con.connect(function (err) {
+            con.connect(function(err) {
                 if (err) throw err;
             });
         });
@@ -57,12 +57,12 @@ app.route('/login')
         let loginPage = fs.readFileSync('./views/login.html', 'utf8');
         res.send(loginPage);
     })
-    .post((req, res,) => {
+    .post((req, res, ) => {
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
+            con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function(err, results, ) {
                 if (results && results.length > 0) {
                     login(req, user);
                 }
@@ -80,18 +80,18 @@ app.route('/create-account')
     })
     .post((req, res) => {
         createAccount.createAccount(req, res)
-            .then(function (result) {
+            .then(function(result) {
                 login(req, req.body["username"]);
                 res.redirect('/');
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 res.redirect('/create-account');
             });
 
     });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy(function () {
+    req.session.destroy(function() {
         res.redirect('/');
     });
 });
@@ -101,7 +101,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`BBY-12admins`) Where (`username` = ?)', [user], function (err, results) {
+    con.query('Select * from (`BBY-12-admins`) Where (`username` = ?)', [user], function(err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -127,10 +127,10 @@ app.route('/admin-add-account')
     })
     .post((req, res) => {
         createAccount.createAdmin(req, res)
-            .then(function (result) {
+            .then(function(result) {
                 res.redirect('/admin-dashboard');
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 res.redirect('/admin-add-account');
             });
     });
@@ -142,18 +142,18 @@ app.route('/create-account')
     })
     .post((req, res) => {
         createAccount.createAccount(req, res)
-            .then(function (result) {
+            .then(function(result) {
                 login(req, req.body["username"]);
                 res.redirect('/');
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 res.redirect('/create-account');
             });
 
     });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy(function () {
+    req.session.destroy(function() {
         res.redirect('/');
     });
 });
@@ -164,7 +164,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('SELECT * FROM `BBY-12-Admins` WHERE (`username` = ?);', [user], function (err, results) {
+    con.query('SELECT * FROM `BBY-12-Admins` WHERE (`username` = ?);', [user], function(err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -173,8 +173,8 @@ function login(req, user) {
     });
 }
 
-app.get('/get-users', function (req, res) {
-    con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
+app.get('/get-users', function(req, res) {
+    con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
         if (error) throw error;
         res.setHeader('content-type', 'application/json');
         res.send(results);
@@ -182,27 +182,26 @@ app.get('/get-users', function (req, res) {
 });
 
 // Post that updates values to change data stored in db
-app.post('/update-users', function (req, res) {
+app.post('/update-users', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
-    con.query('UPDATE `BBY-12-Users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);',
-        [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-        function (error, results, fields) {
+    con.query('UPDATE `BBY-12-Users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+        function(error, results, fields) {
             if (error) throw error;
             res.send({ status: "Success", msg: "User information updated." });
         });
 });
 
-app.get('/admin-view-accounts', function (req, res) {
+app.get('/admin-view-accounts', function(req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let users = 'SELECT * FROM `BBY-12-Users`';
-        con.query(users, function (err, results, fields) {
+        con.query(users, function(err, results, fields) {
             if (err) throw err;
 
             let table = "<table><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Business Name</th></tr>";
             for (let i = 0; i < results.length; i++) {
-                table += "<tr><td>" + results[i].username + "</td><td>" 
-                + results[i].fName + "</td><td>" + results[i].lName + "</td><td>" 
-                + results[i].cName + "</td></tr>";
+                table += "<tr><td>" + results[i].username + "</td><td>" +
+                    results[i].fName + "</td><td>" + results[i].lName + "</td><td>" +
+                    results[i].cName + "</td></tr>";
             }
             table += "</table>";
             let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
@@ -227,11 +226,10 @@ app.get('/home', (req, res) => {
             `SELECT post.username, post.postId, post.postTitle, post.timestamp, post.content, user.cName 
             FROM \`BBY-12-post\` AS post, \`BBY-12-users\` AS user 
             WHERE (post.username = '${req.session.username}') AND (user.username = '${req.session.username}');`,
-            function (error, results, fields) {
+            function(error, results, fields) {
                 if (error) throw error;
                 let postSection = "<div class='post-block>";
                 let post;
-                console.log(results);
                 for (let i = 0; i < results.length; i++) {
                     post += "<div class='post'><h1 class='post-title'>" + results[i].postTitle + "</h1><h3 class='post-business-name'>" + results[i].cName +
                         "</h3><div class='post-images'>" + "</div><p class='post-description'>" + results[i].content +

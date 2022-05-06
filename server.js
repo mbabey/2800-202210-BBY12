@@ -29,9 +29,9 @@ app.listen(port, () => {
     dbInitialize.dbInitialize()
         .then(() => {
             con = mysql.createConnection({
-                host: 'localhost',
+                host: '127.0.0.1',
                 user: 'root',
-                password: '',
+                password: ' ',
                 database: 'COMP2800'
             });
         }).then(() => {
@@ -197,7 +197,7 @@ app.get('/admin-view-accounts', function(req, res) {
         con.query(users, function(err, results, fields) {
             if (err) throw err;
 
-            let table = "<table><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Business Name</th></tr>";
+            let table = "<table id='profile-table'><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Business Name</th></tr>";
             for (let i = 0; i < results.length; i++) {
                 table += "<tr><td>" + results[i].username + "</td><td>" +
                     results[i].fName + "</td><td>" + results[i].lName + "</td><td>" +

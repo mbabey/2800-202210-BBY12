@@ -176,8 +176,8 @@ app.get('/get-users', function (req, res) {
         if (error) {
             console.log(error);
         }
-        console.log('Rows returned are: ', results);
-        res.send({ status: "success", rows: results });
+        res.setHeader('content-type', 'application/json');
+        res.send(results);
     });
 });
 

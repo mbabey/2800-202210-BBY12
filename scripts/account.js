@@ -8,7 +8,7 @@ docLoaded(() => {
             if (response.status == 200) {
                 let data = await response.text();
                 console.log("the data: " + data);
-                // populate tha spots bruh
+                popThaSpots(JSON.parse(data));
             } else {
                 console.log(response.status);
                 console.log(response.statusText);
@@ -18,6 +18,10 @@ docLoaded(() => {
         }
     }
     getData();
+
+    function popThaSpots(data) {
+        
+    }
 
     // document.querySelector('.edit-profile').addEventListener("click", editProfile);
 });

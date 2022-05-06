@@ -27,7 +27,8 @@
 .profile-picture img {
     width: 100%;
     height: auto;
-    border-radius: 50%;
+    clip-path: circle(43% at center);
+    background-color: #dff7ff;
 }
 
 .profile-picture:after {
@@ -63,6 +64,10 @@
 .post-block {
     grid-column: 2 / span 1;
     width: 100% !important;
+}
+
+.post-images img {
+    background-color: #dff7ff;
 }
 
 @media only screen and (max-width: 800px) {

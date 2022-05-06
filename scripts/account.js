@@ -7,14 +7,10 @@ docLoaded(() => {
             });
             if (response.status == 200) {
                 let data = await response.text();
-                console.log("the data: " + data);
                 popThaSpots(JSON.parse(data));
-            } else {
-                console.log(response.status);
-                console.log(response.statusText);
             }
         } catch (err) {
-            console.log(err);
+
         }
     }
     getData();
@@ -29,7 +25,7 @@ docLoaded(() => {
         document.querySelector('.business-description-block').innerHTML = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
     }
 
-    document.getElementById("edit-button").addEventListener("click", function (event) {
+    document.getElementById("edit-button").addEventListener("click", function(event) {
         document.getElementById("business-name-block").contentEditable = true;
         document.getElementById(".business-owner-fname-block").contentEditable = true;
         document.getElementById(".business-owner-lname-block").contentEditable = true;
@@ -39,7 +35,7 @@ docLoaded(() => {
         document.getElementById(".business-description-block").contentEditable = true;
         document.getElementById("edit-status").innerHTML = "Click on the fields to edit.";
         event.preventDefault();
-      });
+    });
 });
 
 function docLoaded(action) {

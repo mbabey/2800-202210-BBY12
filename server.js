@@ -198,7 +198,7 @@ app.post('/update-users', function (req, res) {
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let session_username = req.session.username;
-        let users = 'SELECT * FROM bby12users WHERE bby12users.username = ?';
+        let users = 'SELECT * FROM `BBY-12-Users` WHERE `BBY-12-Users`.username = ?';
         con.query(users, [session_username], function (err, results, fields) {
             if (err) throw err;
 

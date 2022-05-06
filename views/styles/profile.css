@@ -45,24 +45,19 @@
 }
 
 .profile-edit-logout-buttons {
-    position: relative;
-    top: 48%;
+    position: absolute;
+    top: 85px;
     right: 0;
-    /* transform: translateX(50%); */
-    margin: 0 0;
-}
-
-.logout-profile-mobile {
-    display: none;
 }
 
 .edit-profile,
 .logout-profile-mobile {
     background-color: var(--secondary-text);
     border: 1px solid var(--secondary-light);
-    padding: 5px 10px;
     text-align: center;
     width: 5rem;
+    padding: 10px 5px;
+    margin: 5px;
     -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
@@ -74,7 +69,12 @@
 
 .edit-profile a,
 .logout-profile-mobile a {
+    margin: auto;
     text-decoration: none;
+}
+
+.logout-profile-mobile {
+    visibility: hidden;
 }
 
 .profile-description {
@@ -120,7 +120,7 @@
 
 @media only screen and (min-width: 600px) and (max-width: 800px) {
     .profile-header {
-        justify-content: space-between;
+        justify-content: center;
         margin: 0 2%;
     }
 
@@ -139,12 +139,18 @@
     }
 
     .profile-edit-logout-buttons {
-        position: absolute;
-        top: 75%;
+        top: 175px;
+        left: 0;
+    }
+
+    .edit-profile,
+    .logout-profile-mobile {
+        padding: 5px 2px;
+        margin: 2px;
     }
 
     .logout-profile-mobile {
-        display: block;
+        visibility: visible;
     }
 
     .profile-info {
@@ -212,13 +218,19 @@
     }
 
     .profile-edit-logout-buttons {
-        top: 260%;
-        left: 50%;
-        transform: translateX(-50%);
+        top: 50px;
+        right: 0;
+    }
+
+    .edit-profile,
+    .logout-profile-mobile {
+        padding: 2px 1px;
+        margin: 2px;
+        font-size: 0.7rem;
     }
 
     .logout-profile-mobile {
-        display: block;
+        visibility: visible;
     }
 
     .profile-info {

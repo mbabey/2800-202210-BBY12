@@ -7,7 +7,12 @@
 .content {
   grid-row: 2 / span 1;
   display: grid;
-  grid-template-columns: 35% 65%;
+  grid-template-columns: 40% 60%;
+}
+
+h3 {
+  display: flex;
+  justify-content: center;
 }
 
 .admin-left {
@@ -157,13 +162,38 @@ color: white;
   transform: scale(1);
 }
 
-@media only screen and (max-width: 800px) {
-    .admin-user-info-desktop {
-      display: none;
-    }
+@media only screen and (max-width: 550px) {
 
-.profile-picture {
-  display: none;
-}
+  .content {
+    display: grid;
+    grid-template-columns: 100%;
+  }
 
+  .profile-head {
+    margin-left: 20px;
+  }
+
+  #pseudonav {
+    display: flex;
+    justify-content: center;
+  }
+
+  #nav-logo-background {
+    margin: 0;
+  }
+
+  table {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .admin-right {
+    display: none;
+  }
+
+  tr, td, th {
+    padding: 5%;
+    width: 10%;
+  }
 }

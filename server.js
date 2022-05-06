@@ -26,7 +26,6 @@ app.use(session({
 let con;
 const port = 8000;
 app.listen(port, () => {
-    console.log("Listening on port 8000");
     dbInitialize.dbInitialize()
         .then(() => {
             con = mysql.createConnection({
@@ -102,10 +101,7 @@ function login(req, user) {
     req.session.admin = false;
 
     con.query('Select * from (`BBY-12-admins`) Where (`username` = ?)', [user], function(err, results) {
-        if (err) {
-              console.log(err);
-          throw err;
-            }
+        if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
         }
@@ -150,7 +146,6 @@ app.route('/create-account')
                 res.redirect('/');
             })
             .catch(function(err) {
-          console.log(err);
                 res.redirect('/create-account');
             });
 
@@ -179,9 +174,7 @@ function login(req, user) {
 
 app.get('/get-users', function(req, res) {
     con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
-        if (error) {
-            console.log(error);
-        }
+        if (error) throw err;
         res.setHeader('content-type', 'application/json');
         res.send(results);
     });
@@ -201,9 +194,7 @@ app.get('/admin-view-accounts', function(req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let users = 'SELECT * FROM `BBY-12-Users`';
         con.query(users, function(err, results, fields) {
-            if (err) {
-              console.log(err);
-            }
+            if (err) throw err;
 
             let table = "<table><tr><th>Username</th><th class=\"admin-user-info-desktop\">First Name</th><th class=\"admin-user-info-desktop\">Last Name</th><th class=\"admin-user-info-desktop\">Business Name</th></tr>";
             for (let i = 0; i < results.length; i++) {
@@ -243,7 +234,7 @@ app.get('/home', (req, res) => {
                         "</h3><div class='post-images'>" + "</div><p class='post-description'>" + results[i].content +
                         "</p><p class='post-timestamp'><small>" + results[i].timestamp + "</small></p></div>";
                 }
-                postSection += "</div>"
+                postSection += "</div>";
                 var profilePage = profileDOM.serialize();
                 res.send(profilePage + postSection);
             });

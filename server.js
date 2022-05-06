@@ -41,9 +41,6 @@ app.listen(port, () => {
         });
 });
 
-
-
-
 app.get('/', (req, res) => {
     if (req.session.loggedIn) {
         if (req.session.admin)
@@ -197,22 +194,20 @@ app.post('/update-users', function (req, res) {
 
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
-        let session_username = req.session.username;
-        let users = 'SELECT * FROM `BBY-12-Users` WHERE `BBY-12-Users`.username = ?';
-        con.query(users, [session_username], function (err, results, fields) {
+        let users = 'SELECT * FROM `BBY-12-Users`';
+        con.query(users, function (err, results, fields) {
             if (err) throw err;
 
-            let username = "<h3>" + results[0].username + "</h3>";
-            let first_name = "<p>" + results[0].fName + "</p>";
-            let last_name = "<p>" + results[0].lName + "</p>";
-            let business_name = "<p>" + results[0].cName + "</p>";
-
+            let table = "<table><tr><th>User List</th><th>First Name</th><th>Last Name</th><th>Busines Name</th></tr>";
+            for (let i = 0; i < results.length; i++) {
+                table += "<tr><td>" + results[i].username + "</td><td>" 
+                + results[i].fName + "</td><td>" + results[i].lName + "</td><td>" 
+                + results[i].cName + "</td></tr>";
+            }
+            table += "</table>";
             let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
             let adminViewAccDOM = new JSDOM(adminViewAcc);
-            adminViewAccDOM.window.document.getElementById("u-name").innerHTML = username;
-            adminViewAccDOM.window.document.getElementById("f-name").innerHTML = first_name;
-            adminViewAccDOM.window.document.getElementById("l-name").innerHTML = last_name;
-            adminViewAccDOM.window.document.getElementById("b-name").innerHTML = business_name;
+            adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
             let adminViewAccPage = adminViewAccDOM.serialize();
             res.send(adminViewAccPage);
         });

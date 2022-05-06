@@ -26,6 +26,7 @@ app.use(session({
 let con;
 const port = 8000;
 app.listen(port, () => {
+    console.log('Gro-Operate running on port ' + port);
     dbInitialize.dbInitialize()
         .then(() => {
             con = mysql.createConnection({
@@ -220,7 +221,7 @@ app.get('/home', (req, res) => {
         let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
         let profileDOM = new JSDOM(profilePage);
         profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
-        profileDOM.window.document.querySelector(".profile-name").innerHTML = req.session.username;
+        profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
         con.query(
             `SELECT post.username, post.postId, post.postTitle, post.timestamp, post.content, user.cName 
             FROM \`BBY-12-post\` AS post, \`BBY-12-users\` AS user 

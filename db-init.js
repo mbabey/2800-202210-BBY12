@@ -4,9 +4,9 @@ module.exports = {
     dbInitialize: async function() {
         const mysql = require('mysql2/promise');
         const con = await mysql.createConnection({
-            host: '127.0.0.1',
+            host: 'localhost',
             user: 'root',
-            password: ' ',
+            password: '',
             multipleStatements: true
         });
         initDB(con)

@@ -16,6 +16,11 @@
   background-color: var(--primary);
 }
 
+#account-title {
+  display: flex;
+  justify-content: center;
+}
+
 table {
   grid-column: 1 / span 1;
   grid-row: 1 / span 1;
@@ -25,6 +30,7 @@ table {
 
 td, th {
   border: 1px solid #ddd;
+  padding: 2%;
 }
 
 tr:nth-child(even){background-color: #f2f2f2;}

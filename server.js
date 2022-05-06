@@ -29,9 +29,9 @@ app.listen(port, () => {
     dbInitialize.dbInitialize()
         .then(() => {
             con = mysql.createConnection({
-                host: 'localhost',
+                host: '127.0.0.1',
                 user: 'root',
-                password: '',
+                password: ' ',
                 database: 'COMP2800'
             });
         }).then(() => {

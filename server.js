@@ -198,10 +198,10 @@ app.get('/admin-view-accounts', function (req, res) {
         con.query(users, function (err, results, fields) {
             if (err) throw err;
 
-            let table = "<table><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Business Name</th></tr>";
+            let table = "<table><tr><th>Username</th><th class=\"admin-user-info-desktop\">First Name</th><th class=\"admin-user-info-desktop\">Last Name</th><th class=\"admin-user-info-desktop\">Business Name</th></tr>";
             for (let i = 0; i < results.length; i++) {
-                table += "<tr><td>" + results[i].username + "</td><td>" 
-                + results[i].fName + "</td><td>" + results[i].lName + "</td><td>" 
+                table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info-desktop\">" 
+                + results[i].fName + "</td><td class=\"admin-user-info-desktop\">" + results[i].lName + "</td><td class=\"admin-user-info-desktop\">" 
                 + results[i].cName + "</td></tr>";
             }
             table += "</table>";

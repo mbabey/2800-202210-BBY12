@@ -157,13 +157,8 @@ color: white;
   transform: scale(1);
 }
 
-@media only screen and (max-width: 500px) {
-  #pseudonav {
-    display: flex;
-    justify-content: center;
-  }
-
-  #nav-logo-background {
-    margin: 0;
-  }
+@media only screen and (max-width: 800px) {
+    .admin-user-info-desktop {
+      display: none;
+    }
 }

@@ -27,13 +27,13 @@ docLoaded(() => {
     }
 
     document.getElementById("edit-button").addEventListener("click", function(event) {
-        document.getElementById("business-name-block").contentEditable = true;
-        document.getElementById(".business-owner-fname-block").contentEditable = true;
-        document.getElementById(".business-owner-lname-block").contentEditable = true;
-        document.getElementById(".business-email-block").contentEditable = true;
-        document.getElementById(".business-phone-block").contentEditable = true;
-        document.getElementById(".business-location-block").contentEditable = true;
-        document.getElementById(".business-description-block").contentEditable = true;
+        document.getElementsByClassName("business-name-block").contentEditable = true;
+        document.getElementsByClassName("business-owner-fname-block").contentEditable = true;
+        document.getElementsByClassName("business-owner-lname-block").contentEditable = true;
+        document.getElementsByClassName("business-email-block").contentEditable = true;
+        document.getElementsByClassName("business-phone-block").contentEditable = true;
+        document.getElementsByClassName("business-location-block").contentEditable = true;
+        document.getElementsByClassName("business-description-block").contentEditable = true;
         document.getElementById("edit-status").innerHTML = "Click on the fields to edit.";
         event.preventDefault();
     });

@@ -24,7 +24,7 @@ module.exports = {
             host: 'localhost',
             user: 'root',
             password: '',
-            database: 'comp2800'
+            database: 'COMP2800'
         });
         connection.connect();
         let success = insertDB(req, connection);
@@ -47,7 +47,7 @@ function insertDB(req, connection) {
         if (checkUsername(username, req) && checkPassword(pass, req)) {
             const hash = crypto.createHash('sha256').update(pass).digest('hex');
             let location = req.body["location-street"] + ", " + req.body["location-city"] + ", " + req.body["location-country"];
-            connection.query('INSERT INTO bby12users (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]],
+            connection.query('INSERT INTO \`BBY-12-Users\` (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]],
                 function(err) {
                     if (err) {
                         reject(new Error("User Insert failed"));
@@ -63,7 +63,7 @@ function insertDB(req, connection) {
 
 function insertAdmin(username, connection) {
     return new Promise((resolve, reject) => {
-        connection.query('INSERT INTO bby12admins values(?)', [username],
+        connection.query('INSERT INTO \`BBY-12-Admins\` values(?)', [username],
             function(err) {
                 if (err) {
                     reject(new Error("Admin Insert failed"));

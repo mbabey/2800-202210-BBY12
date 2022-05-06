@@ -30,7 +30,7 @@ const con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'comp2800'
+    database: 'COMP2800'
 });
 
 con.connect(function(err) {
@@ -66,7 +66,7 @@ app.route('/login')
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex'); // this is kinda insecure; we should encrypt before we send
         try {
-            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function(err, results, ) {
+            con.query('SELECT * FROM `BBY12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
                 if (results && results.length > 0) {
                     login(req, user);
                 } else {
@@ -96,8 +96,7 @@ app.route('/create-account')
                 //res.send({ status: "fail", msg: "Record not added." });
                 res.redirect('/create-account');
             });
-
-    });
+        });
 
 app.get('/logout', (req, res) => {
     req.session.destroy(function() {
@@ -177,7 +176,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function(err, results) {
+    con.query('SELECT * FROM `BBY12-Admins` WHERE (`username` = ?);', [user], function (err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -186,8 +185,8 @@ function login(req, user) {
     });
 }
 
-app.get('/get-users', function(req, res) {
-    con.query('SELECT * FROM bby12users WHERE username = ?', [req.session.username], function(error, results, fields) {
+app.get('/get-users', function (req, res) {
+    con.query('SELECT * FROM `BBY12-Users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
         if (error) {
             console.log(error);
         }
@@ -209,8 +208,9 @@ app.post('/update-users', function(req, res) {
     connection.connect();
     console.log("update values", req.body.username, req.body.fName, req.body.lName,
         req.body.email, req.body.password)
-    connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-        function(error, results, fields) {
+    connection.query('UPDATE `BBY12-Users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);',
+        [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+        function (error, results, fields) {
             if (error) {
                 console.log(error);
             }
@@ -224,8 +224,8 @@ app.post('/update-users', function(req, res) {
 
 app.get('/admin-view-accounts', function(req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
-        let users = 'SELECT * FROM bby12users';
-        con.query(users, function(err, results, fields) {
+        let users = 'SELECT * FROM `BBY12-Users`;';
+        con.query(users, function (err, results, fields) {
             if (err) throw err;
             console.log(results);
             let table = "<table id='user-accounts'><th>User Accounts</th>";

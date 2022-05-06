@@ -161,4 +161,9 @@ color: white;
     .admin-user-info-desktop {
       display: none;
     }
+
+.profile-picture {
+  display: none;
+}
+
 }

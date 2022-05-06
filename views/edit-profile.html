@@ -2,194 +2,186 @@
 <html lang="en">
 
 <head>
-  <title>Profile Page</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="./styles/global.css">
-  <!-- <link rel="stylesheet" type="text/css" href="./styles/edit-profile.css"> -->
-  <link rel="stylesheet" type="text/css" href="./styles/re-edit-profile.css">
-  <link href="./images/favicon.ico" rel="icon" type="image/x-icon" />
+    <title>Profile Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./styles/global.css">
+    <!-- <link rel="stylesheet" type="text/css" href="./styles/edit-profile.css"> -->
+    <link rel="stylesheet" type="text/css" href="./styles/re-edit-profile.css">
+    <link href="./images/favicon.ico" rel="icon" type="image/x-icon" />
 </head>
 
 <body>
 
-  <nav>
-    <div id="nav-wrapper">
-      <div id="nav-left">
-        <a href="/profile" id="nav-home" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
+    <nav>
+        <div id="nav-wrapper">
+            <div id="nav-left">
+                <a href="/home" id="nav-home" class="nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
             <path fill="currentColor"
               d="M8 42V18L24.1 6L40 18V42H28.3V27.75H19.65V42ZM11 39H16.65V24.75H31.3V39H37V19.5L24.1 9.75L11 19.5ZM24 24.35Z" />
           </svg>
-        </a>
-        <a href="/admin-dashboard" id="nav-admin" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="28" width="28">
+                </a>
+                <a href="/admin-dashboard" id="nav-admin" class="nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="28" width="28">
             <path fill="currentColor"
               d="M24 25.15ZM11.65 44 16.3 28.8 4 20H19.2L24 4L28.8 20H44L31.7 28.8L36.35 44L24 34.6ZM17.15 35.85 24 30.65 30.85 35.85 28.1 27.2 34.4 23.1H26.85L24 14.45L21.15 23.1H13.6L19.9 27.2Z" />
           </svg>
-        </a>
-      </div>
-      <div id="nav-right">
-        <div id="nav-search">
-          <form action="post">
-            <input type="text" placeholder="Search" name="nav-search">
-            <button type="submit" name="submit">
+                </a>
+            </div>
+            <div id="nav-right">
+                <div id="nav-search">
+                    <form action="post">
+                        <input type="text" placeholder="Search" name="nav-search">
+                        <button type="submit" name="submit">
               <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -3 28 28" width="20" height="20">
                 <path fill="currentColor"
                   d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
               </svg>
             </button>
-          </form>
-        </div>
-        <a href="#" id="nav-post" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 -1 28 28" width="28" height="28">
+                    </form>
+                </div>
+                <a href="#" id="nav-post" class="nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 -1 28 28" width="28" height="28">
             <path fill="currentColor"
               d="M18.656.93,6.464,13.122A4.966,4.966,0,0,0,5,16.657V18a1,1,0,0,0,1,1H7.343a4.966,4.966,0,0,0,3.535-1.464L23.07,5.344a3.125,3.125,0,0,0,0-4.414A3.194,3.194,0,0,0,18.656.93Zm3,3L9.464,16.122A3.02,3.02,0,0,1,7.343,17H7v-.343a3.02,3.02,0,0,1,.878-2.121L20.07,2.344a1.148,1.148,0,0,1,1.586,0A1.123,1.123,0,0,1,21.656,3.93Z" />
             <path fill="currentColor"
               d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z" />
           </svg>
-        </a>
-        <a href="#" id="nav-chat" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="4 4 40 40" height="24" width="24">
+                </a>
+                <a href="#" id="nav-chat" class="nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="4 4 40 40" height="24" width="24">
             <path fill="currentColor"
               d="M4 44V7Q4 5.85 4.9 4.925Q5.8 4 7 4H41Q42.15 4 43.075 4.925Q44 5.85 44 7V33Q44 34.15 43.075 35.075Q42.15 36 41 36H12ZM7 36.75 10.75 33H41Q41 33 41 33Q41 33 41 33V7Q41 7 41 7Q41 7 41 7H7Q7 7 7 7Q7 7 7 7ZM7 7Q7 7 7 7Q7 7 7 7Q7 7 7 7Q7 7 7 7V33Q7 33 7 33Q7 33 7 33V36.75Z" />
           </svg>
-        </a>
-        <!-- when hover, drop down -->
-        <div id="nav-profile" class="nav-button">
-          <span id="profile-name">NAME</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="24" height="24">
+                </a>
+                <!-- when hover, drop down -->
+                <div id="nav-profile" class="nav-button">
+                    <span id="profile-name">NAME</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="24" height="24">
             <path fill="currentColor"
               d="M12,12A6,6,0,1,0,6,6,6.006,6.006,0,0,0,12,12ZM12,2A4,4,0,1,1,8,6,4,4,0,0,1,12,2Z" />
             <path fill="currentColor"
               d="M12,14a9.01,9.01,0,0,0-9,9,1,1,0,0,0,2,0,7,7,0,0,1,14,0,1,1,0,0,0,2,0A9.01,9.01,0,0,0,12,14Z" />
           </svg>
-          <div id="nav-profile-dropdown">
-            <a href="/edit-profile" id="profile-profile">Account Settings</a>
-            <a href="/logout" id="profile-logout">Log Out</a>
-          </div>
+                    <div id="nav-profile-dropdown">
+                        <a href="/edit-profile" id="profile-profile">Account Settings</a>
+                        <a href="/logout" id="profile-logout">Log Out</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </nav>
+    </nav>
 
-  <div class="container">
-    <div class="profile-header-wrapper">
-      <div class="profile-header">
-        <div class="profile-name">
-          <h1 class="business-name-block">Business Name</h1>
-          <p class="business-type-block">Type of Business</p>
-          <div class="edit-profile">
-            <a id="edit-button">Edit Profile</a>
-          </div>
-          <span id="edit-status"></span>
+    <div class="container">
+        <div class="profile-header-wrapper">
+            <div class="profile-header">
+                <div class="profile-name">
+                    <h1 class="business-name-block">Business Name</h1>
+                    <p class="business-type-block">Type of Business</p>
+                    <div class="edit-profile">
+                        <a id="edit-button">Edit Profile</a>
+                    </div>
+                    <span id="edit-status"></span>
+                </div>
+                <div class="profile-picture">
+                    <img class="business-picture-block" src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+                </div>
+                <div class="profile-info">
+                    <h3>Profile Info</h3>
+                    <div class="profile-owner">
+                        <p><span class="business-owner-fname-block">First</span>
+                            <span class="business-owner-lname-block">Last</span></p>
+                    </div>
+                    <div class="profile-contact">
+                        <h4>Contact</h4>
+                        <p class="business-email-block">Business Email</p>
+                        <p class="business-phone-block">Business Phone</p>
+                    </div>
+                    <div class="profile-location">
+                        <h4>Location</h4>
+                        <p class="business-location-block">123 Fun St. Vancouver, BC</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="profile-picture">
-          <img class="business-picture-block" src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+        <div class="profile-description">
+            <h3>Description</h3>
+            <p class="business-description-block">I am an independant woman look at me go I do it all I read I write I sell drugs I surf I drink I drive I box I square dance I make stone tools I dig tunnels I jump rope I dance I I I I sell soap :) Also I do more because I am ambitious I play
+                guitar I sing I write poetry I lament the loss of humanity I howl at the moon I rub dirt on my cheeks I sleep in a bed of thorns I ride the breeze of my whims in a bed of flowers</p>
         </div>
-        <div class="profile-info">
-          <h3>Profile Info</h3>
-          <div class="profile-owner">
-            <p><span class="business-owner-fname-block">First</span>
-               <span class="business-owner-lname-block">Last</span></p>
-          </div>
-          <div class="profile-contact">
-            <h4>Contact</h4>
-            <p class="business-email-block">Business Email</p>
-            <p class="business-phone-block">Business Phone</p>
-          </div>
-          <div class="profile-location">
-            <h4>Location</h4>
-            <p class="business-location-block">123 Fun St. Vancouver, BC</p>
-          </div>
+        <div class="post-block">
+            <div class="post">
+                <h1 class="post-title">This Girl's Business With an Opportunity</h1>
+                <h3 class="post-business-name">Brought to you by this girl</h3>
+                <div class="post-images">
+                    <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+                    <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+                    <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+                </div>
+                <p class="post-description">Something to do with business here I bet everyone likes to do business especially when money is on the line my father chose business over the quality of my childhood but I can't blame him its just business.</p>
+                <p class="post-timestamp"><small>posted on today</small></p>
+            </div>
+            <div class="post">
+                <h1 class="post-title">This Girl's Business With an Opportunity</h1>
+                <h3 class="post-business-name">Brought to you by this girl</h3>
+                <div class="post-images">
+                    <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+                    <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+                    <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+                </div>
+                <p class="post-description">Something to do with business here I bet everyone likes to do business especially when money is on the line my father chose business over the quality of my childhood but I can't blame him its just business.</p>
+                <p class="post-timestamp"><small>posted on today</small></p>
+            </div>
+            <div class="post">
+                <h1 class="post-title">This Girl's Business With an Opportunity</h1>
+                <h3 class="post-business-name">Brought to you by this girl</h3>
+                <div class="post-images">
+                    <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+                    <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+                    <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
+                </div>
+                <p class="post-description">Something to do with business here I bet everyone likes to do business especially when money is on the line my father chose business over the quality of my childhood but I can't blame him its just business.</p>
+                <p class="post-timestamp"><small>posted on today</small></p>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="profile-description">
-      <h3>Description</h3>
-      <p class="business-description-block">I am an independant woman look at me go I do it all I read I write I sell drugs I surf I drink I drive I
-        box I square dance I make stone tools I dig tunnels I jump rope I dance I I I I sell soap :) Also I do more
-        because I am ambitious I play guitar I sing I write poetry I lament the loss of humanity I howl at the moon I
-        rub dirt on my cheeks I sleep in a bed of thorns I ride the breeze of my whims in a bed of flowers</p>
-    </div>
-    <div class="post-block">
-      <div class="post">
-        <h1 class="post-title">This Girl's Business With an Opportunity</h1>
-        <h3 class="post-business-name">Brought to you by this girl</h3>
-        <div class="post-images">
-          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
-          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
-          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
-        </div>
-        <p class="post-description">Something to do with business here I bet everyone likes to do business especially
-          when money is on the line my father chose business over the quality of my childhood but I can't blame him its
-          just business.</p>
-        <p class="post-timestamp"><small>posted on today</small></p>
-      </div>
-      <div class="post">
-        <h1 class="post-title">This Girl's Business With an Opportunity</h1>
-        <h3 class="post-business-name">Brought to you by this girl</h3>
-        <div class="post-images">
-          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
-          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
-          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
-        </div>
-        <p class="post-description">Something to do with business here I bet everyone likes to do business especially
-          when money is on the line my father chose business over the quality of my childhood but I can't blame him its
-          just business.</p>
-        <p class="post-timestamp"><small>posted on today</small></p>
-      </div>
-      <div class="post">
-        <h1 class="post-title">This Girl's Business With an Opportunity</h1>
-        <h3 class="post-business-name">Brought to you by this girl</h3>
-        <div class="post-images">
-          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
-          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
-          <img src="https://dummyimage.com/300x300/000/fff" alt="placeholder image">
-        </div>
-        <p class="post-description">Something to do with business here I bet everyone likes to do business especially
-          when money is on the line my father chose business over the quality of my childhood but I can't blame him its
-          just business.</p>
-        <p class="post-timestamp"><small>posted on today</small></p>
-      </div>
-    </div>
-  </div>
 
 
-  <footer>
-    <div id="footer-wrapper">
-      <a href="/profile" id="footer-home" class="nav-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 4 48 48" height="32" width="32">
+    <footer>
+        <div id="footer-wrapper">
+            <a href="/profile" id="footer-home" class="nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 4 48 48" height="32" width="32">
           <path fill="currentColor"
             d="M8 42V18L24.1 6L40 18V42H28.3V27.75H19.65V42ZM11 39H16.65V24.75H31.3V39H37V19.5L24.1 9.75L11 19.5ZM24 24.35Z" />
         </svg>
-      </a>
-      <a href="#" id="footer-search" class="nav-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 28 28" width="27" height="27">
+            </a>
+            <a href="#" id="footer-search" class="nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 28 28" width="27" height="27">
           <path fill="currentColor"
             d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
         </svg>
-      </a>
-      <a href="#" id="footer-post" class="nav-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 -1 28 28" width="28" height="28">
+            </a>
+            <a href="#" id="footer-post" class="nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 -1 28 28" width="28" height="28">
           <path fill="currentColor"
             d="M18.656.93,6.464,13.122A4.966,4.966,0,0,0,5,16.657V18a1,1,0,0,0,1,1H7.343a4.966,4.966,0,0,0,3.535-1.464L23.07,5.344a3.125,3.125,0,0,0,0-4.414A3.194,3.194,0,0,0,18.656.93Zm3,3L9.464,16.122A3.02,3.02,0,0,1,7.343,17H7v-.343a3.02,3.02,0,0,1,.878-2.121L20.07,2.344a1.148,1.148,0,0,1,1.586,0A1.123,1.123,0,0,1,21.656,3.93Z" />
           <path fill="currentColor"
             d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z" />
         </svg>
-      </a>
-      <a href="/edit-profile" id="footer-profile" class="nav-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="24" height="24">
+            </a>
+            <a href="/edit-profile" id="footer-profile" class="nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" width="24" height="24">
           <path fill="currentColor"
             d="M12,12A6,6,0,1,0,6,6,6.006,6.006,0,0,0,12,12ZM12,2A4,4,0,1,1,8,6,4,4,0,0,1,12,2Z" />
           <path fill="currentColor"
             d="M12,14a9.01,9.01,0,0,0-9,9,1,1,0,0,0,2,0,7,7,0,0,1,14,0,1,1,0,0,0,2,0A9.01,9.01,0,0,0,12,14Z" />
         </svg>
-      </a>
-    </div>
-  </footer>
+            </a>
+        </div>
+    </footer>
 
-  <script src="account.js"></script>
+    <script src="account.js"></script>
 </body>
 
 

@@ -50,7 +50,7 @@ app.get('/', (req, res) => {
         if (req.session.admin)
             res.redirect('/admin-dashboard'); // TEMP show case that admin accounts are different, will remove once dash board button is implemented
         else
-            res.redirect('/edit-profile'); // /edit-profile for now, but will be /home in later versions 
+            res.redirect('/home'); // /edit-profile for now, but will be /home in later versions 
     } else {
         res.redirect('/login');
     }
@@ -247,7 +247,7 @@ app.get('/admin-view-accounts', function(req, res) {
 });
 
 //get data from bby12post and format the posts
-app.get('/post', (req, res) => {
+app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
         console.log("Logged in from username:" + req.session.username);
         let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
@@ -277,7 +277,7 @@ app.get('/post', (req, res) => {
                 res.send(profilePage + postSection); //sends the profile page and the posts
             });
     } else {
-        // not logged in - no session and no access, redirect to home!
+        // not logged in - no session and no access, redirect to root!
         res.redirect("/");
     }
 });

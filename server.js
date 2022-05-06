@@ -198,7 +198,7 @@ app.post('/update-users', function (req, res) {
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let session_username = req.session.username;
-        let users = 'SELECT * FROM bby12users WHERE bby12users.username = ?';
+        let users = 'SELECT * FROM `BBY-12-Users` WHERE `BBY-12-Users`.username = ?';
         con.query(users, [session_username], function (err, results, fields) {
             if (err) throw err;
 
@@ -229,13 +229,16 @@ app.get('/home', (req, res) => {
         profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
         profileDOM.window.document.getElementById("profile-name").innerHTML = req.session.username;
         con.query(
-            `SELECT * FROM \`BBY-12-post\` WHERE (username = "${req.session.username});";`,
+            `SELECT post.username, post.postId, post.postTitle, post.timestamp, post.content, user.cName 
+            FROM \`BBY-12-post\` AS post, \`BBY-12-users\` AS user 
+            WHERE (post.username = '${req.session.username}') AND (user.username = '${req.session.username}');`,
             function (error, results, fields) {
-                if (error) { }
+                if (error) throw error;
                 let postSection = "<div class='post-block>";
                 let post;
+                console.log(results);
                 for (let i = 0; i < results.length; i++) {
-                    post += "<div class='post'><h1 class='post-title'>" + results[i].postTitle + "</h1><h3 class='post-business-name'>" + results[i].businessName +
+                    post += "<div class='post'><h1 class='post-title'>" + results[i].postTitle + "</h1><h3 class='post-business-name'>" + results[i].cName +
                         "</h3><div class='post-images'>" + "</div><p class='post-description'>" + results[i].content +
                         "</p><p class='post-timestamp'><small>" + results[i].timestamp + "</small></p></div>";
                 }

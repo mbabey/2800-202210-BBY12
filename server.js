@@ -198,19 +198,67 @@ app.post('/update-users', function (req, res) {
 
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
+        let session_username = req.session.username;
+        let users = 'SELECT * FROM bby12users WHERE bby12users.username = ?';
+        con.query(users, [session_username], function (err, results, fields) {
+            if (err) throw err;
+            console.log(results);
+            
+            let username = "<h3>" + results[0].username + "</h3>";
+            let first_name = "<p>" + results[0].fName + "</p>";
+            let last_name = "<p>" + results[0].lName + "</p>";
+            let business_name = "<p>" + results[0].cName + "</p>";
+    
+            let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+            let adminViewAccDOM = new JSDOM(adminViewAcc);
+            adminViewAccDOM.window.document.getElementById("u-name").innerHTML = username;
+            adminViewAccDOM.window.document.getElementById("f-name").innerHTML = first_name;
+            adminViewAccDOM.window.document.getElementById("l-name").innerHTML = last_name;
+            adminViewAccDOM.window.document.getElementById("b-name").innerHTML = business_name;
+            let adminViewAccPage = adminViewAccDOM.serialize();
+            res.send(adminViewAccPage);
+        });
+
+        } else {
+        res.redirect("/");
+    }
+});
+
+
+// trying to populate mysql data into a template card, then need to try generating card template group
+app.get('/admin-view-accounts', function (req, res) {
+    if (req.session.loggedIn && req.session.admin == true) {
         let users = 'SELECT * FROM bby12users';
+
+        let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+        
+        let adminViewAccDOM = new JSDOM(adminViewAcc);
+        let profileCardTemplate = adminViewAccDOM.window.document.getElementById("profileCardTemplate");
+             
         con.query(users, function (err, results, fields) {
             if (err) throw err;
             console.log(results);
-            let table = "<table id='user-accounts'><th>User Accounts</th>";
+            let user_name = "";
+            let first_name = "";
+            let last_name = "";
+            let business_name = "";
+            console.log(user_name);
             for (let i = 0; i < results.length; i++) {
-                table += "<tr><td>" + results[i].username + "</td><td>" 
-                + results[i].fName + "</td><td>" + results[i].lName + "</td></tr>";
+                user_name = results[i].username;
+                first_name = results[i].fName;
+                last_name = results[i].lName;
+                business_name += results[i].cName;
+                console.log(user_name);
+       
             }
-            table += "</table>";
-            let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-            let adminViewAccDOM = new JSDOM(adminViewAcc);
-            adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
+            console.log(user_name);
+            let newcard = profileCardTemplate.content.cloneNode(true);
+            newcard.querySelector(".profile-card-title").innerHTML = user_name;
+            newcard.querySelector(".profile-card-fname").innerHTML = first_name;
+            newcard.querySelector(".profile-card-lname").innerHTML = last_name;
+            newcard.querySelector(".profile-card-bname").innerHTML = business_name;
+             
+            adminViewAccDOM.window.document.getElementById("profileCardTemplate").innerHTML = newcard;
             let adminViewAccPage = adminViewAccDOM.serialize();
             res.send(adminViewAccPage);
         });

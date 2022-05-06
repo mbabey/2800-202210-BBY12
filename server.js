@@ -250,7 +250,7 @@ app.get('/admin-view-accounts', function(req, res) {
 app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
         console.log("Logged in from username:" + req.session.username);
-        let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
+        let profilePage = fs.readFileSync('./views/home.html', 'utf8');
         let profileDOM = new JSDOM(profile);
         profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Profile";
         profileDOM.window.document.getElementsByID("profile-name").innerHTML = req.session.username;

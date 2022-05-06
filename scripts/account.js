@@ -30,13 +30,29 @@ docLoaded(() => {
     }
 
     document.getElementById("edit-button").addEventListener("click", function (event) {
-        document.getElementById("business-name-block").contentEditable = true;
-        document.getElementById(".business-owner-fname-block").contentEditable = true;
-        document.getElementById(".business-owner-lname-block").contentEditable = true;
-        document.getElementById(".business-email-block").contentEditable = true;
-        document.getElementById(".business-phone-block").contentEditable = true;
-        document.getElementById(".business-location-block").contentEditable = true;
-        document.getElementById(".business-description-block").contentEditable = true;
+        let input = document.createElement("input");
+        let biz_name = document.getElementById("business-name-block");
+        let biz_owner_fName = document.getElementById("business-owner-fname-block");
+        let biz_owner_lName = document.getElementById("business-owner-lname-block");
+        let biz_email = document.getElementById("business-email-block");
+        let biz_phone = document.getElementById("business-email-block");
+        let biz_location = document.getElementById("business-location-block");
+        let biz_description = document.getElementById("business-description-block");
+
+        biz_name.contentEditable = true;
+        input.appendChild(biz_name);
+        biz_owner_fName.contentEditable = true;
+        input.appendChild(biz_owner_lName);
+        biz_owner_lName.contentEditable = true;
+        input.appendChild(biz_owner_lName);
+        biz_email.contentEditable = true;
+        input.appendChild(biz_email);
+        biz_phone.contentEditable = true;
+        input.appendChild(biz_phone);
+        biz_location.contentEditable = true;
+        input.appendChild(biz_location);
+        biz_description.contentEditable = true;
+        input.appendChild(biz_description);
         document.getElementById("edit-status").innerHTML = "Click on the fields to edit.";
         event.preventDefault();
       });
@@ -47,4 +63,10 @@ function docLoaded(action) {
         action();
     else
         document.addEventListener('DOMContentLoaded', action);
+}
+
+function editCell(e){
+    let spanText = e.target.innerHTML;
+    let parent = e.target.parentNode;
+    let input = document.createElement("input");
 }

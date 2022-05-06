@@ -32,12 +32,8 @@ module.exports = {
             .then(function(result) {
                 insertAdmin(req.body.username, connection)
                     .then()
-                    .catch(function(err) {
-                        console.log("Promise rejection error: " + err);
-                    });
-            }).catch(function(err) {
-                console.log("Promise rejection error: " + err);
-            });
+                    .catch(function(err) {});
+            }).catch(function(err) {});
         connection.end();
         return success;
     }
@@ -70,7 +66,6 @@ function insertAdmin(username, connection) {
         connection.query('INSERT INTO bby12admins values(?)', [username],
             function(err) {
                 if (err) {
-                    console.log(err);
                     reject(new Error("Admin Insert failed"));
                 } else {
                     resolve(true);

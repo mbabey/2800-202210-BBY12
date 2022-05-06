@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC&family=Lato:wght@300&display=swap%27');
+
 :root {
   /*Colours*/
   --primary: #588676;
@@ -16,11 +17,16 @@ html,
 body {
   margin: 0 auto;
   font-family: 'Lato', sans-serif;
-  background-color:  rgb(240, 240, 240);
+  background-color: rgb(240, 240, 240);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Alegreya Sans SC', sans-serif;    
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Alegreya Sans SC', sans-serif;
 }
 
 .container {
@@ -52,9 +58,9 @@ footer svg {
   justify-content: space-between;
 }
 
-#nav-wrapper > div,
-#nav-wrapper > div #nav-search, 
-#nav-wrapper > div .nav-button {
+#nav-wrapper>div,
+#nav-wrapper>div #nav-search,
+#nav-wrapper>div .nav-button {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -169,7 +175,7 @@ footer {
 
 
 @media only screen and (max-width: 800px) {
-  
+
   .container {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -196,17 +202,17 @@ footer {
     left: 0;
   }
 
-#footer-wrapper {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-}
-  
-#footer-wrapper a {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  #footer-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+  }
 
-} 
+  #footer-wrapper a {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+}

@@ -49,9 +49,6 @@ function insertDB(req, connection) {
         let username = req.body.username;
         let pass = req.body.password;
         if (checkUsername(username, req) && checkPassword(pass, req)) {
-            //console.log(req.body);
-            //console.log(location);
-            //console.log([username, pass, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]]);
             const hash = crypto.createHash('sha256').update(pass).digest('hex');
             let location = req.body["location-street"] + ", " + req.body["location-city"] + ", " + req.body["location-country"];
             connection.query('INSERT INTO bby12users (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]],
@@ -83,7 +80,7 @@ function insertAdmin(username, connection) {
 }
 
 function checkUsername(username, req) {
-    return (username); //&& username === req.body["username-verify"]); // TODO: Add additional checks: ie. min length
+    return (username); // TODO: Add additional checks: ie. min length
 }
 
 function checkPassword(pass, req) {

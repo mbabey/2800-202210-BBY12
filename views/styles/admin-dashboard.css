@@ -110,9 +110,8 @@
     }
 
     #dashboard-title {
-        font-size: 25px;
+        font-size: 40px;
         display: block;
-        vertical-align: middle;
     }
 
     #admin-button-group {
@@ -126,10 +125,10 @@
     #admin-button-group>.admin-button {
         display: block;
         padding: 10% 0;
-        margin: 10% 0% 25%;
+        margin: 10% 0% 20%;
         width: 100%;
-        height: 120%;
-        font-size: 48px;
+        height: 100%;
+        font-size: 30px;
         background-color: var(--secondary-text);
         border-radius: 5px;
         outline: var(--secondary-dark) solid 2px;

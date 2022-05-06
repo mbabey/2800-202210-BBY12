@@ -9,6 +9,7 @@ const { JSDOM } = require('jsdom');
 
 const createAccount = require('./scripts/create-account');
 const dbInitialize = require('./db-init');
+const { redirect } = require('express/lib/response');
 
 app.use(express.urlencoded({
     extended: true
@@ -111,13 +112,21 @@ function login(req, user) {
 }
 
 app.get('/profile', (req, res) => {
-    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
-    res.send(profilePage);
+    if (req.session.loggedIn) {
+        let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
+        res.send(profilePage);
+    } else {
+        res.redirect('/');
+    }
 });
 
 app.get('/admin-dashboard', (req, res) => {
-    let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
-    res.send(adminDashPage);
+    if (req.session.loggedIn && req.session.admin) {
+        let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
+        res.send(adminDashPage);
+    } else {
+        res.redirect('/');
+    }
 });
 
 app.route('/admin-add-account')
@@ -149,7 +158,6 @@ app.route('/create-account')
             .catch(function(err) {
                 res.redirect('/create-account');
             });
-
     });
 
 app.get('/logout', (req, res) => {
@@ -157,7 +165,6 @@ app.get('/logout', (req, res) => {
         res.redirect('/');
     });
 });
-
 
 function login(req, user) {
     req.session.loggedIn = true;

@@ -170,6 +170,7 @@ footer {
 .post .post-images img {
   width: 20%;
   height: auto;
+  border-radius: 10px;
 }
 
 

@@ -30,10 +30,13 @@ docLoaded(() => {
     }
 
     document.getElementById("edit-button").addEventListener("click", function (event) {
-        document.getElementById("profile-owner-name").contentEditable = true;
-        document.getElementById("profile-contact-email").contentEditable = true;
-        document.getElementById("profile-contact-phone").contentEditable = true;
-        document.getElementById("profile-location-address").contentEditable = true;
+        document.getElementById("business-name-block").contentEditable = true;
+        document.getElementById(".business-owner-fname-block").contentEditable = true;
+        document.getElementById(".business-owner-lname-block").contentEditable = true;
+        document.getElementById(".business-email-block").contentEditable = true;
+        document.getElementById(".business-phone-block").contentEditable = true;
+        document.getElementById(".business-location-block").contentEditable = true;
+        document.getElementById(".business-description-block").contentEditable = true;
         document.getElementById("edit-status").innerHTML = "Click on the fields to edit.";
         event.preventDefault();
       });

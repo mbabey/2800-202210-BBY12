@@ -230,7 +230,6 @@ app.get('/home', (req, res) => {
                 if (error) throw error;
                 let postSection = "<div class='post-block>";
                 let post;
-                console.log(results);
                 for (let i = 0; i < results.length; i++) {
                     post += "<div class='post'><h1 class='post-title'>" + results[i].postTitle + "</h1><h3 class='post-business-name'>" + results[i].cName +
                         "</h3><div class='post-images'>" + "</div><p class='post-description'>" + results[i].content +

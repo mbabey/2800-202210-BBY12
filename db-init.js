@@ -10,11 +10,7 @@ module.exports = {
             multipleStatements: true
         });
         initDB(con)
-            .then((results) => {
-                if (results)
-                    console.log("db init");
-                else
-                    console.log("db no init");
+            .then((results) => {;
             })
             .catch((err) => {
                 return false;
@@ -90,7 +86,9 @@ async function initDB(con) {
     [rows, fields] = await con.query('SELECT * FROM \`BBY-12-Admins\`;');
     if (rows.length == 0) {
         let records = 'INSERT INTO \`BBY-12-Admins\` VALUES ?;';
-        let values = [['test']];
+        let values = [
+            ['test']
+        ];
         await con.query(records, [values], (err) => {
             if (err);
 

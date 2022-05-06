@@ -26,6 +26,7 @@ app.use(session({
 let con;
 const port = 8000;
 app.listen(port, () => {
+    console.log("Listening on port 8000");
     dbInitialize.dbInitialize()
         .then(() => {
             con = mysql.createConnection({
@@ -87,7 +88,6 @@ app.route('/create-account')
             .catch(function(err) {
                 res.redirect('/create-account');
             });
-
     });
 
 app.get('/logout', (req, res) => {
@@ -102,7 +102,10 @@ function login(req, user) {
     req.session.admin = false;
 
     con.query('Select * from (`BBY-12-admins`) Where (`username` = ?)', [user], function(err, results) {
-        if (err) throw err;
+        if (err) {
+              console.log(err);
+          throw err;
+            }
         if (results.length > 0) {
             req.session.admin = true;
         }
@@ -147,6 +150,7 @@ app.route('/create-account')
                 res.redirect('/');
             })
             .catch(function(err) {
+          console.log(err);
                 res.redirect('/create-account');
             });
 
@@ -175,7 +179,9 @@ function login(req, user) {
 
 app.get('/get-users', function(req, res) {
     con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
-        if (error) throw error;
+        if (error) {
+            console.log(error);
+        }
         res.setHeader('content-type', 'application/json');
         res.send(results);
     });
@@ -195,7 +201,9 @@ app.get('/admin-view-accounts', function(req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let users = 'SELECT * FROM `BBY-12-Users`';
         con.query(users, function(err, results, fields) {
-            if (err) throw err;
+            if (err) {
+              console.log(err);
+            }
 
             let table = "<table><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Business Name</th></tr>";
             for (let i = 0; i < results.length; i++) {

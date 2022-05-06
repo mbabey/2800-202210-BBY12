@@ -140,9 +140,9 @@ function login(req, user) {
 app.get('/get-users', function (req, res) {
 
     let connection = mysql.createConnection({
-        host: 'localhost',
+        host: '127.0.0.1',
         user: 'root',
-        password: '',
+        password: ' ',
         database: 'comp2800'
     });
     connection.connect();
@@ -171,9 +171,9 @@ app.post('/update-users', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
 
     let connection = mysql.createConnection({
-        host: 'localhost',
+        host: '127.0.0.1',
         user: 'root',
-        password: '',
+        password: ' ',
         database: 'comp2800'
     });
     connection.connect();

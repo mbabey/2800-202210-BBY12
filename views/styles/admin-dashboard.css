@@ -89,6 +89,7 @@
 }
 
 @media only screen and (max-width: 800px) {
+
     #pseudonav {
         display: flex;
         justify-content: center;
@@ -110,26 +111,26 @@
     }
 
     #dashboard-title {
-        font-size: 25px;
+        font-size: 38px;
         display: block;
-        vertical-align: middle;
     }
 
     #admin-button-group {
-        display: block;
         min-width: 0;
         max-width: none;
         width: 100%;
         height: 100%;
+        vertical-align: middle;
     }
 
     #admin-button-group>.admin-button {
-        display: block;
-        padding: 10% 0;
-        margin: 10% 0% 25%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 4% 0;
+        margin: 10% 0%;
         width: 100%;
-        height: 120%;
-        font-size: 48px;
+        font-size: 25px;
         background-color: var(--secondary-text);
         border-radius: 5px;
         outline: var(--secondary-dark) solid 2px;

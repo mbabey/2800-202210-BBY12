@@ -16,6 +16,46 @@
   background-color: var(--primary);
 }
 
+.admin-right {
+  justify-items: center;
+  grid-column: 2 / span 1;
+  width: 100% !important;
+}
+
+.profile-head {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+
+.profile-picture {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.profile > div > p {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.profile-details {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.profile-details > p {
+  padding: 10px;
+  margin: 0;
+}
+
+.profile-info > h3 {
+  text-align: center;
+}
+
 table {
   grid-column: 1 / span 1;
   grid-row: 1 / span 1;

@@ -1,74 +1,117 @@
 'use strict';
 
+
 //populate the 'account-info' div dynamically
 //need to update according to the current layout
-function getUser() {
+// function getUser() {
 
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        if (this.readyState == XMLHttpRequest.DONE) {
+//     const xhr = new XMLHttpRequest();
+//     xhr.onload = function () {
+//         if (this.readyState == XMLHttpRequest.DONE) {
 
-            // 200 means everthing worked
-            if (xhr.status === 200) {
+//             // 200 means everthing worked
+//             if (xhr.status === 200) {
 
-                //what's this.reponseText referring to?  
-                let data = JSON.parse(this.responseText);
-                console.log(data);
-                if (data.status == "success") {
-                    console.log("data status: success");
-                    let str = `        <h3>My Account</h3>`;
+//                 //what's this.reponseText referring to?  
+//                 let data = JSON.parse(this.responseText);
+//                 console.log(data);
+//                 if (data.status == "success") {
+//                     console.log("data status: success");
+//                     let str = `        <h3>My Account</h3>`;
 
 
-                    for (let i = 0; i < data.rows.length; i++) {
-                        let row = data.rows[i];
-                        //console.log("row", row);
-                        str += ("<div class='first_name'><span>" + row.fName + "</span></div>" 
-                            + "<div class='last_name'><span>" + row.lName + "</span></div>" 
-                            + "<div class='email'><span>" + row.email + "</span></div>" 
-                            + "<div class='password'><span>" + row.password + "</span></div>");
-                    }
-                    console.log(str);
-                    document.getElementsByClassName("account-info").innerHTML = str;
+//                     for (let i = 0; i < data.rows.length; i++) {
+//                         let row = data.rows[i];
+//                         //console.log("row", row);
+//                         str += ("<div class='first_name'><span>" + row.fName + "</span></div>" 
+//                             + "<div class='last_name'><span>" + row.lName + "</span></div>" 
+//                             + "<div class='email'><span>" + row.email + "</span></div>" 
+//                             + "<div class='password'><span>" + row.password + "</span></div>");
+//                     }
+//                     console.log(str);
+//                     document.getElementsByClassName("account-info").innerHTML = str;
 
-                    // select all spans under the email class of div elements
-                    let first_name_records = document.querySelectorAll("div[class='first_name'] span");
-                    for (let j = 0; j < first_name_records.length; j++) {
-                        first_name_records[j].addEventListener("click", editCell);
-                    }
+//                     // select all spans under the email class of div elements
+//                     let first_name_records = document.querySelectorAll("div[class='first_name'] span");
+//                     for (let j = 0; j < first_name_records.length; j++) {
+//                         first_name_records[j].addEventListener("click", editCell);
+//                     }
 
-                    let last_name_records = document.querySelectorAll("div[class='last_name'] span");
-                    for (let j = 0; j < last_name_records.length; j++) {
-                        last_name_records[j].addEventListener("click", editCell);
-                    }
+//                     let last_name_records = document.querySelectorAll("div[class='last_name'] span");
+//                     for (let j = 0; j < last_name_records.length; j++) {
+//                         last_name_records[j].addEventListener("click", editCell);
+//                     }
 
-                    let email_records = document.querySelectorAll("div[class='email'] span");
-                    for (let j = 0; j < email_records.length; j++) {
-                        email_records[j].addEventListener("click", editCell);
-                    }
+//                     let email_records = document.querySelectorAll("div[class='email'] span");
+//                     for (let j = 0; j < email_records.length; j++) {
+//                         email_records[j].addEventListener("click", editCell);
+//                     }
 
-                    let pswd_records = document.querySelectorAll("div[class='password'] span");
-                    for (let j = 0; j < pswd_records.length; j++) {
-                        pswd_records[j].addEventListener("click", editCell);
-                    }
+//                     let pswd_records = document.querySelectorAll("div[class='password'] span");
+//                     for (let j = 0; j < pswd_records.length; j++) {
+//                         pswd_records[j].addEventListener("click", editCell);
+//                     }
 
-                } else {
-                    console.log("Error!");
-                }
+//                 } else {
+//                     console.log("Error!");
+//                 }
 
+//             } else {
+
+//                 // not a 200, could be anything (404, 500, etc.)
+//                 console.log(this.status);
+
+//             }
+
+//         } else {
+//             console.log("ERROR", this.status);
+//         }
+//     }
+//     xhr.open("GET", "/get-users");//working
+//     xhr.send();
+// }
+// getUser();
+
+console.log("Client script loaded.");
+
+function getUser(){
+    function ajaxGet(url, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function(){
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                callback(this.responseText);
             } else {
-
-                // not a 200, could be anything (404, 500, etc.)
                 console.log(this.status);
-
             }
-
-        } else {
-            console.log("ERROR", this.status);
         }
+
+        xhr.open("GET", url);
+        xhr.send();
     }
-    xhr.open("GET", "/get-users");//working
-    xhr.send();
+
+    ajaxGet("/get-users", function(data){
+        console.log("Goinging to parse:" + data);
+        let userInfo = JSON.parse(data);
+        console.log("Parsed:" + userInfo.rows[0].username);
+        
+        document.getElementById("profile-owner-name").innerHTML = userInfo.rows[0].cName;
+        document.getElementById("profile-contact-email").innerHTML = userInfo.rows[0].email;
+        document.getElementById("profile-contact-phone").innerHTML = userInfo.rows[0].phoneNo;
+        document.getElementById("profile-location-address").innerHTML = userInfo.rows[0].location;
+
+        document.getElementById("edit-button").addEventListener("click", function (event) {
+            document.getElementById("profile-owner-name").contentEditable = true;
+            document.getElementById("profile-contact-email").contentEditable = true;
+            document.getElementById("profile-contact-phone").contentEditable = true;
+            document.getElementById("profile-location-address").contentEditable = true;
+            document.getElementById("edit-status").innerHTML = "Click on the fields to edit."
+            event.preventDefault();
+          });
+        
+        
+    })
 }
+
 getUser();
 
 // //to edit the cells, e for event
@@ -172,11 +215,3 @@ getUser();
 
 // }
 
-document.getElementById("edit-button").addEventListener("click", function (event) {
-    document.getElementById("profile-owner-name").contentEditable = true;
-    document.getElementById("profile-contact-email").contentEditable = true;
-    document.getElementById("profile-contact-phone").contentEditable = true;
-    document.getElementById("profile-location-address").contentEditable = true;
-    document.getElementById("edit-status").innerHTML = "Click on the fields to edit."
-    event.preventDefault();
-  });

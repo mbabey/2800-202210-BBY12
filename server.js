@@ -122,8 +122,7 @@ function login(req, user) {
     });
 }
 
-//grab data from the logged-in user table in db
-//not working
+//grab data from the logged-in user table in db, working now
 app.get('/get-users', function (req, res) {
 
     let connection = mysql.createConnection({

@@ -1,14 +1,11 @@
 'use strict';
-// const { Router } = require('express');
 const express = require('express');
 const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
 const crypto = require('crypto');
-const {
-    JSDOM
-} = require('jsdom');
+const { JSDOM } = require('jsdom');
 
 const createAccount = require('./scripts/create-account');
 const dbInitialize = require('./db-init');
@@ -35,22 +32,19 @@ const con = mysql.createConnection({
 
 con.connect(function(err) {
     if (err) throw err;
-    console.log("SQL Connected");
 });
 
 const port = 8000;
 app.listen(port, () => {
-    console.log('Gro-Operate running on port: ' + port);
     dbInitialize.dbInitialize();
 });
 
 app.get('/', (req, res) => {
-    console.log(req.session);
     if (req.session.loggedIn) {
         if (req.session.admin)
             res.redirect('/admin-dashboard'); // TEMP show case that admin accounts are different, will remove once dash board button is implemented
         else
-            res.redirect('/home'); // /edit-profile for now, but will be /home in later versions 
+            res.redirect('/home');
     } else {
         res.redirect('/login');
     }
@@ -64,13 +58,11 @@ app.route('/login')
     .post((req, res, ) => {
         let user = req.body.username.trim();
         let pass = req.body.password;
-        const hash = crypto.createHash('sha256').update(pass).digest('hex'); // this is kinda insecure; we should encrypt before we send
+        const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
             con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function(err, results, ) {
                 if (results && results.length > 0) {
                     login(req, user);
-                } else {
-                    console.log("Username/password combination not found");
                 }
             });
             res.redirect('/');
@@ -88,12 +80,9 @@ app.route('/create-account')
         createAccount.createAccount(req, res)
             .then(function(result) {
                 login(req, req.body["username"]);
-                //res.send({ status: "success", msg: "Record added." });
                 res.redirect('/');
             })
             .catch(function(err) {
-                console.log("Promise rejection error: " + err);
-                //res.send({ status: "fail", msg: "Record not added." });
                 res.redirect('/create-account');
             });
 
@@ -141,7 +130,6 @@ app.route('/admin-add-account')
                 res.redirect('/admin-dashboard');
             })
             .catch(function(err) {
-                console.log("Promise rejection error: " + err);
                 res.redirect('/admin-add-account');
             });
     });
@@ -154,12 +142,9 @@ app.route('/create-account')
         createAccount.createAccount(req, res)
             .then(function(result) {
                 login(req, req.body["username"]);
-                //res.send({ status: "success", msg: "Record added." });
                 res.redirect('/');
             })
             .catch(function(err) {
-                console.log("Promise rejection error: " + err);
-                //res.send({ status: "fail", msg: "Record not added." });
                 res.redirect('/create-account');
             });
 
@@ -188,9 +173,7 @@ function login(req, user) {
 
 app.get('/get-users', function(req, res) {
     con.query('SELECT * FROM bby12users WHERE username = ?', [req.session.username], function(error, results, fields) {
-        if (error) {
-            console.log(error);
-        }
+        if (error) {}
         res.setHeader('content-type', 'application/json');
         res.send(results);
     });
@@ -211,9 +194,7 @@ app.post('/update-users', function(req, res) {
         req.body.email, req.body.password)
     connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
         function(error, results, fields) {
-            if (error) {
-                console.log(error);
-            }
+            if (error) {}
             //console.log('Rows returned are: ', results);
             res.send({ status: "Success", msg: "User information updated." });
 
@@ -227,7 +208,6 @@ app.get('/admin-view-accounts', function(req, res) {
         let users = 'SELECT * FROM bby12users';
         con.query(users, function(err, results, fields) {
             if (err) throw err;
-            console.log(results);
             let table = "<table id='user-accounts'><th>User Accounts</th>";
             for (let i = 0; i < results.length; i++) {
                 table += "<tr><td>" + results[i].username + "</td><td>" +
@@ -249,7 +229,6 @@ app.get('/admin-view-accounts', function(req, res) {
 //get data from bby12post and format the posts
 app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
-        console.log("Logged in from username:" + req.session.username);
         let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
         let profileDOM = new JSDOM(profilePage);
         profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Profile";
@@ -258,11 +237,7 @@ app.get('/home', (req, res) => {
             `SELECT * FROM BBY12post WHERE username = "${req.session.username}";`,
             function(error, results, fields) {
                 // results is an array of records, in JSON format
-                console.log("Results from DB", results);
-                //let myResults = results;
-                if (error) {
-                    console.log(error);
-                }
+                if (error) {}
                 // get data, format output
                 let postSection = "<div class='post-block>";
                 let post;
@@ -284,9 +259,7 @@ app.get('/home', (req, res) => {
 
 app.get('/get-users', function(req, res) {
     con.query('SELECT * FROM bby12users WHERE username = ?', [req.session.username], function(error, results, fields) {
-        if (error) {
-            console.log(error);
-        }
+        if (error) {}
         res.setHeader('content-type', 'application/json');
         res.send(results);
     });
@@ -303,13 +276,9 @@ app.post('/update-users', function(req, res) {
         database: 'comp2800'
     });
     connection.connect();
-    console.log("update values", req.body.username, req.body.fName, req.body.lName,
-        req.body.email, req.body.password)
     connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
         function(error, results, fields) {
-            if (error) {
-                console.log(error);
-            }
+            if (error) {}
             //console.log('Rows returned are: ', results);
             res.send({ status: "Success", msg: "User information updated." });
 

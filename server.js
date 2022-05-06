@@ -108,9 +108,9 @@ function login(req, user) {
     });
 }
 
-app.get('/edit-profile', (req, res) => {
-    let editProfilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
-    res.send(editProfilePage);
+app.get('/profile', (req, res) => {
+    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
+    res.send(profilePage);
 });
 
 app.get('/admin-dashboard', (req, res) => {
@@ -221,7 +221,7 @@ app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
         let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
         let profileDOM = new JSDOM(profilePage);
-        profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Profile";
+        profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
         profileDOM.window.document.getElementById("profile-name").innerHTML = req.session.username;
         con.query(
             `SELECT * FROM \`BBY-12-post\` WHERE (username = "${req.session.username});";`,

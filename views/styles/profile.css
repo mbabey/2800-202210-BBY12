@@ -1,158 +1,195 @@
-
-#content {
+.profile-header-wrapper {
     display: grid;
-    /* height: 100%; */
-    grid-template-columns: 30% 35% 35%;
-    grid-template-rows: repeat(3, 1fr) 15%;
-}
-
-/*left profile */
-.left-profile {
     background-color: var(--primary-light);
-    display: grid;
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 4;
-    grid-template-columns: 100%;
-    grid-template-rows: 25% repeat(2, 1fr) 10%;
-    height: 100%;
-    overflow-y: scroll;
 }
 
-.left-profile::-webkit-scrollbar {
-    display: none;
+.profile-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
-.profile-head {
-    grid-row: 1 / span 1;
-    text-align: center;
-    margin-top: 0;
+.profile-picture {
+    padding: 0 10px;
 }
 
 .profile-picture img {
     border-radius: 50%;
+    width: 100%;
+    height: auto;
 }
-.profile-picture>img {
-    width: 50%;
-    background: white;
+
+.profile-header h4:after,
+.profile-header h3:after {
+    content: "";
+    display: block;
+    border-bottom: 3px solid var(--secondary-dark);
+    width: 1rem;
+}
+
+.profile-header p {
+    margin: 0;
+}
+
+.profile-name {
+    text-align: right;
 }
 
 .edit-profile {
-    margin-top: 2%;
+    background-color: var(--secondary-text);
+    border: 1px solid var(--secondary-light);
+    padding: 5px 10px;
+    margin: 0 0;
+    text-align: center;
+    position: relative;
+    width: 5rem;
+    top: 48%;
+    transform: translateX(95%);
+    -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.edit-profile:hover {
+    background-color: var(--secondary-dark);
 }
 
 .edit-profile a {
-    color: var(--secondary-dark);
     text-decoration: none;
 }
 
-.profile-info {
-    background-color: white;
-    margin: auto;
-    border-radius: 25px;
-    border: 2px solid;
-    border-color: var(--border);
-    padding: 25%;
-    width: 40%;
-    margin-top: 10%;
-}
-
 .profile-description {
+    width: 50%;
+    min-width: 700px;
+    margin: 0 auto;
     background-color: white;
-    margin: auto;
-    border-radius: 25px;
-    border: 2px solid;
-    border-color: var(--border);
-    padding: 25%;
-    width: 40%;
-    height: 65%;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+    height: auto;
+    max-height: 15rem;
+    overflow: auto;
+    transform: translateY(-10px);
 }
 
-/*right posts area*/
-.right-post {
-    display: grid;
-    grid-column: 2 / span 2;
-    grid-row: 1 / span 2;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: repeat(10, 10%);
-}
-
-.service-board-tab {
-    background-color: var(--secondary-dark);
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
-}
-
-.product-post-tab {
-    background-color: var(--secondary);
-    grid-column: 2 / span 1;
-    grid-row: 1 / span 1;
-}
-
-.profile-tab {
-    background-color: var(--primary);
-    display: none;
-}
-
-.my-post {
-    background-color: var(--secondary-light);
-    grid-column: 1 / span 2;
-    grid-row: 2 / span 1;
+.profile-description h3 {
     text-align: center;
+    margin: 0;
+    margin-bottom: 1rem;
 }
 
-.post-location {
-    background-color: white;
-    grid-column: 1 / span 2;
-    grid-row: 3 / span 8;
+.profile-description p {
+    margin: 0 10px 10px;
+    font-size: 1.3rem;
+    overflow-wrap: anywhere;
 }
 
-@media only screen and (max-width: 800px) {
+.profile-description::-webkit-scrollbar {
+    width: 10px;
+    height: 5px;
+    background-color: var(--secondary-text);
+    border-radius: 5px;
+}
 
-    #content {
-        grid-template-columns: 33% 33% 33%;
-        grid-template-rows: 2rem 5rem 1fr;
+.profile-description::-webkit-scrollbar-thumb {
+    background: var(--secondary-dark);
+}
+
+.post-images img {
+    background-color: #dff7ff;
+}
+
+@media only screen and (min-width: 600px) and (max-width: 800px) {
+    .profile-header {
+        justify-content: space-between;
+        margin: 0 2%;
     }
-
-    .my-post {
-        display: none;
+    .profile-picture {
+        padding: 0;
+        width: 200px;
+        height: auto;
     }
-
-    .service-board-tab {
-        background-color: #2C598E;
-        grid-column: 1 / span 1;
-        grid-row: 1 / span 1;
+    .profile-name {
+        text-align: left;
+        position: relative;
     }
-
-    .product-post-tab {
-        background-color: #5F86BE;
-        grid-column: 2 / span 1;
-        grid-row: 1 / span 1;
+    .edit-profile {
+        position: absolute;
+        top: 75%;
     }
-
-    .profile-tab {
-        display: block;
-        background-color: #588676;
-        grid-column: 3 / span 1;
-        grid-row: 1 / span 1;
+    .profile-info {
+        text-align: right;
     }
-
-    .profile-head {
-        background-color: #86B6A5;
-        grid-column: 1 / span 3;
-        grid-row: 2 / span 1;
+    .profile-info h3,
+    .profile-info h4 {
+        margin: .3rem 0;
+        position: relative;
     }
-
-    .profile-info-container {
-        grid-column: 1 / span 3;
-        grid-row: 3 / span 3;
-
-        border: 2px solid;
+    .profile-header h4:after,
+    .profile-header h3:after {
+        position: absolute;
+        bottom: -2px;
+        right: 0;
     }
-
     .profile-description {
-        grid-column: 1 / span 3;
-        grid-row: 6 / span 3;
-        border: 2px solid;
+        width: 70%;
+        min-width: 300px;
+        max-height: 8rem;
+        transform: translateY(-5px);
     }
+    .profile-description p {
+        font-size: 1rem;
+    }
+    .post-block {
+        width: 96%;
+    }
+}
 
+@media only screen and (max-width: 599px) {
+    .profile-header {
+        display: grid;
+        grid-template-rows: 40% 20% 40%;
+        margin: 0 2%;
+    }
+    .profile-picture {
+        padding: 0;
+        text-align: center;
+        grid-row: 1 / span 1;
+        width: auto;
+        height: auto;
+    }
+    .profile-picture img {
+        height: 100%;
+        width: auto;
+    }
+    .profile-name {
+        grid-row: 2 / span 1;
+        text-align: center;
+        position: relative;
+    }
+    .edit-profile {
+        position: absolute;
+        top: 260%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .profile-info {
+        grid-row: 3 / span 1;
+        width: 100%;
+    }
+    .profile-info h3,
+    .profile-info h4 {
+        margin: .3rem 0;
+    }
+    .profile-description {
+        width: 70%;
+        min-width: 300px;
+        max-height: 8rem;
+        transform: translateY(-5px);
+    }
+    .profile-description p {
+        font-size: 1rem;
+    }
+    .post-block {
+        width: 96%;
+    }
 }

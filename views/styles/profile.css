@@ -11,12 +11,21 @@
 
 .profile-picture {
     padding: 0 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-picture-background {
+    background-color: var(--secondary-dark);
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
 }
 
 .profile-picture img {
-    border-radius: 50%;
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100%;
 }
 
 .profile-header h4:after,
@@ -105,8 +114,10 @@
     }
     .profile-picture {
         padding: 0;
+    }
+    .profile-picture-background {
+        height: 200px;
         width: 200px;
-        height: auto;
     }
     .profile-name {
         text-align: left;
@@ -147,38 +158,41 @@
 @media only screen and (max-width: 599px) {
     .profile-header {
         display: grid;
-        grid-template-rows: 40% 20% 40%;
+        grid-template-rows: 40% 15% 45%;
         margin: 0 2%;
+        justify-content: unset;
     }
     .profile-picture {
         padding: 0;
-        text-align: center;
         grid-row: 1 / span 1;
         width: auto;
-        height: auto;
-    }
-    .profile-picture img {
         height: 100%;
-        width: auto;
+    }
+    .profile-picture-background {
+        height: 200px;
+        width: 200px;
+        margin: auto;
     }
     .profile-name {
         grid-row: 2 / span 1;
         text-align: center;
         position: relative;
     }
+    .profile-name h1 {
+        margin: 0;
+    }
     .edit-profile {
-        position: absolute;
         top: 260%;
         left: 50%;
         transform: translateX(-50%);
     }
     .profile-info {
         grid-row: 3 / span 1;
-        width: 100%;
+        margin-bottom: 40%;
     }
     .profile-info h3,
     .profile-info h4 {
-        margin: .3rem 0;
+        margin: 0.3rem 0;
     }
     .profile-description {
         width: 70%;

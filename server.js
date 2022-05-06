@@ -66,7 +66,7 @@ app.route('/login')
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex'); // this is kinda insecure; we should encrypt before we send
         try {
-            con.query('SELECT * FROM `BBY12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
+            con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function(err, results, ) {
                 if (results && results.length > 0) {
                     login(req, user);
                 } else {
@@ -96,7 +96,7 @@ app.route('/create-account')
                 //res.send({ status: "fail", msg: "Record not added." });
                 res.redirect('/create-account');
             });
-        });
+    });
 
 app.get('/logout', (req, res) => {
     req.session.destroy(function() {
@@ -110,7 +110,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function(err, results) {
+    con.query('Select * from (`BBY-12-Admins`) Where (`username` = ?)', [user], function(err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -176,7 +176,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('SELECT * FROM `BBY12-Admins` WHERE (`username` = ?);', [user], function (err, results) {
+    con.query('SELECT * FROM `BBY-12-Admins` WHERE (`username` = ?);', [user], function(err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -185,8 +185,8 @@ function login(req, user) {
     });
 }
 
-app.get('/get-users', function (req, res) {
-    con.query('SELECT * FROM `BBY12-Users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
+app.get('/get-users', function(req, res) {
+    con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
         if (error) {
             console.log(error);
         }
@@ -208,9 +208,8 @@ app.post('/update-users', function(req, res) {
     connection.connect();
     console.log("update values", req.body.username, req.body.fName, req.body.lName,
         req.body.email, req.body.password)
-    connection.query('UPDATE `BBY12-Users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);',
-        [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-        function (error, results, fields) {
+    connection.query('UPDATE `BBY-12-Users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+        function(error, results, fields) {
             if (error) {
                 console.log(error);
             }
@@ -224,8 +223,8 @@ app.post('/update-users', function(req, res) {
 
 app.get('/admin-view-accounts', function(req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
-        let users = 'SELECT * FROM `BBY12-Users`;';
-        con.query(users, function (err, results, fields) {
+        let users = 'SELECT * FROM `BBY-12-Users`;';
+        con.query(users, function(err, results, fields) {
             if (err) throw err;
             console.log(results);
             let table = "<table id='user-accounts'><th>User Accounts</th>";
@@ -246,7 +245,7 @@ app.get('/admin-view-accounts', function(req, res) {
     }
 });
 
-//get data from bby12post and format the posts
+//get data from BBY-12post and format the posts
 app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
         console.log("Logged in from username:" + req.session.username);
@@ -255,7 +254,7 @@ app.get('/home', (req, res) => {
         profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Profile";
         profileDOM.window.document.getElementById("profile-name").innerHTML = req.session.username;
         con.query(
-            `SELECT * FROM BBY12post WHERE username = "${req.session.username}";`,
+            `SELECT * FROM \`BBY-12-post\` WHERE username = "${req.session.username}";`,
             function(error, results, fields) {
                 // results is an array of records, in JSON format
                 console.log("Results from DB", results);
@@ -283,7 +282,7 @@ app.get('/home', (req, res) => {
 });
 
 app.get('/get-users', function(req, res) {
-    con.query('SELECT * FROM bby12users WHERE username = ?', [req.session.username], function(error, results, fields) {
+    con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
         if (error) {
             console.log(error);
         }
@@ -305,7 +304,7 @@ app.post('/update-users', function(req, res) {
     connection.connect();
     console.log("update values", req.body.username, req.body.fName, req.body.lName,
         req.body.email, req.body.password)
-    connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+    connection.query('UPDATE users SET (fName = ? , lName = ? , email = ? , password = ?) WHERE username = ?', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
         function(error, results, fields) {
             if (error) {
                 console.log(error);

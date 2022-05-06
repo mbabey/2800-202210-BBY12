@@ -15,7 +15,6 @@ module.exports = {
                     console.log("Database initialized successfully");
                 else
                     console.log("Database already initialized");
-                return result;
             }).catch((err) => {
                 console.log("Could not initialize database\n" + err);
                 return false;
@@ -28,12 +27,13 @@ async function initDB(con) {
     await con.query(`
             CREATE DATABASE IF NOT EXISTS comp2800;
             USE comp2800;
-                CREATE TABLE IF NOT EXISTS BBY12Users (
+            CREATE TABLE IF NOT EXISTS BBY12Users (
                 username VARCHAR(255) NOT NULL UNIQUE,
                 password VARCHAR(255) NOT NULL,
                 fName VARCHAR(255),
                 lName VARCHAR(255),
                 cName VARCHAR(255),
+                bType VARCHAR(255),
                 email VARCHAR(255),
                 phoneNo VARCHAR(255),
                 location VARCHAR(255),
@@ -76,10 +76,10 @@ async function initDB(con) {
             `);
     let [rows, fields] = await con.query('SELECT * FROM bby12users');
     if (rows.length == 0) {
-        let records = 'INSERT INTO BBY12users (username, password, fName, lName, cName, email, phoneNo, location, description, profilePic) VALUES ?';
+        let records = 'INSERT INTO BBY12users (username, password, fName, lName, cName, bType, email, phoneNo, location, description, profilePic) VALUES ?';
         let values = [
-            ['test', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Drop', 'Table', "Gro Operate", '123@321.com', '(123) 456-7890', 'here, now', 'I am the progenitor of all accounts', 'img.jpg'],
-            ['user', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Drop', 'Table', "Gro Operate", '123@321.com', '(123) 456-7890', 'here, now', 'I am the progenitor of all accounts', 'img.jpg'],
+            ['test', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Drop', 'Table', 'Gro-Operate', 'Business Cooperation Software', '123@321.com', '(123) 456-7890', 'here, now', 'I am the progenitor of all accounts', 'img.jpg'],
+            ['user', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Mike', 'Hawk', 'Birthink Inc.', 'Not-for-profit Think Tank', 'mikey@business.gov', '(123) 456-7890', 'Swift Current, Saskatchewan', 'Birthink Inc. is the reason to get up in the morning; its the reason to go to bed at night.', 'img.jpg']
         ];
         await con.query(records, [values], (err) => {
             if (err)

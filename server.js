@@ -229,23 +229,8 @@ app.get('/home', (req, res) => {
         let profileDOM = new JSDOM(profilePage);
         profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
         profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
-        con.query(
-            `SELECT post.username, post.postId, post.postTitle, post.timestamp, post.content, user.cName 
-            FROM \`BBY-12-post\` AS post, \`BBY-12-users\` AS user 
-            WHERE (post.username = '${req.session.username}') AND (user.username = '${req.session.username}');`,
-            function (error, results, fields) {
-                if (error) throw error;
-                let postSection = "<div class='post-block>";
-                let post;
-                for (let i = 0; i < results.length; i++) {
-                    post += "<div class='post'><h1 class='post-title'>" + results[i].postTitle + "</h1><h3 class='post-business-name'>" + results[i].cName +
-                        "</h3><div class='post-images'>" + "</div><p class='post-description'>" + results[i].content +
-                        "</p><p class='post-timestamp'><small>" + results[i].timestamp + "</small></p></div>";
-                }
-                postSection += "</div>";
-                var profilePage = profileDOM.serialize();
-                res.send(profilePage + postSection);
-            });
+        profilePage = profileDOM.serialize();
+        res.send(profilePage);
     } else {
         res.redirect("/");
     }

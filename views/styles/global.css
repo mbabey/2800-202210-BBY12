@@ -86,8 +86,6 @@ footer svg {
   border: none;
   cursor: pointer;
   background-color: rgb(227, 227, 227);
-  /* border-radius: 3px; */
-  /* transform: translateX(-2px); */
 }
 
 #nav-wrapper a,
@@ -172,7 +170,6 @@ footer {
   height: auto;
   border-radius: 10px;
 }
-
 
 @media only screen and (max-width: 800px) {
 

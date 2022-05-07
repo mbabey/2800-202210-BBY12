@@ -54,12 +54,8 @@
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
-
-
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-
 #admin-button-group>.admin-button::after {
     content: '';
     position: absolute;
@@ -135,24 +131,25 @@
         font-weight: bold;
         -webkit-transition: none;
         transition: none;
-        /*   -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        -moz-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);*/
     }
+
     #admin-button-group>.admin-button::after {
         box-shadow: none;
         opacity: 0;
         -webkit-transition: none;
         transition: none;
     }
+
     #admin-button-group>.admin-button:focus,
     #admin-button-group>.admin-button:hover {
         transform: none;
     }
+
     #admin-button-group>.admin-button:focus::after,
     #admin-button-group>.admin-button:hover::after {
         opacity: 1;
     }
+
     #admin-button-group>.admin-button:active {
         transform: none;
     }

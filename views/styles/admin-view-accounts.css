@@ -33,21 +33,26 @@ table {
   width: 100%;
 }
 
-td, th {
+td,
+th {
   border: 1px solid #ddd;
   padding: 2%;
 }
 
-tr:nth-child(even){background-color: #f2f2f2;}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
 
-tr:hover {background-color: #ddd;}
+tr:hover {
+  background-color: #ddd;
+}
 
 th {
-padding-top: 8px;
-padding-bottom: 8px;
-text-align: left;
-background-color: #04AA6D;
-color: white;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
 }
 
 .admin-right {
@@ -70,7 +75,7 @@ color: white;
   clip-path: circle(30% at center);
 }
 
-.profile > div > p {
+.profile>div>p {
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -82,12 +87,12 @@ color: white;
   flex-direction: row;
 }
 
-.profile-details > p {
+.profile-details>p {
   padding: 10px;
   margin: 0;
 }
 
-.profile-info > h3 {
+.profile-info>h3 {
   text-align: center;
 }
 
@@ -192,7 +197,9 @@ color: white;
     display: none;
   }
 
-  tr, td, th {
+  tr,
+  td,
+  th {
     padding: 5%;
     width: 10%;
   }

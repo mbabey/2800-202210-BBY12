@@ -39,7 +39,6 @@ module.exports = {
     }
 };
 
-
 function insertDB(req, connection) {
     return new Promise((resolve, reject) => {
         let username = req.body.username;

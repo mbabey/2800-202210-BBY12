@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles/global.css">
   <link rel="stylesheet" href="./styles/admin-add-account.css">
-  <script defer type="text/javascript" src="../scripts/create-account.js"></script>
   <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
@@ -89,15 +88,14 @@
         <form method="post">
           <div id="username-block" class="input-wrapper">
             <input name="username" type="text" placeholder="Username" class="create-input">
-            <!--input name="username-verify" type="text" placeholder="Verify Username" class="create-input"-->
           </div>
-          
+
           <div id="admin-block" class="input-wrapper">
             <label class="control control-checkbox">
               Admin User
-              <input name="isAdmin" type="checkbox" clas="create-input" />
-              <div class="control_indicator"></div>
-            </label></div>
+              <input name="isAdmin" type="checkbox" class="create-input" />
+            </label>
+          </div>
           <div id="password-block" class="input-wrapper">
             <input id="password" name="password" type="password" placeholder="Password" class="create-input">
             <input id="password-verify" name="password-verify" type="password" placeholder="Verify Password"
@@ -159,6 +157,7 @@
     </div>
   </footer>
 
+  <script src="create-account.js"></script>
 </body>
 
 </html>

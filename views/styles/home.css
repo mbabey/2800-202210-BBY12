@@ -86,7 +86,7 @@
 
     .profile-picture:after {
         display: none;
-    } 
+    }
 
     .profile-picture {
         width: 20%;
@@ -94,4 +94,3 @@
     }
 
 }
-

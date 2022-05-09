@@ -3,22 +3,19 @@
 
 docLoaded(() => {
     let loginButton = document.querySelector('#login-submit');
-    loginButton.addEventListener('click', (e) => {
-        e.preventDefault(); // Stop submit button from sending form.
+    loginButton.addEventListener('click', () => {
         let inputUsername = document.getElementsByName('username')[0].value;
         let inputPassword = document.getElementsByName('password')[0].value;
         hashFunction(inputPassword).then((hash) => {
-            let data = { username: inputUsername, password: hash };
-            console.log(data);
-            sendData(data);
+            sendData(JSON.stringify({ username: inputUsername, password: hash }));
         });
     });
 
     async function sendData(data) {
-        let res = await fetch('/login', {
+        await fetch('/login', {
             method: 'post',
             headers: { 'content-type': 'application/json' },
-            body: JSON.stringify(data)
+            body: data
         });
     }
 

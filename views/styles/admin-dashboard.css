@@ -54,12 +54,8 @@
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
-
-
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-
 #admin-button-group>.admin-button::after {
     content: '';
     position: absolute;
@@ -110,9 +106,8 @@
     }
 
     #dashboard-title {
-        font-size: 25px;
+        font-size: 40px;
         display: block;
-        vertical-align: middle;
     }
 
     #admin-button-group {
@@ -126,34 +121,35 @@
     #admin-button-group>.admin-button {
         display: block;
         padding: 10% 0;
-        margin: 10% 0% 25%;
+        margin: 10% 0% 20%;
         width: 100%;
-        height: 120%;
-        font-size: 48px;
+        height: 100%;
+        font-size: 30px;
         background-color: var(--secondary-text);
         border-radius: 5px;
         outline: var(--secondary-dark) solid 2px;
         font-weight: bold;
         -webkit-transition: none;
         transition: none;
-        /*   -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        -moz-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);*/
     }
+
     #admin-button-group>.admin-button::after {
         box-shadow: none;
         opacity: 0;
         -webkit-transition: none;
         transition: none;
     }
+
     #admin-button-group>.admin-button:focus,
     #admin-button-group>.admin-button:hover {
         transform: none;
     }
+
     #admin-button-group>.admin-button:focus::after,
     #admin-button-group>.admin-button:hover::after {
         opacity: 1;
     }
+
     #admin-button-group>.admin-button:active {
         transform: none;
     }

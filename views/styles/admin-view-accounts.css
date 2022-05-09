@@ -7,7 +7,12 @@
 .content {
   grid-row: 2 / span 1;
   display: grid;
-  grid-template-columns: 35% 65%;
+  grid-template-columns: 40% 60%;
+}
+
+h3 {
+  display: flex;
+  justify-content: center;
 }
 
 .admin-left {
@@ -16,27 +21,79 @@
   background-color: var(--primary);
 }
 
+#account-title {
+  display: flex;
+  justify-content: center;
+}
+
 table {
   grid-column: 1 / span 1;
   grid-row: 1 / span 1;
   border-collapse: collapse;
-  margin: 1%;
+  width: 100%;
 }
 
-td, th {
+td,
+th {
   border: 1px solid #ddd;
+  padding: 2%;
 }
 
-tr:nth-child(even){background-color: #f2f2f2;}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
 
-tr:hover {background-color: #ddd;}
+tr:hover {
+  background-color: #ddd;
+}
 
 th {
-padding-top: 8px;
-padding-bottom: 8px;
-text-align: left;
-background-color: #04AA6D;
-color: white;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+
+.admin-right {
+  justify-items: center;
+  grid-column: 2 / span 1;
+  width: 100% !important;
+}
+
+.profile-head {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+
+.profile-picture {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  clip-path: circle(30% at center);
+}
+
+.profile>div>p {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.profile-details {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.profile-details>p {
+  padding: 10px;
+  margin: 0;
+}
+
+.profile-info>h3 {
+  text-align: center;
 }
 
 .admin-right {
@@ -110,7 +167,17 @@ color: white;
   transform: scale(1);
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 550px) {
+
+  .content {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+
+  .profile-head {
+    margin-left: 20px;
+  }
+
   #pseudonav {
     display: flex;
     justify-content: center;
@@ -118,5 +185,22 @@ color: white;
 
   #nav-logo-background {
     margin: 0;
+  }
+
+  table {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .admin-right {
+    display: none;
+  }
+
+  tr,
+  td,
+  th {
+    padding: 5%;
+    width: 10%;
   }
 }

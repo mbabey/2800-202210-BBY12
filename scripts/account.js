@@ -7,14 +7,10 @@ docLoaded(() => {
             });
             if (response.status == 200) {
                 let data = await response.text();
-                console.log("the data: " + data);
                 popThaSpots(JSON.parse(data));
-            } else {
-                console.log(response.status);
-                console.log(response.statusText);
             }
         } catch (err) {
-            console.log(err);
+
         }
     }
     getData();
@@ -56,7 +52,7 @@ docLoaded(() => {
         input.appendChild(biz_description);
         document.getElementById("edit-status").innerHTML = "Click on the fields to edit.";
         event.preventDefault();
-      });
+    });
 });
 
 function docLoaded(action) {

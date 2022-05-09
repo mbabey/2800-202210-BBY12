@@ -43,15 +43,15 @@
 }
 
 #login-block p {
-text-align: center;
+    text-align: center;
 }
 
-#login-block > form {
+#login-block>form {
     display: flex;
     flex-direction: column;
 }
 
-#login-block > form > .login-input {
+#login-block>form>.login-input {
     border: 1px black solid;
     padding: 1rem;
     margin-top: 10px;
@@ -60,7 +60,7 @@ text-align: center;
     background-color: rgba(128, 128, 128, 0.3);
 }
 
-#login-block > form > #login-submit {
+#login-block>form>#login-submit {
     padding: .7rem;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -75,7 +75,7 @@ text-align: center;
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#login-block > form > #login-submit::after {
+#login-block>form>#login-submit::after {
     content: '';
     position: absolute;
     z-index: -1;
@@ -89,17 +89,17 @@ text-align: center;
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-#login-block > form > #login-submit:focus,
-#login-block > form > #login-submit:hover {
+#login-block>form>#login-submit:focus,
+#login-block>form>#login-submit:hover {
     transform: scale(1.025, 1.025);
 }
 
-#login-block > form > #login-submit:focus::after,
-#login-block > form > #login-submit:hover::after {
+#login-block>form>#login-submit:focus::after,
+#login-block>form>#login-submit:hover::after {
     opacity: 1;
 }
 
-#login-block > form > #login-submit:active {
+#login-block>form>#login-submit:active {
     transform: scale(1);
 }
 
@@ -146,7 +146,7 @@ text-align: center;
         display: grid;
         grid-template-rows: minmax(100px, 10vh) auto;
     }
-    
+
     #pseudonav {
         display: flex;
         justify-content: center;
@@ -156,7 +156,7 @@ text-align: center;
     #nav-logo-background {
         margin: 0px;
     }
-    
+
     #nav-logo {
         position: relative;
         padding: 10%;
@@ -174,13 +174,13 @@ text-align: center;
     }
 
     #welcome {
-        display:none;
+        display: none;
     }
-    
+
     #welcome h1 {
-        display:none;
+        display: none;
     }
-    
+
     #welcome p {
         display: none;
     }

@@ -64,9 +64,8 @@ app.route('/login')
         }
     })
     .post((req, res,) => {
-        let user = req.body.username.trim();
+        let user = req.body.username;
         let pass = req.body.password;
-        const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
             con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
                 if (results && results.length > 0) {

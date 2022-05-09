@@ -56,7 +56,7 @@ app.get('/', (req, res) => {
 
 app.route('/login')
     .get((req, res) => {
-        if (req.session.loggedIn = false) {
+        if (!req.session.loggedIn) {
             let loginPage = fs.readFileSync('./views/login.html', 'utf8');
             res.send(loginPage);
         } else {
@@ -79,9 +79,23 @@ app.route('/login')
         }
     });
 
+function login(req, user) {
+    req.session.loggedIn = true;
+    req.session.username = user;
+    req.session.admin = false;
+
+    con.query('SELECT * FROM `BBY-12-Admins` WHERE (`username` = ?);', [user], function (err, results) {
+        if (err) throw err;
+        if (results.length > 0) {
+            req.session.admin = true;
+        }
+        req.session.save();
+    });
+}
+
 app.route('/create-account')
     .get((req, res) => {
-        if (req.session.loggedIn = false) {
+        if (!req.session.loggedIn) {
             let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
             res.send(createAccountPage);
         } else {
@@ -105,19 +119,19 @@ app.get('/logout', (req, res) => {
     });
 });
 
-function login(req, user) {
-    req.session.loggedIn = true;
-    req.session.username = user;
-    req.session.admin = false;
-
-    con.query('Select * from (`BBY-12-admins`) Where (`username` = ?)', [user], function (err, results) {
-        if (err) throw err;
-        if (results.length > 0) {
-            req.session.admin = true;
-        }
-        req.session.save();
-    });
-}
+//get data from BBY-12-post and format the posts
+app.get('/home', (req, res) => {
+    if (req.session.loggedIn) {
+        let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
+        let profileDOM = new JSDOM(profilePage);
+        profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
+        profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
+        profilePage = profileDOM.serialize();
+        res.send(profilePage);
+    } else {
+        res.redirect("/");
+    }
+});
 
 app.get('/profile', (req, res) => {
     if (req.session.loggedIn) {
@@ -127,66 +141,6 @@ app.get('/profile', (req, res) => {
         res.redirect('/');
     }
 });
-
-app.get('/admin-dashboard', (req, res) => {
-    if (req.session.loggedIn && req.session.admin) {
-        let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
-        res.send(adminDashPage);
-    } else {
-        res.redirect('/');
-    }
-});
-
-app.route('/admin-add-account')
-    .get((req, res) => {
-        let accountAddPage = fs.readFileSync('./views/admin-add-account.html', 'utf8');
-        res.send(accountAddPage);
-    })
-    .post((req, res) => {
-        createAccount.createAdmin(req, res)
-            .then(function (result) {
-                res.redirect('/admin-dashboard');
-            })
-            .catch(function (err) {
-                res.redirect('/admin-add-account');
-            });
-    });
-
-app.route('/create-account')
-    .get((req, res) => {
-        let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
-        res.send(createAccountPage);
-    })
-    .post((req, res) => {
-        createAccount.createAccount(req, res)
-            .then(function (result) {
-                login(req, req.body["username"]);
-                res.redirect('/');
-            })
-            .catch(function (err) {
-                res.redirect('/create-account');
-            });
-    });
-
-app.get('/logout', (req, res) => {
-    req.session.destroy(function () {
-        res.redirect('/');
-    });
-});
-
-function login(req, user) {
-    req.session.loggedIn = true;
-    req.session.username = user;
-    req.session.admin = false;
-
-    con.query('SELECT * FROM `BBY-12-Admins` WHERE (`username` = ?);', [user], function (err, results) {
-        if (err) throw err;
-        if (results.length > 0) {
-            req.session.admin = true;
-        }
-        req.session.save();
-    });
-}
 
 app.get('/get-users', function (req, res) {
     con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
@@ -206,8 +160,36 @@ app.post('/update-users', function (req, res) {
         });
 });
 
+app.get('/admin-dashboard', (req, res) => {
+    if (req.session.loggedIn && req.session.admin) {
+        let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
+        res.send(adminDashPage);
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.route('/admin-add-account')
+    .get((req, res) => {
+        if (req.session.loggedIn) {
+            let accountAddPage = fs.readFileSync('./views/admin-add-account.html', 'utf8');
+            res.send(accountAddPage);
+        } else {
+            res.redirect('/');
+        }
+    })
+    .post((req, res) => {
+        createAccount.createAdmin(req, res)
+            .then(function (result) {
+                res.redirect('/admin-dashboard');
+            })
+            .catch(function (err) {
+                res.redirect('/admin-add-account');
+            });
+    });
+
 app.get('/admin-view-accounts', function (req, res) {
-    if (req.session.loggedIn && req.session.admin == true) {
+    if (req.session.loggedIn && req.session.admin) {
         let users = 'SELECT * FROM `BBY-12-Users`';
         con.query(users, function (err, results, fields) {
             if (err) throw err;
@@ -225,20 +207,6 @@ app.get('/admin-view-accounts', function (req, res) {
             let adminViewAccPage = adminViewAccDOM.serialize();
             res.send(adminViewAccPage);
         });
-    } else {
-        res.redirect("/");
-    }
-});
-
-//get data from BBY-12-post and format the posts
-app.get('/home', (req, res) => {
-    if (req.session.loggedIn) {
-        let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
-        let profileDOM = new JSDOM(profilePage);
-        profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
-        profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
-        profilePage = profileDOM.serialize();
-        res.send(profilePage);
     } else {
         res.redirect("/");
     }

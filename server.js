@@ -56,8 +56,12 @@ app.get('/', (req, res) => {
 
 app.route('/login')
     .get((req, res) => {
-        let loginPage = fs.readFileSync('./views/login.html', 'utf8');
-        res.send(loginPage);
+        if (req.session.loggedIn = false) {
+            let loginPage = fs.readFileSync('./views/login.html', 'utf8');
+            res.send(loginPage);
+        } else {
+            res.redirect('/');
+        }
     })
     .post((req, res,) => {
         let user = req.body.username.trim();
@@ -77,8 +81,12 @@ app.route('/login')
 
 app.route('/create-account')
     .get((req, res) => {
-        let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
-        res.send(createAccountPage);
+        if (req.session.loggedIn = false) {
+            let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
+            res.send(createAccountPage);
+        } else {
+            res.redirect('/');
+        }
     })
     .post((req, res) => {
         createAccount.createAccount(req, res)

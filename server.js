@@ -68,7 +68,7 @@ app.route('/login')
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
+            con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
                 if (results && results.length > 0) {
                     login(req, user);
                 }
@@ -84,7 +84,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('SELECT * FROM `BBY-12-Admins` WHERE (`username` = ?);', [user], function (err, results) {
+    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], function (err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -143,7 +143,7 @@ app.get('/profile', (req, res) => {
 });
 
 app.get('/get-users', function (req, res) {
-    con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
+    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
         if (error) throw err;
         res.setHeader('content-type', 'application/json');
         res.send(results);
@@ -152,7 +152,8 @@ app.get('/get-users', function (req, res) {
 
 // Post that updates values to change data stored in db
 app.post('/update-users', function (req, res) {
-    con.query('UPDATE `BBY-12-Users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+    res.setHeader('Content-Type', 'application/json');
+    con.query('UPDATE `BBY_12_users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
         function (error, results, fields) {
             if (error) throw error;
             res.setHeader('Content-Type', 'application/json');
@@ -190,7 +191,7 @@ app.route('/admin-add-account')
 
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin) {
-        let users = 'SELECT * FROM `BBY-12-Users`';
+        let users = 'SELECT * FROM `BBY_12_Users`';
         con.query(users, function (err, results, fields) {
             if (err) throw err;
 

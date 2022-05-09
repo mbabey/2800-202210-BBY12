@@ -1,29 +1,35 @@
 'use strict';
-const crypto = require('crypto');
+// const crypto = require('crypto');
 
 docLoaded(() => {
-    function postLogin() {
-        let loginForm = document.querySelector('#login-form');
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Stop submit button from sending form.
-            let inputUsername = loginForm.getElementsByName('username')[0].trim();
-            let inputPassword = loginForm.getElementsByName('password')[0]; 
-            const hash = crypto.createHash('sha256').update(inputPassword).digest('hex');
-            let loginData = { username: inputUsername, password: hash };
-            sendData(loginData);
+    let loginButton = document.querySelector('#login-submit');
+    loginButton.addEventListener('click', (e) => {
+        e.preventDefault(); // Stop submit button from sending form.
+        let inputUsername = document.getElementsByName('username')[0].value;
+        let inputPassword = document.getElementsByName('password')[0].value;
+        hashFunction(inputPassword).then((hash) => {
+            let data = { username: inputUsername, password: hash };
+            console.log(data);
+            sendData(data);
         });
+    });
 
-        async function sendData(data) {
-            let res = await fetch('/login', {
-                method: 'post',
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-            console.log('respnse obj: ' + res);
-            let parse = res.json();
-            console.log('json: ' + parse);
-        }
+    async function sendData(data) {
+        let res = await fetch('/login', {
+            method: 'post',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+    }
 
+    /* Function for hashing password using JS libraries.
+        From: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest */
+    async function hashFunction(text) {
+        const msgUint8 = new TextEncoder().encode(text);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex;
     }
 });
 

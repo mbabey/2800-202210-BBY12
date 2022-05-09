@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `BBY_12_admins` (
 
 INSERT INTO `BBY_12_users`
 VALUES ("test", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", "Drop", "Table", "Gro Operate", "Business Cooperation Software", "123@321.com", "(123) 456-7890", "here, now", "I am the progenitor of all accounts", "img.jpg"); -- Password is "test" run through sha256. Just type "test"!
-INSERT INTO `BBY_12_users`
+INSERT INTO `BBY-12-Users`
 VALUES ("user", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", "Mike", "Hawk", "Birthink Inc.", "Not-for-profit Think Tank", "mikey@business.gov", "(123) 456-7890", "Swift Current, Saskatchewan", "Birthink Inc. is the reason to get up in the morning; its the reason to go to bed at night.", "img.jpg"); -- Password is "test" run through sha256. Just type "test"!
 
 INSERT INTO `BBY_12_admins` VALUES ("test");

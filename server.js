@@ -1,22 +1,21 @@
 'use strict';
-// const { Router } = require('express');
 const express = require('express');
 const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
 const crypto = require('crypto');
-const {
-    JSDOM
-} = require('jsdom');
+const { JSDOM } = require('jsdom');
 
 const createAccount = require('./scripts/create-account');
 const dbInitialize = require('./db-init');
+const { redirect } = require('express/lib/response');
 
 app.use(express.urlencoded({
     extended: true
 }));
 app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/scripts'));
 
 app.use(session({
     secret: 'shoredoes',
@@ -25,34 +24,31 @@ app.use(session({
     saveUninitialized: true
 }));
 
+let con;
 const port = 8000;
-
-const con = mysql.createConnection({
-    //change to local host on windows
-    host: '127.0.0.1',
-    user: 'root',
-    //change to no password
-    password: ' ',
-    database: 'comp2800'
-});
-
-con.connect(function (err) {
-    if (err) throw err;
-    console.log("SQL Connected");
-});
-
 app.listen(port, () => {
-    console.log('Gro-Operate running on port: ' + port);
-    dbInitialize.dbInitialize();
+    console.log('Gro-Operate running on port ' + port);
+    dbInitialize.dbInitialize()
+        .then(() => {
+            con = mysql.createConnection({
+                host: 'localhost',
+                user: 'root',
+                password: '',
+                database: 'COMP2800'
+            });
+        }).then(() => {
+            con.connect(function (err) {
+                if (err) throw err;
+            });
+        });
 });
 
 app.get('/', (req, res) => {
-    console.log(req.session);
     if (req.session.loggedIn) {
         if (req.session.admin)
             res.redirect('/admin-dashboard'); // TEMP show case that admin accounts are different, will remove once dash board button is implemented
         else
-            res.redirect('/edit-profile'); // /edit-profile for now, but will be /home in later versions 
+            res.redirect('/home');
     } else {
         res.redirect('/login');
     }
@@ -63,17 +59,14 @@ app.route('/login')
         let loginPage = fs.readFileSync('./views/login.html', 'utf8');
         res.send(loginPage);
     })
-    .post((req, res, ) => {
+    .post((req, res,) => {
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('Select * from (`bby12users`) Where (`username` = ?) AND (`password` = ?)', [user, hash], function (err, results, ) {
+            con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
                 if (results && results.length > 0) {
                     login(req, user);
-
-                } else {
-                    console.log("Username/password combination not found");
                 }
             });
             res.redirect('/');
@@ -82,36 +75,20 @@ app.route('/login')
         }
     });
 
-app.get('/profile', (req, res) => {
-    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
-    res.send(profilePage);
-});
-
-app.get('/edit-profile', (req, res) => {
-    let editProfilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
-    res.send(editProfilePage);
-})
-
-app.get('/admin-dashboard', (req, res) => {
-    let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
-    res.send(adminDashPage);
-});
-
 app.route('/create-account')
     .get((req, res) => {
         let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
         res.send(createAccountPage);
     })
     .post((req, res) => {
-        if (createAccount.createAccount(req, res)) {
-            login(req, req.body["username"]);
-            //res.send({ status: "success", msg: "Record added." });
-            res.redirect('/');
-        } else {
-            //res.send({ status: "fail", msg: "Record not added." });
-            res.redirect('/create-account');
-        }
-
+        createAccount.createAccount(req, res)
+            .then(function (result) {
+                login(req, req.body["username"]);
+                res.redirect('/');
+            })
+            .catch(function (err) {
+                res.redirect('/create-account');
+            });
     });
 
 app.get('/logout', (req, res) => {
@@ -120,13 +97,12 @@ app.get('/logout', (req, res) => {
     });
 });
 
-
 function login(req, user) {
     req.session.loggedIn = true;
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`bby12admins`) Where (`username` = ?)', [user], function (err, results) {
+    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], function (err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -135,135 +111,127 @@ function login(req, user) {
     });
 }
 
-//grab data from the logged-in user table in db
-//not working
-app.get('/get-users', function (req, res) {
+app.get('/profile', (req, res) => {
+    if (req.session.loggedIn) {
+        let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
+        res.send(profilePage);
+    } else {
+        res.redirect('/');
+    }
+});
 
-    let connection = mysql.createConnection({
-        host: '127.0.0.1',
-        user: 'root',
-        password: ' ',
-        database: 'comp2800'
+app.get('/admin-dashboard', (req, res) => {
+    if (req.session.loggedIn && req.session.admin) {
+        let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
+        res.send(adminDashPage);
+    } else {
+        res.redirect('/');
+    }
+});
+
+app.route('/admin-add-account')
+    .get((req, res) => {
+        let accountAddPage = fs.readFileSync('./views/admin-add-account.html', 'utf8');
+        res.send(accountAddPage);
+    })
+    .post((req, res) => {
+        createAccount.createAdmin(req, res)
+            .then(function (result) {
+                res.redirect('/admin-dashboard');
+            })
+            .catch(function (err) {
+                res.redirect('/admin-add-account');
+            });
     });
-    connection.connect();
 
-    //fetch from that specific logged-in user
-    //need the current session's username to locate the data, not sure if it's working
-    let session_username = req.session.username;
-    connection.query('SELECT (`fName`, `lName`, `email`, `password`) FROM (`bby12users`) WHERE (`username` = ?)', [session_username], function (error, results, fields) {
-        if (error) {
-            console.log(error);
+app.route('/create-account')
+    .get((req, res) => {
+        let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
+        res.send(createAccountPage);
+    })
+    .post((req, res) => {
+        createAccount.createAccount(req, res)
+            .then(function (result) {
+                login(req, req.body["username"]);
+                res.redirect('/');
+            })
+            .catch(function (err) {
+                res.redirect('/create-account');
+            });
+    });
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(function () {
+        res.redirect('/');
+    });
+});
+
+function login(req, user) {
+    req.session.loggedIn = true;
+    req.session.username = user;
+    req.session.admin = false;
+
+    con.query('SELECT * FROM `BBY_12_admins` WHERE (`username` = ?);', [user], function (err, results) {
+        if (err) throw err;
+        if (results.length > 0) {
+            req.session.admin = true;
         }
-        console.log('Rows returned are: ', results);
-        res.send({
-            status: "success",
-            rows: results
-        });
-
+        req.session.save();
     });
-    connection.end();
+}
 
-
+app.get('/get-users', function (req, res) {
+    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
+        if (error) throw err;
+        res.setHeader('content-type', 'application/json');
+        res.send(results);
+    });
 });
 
 // Post that updates values to change data stored in db
 app.post('/update-users', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-
-    let connection = mysql.createConnection({
-        host: '127.0.0.1',
-        user: 'root',
-        password: ' ',
-        database: 'comp2800'
-    });
-    connection.connect();
-    console.log("update values", req.body.username, req.body.fName, req.body.lName,
-        req.body.email, req.body.password)
-    connection.query('UPDATE users SET fName = ? AND lName = ? AND email = ? AND password = ? WHERE username = ?',
-        [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+    con.query('UPDATE `BBY_12_users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
         function (error, results, fields) {
-            if (error) {
-                console.log(error);
-            }
-            //console.log('Rows returned are: ', results);
-            res.send({
-                status: "Success",
-                msg: "User information updated."
-            });
-
+            if (error) throw error;
+            res.send({ status: "Success", msg: "User information updated." });
         });
-    connection.end();
-
 });
 
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
-        let session_username = req.session.username;
-        let users = 'SELECT * FROM bby12users WHERE bby12users.username = ?';
-        con.query(users, [session_username], function (err, results, fields) {
+        let users = 'SELECT * FROM `BBY_12_users`';
+        con.query(users, function (err, results, fields) {
             if (err) throw err;
-            console.log(results);
-            
-            let username = "<h3>" + results[0].username + "</h3>";
-            let first_name = "<p>" + results[0].fName + "</p>";
-            let last_name = "<p>" + results[0].lName + "</p>";
-            let business_name = "<p>" + results[0].cName + "</p>";
-    
+
+            let table = "<table><tr><th>Username</th><th class=\"admin-user-info-desktop\">First Name</th><th class=\"admin-user-info-desktop\">Last Name</th><th class=\"admin-user-info-desktop\">Business Name</th></tr>";
+            for (let i = 0; i < results.length; i++) {
+                table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info-desktop\">"
+                    + results[i].fName + "</td><td class=\"admin-user-info-desktop\">" + results[i].lName + "</td><td class=\"admin-user-info-desktop\">"
+                    + results[i].cName + "</td></tr>";
+            }
+            table += "</table>";
             let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
             let adminViewAccDOM = new JSDOM(adminViewAcc);
-            adminViewAccDOM.window.document.getElementById("u-name").innerHTML = username;
-            adminViewAccDOM.window.document.getElementById("f-name").innerHTML = first_name;
-            adminViewAccDOM.window.document.getElementById("l-name").innerHTML = last_name;
-            adminViewAccDOM.window.document.getElementById("b-name").innerHTML = business_name;
+            adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
             let adminViewAccPage = adminViewAccDOM.serialize();
             res.send(adminViewAccPage);
         });
-
-        } else {
+    } else {
         res.redirect("/");
     }
 });
 
-
-// trying to populate mysql data into a template card, then need to try generating card template group
-app.get('/admin-view-accounts', function (req, res) {
-    if (req.session.loggedIn && req.session.admin == true) {
-        let users = 'SELECT * FROM bby12users';
-
-        let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-        
-        let adminViewAccDOM = new JSDOM(adminViewAcc);
-        let profileCardTemplate = adminViewAccDOM.window.document.getElementById("profileCardTemplate");
-             
-        con.query(users, function (err, results, fields) {
-            if (err) throw err;
-            console.log(results);
-            let user_name = "";
-            let first_name = "";
-            let last_name = "";
-            let business_name = "";
-            console.log(user_name);
-            for (let i = 0; i < results.length; i++) {
-                user_name = results[i].username;
-                first_name = results[i].fName;
-                last_name = results[i].lName;
-                business_name += results[i].cName;
-                console.log(user_name);
-       
-            }
-            console.log(user_name);
-            let newcard = profileCardTemplate.content.cloneNode(true);
-            newcard.querySelector(".profile-card-title").innerHTML = user_name;
-            newcard.querySelector(".profile-card-fname").innerHTML = first_name;
-            newcard.querySelector(".profile-card-lname").innerHTML = last_name;
-            newcard.querySelector(".profile-card-bname").innerHTML = business_name;
-             
-            adminViewAccDOM.window.document.getElementById("profileCardTemplate").innerHTML = newcard;
-            let adminViewAccPage = adminViewAccDOM.serialize();
-            res.send(adminViewAccPage);
-        });
-
-        } else {
+//get data from BBY_12_post and format the posts
+app.get('/home', (req, res) => {
+    if (req.session.loggedIn) {
+        let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
+        let profileDOM = new JSDOM(profilePage);
+        profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
+        profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
+        profilePage = profileDOM.serialize();
+        res.send(profilePage);
+    } else {
         res.redirect("/");
     }
 });

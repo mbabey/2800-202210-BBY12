@@ -152,10 +152,10 @@ app.get('/get-users', function (req, res) {
 
 // Post that updates values to change data stored in db
 app.post('/update-users', function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
     con.query('UPDATE `BBY-12-Users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
         function (error, results, fields) {
             if (error) throw error;
+            res.setHeader('Content-Type', 'application/json');
             res.send({ status: "Success", msg: "User information updated." });
         });
 });
@@ -171,7 +171,7 @@ app.get('/admin-dashboard', (req, res) => {
 
 app.route('/admin-add-account')
     .get((req, res) => {
-        if (req.session.loggedIn) {
+        if (req.session.loggedIn && req.session.admin) {
             let accountAddPage = fs.readFileSync('./views/admin-add-account.html', 'utf8');
             res.send(accountAddPage);
         } else {

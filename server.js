@@ -191,7 +191,7 @@ app.route('/admin-add-account')
 
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin) {
-        let users = 'SELECT * FROM `BBY_12_Users`';
+        let users = 'SELECT * FROM BBY_12_Users';
         con.query(users, function (err, results, fields) {
             if (err) throw err;
 

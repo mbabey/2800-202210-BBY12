@@ -7,9 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="./styles/admin-view-accounts.css">
   <link rel="stylesheet" type="text/css" href="./styles/global.css">
+  <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
+
 
   <nav>
     <div id="nav-wrapper">
@@ -20,7 +22,7 @@
               d="M8 42V18L24.1 6L40 18V42H28.3V27.75H19.65V42ZM11 39H16.65V24.75H31.3V39H37V19.5L24.1 9.75L11 19.5ZM24 24.35Z" />
           </svg>
         </a>
-        <a href="/administration" id="nav-admin" class="nav-button">
+        <a href="/admin-dashboard" id="nav-admin" class="nav-button">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="28" width="28">
             <path fill="currentColor"
               d="M24 25.15ZM11.65 44 16.3 28.8 4 20H19.2L24 4L28.8 20H44L31.7 28.8L36.35 44L24 34.6ZM17.15 35.85 24 30.65 30.85 35.85 28.1 27.2 34.4 23.1H26.85L24 14.45L21.15 23.1H13.6L19.9 27.2Z" />
@@ -39,7 +41,7 @@
             </button>
           </form>
         </div>
-        <a href="/create-post" id="nav-post" class="nav-button">
+        <a href="#" id="nav-post" class="nav-button">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 -1 28 28" width="28" height="28">
             <path fill="currentColor"
               d="M18.656.93,6.464,13.122A4.966,4.966,0,0,0,5,16.657V18a1,1,0,0,0,1,1H7.343a4.966,4.966,0,0,0,3.535-1.464L23.07,5.344a3.125,3.125,0,0,0,0-4.414A3.194,3.194,0,0,0,18.656.93Zm3,3L9.464,16.122A3.02,3.02,0,0,1,7.343,17H7v-.343a3.02,3.02,0,0,1,.878-2.121L20.07,2.344a1.148,1.148,0,0,1,1.586,0A1.123,1.123,0,0,1,21.656,3.93Z" />
@@ -47,7 +49,7 @@
               d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z" />
           </svg>
         </a>
-        <a href="/chat" id="nav-chat" class="nav-button">
+        <a href="#" id="nav-chat" class="nav-button">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="4 4 40 40" height="24" width="24">
             <path fill="currentColor"
               d="M4 44V7Q4 5.85 4.9 4.925Q5.8 4 7 4H41Q42.15 4 43.075 4.925Q44 5.85 44 7V33Q44 34.15 43.075 35.075Q42.15 36 41 36H12ZM7 36.75 10.75 33H41Q41 33 41 33Q41 33 41 33V7Q41 7 41 7Q41 7 41 7H7Q7 7 7 7Q7 7 7 7ZM7 7Q7 7 7 7Q7 7 7 7Q7 7 7 7Q7 7 7 7V33Q7 33 7 33Q7 33 7 33V36.75Z" />
@@ -70,23 +72,37 @@
       </div>
     </div>
   </nav>
-
   <div class="container">
-    <div class="dashboard-header">
-      <h3 id="dashboard-title">Administration Board</h3>
-    </div>
+
+      <div class="dashboard-header">
+        <h3 id="dashboard-title">Administration Board</h3>
+      </div>
+
+
     <div class="content">
       <div class="admin-right">
+        <h3>All User Accounts</h3>
         <div id="user-list">
-
         </div>
+        <h3>All Admin Accounts</h3>
+        <div id="admin-list">
+        </div>
+        <div id="delete-block">
+          <p><b>Delete Admin Account</b></p>
+          <form method="post">
+            <div id="username-block" class="input-wrapper">
+              <input name="username" type="text" placeholder="Username" class="delete-input">
+              <input name="username-verify" type="text" placeholder="Verify Username" class="delete-input">
+              <button id="delete-submit" type="submit" value="submit">Delete Account</button>
+            </div>
+            </form>
+      </div>
       </div>
       <div class="admin-left">
-
-
         <div class="profile">
           <div class="profile-head">
-            <div class="profile-picture">            
+            <h3>Admin Profile</h3>
+            <div class="profile-picture">
               <img src="./images/Logo.png" alt="Profile Image">
             </div>
             <div class="profile-info">
@@ -101,6 +117,7 @@
       </div>
     </div>
   </div>
+
 
   <footer>
     <div id="footer-wrapper">
@@ -134,7 +151,7 @@
       </a>
     </div>
   </footer>
-  
+
 </body>
 
 </html>

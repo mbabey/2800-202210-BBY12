@@ -76,7 +76,8 @@ async function initDB(con) {
         let records = 'INSERT INTO BBY_12_users (username, password, fName, lName, cName, bType, email, phoneNo, location, description, profilePic) VALUES ?;';
         let values = [
             ['test', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Drop', 'Table', 'Gro-Operate', 'Business Cooperation Software', '123@321.com', '(123) 456-7890', 'here, now', 'I am the progenitor of all accounts', 'img.jpg'],
-            ['user', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Mike', 'Hawk', 'Birthink Inc.', 'Not-for-profit Think Tank', 'mikey@business.gov', '(123) 456-7890', 'Swift Current, Saskatchewan', 'Birthink Inc. is the reason to get up in the morning; its the reason to go to bed at night.', 'img.jpg']
+            ['user', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Mike', 'Hawk', 'Birthink Inc.', 'Not-for-profit Think Tank', 'mikey@business.gov', '(123) 456-7890', 'Swift Current, Saskatchewan', 'Birthink Inc. is the reason to get up in the morning; its the reason to go to bed at night.', 'img.jpg'],
+            ['admin', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'Mei', 'Lee', 'Kwassante', 'French Bakery', 'kwassante@info.ca', '(649) 799-7890', 'Markham, Ontario', 'Homemade bread that tastes like home, just a knead away.', 'img.jpg']
         ];
         await con.query(records, [values], (err) => {
             if (err);
@@ -88,7 +89,8 @@ async function initDB(con) {
     if (rows.length == 0) {
         let records = 'INSERT INTO BBY_12_admins VALUES ?;';
         let values = [
-            ['test']
+            ['test'],
+            ['admin']
         ];
         await con.query(records, [values], (err) => {
             if (err);

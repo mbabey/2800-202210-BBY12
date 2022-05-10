@@ -65,7 +65,8 @@ footer svg {
   align-items: center;
 }
 
-#nav-wrapper>div .nav-button {
+#nav-wrapper>div .nav-button,
+#footer-wrapper .nav-button {
   text-decoration: none;
   color: var(--primary-dark);
   display: flex;
@@ -213,11 +214,8 @@ footer {
     flex-direction: row;
   }
 
-  #footer-wrapper a {
+  #footer-wrapper .nav-button {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
 }

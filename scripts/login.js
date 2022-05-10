@@ -1,22 +1,31 @@
 'use strict';
-// const crypto = require('crypto');
 
 docLoaded(() => {
     let loginButton = document.querySelector('#login-submit');
     loginButton.addEventListener('click', () => {
         let inputUsername = document.getElementsByName('username')[0].value;
         let inputPassword = document.getElementsByName('password')[0].value;
-        hashFunction(inputPassword).then((hash) => {
-            sendData(JSON.stringify({ username: inputUsername, password: hash }));
-        });
+        // hashFunction(inputPassword).then((hash) => {
+        //     sendData(JSON.stringify({ username: inputUsername, password: hash }));
+        // });
+        sendData({ username: inputUsername, password: inputPassword });
     });
 
     async function sendData(data) {
-        await fetch('/login', {
-            method: 'post',
-            headers: { 'content-type': 'application/json' },
-            body: data
-        });
+        try {
+            console.log(data);
+            console.log(JSON.stringify(data));
+            let res = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            console.log("Response obj: ", res);
+            let parsed = await res.json();
+            console.log("From the server: ", parsed);
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     /* Function for hashing password using JS libraries.

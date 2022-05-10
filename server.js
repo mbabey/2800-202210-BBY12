@@ -11,6 +11,7 @@ const createAccount = require('./scripts/create-account');
 const dbInitialize = require('./db-init');
 const { redirect } = require('express/lib/response');
 
+app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
@@ -66,14 +67,16 @@ app.route('/login')
     .post((req, res,) => {
         let user = req.body.username;
         let pass = req.body.password;
-        console.log(user + ", " + pass);
+        // const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, pass], function (err, results,) {
-                if (results && results.length > 0) {
-                    login(req, user);
-                }
-            });
-            res.redirect('/');
+            // con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
+            //     if (results && results.length > 0) {
+            //         login(req, user);
+            //     }
+            // });
+            res.setHeader('content-type', 'application/json');
+            res.send({ msg: "babbabuoy: " + user + " " + pass });
+            // res.redirect('/');
         } catch (err) {
             res.redirect('/');
         }

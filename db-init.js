@@ -8,17 +8,17 @@ const db = 'COMP2800';
 
 const mysql = require('mysql2/promise');
 const Importer = require('mysql-import');
-const importer = new Importer({ hostName, userName, pass, db });
+const importer = new Importer({ hostName, userName });
 
 module.exports = {
     dbInitialize: async () => {
         await initDB();
-        // importer.use(db);
+        importer.use(db);
         importer.onProgress((progress) => {
             let percent = Math.floor(progress.bytes_processed / progress.total_bytes * 10000) / 100;
             console.log(`${percent}% complete`);
         });
-        importer.import('./database.sql').catch((err) => {
+        importer.import('database.sql').catch((err) => {
             throw err;
         });
 

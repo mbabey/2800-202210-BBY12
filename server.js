@@ -122,10 +122,10 @@ app.get('/logout', (req, res) => {
 //get data from BBY-12-post and format the posts
 app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
-        let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
+        let profilePage = fs.readFileSync('./views/profile.html', 'utf8').toString();
         let profileDOM = new JSDOM(profilePage);
         profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
-        profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
+        // profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
         profilePage = profileDOM.serialize();
         res.send(profilePage);
     } else {

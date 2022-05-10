@@ -10,6 +10,7 @@ const { JSDOM } = require('jsdom');
 const createAccount = require('./scripts/create-account');
 const dbInitialize = require('./db-init');
 const { redirect } = require('express/lib/response');
+const { send } = require('process');
 
 app.use(express.urlencoded({
     extended: true
@@ -188,6 +189,14 @@ app.route('/admin-add-account')
             });
     });
 
+app.get('/get-admins', function (req, res) {
+    con.query('SELECT * FROM BBY_12_admins', [username], function (err, results) {
+        if (err) throw err;
+        res.setHeader('content-type', 'application/json');
+        res.send(results.username);
+    });
+});
+
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let session_username = req.session.username;
@@ -217,7 +226,7 @@ app.get('/admin-view-accounts', function (req, res) {
         });
         con.query(users, function (err, results, fields) {
             if (err) throw err;
-
+    
             let table = "<table><tr><th>Username</th><th class=\"admin-user-info\">First Name</th><th class=\"admin-user-info\">Last Name</th><th class=\"admin-user-info\">Business Name</th></tr>";
             for (let i = 0; i < results.length; i++) {
                 table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info\">"
@@ -239,5 +248,24 @@ app.get('/admin-view-accounts', function (req, res) {
     } else {
         res.redirect("/");
     }
-});
+    });
+
+app.route('/admin-view-accounts')
+    .get((req, res) => {
+        if (req.session.loggedIn && req.session.admin) {
+            let adminViewAccPage = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+            res.send(adminViewAccPage);
+        } else {
+            res.redirect('/');
+        }
+    })
+    .delete((req, res) => {
+        deleteAdmin(req, res)
+        .then(function (result) {
+            res.redirect('/admin-view-accounts');
+        })
+        .catch(function (err) {
+            res.redirect('/admin-dashboard');
+        })
+    })
 // change

@@ -21,7 +21,7 @@ module.exports = {
             let filesImported = importer.getImported();
             console.log(`${filesImported.length} SQL files imported`);
         }).catch((err) => {
-            console.log(err);
+            throw err;
         });
 
 

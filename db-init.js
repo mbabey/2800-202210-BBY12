@@ -4,23 +4,21 @@
 const hostName = 'localhost';
 const userName = 'root';
 const pass = '';
+const db = 'COMP2800';
 
 const mysql = require('mysql2/promise');
 const Importer = require('mysql-import');
-const importer = new Importer({ hostName, userName, pass });
+const importer = new Importer({ hostName, userName, pass, db });
 
 module.exports = {
     dbInitialize: async () => {
         await initDB();
-        importer.use('COMP2800');
+        // importer.use(db);
         importer.onProgress((progress) => {
             let percent = Math.floor(progress.bytes_processed / progress.total_bytes * 10000) / 100;
             console.log(`${percent}% complete`);
         });
-        importer.import('./database.sql').then(() => {
-            let filesImported = importer.getImported();
-            console.log(`${filesImported.length} SQL files imported`);
-        }).catch((err) => {
+        importer.import('./database.sql').catch((err) => {
             throw err;
         });
 

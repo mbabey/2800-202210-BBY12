@@ -56,7 +56,7 @@ app.get('/', (req, res) => {
 
 app.route('/login')
     .get((req, res) => {
-        if (req.session.loggedIn = false) {
+        if (!req.session.loggedIn) {
             let loginPage = fs.readFileSync('./views/login.html', 'utf8');
             res.send(loginPage);
         } else {
@@ -79,9 +79,23 @@ app.route('/login')
         }
     });
 
+function login(req, user) {
+    req.session.loggedIn = true;
+    req.session.username = user;
+    req.session.admin = false;
+
+    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], function (err, results) {
+        if (err) throw err;
+        if (results.length > 0) {
+            req.session.admin = true;
+        }
+        req.session.save();
+    });
+}
+
 app.route('/create-account')
     .get((req, res) => {
-        if (req.session.loggedIn = false) {
+        if (!req.session.loggedIn) {
             let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
             res.send(createAccountPage);
         } else {
@@ -105,19 +119,19 @@ app.get('/logout', (req, res) => {
     });
 });
 
-function login(req, user) {
-    req.session.loggedIn = true;
-    req.session.username = user;
-    req.session.admin = false;
-
-    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], function (err, results) {
-        if (err) throw err;
-        if (results.length > 0) {
-            req.session.admin = true;
-        }
-        req.session.save();
-    });
-}
+//get data from BBY-12-post and format the posts
+app.get('/home', (req, res) => {
+    if (req.session.loggedIn) {
+        let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
+        let profileDOM = new JSDOM(profilePage);
+        profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
+        profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
+        profilePage = profileDOM.serialize();
+        res.send(profilePage);
+    } else {
+        res.redirect("/");
+    }
+});
 
 app.get('/profile', (req, res) => {
     if (req.session.loggedIn) {
@@ -175,7 +189,6 @@ app.route('/admin-add-account')
             });
     });
 
-
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin) {
         let users = 'SELECT * FROM BBY_12_Users';
@@ -195,20 +208,6 @@ app.get('/admin-view-accounts', function (req, res) {
             let adminViewAccPage = adminViewAccDOM.serialize();
             res.send(adminViewAccPage);
         });
-    } else {
-        res.redirect("/");
-    }
-});
-
-//get data from BBY-12-post and format the posts
-app.get('/home', (req, res) => {
-    if (req.session.loggedIn) {
-        let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
-        let profileDOM = new JSDOM(profilePage);
-        profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
-        profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
-        profilePage = profileDOM.serialize();
-        res.send(profilePage);
     } else {
         res.redirect("/");
     }

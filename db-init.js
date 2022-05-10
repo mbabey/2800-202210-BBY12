@@ -1,18 +1,39 @@
 'use strict';
-const fs = require('fs');
-const readline = require('readline');
+// const fs = require('fs');
+// const readline = require('readline');
+const host = 'localhost';
+const user = 'root';
+const pass = '';
+
 const mysql = require('mysql2/promise');
+const Importer = require('mysql-import');
+const importer = new Importer({ host, user, pass });
 
 module.exports = {
-    dbInitialize: async function () {
-        const con = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            multipleStatements: true
+    dbInitialize: async () => {
+        importer.onProgress((progress) => {
+            let percent = Math.floor(progress.bytes_processed / progress.total_bytes * 10000) / 100;
+            console.log(`${percent}% complete`);
         });
+
+        importer.import('./database.sql').then(() => {
+            let filesImported = importer.getImported();
+            console.log(`${filesImported.length} SQL files imported`);
+        }).catch((err) => {
+            console.log(err);
+        });
+
+
+        // const con = await mysql.createConnection({
+        //     host: 'localhost',
+        //     user: 'root',
+        //     password: '',
+        //     multipleStatements: true
+        // });
+
         // const databaseSQL = fs.readFileSync('./database.sql');
-        readSQL('./database.sql').then(data => console.log('this is one array:', data));
+        // readSQL('./database.sql').then(data => console.log('this is one array:', data));
+
         // initDB(con)
         //     .then((firstInit) => {
         //         if (firstInit)
@@ -37,12 +58,12 @@ const readSQL = (path) => new Promise((resolve, reject) => {
     const sqlArr = new Array();
 
     objReadLine.on('line', line => {
-        if(line.endsWith(';')) {
-            if(sqlStr.length !== 0) sqlStr.push(line);
+        if (line.endsWith(';')) {
+            if (sqlStr.length !== 0) sqlStr.push(line);
 
             sqlArr.push(sqlStr.join(''));
             sqlStr.length = 0;
-        } else if(!line.endsWith(';') && !line.startsWith('--')) {
+        } else if (!line.endsWith(';') && !line.startsWith('--')) {
             sqlStr.push(line);
         }
     });

@@ -11,8 +11,21 @@ module.exports = {
             password: '',
             multipleStatements: true
         });
-        // const databaseSQL = fs.readFileSync('./database.sql');
-        readSQL('./database.sql').then(data => console.log('this is one array:', data));
+        readSQL('./database.sql').then((data) => {
+            console.log('this is one array:', data[0]);
+            for (let i = 0; i < data.length; i++) {
+                console.log(data[i]);
+                con.query(data[i]);
+            }
+            // data.array.forEach(sqlQuery => {
+            //     console.log(sqlQuery);
+            //     con.query(sqlQuery, (err) => {
+            //         if (err) throw err;
+            //     });
+            // });
+        }).catch((err) => {
+            console.log(err);
+        });
         // initDB(con)
         //     .then((firstInit) => {
         //         if (firstInit)
@@ -26,6 +39,7 @@ module.exports = {
     }
 }
 
+/* Function for converting .sql file to string array from: https://stackoverflow.com/a/72055764 */
 const readSQL = (path) => new Promise((resolve, reject) => {
     const fRead = fs.createReadStream(path);
 

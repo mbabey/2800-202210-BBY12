@@ -63,48 +63,54 @@
 }
 
 #create-block p {
-text-align: center;
+    text-align: center;
 }
 
-#create-block > form {
+#create-block>form {
     height: 22.6rem;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 3.8rem 5.8rem 4rem 5rem 4rem; /* size in rem so form scales with font size. */
+    grid-template-rows: 3.8rem 5.8rem 4rem 5rem 4rem;
+    /* size in rem so form scales with font size. */
     gap: 3px;
 }
 
-#create-block > form > div {
+#create-block>form>div {
     display: flex;
     flex-direction: column;
 }
 
-#create-block > form > #username-block {
+#create-block>form>#username-block {
     grid-row: 1 / span 1;
     grid-column: 1 / span 1;
 }
-#create-block > form > #password-block {
+
+#create-block>form>#password-block {
     grid-row: 1 / span 1;
     grid-column: 2 / span 1;
 }
-#create-block > form > #name-block {
+
+#create-block>form>#name-block {
     grid-row: 2 / span 1;
     grid-column: 1 / span 1;
 }
-#create-block > form > #location-block {
+
+#create-block>form>#location-block {
     grid-row: 2 / span 1;
     grid-column: 2 / span 1;
 }
-#create-block > form > #contact-block {
+
+#create-block>form>#contact-block {
     grid-row: 3 / span 1;
     grid-column: 1 / span 2;
 }
-#create-block > form > #description-block {
+
+#create-block>form>#description-block {
     grid-row: 4 / span 1;
     grid-column: 1 / span 2;
 }
 
-#create-block > form > div > .create-input {
+#create-block>form>div>.create-input {
     border: 1px black solid;
     padding: 0.3rem;
     margin: 2px;
@@ -112,7 +118,7 @@ text-align: center;
     background-color: rgba(128, 128, 128, 0.3);
 }
 
-#create-block > form > #create-submit {
+#create-block>form>#create-submit {
     grid-row: 5 / span 1;
     grid-column: 1 / span 2;
     padding: .7rem;
@@ -129,7 +135,7 @@ text-align: center;
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#create-block > form > #create-submit::after {
+#create-block>form>#create-submit::after {
     content: '';
     position: absolute;
     z-index: -1;
@@ -143,17 +149,17 @@ text-align: center;
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-#create-block > form > #create-submit:focus,
-#create-block > form > #create-submit:hover {
+#create-block>form>#create-submit:focus,
+#create-block>form>#create-submit:hover {
     transform: scale(1.025, 1.025);
 }
 
-#create-block > form > #create-submit:focus::after,
-#create-block > form > #create-submit:hover::after {
+#create-block>form>#create-submit:focus::after,
+#create-block>form>#create-submit:hover::after {
     opacity: 1;
 }
 
-#create-block > form > #create-submit:active {
+#create-block>form>#create-submit:active {
     transform: scale(1);
 }
 
@@ -182,7 +188,7 @@ text-align: center;
         display: grid;
         grid-template-rows: minmax(100px, 15vh) auto;
     }
-    
+
     #pseudonav {
         display: flex;
         justify-content: center;
@@ -190,9 +196,9 @@ text-align: center;
     }
 
     #nav-logo-background {
-     margin: 0px;
+        margin: 0px;
     }
-    
+
     #nav-logo {
         position: relative;
         padding: 10%;
@@ -211,13 +217,13 @@ text-align: center;
     }
 
     #welcome {
-        display:none;
+        display: none;
     }
-    
+
     #welcome h1 {
-        display:none;
+        display: none;
     }
-    
+
     #welcome p {
         display: none;
     }

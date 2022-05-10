@@ -68,7 +68,7 @@ app.route('/login')
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
+            con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
                 if (results && results.length > 0) {
                     login(req, user);
                 }
@@ -129,7 +129,7 @@ app.get('/profile', (req, res) => {
 });
 
 app.get('/get-users', function (req, res) {
-    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
+    con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
         if (error) throw err;
         res.setHeader('content-type', 'application/json');
         res.send(results);
@@ -138,8 +138,7 @@ app.get('/get-users', function (req, res) {
 
 // Post that updates values to change data stored in db
 app.post('/update-users', function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    con.query('UPDATE `BBY_12_users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+    con.query('UPDATE `BBY-12-Users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
         function (error, results, fields) {
             if (error) throw error;
             res.setHeader('Content-Type', 'application/json');

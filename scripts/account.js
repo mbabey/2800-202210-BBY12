@@ -39,13 +39,6 @@ docLoaded(() => {
 
     document.getElementById("edit-button").addEventListener("click", function (event) {
 
-        // document.getElementsByClassName('business-name-block').contentEditable=true;
-        // document.querySelector('.business-name-block').contentEditable=true;
-        // document.getElementsByClassName("profile-header").style.backgroundColor = "#dddbdb";
-
-        // let input = document.createElement("input");
-
-
         biz_name.contentEditable = true;
         biz_name.style.color = '#3632a8';
         // input.appendChild(biz_name);
@@ -81,7 +74,8 @@ docLoaded(() => {
     document.getElementById("save-button").addEventListener("click", function (event) {
         biz_name.contentEditable = false;
         biz_name.style.color = '#000000';
-        // input.appendChild(biz_name);
+        let biz_name_value = document.getElementsByClassName("business-name-block").innerHTML;
+        console.log(biz_name_value);
         biz_owner_fName.contentEditable = false;
         biz_owner_fName.style.color = '#000000';
         // input.appendChild(biz_owner_lName);
@@ -105,7 +99,7 @@ docLoaded(() => {
         document.getElementById("edit-status").innerHTML = "";
         edit_button.innerHTML="Edit Profile";
         save_button.innerHTML="";
-    })
+    });
 
 });
 

@@ -1,21 +1,22 @@
 'use strict';
 // const fs = require('fs');
 // const readline = require('readline');
-const host = 'localhost';
-const user = 'root';
+const hostName = 'localhost';
+const userName = 'root';
 const pass = '';
 
 const mysql = require('mysql2/promise');
 const Importer = require('mysql-import');
-const importer = new Importer({ host, user, pass });
+const importer = new Importer({ hostName, userName, pass });
 
 module.exports = {
     dbInitialize: async () => {
+        await initDB();
+        importer.use('COMP2800');
         importer.onProgress((progress) => {
             let percent = Math.floor(progress.bytes_processed / progress.total_bytes * 10000) / 100;
             console.log(`${percent}% complete`);
         });
-
         importer.import('./database.sql').then(() => {
             let filesImported = importer.getImported();
             console.log(`${filesImported.length} SQL files imported`);
@@ -74,8 +75,14 @@ const readSQL = (path) => new Promise((resolve, reject) => {
 });
 
 
-async function initDB(con) {
-
+async function initDB() {
+    const con = await mysql.createConnection({
+        host: hostName,
+        user: userName,
+        password: pass,
+        multipleStatements: true
+    });
+    con.query(`CREATE DATABASE IF NOT EXISTS COMP2800; USE COMP2800;`);
 
     // let firstInit = true;
     // mysql.createConnection({

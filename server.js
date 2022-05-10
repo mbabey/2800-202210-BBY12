@@ -119,7 +119,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
-//get data from BBY-12-post and format the posts
+//get data from BBY_12_post and format the posts
 app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
         let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
@@ -143,8 +143,8 @@ app.get('/profile', (req, res) => {
 });
 
 app.get('/get-users', function (req, res) {
-    con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
-        if (error) throw err;
+    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
+        if (error) throw error;
         res.setHeader('content-type', 'application/json');
         res.send(results);
     });

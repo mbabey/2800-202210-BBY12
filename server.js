@@ -6,8 +6,8 @@ const app = express();
 const mysql = require('mysql2');
 const crypto = require('crypto');
 const { JSDOM } = require('jsdom');
-const multer = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const createAccount = require('./scripts/create-account');
 const dbInitialize = require('./db-init');

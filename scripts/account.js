@@ -27,29 +27,34 @@ docLoaded(() => {
     }
 
     document.getElementById("edit-button").addEventListener("click", function (event) {
+        // document.getElementsByClassName('business-name-block').contentEditable=true;
+        // document.querySelector('.business-name-block').contentEditable=true;
+        // document.getElementsByClassName("profile-header").style.backgroundColor = "#dddbdb";
+        
         let input = document.createElement("input");
-        let biz_name = document.getElementById("business-name-block");
-        let biz_owner_fName = document.getElementById("business-owner-fname-block");
-        let biz_owner_lName = document.getElementById("business-owner-lname-block");
-        let biz_email = document.getElementById("business-email-block");
-        let biz_phone = document.getElementById("business-email-block");
-        let biz_location = document.getElementById("business-location-block");
-        let biz_description = document.getElementById("business-description-block");
+        let biz_name = document.querySelector('.business-name-block');
+        let biz_owner_fName = document.querySelector('.business-owner-fname-block');
+        let biz_owner_lName = document.querySelector('.business-owner-lname-block');
+        let biz_type = document.querySelector('.business-type-block');
+        let biz_email = document.querySelector('.business-type-block');
+        let biz_phone = document.querySelector('.business-phone-block');
+        let biz_location = document.querySelector('.business-location-block');
+        let biz_description = document.querySelector('.business-description-block');
 
         biz_name.contentEditable = true;
-        input.appendChild(biz_name);
+        // input.appendChild(biz_name);
         biz_owner_fName.contentEditable = true;
-        input.appendChild(biz_owner_lName);
+        // input.appendChild(biz_owner_lName);
         biz_owner_lName.contentEditable = true;
-        input.appendChild(biz_owner_lName);
+        // input.appendChild(biz_owner_lName);
         biz_email.contentEditable = true;
-        input.appendChild(biz_email);
+        // input.appendChild(biz_email);
         biz_phone.contentEditable = true;
-        input.appendChild(biz_phone);
+        // input.appendChild(biz_phone);
         biz_location.contentEditable = true;
-        input.appendChild(biz_location);
+        // input.appendChild(biz_location);
         biz_description.contentEditable = true;
-        input.appendChild(biz_description);
+        // input.appendChild(biz_description);
         document.getElementById("edit-status").innerHTML = "Click on the fields to edit.";
         event.preventDefault();
     });

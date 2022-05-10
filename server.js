@@ -67,16 +67,15 @@ app.route('/login')
     .post((req, res,) => {
         let user = req.body.username;
         let pass = req.body.password;
-        // const hash = crypto.createHash('sha256').update(pass).digest('hex');
+        const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            // con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
-            //     if (results && results.length > 0) {
-            //         login(req, user);
-            //     }
-            // });
-            res.setHeader('content-type', 'application/json');
-            res.send({ msg: "babbabuoy: " + user + " " + pass });
-            // res.redirect('/');
+            con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
+                if (err) throw err;
+                if (results && results.length > 0) {
+                    login(req, user);
+                }
+            });
+            res.redirect('/');
         } catch (err) {
             res.redirect('/');
         }
@@ -86,7 +85,6 @@ function login(req, user) {
     req.session.loggedIn = true;
     req.session.username = user;
     req.session.admin = false;
-
     con.query('SELECT * FROM `BBY-12-Admins` WHERE (`username` = ?);', [user], function (err, results) {
         if (err) throw err;
         if (results.length > 0) {

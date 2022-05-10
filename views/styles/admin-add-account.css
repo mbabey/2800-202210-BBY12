@@ -248,6 +248,10 @@
         height: 50%;
     }
 
+    #admin-checkbox-container {
+        font-size: 1rem;
+    }
+
     #welcome {
         display: none;
     }

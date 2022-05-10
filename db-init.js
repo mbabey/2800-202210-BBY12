@@ -1,5 +1,6 @@
 'use strict';
 const fs = require('fs');
+const readline = require('readline');
 const mysql = require('mysql2/promise');
 
 module.exports = {
@@ -10,41 +11,72 @@ module.exports = {
             password: '',
             multipleStatements: true
         });
-        initDB(con)
-            .then((firstInit) => {
-                if (firstInit)
-                    console.log("Database successfully initialized");
-                else
-                    console.log("Database already initialized");
-            })
-            .catch((err) => {
-                console.log("Database could not be initialized\n" + err);
-            });
+        // const databaseSQL = fs.readFileSync('./database.sql');
+        readSQL('./database.sql').then(data => console.log('this is one array:', data));
+        // initDB(con)
+        //     .then((firstInit) => {
+        //         if (firstInit)
+        //             console.log("Database successfully initialized");
+        //         else
+        //             console.log("Database already initialized");
+        //     })
+        //     .catch((err) => {
+        //         console.log("Database could not be initialized\n" + err);
+        //     });
     }
 }
 
-async function initDB(con) {
-    let firstInit = true;
-    mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'COMP2800'
-    })
-    .then(() => {
-        firstInit = false;
-    })
-    .catch((err) => {
-        const databaseSQL = fs.readFileSync('./database.sql').toString();
-        console.log('here');
-        console.log(err);
-        console.log(databaseSQL);
-        con.query(databaseSQL, (err, result) => {
-            if (err) throw err;
-            console.log(result);
-        });
+const readSQL = (path) => new Promise((resolve, reject) => {
+    const fRead = fs.createReadStream(path);
+
+    const objReadLine = readline.createInterface({
+        input: fRead,
     });
-    return firstInit;
+
+    const sqlStr = new Array();
+    const sqlArr = new Array();
+
+    objReadLine.on('line', line => {
+        if(line.endsWith(';')) {
+            if(sqlStr.length !== 0) sqlStr.push(line);
+
+            sqlArr.push(sqlStr.join(''));
+            sqlStr.length = 0;
+        } else if(!line.endsWith(';') && !line.startsWith('--')) {
+            sqlStr.push(line);
+        }
+    });
+
+    objReadLine.on('close', () => {
+        resolve(sqlArr);
+    })
+});
+
+
+async function initDB(con) {
+
+
+    // let firstInit = true;
+    // mysql.createConnection({
+    //     host: 'localhost',
+    //     user: 'root',
+    //     password: '',
+    //     database: 'COMP2800'
+    // })
+    // .then(() => {
+    //     firstInit = false;
+    // })
+    // .catch((err) => {
+    //     const databaseSQL = fs.readFileSync('./database.sql').toString();
+    //     console.log('here');
+    //     console.log(err);
+    //     console.log(databaseSQL);
+    //     con.query(databaseSQL, (err, result) => {
+    //         if (err) throw err;
+    //         console.log(result);
+    //     });
+    // });
+    // return firstInit;
 
     // await con.query(`
     //         CREATE DATABASE IF NOT EXISTS COMP2800;

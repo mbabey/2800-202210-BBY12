@@ -75,20 +75,20 @@
   <div class="container">
     <div id="content">
       <div class="dashboard-header">
-        <h3 id="dashboard-title">Administration Board</h3>
+        <h3 id="dashboard-title">Administration</h3>
       </div>
       <div id="welcome">
-        <h1>Admin?</h1>
-        <p>Dashboard Items</p>
+        <h1>Greetings,<br/>Administrator</h1>
+        <p>Create an account for a user</p>
       </div>
 
       <div id="create-block">
         <p><b>Create Account</b></p>
         <form method="post">
           <div id="admin-block" class="input-wrapper">
-            <label class="control control-checkbox">
-              Admin User
-              <input name="isAdmin" type="checkbox" class="create-input" />
+            <label id="admin-checkbox-container">Make this user an administrator
+              <input name="isAdmin" type="checkbox">
+              <span id="admin-checkmark"></span>
             </label>
           </div>
           <div id="username-block" class="input-wrapper">

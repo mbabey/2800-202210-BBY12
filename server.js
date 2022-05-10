@@ -111,9 +111,9 @@ function login(req, user) {
     });
 }
 
-app.get('/profile', (req, res) => {
+app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
-        let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
+        let profilePage = fs.readFileSync('./views/home.html', 'utf8');
         res.send(profilePage);
     } else {
         res.redirect('/');
@@ -200,20 +200,39 @@ app.post('/update-users', function (req, res) {
 
 app.get('/admin-view-accounts', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
-        let users = 'SELECT * FROM `BBY_12_users`';
+        let session_username = req.session.username;
+        let admin = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
+        let username = "<h3>";
+        let first_name = "<p>";
+        let last_name = "<p>";
+        let business_name = "<p>";
+        con.query(admin, [session_username], function (err, results, fields) {
+        if (err) throw err;
+            console.log(results);
+            
+            username += results[0].username + "</h3>";
+            first_name += results[0].fName + "</p>";
+            last_name += results[0].lName + "</p>";
+            business_name += results[0].cName + "</p>";
+        });
+        let users = 'SELECT * FROM BBY_12_users';
         con.query(users, function (err, results, fields) {
             if (err) throw err;
 
-            let table = "<table><tr><th>Username</th><th class=\"admin-user-info-desktop\">First Name</th><th class=\"admin-user-info-desktop\">Last Name</th><th class=\"admin-user-info-desktop\">Business Name</th></tr>";
+            let table = "<table><tr><th>Username</th><th class=\"admin-user-info\">First Name</th><th class=\"admin-user-info\">Last Name</th><th class=\"admin-user-info\">Business Name</th></tr>";
             for (let i = 0; i < results.length; i++) {
-                table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info-desktop\">"
-                    + results[i].fName + "</td><td class=\"admin-user-info-desktop\">" + results[i].lName + "</td><td class=\"admin-user-info-desktop\">"
+                table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info\">"
+                    + results[i].fName + "</td><td class=\"admin-user-info\">" 
+                    + results[i].lName + "</td><td class=\"admin-user-info\">"
                     + results[i].cName + "</td></tr>";
             }
             table += "</table>";
             let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
             let adminViewAccDOM = new JSDOM(adminViewAcc);
             adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
+            adminViewAccDOM.window.document.getElementById("u-name").innerHTML = username;
+            adminViewAccDOM.window.document.getElementById("name").innerHTML = first_name + last_name;
+            adminViewAccDOM.window.document.getElementById("b-name").innerHTML = business_name;
             let adminViewAccPage = adminViewAccDOM.serialize();
             res.send(adminViewAccPage);
         });

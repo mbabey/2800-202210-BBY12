@@ -265,14 +265,29 @@ app.route('/admin-view-accounts')
         } else {
             res.redirect('/');
         }
-    })
-    .post((req, res) => {
-        deleteAdmin(req, res)
-            .then(function (result) {
-                res.redirect('/delete-admin');
-            })
-            .catch(function (err) {
-                res.redirect('/admin-view-accounts');
-            });
     });
+
+    app.post('/delete-admin', function (req, res) {
+        console.log("Username", req.body.username);
+        res.setHeader('Content-Type', 'application/json');
+        let con = mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '',
+            database: 'COMP2800'
+        });
+        con.connect();
+        document.getElementsByClassName("delete-input") = req.body.username;
+        let username = req.body.username;
+        con.query('DELETE FROM BBY_12_admins WHERE BBY_12_users.username = ?', [username], function (err, results) {
+            if (err) throw err;
+            res.send({
+                status: "Success",
+                msg: "Admin access removed."
+            });
+        });
+        con.end();
+    });
+
+    
 // change

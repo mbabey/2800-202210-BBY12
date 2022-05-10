@@ -235,6 +235,10 @@ div>.create-input {
         width: 72%;
     }
 
+    #biz-name-block:before {
+        width: 100%;
+    }
+
     #welcome {
         display: none;
     }

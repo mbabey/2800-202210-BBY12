@@ -248,6 +248,10 @@
         height: 50%;
     }
 
+    #biz-name-block:before {
+        width: 100%;
+    }
+
     #admin-checkbox-container {
         font-size: 1rem;
     }

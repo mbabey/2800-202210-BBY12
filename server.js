@@ -68,7 +68,7 @@ app.route('/login')
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
+            con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results,) {
                 if (results && results.length > 0) {
                     login(req, user);
                 }
@@ -84,7 +84,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('SELECT * FROM `BBY-12-Admins` WHERE (`username` = ?);', [user], function (err, results) {
+    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], function (err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -119,7 +119,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
-//get data from BBY-12-post and format the posts
+//get data from BBY_12_post and format the posts
 app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
         let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
@@ -143,8 +143,8 @@ app.get('/profile', (req, res) => {
 });
 
 app.get('/get-users', function (req, res) {
-    con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
-        if (error) throw err;
+    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
+        if (error) throw error;
         res.setHeader('content-type', 'application/json');
         res.send(results);
     });
@@ -152,7 +152,7 @@ app.get('/get-users', function (req, res) {
 
 // Post that updates values to change data stored in db
 app.post('/update-users', function (req, res) {
-    con.query('UPDATE `BBY-12-Users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+    con.query('UPDATE `BBY_12_users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
         function (error, results, fields) {
             if (error) throw error;
             res.setHeader('Content-Type', 'application/json');
@@ -188,26 +188,46 @@ app.route('/admin-add-account')
             });
     });
 
-app.get('/admin-view-accounts', function (req, res) {
-    if (req.session.loggedIn && req.session.admin) {
-        let users = 'SELECT * FROM `BBY-12-Users`';
-        con.query(users, function (err, results, fields) {
+    app.get('/admin-view-accounts', function (req, res) {
+        if (req.session.loggedIn && req.session.admin == true) {
+            let session_username = req.session.username;
+            let admin = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
+            let username = "<h3>";
+            let first_name = "<p>";
+            let last_name = "<p>";
+            let business_name = "<p>";
+            con.query(admin, [session_username], function (err, results, fields) {
             if (err) throw err;
-
-            let table = "<table><tr><th>Username</th><th class=\"admin-user-info-desktop\">First Name</th><th class=\"admin-user-info-desktop\">Last Name</th><th class=\"admin-user-info-desktop\">Business Name</th></tr>";
-            for (let i = 0; i < results.length; i++) {
-                table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info-desktop\">"
-                    + results[i].fName + "</td><td class=\"admin-user-info-desktop\">" + results[i].lName + "</td><td class=\"admin-user-info-desktop\">"
-                    + results[i].cName + "</td></tr>";
-            }
-            table += "</table>";
-            let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-            let adminViewAccDOM = new JSDOM(adminViewAcc);
-            adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
-            let adminViewAccPage = adminViewAccDOM.serialize();
-            res.send(adminViewAccPage);
-        });
-    } else {
-        res.redirect("/");
-    }
-});
+                console.log(results);
+                
+                username += results[0].username + "</h3>";
+                first_name += results[0].fName + "</p>";
+                last_name += results[0].lName + "</p>";
+                business_name += results[0].cName + "</p>";
+            });
+            let users = 'SELECT * FROM BBY_12_users';
+            con.query(users, function (err, results, fields) {
+                if (err) throw err;
+    
+                let table = "<table><tr><th>Username</th><th class=\"admin-user-info\">First Name</th><th class=\"admin-user-info\">Last Name</th><th class=\"admin-user-info\">Business Name</th></tr>";
+                for (let i = 0; i < results.length; i++) {
+                    table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info\">"
+                        + results[i].fName + "</td><td class=\"admin-user-info\">" 
+                        + results[i].lName + "</td><td class=\"admin-user-info\">"
+                        + results[i].cName + "</td></tr>";
+                }
+                table += "</table>";
+                let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+                let adminViewAccDOM = new JSDOM(adminViewAcc);
+                adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
+                adminViewAccDOM.window.document.getElementById("u-name").innerHTML = username;
+                adminViewAccDOM.window.document.getElementById("name").innerHTML = first_name + last_name;
+                adminViewAccDOM.window.document.getElementById("b-name").innerHTML = business_name;
+                let adminViewAccPage = adminViewAccDOM.serialize();
+                res.send(adminViewAccPage);
+            });
+        } else {
+            res.redirect("/");
+        }
+    });
+// change

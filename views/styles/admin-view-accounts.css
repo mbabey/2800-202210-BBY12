@@ -7,7 +7,7 @@
 .content {
   grid-row: 2 / span 1;
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 355px 1fr;
 }
 
 h3 {
@@ -15,10 +15,13 @@ h3 {
   justify-content: center;
 }
 
-.admin-left {
-  grid-column: 1 / span 1;
-  grid-row: 1 / span 1;
-  background-color: var(--primary);
+.admin-right {
+  justify-items: center;
+  grid-column: 2 / span 1;
+  width: 100% !important;
+  padding: 5%;
+  margin-left: 10px;
+  padding-top: 0;
 }
 
 #account-title {
@@ -30,55 +33,75 @@ table {
   grid-column: 1 / span 1;
   grid-row: 1 / span 1;
   border-collapse: collapse;
-  width: 100%;
+  width: 90%;
 }
 
-td,
+td, tr {
+  border: 1px solid #ddd;
+  padding: 3%;
+}
+
 th {
   border: 1px solid #ddd;
-  padding: 2%;
+  padding: 3%;
+  text-align: center;
+  width: 15%;
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:hover {
   background-color: #ddd;
 }
 
+tr:hover {
+  background-color: var(--secondary-dark);
+}
+
 th {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  text-align: left;
-  background-color: #04AA6D;
-  color: white;
+padding-top: 8px;
+padding-bottom: 8px;
+text-align: left;
+background-color: var(--secondary-dark);
+color: white;
 }
 
-.admin-right {
-  justify-items: center;
-  grid-column: 2 / span 1;
-  width: 100% !important;
+.admin-left {
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
+  background-color: var(--primary);
 }
 
-.profile-head {
+.admin-left {
+  position: fixed;
+  margin-top: 0;
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: 400px;
+  width: 350px;
+  padding: 10px;
   display: flex;
-  justify-content: center;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--primary);
+  text-align: center;
 }
-
 
 .profile-picture {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  clip-path: circle(30% at center);
 }
 
-.profile>div>p {
+.profile-picture img {
   display: flex;
   justify-content: center;
-  flex-direction: row;
+  flex-direction: column;
+  clip-path: circle(42% at center);
+  width: 60%;
+  background-color: var(--secondary-dark);
+}
+
+.profile > div > p {
+  display: flex;
+  justify-content: center;
 }
 
 .profile-details {
@@ -87,12 +110,12 @@ th {
   flex-direction: row;
 }
 
-.profile-details>p {
+.profile-details > p {
   padding: 10px;
   margin: 0;
 }
 
-.profile-info>h3 {
+.profile-info > h3 {
   text-align: center;
 }
 
@@ -167,7 +190,7 @@ th {
   transform: scale(1);
 }
 
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 650px) {
 
   .content {
     display: grid;
@@ -190,16 +213,18 @@ th {
   table {
     display: flex;
     justify-content: center;
-    width: 100%;
   }
 
   .admin-right {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+  }
+
+  .admin-left {
     display: none;
   }
 
-  tr,
-  td,
-  th {
+  tr, td, th {
     padding: 5%;
     width: 10%;
   }

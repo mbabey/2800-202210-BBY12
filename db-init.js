@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    dbInitialize: async function() {
+    dbInitialize: async function () {
         const mysql = require('mysql2/promise');
         const con = await mysql.createConnection({
             host: 'localhost',
@@ -10,7 +10,8 @@ module.exports = {
             multipleStatements: true
         });
         initDB(con)
-            .then((results) => {;
+            .then((results) => {
+                ;
             })
             .catch((err) => {
                 return false;
@@ -108,7 +109,7 @@ async function initDB(con) {
         ]
         await con.query(records, [values], (err) => {
             if (err)
-            ;
+                ;
         });
     } else {
         firstInit = false;

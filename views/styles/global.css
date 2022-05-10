@@ -30,7 +30,7 @@ h6 {
 }
 
 .container {
-  min-height: 100vh;
+  min-height: calc(100vh - 85px);
   margin-top: 85px;
 }
 
@@ -86,8 +86,6 @@ footer svg {
   border: none;
   cursor: pointer;
   background-color: rgb(227, 227, 227);
-  /* border-radius: 3px; */
-  /* transform: translateX(-2px); */
 }
 
 #nav-wrapper a,
@@ -173,10 +171,10 @@ footer {
   border-radius: 10px;
 }
 
-
 @media only screen and (max-width: 800px) {
 
   .container {
+    min-height: calc(100vh - 100px);
     margin-top: 50px;
     margin-bottom: 50px;
   }
@@ -184,7 +182,7 @@ footer {
   #nav-home,
   #nav-search,
   #nav-post,
-  #nav-profile {
+  #nav-chat {
     display: none !important;
   }
 

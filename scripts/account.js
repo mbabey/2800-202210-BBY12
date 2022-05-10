@@ -110,8 +110,8 @@ function docLoaded(action) {
         document.addEventListener('DOMContentLoaded', action);
 }
 
-function editCell(e) {
-    let spanText = e.target.innerHTML;
-    let parent = e.target.parentNode;
-    let input = document.createElement("input");
-}
+// function editCell(e) {
+//     let spanText = e.target.innerHTML;
+//     let parent = e.target.parentNode;
+//     let input = document.createElement("input");
+// }

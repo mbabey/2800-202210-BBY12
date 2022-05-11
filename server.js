@@ -48,7 +48,7 @@ const localConConfig = {
 let con;
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
-    console.log('Gro-Operate running on port ' + port);
+    console.log('Gro-Operate running on ' + port);
     dbInitialize.dbInitialize()
     .then(() => {
         // con = (isHeroku) ? mysql.createConnection(herokuConConfig) : mysql.createConnection(localConConfig);

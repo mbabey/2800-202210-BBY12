@@ -1,6 +1,6 @@
 .container {
+  background-color: rgba(98, 156, 132, 0.486);
 }
-
 .content {
   grid-row: 2 / span 1;
   display: grid;
@@ -50,7 +50,11 @@ th {
 }
 
 tr:nth-child(even) {
-  background-color: #ddd;
+  background-color: rgb(228, 228, 228);
+}
+
+tr:nth-child(odd) {
+  background-color: white;
 }
 
 tr:hover {

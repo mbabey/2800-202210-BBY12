@@ -7,7 +7,61 @@
 .content {
   grid-row: 2 / span 1;
   display: grid;
-  grid-template-columns: 35% 65%;
+  grid-template-columns: 355px 1fr;
+}
+
+h3 {
+  display: flex;
+  justify-content: center;
+}
+
+.admin-right {
+  justify-items: center;
+  grid-column: 2 / span 1;
+  width: 100% !important;
+  padding: 5%;
+  margin-left: 10px;
+  padding-top: 0;
+}
+
+#account-title {
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
+  border-collapse: collapse;
+  width: 90%;
+}
+
+td, tr {
+  border: 1px solid #ddd;
+  padding: 3%;
+}
+
+th {
+  border: 1px solid #ddd;
+  padding: 3%;
+  text-align: center;
+  width: 15%;
+}
+
+tr:nth-child(even) {
+  background-color: #ddd;
+}
+
+tr:hover {
+  background-color: var(--secondary-dark);
+}
+
+th {
+padding-top: 8px;
+padding-bottom: 8px;
+text-align: left;
+background-color: var(--secondary-dark);
+color: white;
 }
 
 .admin-left {
@@ -16,27 +70,53 @@
   background-color: var(--primary);
 }
 
-table {
-  grid-column: 1 / span 1;
-  grid-row: 1 / span 1;
-  border-collapse: collapse;
-  margin: 1%;
+.admin-left {
+  position: fixed;
+  margin-top: 0;
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: 400px;
+  width: 350px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--primary);
+  text-align: center;
 }
 
-td, th {
-  border: 1px solid #ddd;
+.profile-picture {
+  display: flex;
+  justify-content: center;
 }
 
-tr:nth-child(even){background-color: #f2f2f2;}
+.profile-picture img {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  clip-path: circle(42% at center);
+  width: 60%;
+  background-color: var(--secondary-dark);
+}
 
-tr:hover {background-color: #ddd;}
+.profile > div > p {
+  display: flex;
+  justify-content: center;
+}
 
-th {
-padding-top: 8px;
-padding-bottom: 8px;
-text-align: left;
-background-color: #04AA6D;
-color: white;
+.profile-details {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.profile-details > p {
+  padding: 10px;
+  margin: 0;
+}
+
+.profile-info > h3 {
+  text-align: center;
 }
 
 .admin-right {
@@ -110,7 +190,17 @@ color: white;
   transform: scale(1);
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 650px) {
+
+  .content {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+
+  .profile-head {
+    margin-left: 20px;
+  }
+
   #pseudonav {
     display: flex;
     justify-content: center;
@@ -118,5 +208,24 @@ color: white;
 
   #nav-logo-background {
     margin: 0;
+  }
+
+  table {
+    display: flex;
+    justify-content: center;
+  }
+
+  .admin-right {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+  }
+
+  .admin-left {
+    display: none;
+  }
+
+  tr, td, th {
+    padding: 5%;
+    width: 10%;
   }
 }

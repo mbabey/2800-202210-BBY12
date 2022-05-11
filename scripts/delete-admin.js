@@ -1,26 +1,26 @@
 'use strict';
 docLoaded(() => {
-    async function getData() {
+    async function getAdminData() {
         try {
             let response = await fetch('/get-admins', {
                 method: 'GET'
             });
             if (response.status == 200) {
                 let data = await response.text();
-                popThaSpots(JSON.parse(data));
+                popAdminData(JSON.parse(data));
             }
         } catch (err) {
 
         }
     }
-    getData();
+    getAdminData();
 
-    function popThaSpots(data) {
+    function popAdminData(data) {
         document.getElementById("delete-admin").addEventListener("click", function (e) {
             if (data.length != 1) {
-                document.getElementById("status").innerHTML = "User deleted as admin."; 
+                document.getElementById("status").innerHTML = "User successfully deleted as admin."; 
             } else {
-                document.getElementById("status").innerHTML = "Admin cannot be deleted.";
+                document.getElementById("status").innerHTML = "Admin cannot be deleted if only one admin is left.";
             }
         });
     }

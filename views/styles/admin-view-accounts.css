@@ -18,8 +18,8 @@ h3 {
   text-align: center;
   display: flex;
   justify-content: center;
-  min-height: 23%;
-  max-height: 23%;
+  min-height: 100px;
+  max-height: 101px;
 }
 
 .admin-right {
@@ -83,7 +83,7 @@ h3 {
   margin-top: 0;
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  height: 480px;
+  height: 380px;
   width: 350px;
   padding: 10px;
   display: flex;

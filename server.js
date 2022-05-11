@@ -10,6 +10,7 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 
 const createAccount = require('./scripts/create-account');
+const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
 const { redirect } = require('express/lib/response');
 
@@ -243,6 +244,14 @@ app.route("/create-post")
         }
     })
     .post(upload.array('image-upload'), (req, res) => {
-        console.log("Pog");
-    })
-    // change
+        if (req.session.loggedIn) {
+            createPost.createPost(req, res)
+                .then(function(resolve) {
+                    console.log(resolve); // Redirect to post or feed
+                })
+                .catch(function(err) {
+                    console.log(err); // Redirect to something
+                });
+        }
+    });
+// change

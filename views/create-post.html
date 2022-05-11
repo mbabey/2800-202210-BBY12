@@ -92,7 +92,7 @@
                 <div class="tags">
                     <input id="input-tag" name="input-tag" type="text" placeholder="Add tag">
                     <button id="button-tag" type="button" onclick="writeTag()">Add tag</button>
-                    <p id="tag-field"></p>
+                    <input id="tag-field" name="tag-field" type="text" disabled="true">
 
                 </div>
                 <div class="buttons">
@@ -138,7 +138,7 @@
         document.getElementById("input-tag").onkeypress = function(e) {
             if (checkKey(e)) {
                 e.preventDefault();
-                writeTag(event)
+                writeTag()
             }
         }
         document.getElementById("input-title").onkeypress = function(e) {
@@ -152,16 +152,14 @@
             return (key == 13)
         }
 
-        function writeTag(event) {
-            if (checkKey(event)) {
-                let tagField = document.getElementById("tag-field");
-                const re = /[\s,]/
-                let tags = document.getElementById("input-tag").value.split(re);
-                tags.forEach(tag => {
-                    if (tag) tagField.innerHTML += "#" + tag + " ";
-                });
-                document.getElementById("input-tag").value = "";
-            }
+        function writeTag() {
+            let tagField = document.getElementById("tag-field");
+            const re = /[\s,]/
+            let tags = document.getElementById("input-tag").value.split(re);
+            tags.forEach(tag => {
+                if (tag) tagField.value += "#" + tag + " ";
+            });
+            document.getElementById("input-tag").value = "";
         }
     </script>
     <script src="nav.js"></script>

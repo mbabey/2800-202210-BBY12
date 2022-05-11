@@ -41,6 +41,7 @@ async function insertDB(req, con) {
                         });
                 });
             }
+            console.log(req.body["tag-field"]);
             resolve(true);
         } else {
             reject(new Error("Title and description required"));

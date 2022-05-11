@@ -1,4 +1,37 @@
 'use strict';
+docLoaded(() => {
+    async function getData() {
+        try {
+            let response = await fetch('/get-admins', {
+                method: 'GET'
+            });
+            if (response.status == 200) {
+                let data = await response.text();
+                popThaSpots(JSON.parse(data));
+            }
+        } catch (err) {
+
+        }
+    }
+    getData();
+
+    function popThaSpots(data) {
+        document.getElementById("delete-admin").addEventListener("click", function (e) {
+            if (data.length != 1) {
+                document.getElementById("status").innerHTML = "User deleted as admin."; 
+            } else {
+                document.getElementById("status").innerHTML = "Admin cannot be deleted.";
+            }
+        });
+    }
+});
+
+function docLoaded(action) {
+    if (document.readyState != 'loading')
+        action();
+    else
+        document.addEventListener('DOMContentLoaded', action);
+}
 
 function getAdmins() {
     const xhr = new XMLHttpRequest();
@@ -10,28 +43,17 @@ getAdmins();
 document.getElementById("delete-admin").addEventListener("click", function (e) {
     e.preventDefault();
 
-    let formData = { username: document.getElementById("username").value };
+    let adminInput = { username: document.getElementById("username").value };
         document.getElementById("username").value = "";
 
     const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
+    xhr.onload = function (error) {
         if (this.readyState == XMLHttpRequest.DONE) {
-
-            // 200 means everthing worked
             if (xhr.status === 200) {
-                document.getElementById("status").innerHTML = "User deleted as admin.";
                 getAdmins();
-     
-                console.log(formData.username);
-                
             } else {
-                document.getElementById("error-message").innerHTML = "Cannot delete user as admin.";
-                // not a 200, could be anything (404, 500, etc.)
-                console.log(this.status);
-      
-
+                throw error;
             }
-
         } else {
             console.log("ERROR", this.status);
         }
@@ -39,6 +61,6 @@ document.getElementById("delete-admin").addEventListener("click", function (e) {
     xhr.open("POST", "/delete-admins");
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send("username=" + formData.username);
+    xhr.send("username=" + adminInput.username);
 });
 

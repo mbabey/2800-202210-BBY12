@@ -272,35 +272,10 @@ app.post('/delete-admins', function (req, res) {
                     con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
                     function (err, results) {
                       if (err) throw err;
-                      res.redirect('/admin-view-accounts');
                     })
                   } else {
                     console.log("Cannot delete admin if there is only one admin left.");
                     if (err) throw err;
-                    let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-                    let adminViewAccDOM = new JSDOM(adminViewAcc);
-                    let error = adminViewAccDOM.window.document.getElementById("status");
-                    error.innerHTML = "Cannot delete last admin!";
-                    res.send(error);
                   }
           });
 });
-
-
-// app.post('/delete-admins', function (req, res) {
-//   res.setHeader('Content-Type', 'application/json');
-//   con.query('SELECT * FROM BBY_12_admins'),
-//     function (err, results) {
-//       if (err) throw err;
-//       if (results.length > 1) {
-//         con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
-//           function (err, results) {
-//             if (err) throw ("Cannot delete admin");
-//             res.send({ status: "success", msg: "Admin deleted." });
-//           });
-//       }
-//     }
-// });
-
-
-// change

@@ -5,6 +5,7 @@
     "fs": "^0.0.1-security",
     "jsdom": "^19.0.0",
     "multer": "^1.4.4",
+    "mysql-import": "^5.0.21",
     "mysql2": "^2.3.3"
   }
 }

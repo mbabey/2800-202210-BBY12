@@ -73,6 +73,10 @@
     text-decoration: none;
 }
 
+.logout-profile-mobile {
+    visibility: hidden;
+}
+
 .profile-description {
     width: 50%;
     min-width: 700px;
@@ -144,7 +148,11 @@
         padding: 5px 2px;
         margin: 2px;
     }
-    
+
+    .logout-profile-mobile {
+        visibility: visible;
+    }
+
     .profile-info {
         text-align: right;
     }

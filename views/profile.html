@@ -2,32 +2,27 @@
 <html lang="en">
 
 <head>
-    <title>Gro-Operate | Profile Page</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./styles/global.css">
-    <link rel="stylesheet" type="text/css" href="./styles/profile.css">
-    <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
+  <title>Gro-Operate | Profile Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="./styles/global.css">
+  <link rel="stylesheet" type="text/css" href="./styles/profile.css">
+  <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
 
-    <nav>
-        <div id="nav-wrapper">
-            <div id="nav-left">
-                <a href="/home" id="nav-home" class="nav-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
+  <nav>
+    <div id="nav-wrapper">
+      <div id="nav-left">
+        <a href="/home" id="nav-home" class="nav-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
             <path fill="currentColor"
               d="M8 42V18L24.1 6L40 18V42H28.3V27.75H19.65V42ZM11 39H16.65V24.75H31.3V39H37V19.5L24.1 9.75L11 19.5ZM24 24.35Z" />
           </svg>
           <span>Home</span>
         </a>
-        <a href="/admin-dashboard" id="nav-admin" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
-            <path fill="currentColor"
-              d="M24 25.15ZM11.65 44 16.3 28.8 4 20H19.2L24 4L28.8 20H44L31.7 28.8L36.35 44L24 34.6ZM17.15 35.85 24 30.65 30.85 35.85 28.1 27.2 34.4 23.1H26.85L24 14.45L21.15 23.1H13.6L19.9 27.2Z" />
-          </svg>
-          <span>Admin</span>
+        <a id="nav-admin">
         </a>
       </div>
       <div id="nav-right">
@@ -72,67 +67,72 @@
     </div>
   </nav>
 
-    <div class="container">
-        <div class="profile-header-wrapper">
-            <div class="profile-edit-logout-buttons">
-                <div class="edit-profile">
-                    <a id="edit-button">Edit Profile</a>
-                    <a id="save-button"></a>
-                </div>
-                <div class="logout-profile-mobile">
-                    <a id="logout-button-mobile" href="/logout">Log Out</a>
-                </div>
-            </div>
-            <div class="profile-header">
-                <div class="profile-name">
-                    <h1 class="business-name-block">Business Name</h1>
-                    <p class="business-type-block">Type of Business</p>
-                </div>
-                <span id="edit-status"></span>
-                <div class="profile-picture">
-                    <div class="profile-picture-background">
-                        <img class="business-picture-block" src="./images/Logo.png" alt="Profile Image">
-                    </div>
-                </div>
-                <div class="profile-info">
-                    <h3>Profile Info</h3>
-                    <div class="profile-owner">
-                        <p><span class="business-owner-fname-block">First</span>
-                            <span class="business-owner-lname-block">Last</span>
-                        </p>
-                    </div>
-                    <div class="profile-contact">
-                        <h4>Contact</h4>
-                        <p class="business-email-block">Business Email</p>
-                        <p class="business-phone-block">Business Phone</p>
-                    </div>
-                    <div class="profile-location">
-                        <h4>Location</h4>
-                        <p class="business-location-block">123 Fun St. Vancouver, BC</p>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="profile-header-wrapper">
+      <div class="profile-edit-logout-buttons">
+        <div class="edit-profile">
+          <a id="edit-button">Edit Profile</a>
+          <a id="save-button"></a>
         </div>
-        <div class="profile-description">
-            <h3>Description</h3>
-            <p class="business-description-block">I am an independant woman look at me go I do it all I read I write I sell drugs I surf I drink I drive I box I square dance I make stone tools I dig tunnels I jump rope I dance I I I I sell soap :) Also I do more because I am ambitious I play
-                guitar I sing I write poetry I lament the loss of humanity I howl at the moon I rub dirt on my cheeks I sleep in a bed of thorns I ride the breeze of my whims in a bed of flowers</p>
+        <div class="logout-profile-mobile">
+          <a id="logout-button-mobile" href="/logout">Log Out</a>
         </div>
-
-        <div class="post-block">
-            <div class="post">
-                <h1 class="post-title">This Girl's Business With an Opportunity</h1>
-                <h3 class="post-business-name">Brought to you by this girl</h3>
-                <div class="post-images">
-                    <img src="./images/Logo.png" alt="Gro-Operate">
-                    <img src="./images/Logo.png" alt="Gro-Operate">
-                    <img src="./images/Logo.png" alt="Gro-Operate">
-                </div>
-                <p class="post-description">Something to do with business here I bet everyone likes to do business especially when money is on the line my father chose business over the quality of my childhood but I can't blame him its just business.</p>
-                <p class="post-timestamp"><small>posted on today</small></p>
-            </div>
+      </div>
+      <div class="profile-header">
+        <div class="profile-name">
+          <h1 class="business-name-block">Business Name</h1>
+          <p class="business-type-block">Type of Business</p>
         </div>
+        <span id="edit-status"></span>
+        <div class="profile-picture">
+          <div class="profile-picture-background">
+            <img class="business-picture-block" src="./images/Logo.png" alt="Profile Image">
+          </div>
+        </div>
+        <div class="profile-info">
+          <h3>Profile Info</h3>
+          <div class="profile-owner">
+            <p><span class="business-owner-fname-block">First</span>
+              <span class="business-owner-lname-block">Last</span>
+            </p>
+          </div>
+          <div class="profile-contact">
+            <h4>Contact</h4>
+            <p class="business-email-block">Business Email</p>
+            <p class="business-phone-block">Business Phone</p>
+          </div>
+          <div class="profile-location">
+            <h4>Location</h4>
+            <p class="business-location-block">123 Fun St. Vancouver, BC</p>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="profile-description">
+      <h3>Description</h3>
+      <p class="business-description-block">I am an independant woman look at me go I do it all I read I write I sell
+        drugs I surf I drink I drive I box I square dance I make stone tools I dig tunnels I jump rope I dance I I I I
+        sell soap :) Also I do more because I am ambitious I play
+        guitar I sing I write poetry I lament the loss of humanity I howl at the moon I rub dirt on my cheeks I sleep in
+        a bed of thorns I ride the breeze of my whims in a bed of flowers</p>
+    </div>
+
+    <div class="post-block">
+      <div class="post">
+        <h1 class="post-title">This Girl's Business With an Opportunity</h1>
+        <h3 class="post-business-name">Brought to you by this girl</h3>
+        <div class="post-images">
+          <img src="./images/Logo.png" alt="Gro-Operate">
+          <img src="./images/Logo.png" alt="Gro-Operate">
+          <img src="./images/Logo.png" alt="Gro-Operate">
+        </div>
+        <p class="post-description">Something to do with business here I bet everyone likes to do business especially
+          when money is on the line my father chose business over the quality of my childhood but I can't blame him its
+          just business.</p>
+        <p class="post-timestamp"><small>posted on today</small></p>
+      </div>
+    </div>
+  </div>
   <footer>
     <div id="footer-wrapper">
       <a href="/home" id="footer-home" class="nav-button">
@@ -169,8 +169,8 @@
     </div>
   </footer>
 
-    <script src="account.js"></script>
-    <script src="nav.js"></script>
+  <script src="account.js"></script>
+  <script src="nav.js"></script>
 </body>
 
 </html>

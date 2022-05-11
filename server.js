@@ -5,11 +5,12 @@ const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
 const crypto = require('crypto');
-const {
-    JSDOM
-} = require('jsdom');
+const { JSDOM } = require('jsdom');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const createAccount = require('./scripts/create-account');
+const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
 const {
     redirect
@@ -44,7 +45,7 @@ app.listen(port, () => {
                 database: 'COMP2800'
             });
         }).then(() => {
-            con.connect(function (err) {
+            con.connect(function(err) {
                 if (err) throw err;
             });
         });
@@ -75,10 +76,11 @@ app.route('/login')
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results, ) {
+            con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function(err, results) {
                 if (results && results.length > 0) {
                     login(req, user);
                 }
+                if (err) throw err;
             });
             res.redirect('/');
         } catch (err) {
@@ -91,7 +93,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], function (err, results) {
+    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], function(err, results) {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -111,17 +113,17 @@ app.route('/create-account')
     })
     .post((req, res) => {
         createAccount.createAccount(req, res)
-            .then(function (result) {
+            .then(function(result) {
                 login(req, req.body["username"]);
                 res.redirect('/');
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 res.redirect('/create-account');
             });
     });
 
 app.get('/logout', (req, res) => {
-    req.session.destroy(function () {
+    req.session.destroy(function() {
         res.redirect('/');
     });
 });
@@ -149,8 +151,8 @@ app.get('/profile', (req, res) => {
     }
 });
 
-app.get('/get-users', function (req, res) {
-    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
+app.get('/get-users', function(req, res) {
+    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
         if (error) throw error;
         res.setHeader('content-type', 'application/json');
         res.send(results);
@@ -158,9 +160,9 @@ app.get('/get-users', function (req, res) {
 });
 
 // Post that updates values to change data stored in db
-app.post('/update-users', function (req, res) {
+app.post('/update-users', function(req, res) {
     con.query('UPDATE `BBY_12_users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-        function (error, results, fields) {
+        function(error, results, fields) {
             if (error) throw error;
             res.setHeader('Content-Type', 'application/json');
             res.send({
@@ -190,10 +192,10 @@ app.route('/admin-add-account')
     })
     .post((req, res) => {
         createAccount.createAdmin(req, res)
-            .then(function (result) {
+            .then(function(result) {
                 res.redirect('/admin-dashboard');
             })
-            .catch(function (err) {
+            .catch(function(err) {
                 res.redirect('/admin-add-account');
             });
     });
@@ -215,8 +217,6 @@ app.get('/get-admin-table', function (req, res) {
         res.send({ status: "success", rows: results });
     });
 });
-
-    
 
 app.route('/admin-view-accounts')
     .get(function (req, res) {
@@ -259,7 +259,28 @@ app.route('/admin-view-accounts')
                 });
             });
         } else {
+            res.redirect("/");
+        }
+    });
+
+app.route("/create-post")
+    .get((req, res) => {
+        if (req.session.loggedIn) {
+            let createPostPage = fs.readFileSync('./views/create-post.html', 'utf8');
+            res.send(createPostPage);
+        } else {
             res.redirect('/');
+        }
+    })
+    .post(upload.array('image-upload'), (req, res) => {
+        if (req.session.loggedIn) {
+            createPost.createPost(req, res)
+                .then(function(resolve) {
+                    console.log(resolve); // Redirect to post or feed
+                })
+                .catch(function(err) {
+                    console.log(err); // Redirect to something
+                });
         }
     });
 

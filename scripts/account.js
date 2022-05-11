@@ -117,35 +117,50 @@ docLoaded(() => {
             description: biz_description_value
         };
 
+        sendData(JSON.stringify(dataToSend));
         // now send
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-            if (this.readyState == XMLHttpRequest.DONE) {
+        // const xhr = new XMLHttpRequest();
+        // xhr.onload = function () {
+        //     if (this.readyState == XMLHttpRequest.DONE) {
 
-                // 200 means everthing worked
-                if (xhr.status === 200) {
-                  document.getElementById("edit-status").innerHTML = "Record updated.";
+        //         // 200 means everthing worked
+        //         if (xhr.status === 200) {
+        //           document.getElementById("edit-status").innerHTML = "Record updated.";
 
-                } else {
+        //         } else {
 
-                  // not a 200, could be anything (404, 500, etc.)
-                  console.log(this.status);
+        //           // not a 200, could be anything (404, 500, etc.)
+        //           console.log(this.status);
 
-                }
+        //         }
 
-            } else {
-                console.log("ERROR", this.status);
-            }
-        }
-        xhr.open("POST", "/update-users");
-        console.log("dataToSend", "biz name="+ dataToSend.cName + "&fName=" + dataToSend.fName + "&lName=" + dataToSend.cName + "&biz type=" + dataToSend.bType + "&email=" + dataToSend.email + "&phone=" + dataToSend.phoneNo + "&location=" + dataToSend.location + "&description=" + dataToSend.description);//works
-            
-        xhr.send(dataToSend);
+        //     } else {
+        //         console.log("ERROR", this.status);
+        //     }
+        // }
+        // xhr.open("POST", "/update-users");
+        // console.log("dataToSend", "biz name="+ dataToSend.cName + "&fName=" + dataToSend.fName + "&lName=" + dataToSend.cName + "&biz type=" + dataToSend.bType + "&email=" + dataToSend.email + "&phone=" + dataToSend.phoneNo + "&location=" + dataToSend.location + "&description=" + dataToSend.description);//works
 
-    
+        // xhr.send(dataToSend);
+
+
+
     });
 
 });
+
+async function sendData(data) {
+    try {
+        await fetch('/update-users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: data
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 
 function docLoaded(action) {
     if (document.readyState != 'loading')

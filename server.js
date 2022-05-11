@@ -154,12 +154,7 @@ app.get('/get-users', function (req, res) {
 // Post that updates values to change data stored in db
 app.post('/update-users', function (req, res) {
     console.log("updat-users " , req.body);
-    con = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'COMP2800'
-    });
+
     
     con.query('UPDATE BBY_12_users SET cName = ? AND fName = ? AND lName = ? AND bType = ? AND email = ? AND phoneNo = ? AND location = ? AND description = ? WHERE username = ?;', 
     [req.body.cName, req.body.fName, req.body.lName, req.body.biz_type, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],

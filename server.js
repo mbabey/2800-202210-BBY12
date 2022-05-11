@@ -9,10 +9,12 @@ const { JSDOM } = require('jsdom');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 
+const dbInitialize = require('./db-init');
 const createAccount = require('./scripts/create-account');
 const createPost = require('./scripts/create-post');
-const dbInitialize = require('./db-init');
+const feed = require('./scripts/feed');
 const { redirect } = require('express/lib/response');
+const { profile } = require('console');
 
 app.use(express.urlencoded({
     extended: true
@@ -125,21 +127,15 @@ app.get('/logout', (req, res) => {
 //get data from BBY_12_post and format the posts
 app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
-        con.query(`SELECT users.profilePic, users.cName, post.*
-            FROM \`BBY_12_post\` AS post
-            INNER JOIN \`BBY_12_users\` AS users ON (post.username = users.username)
-            ORDER BY post.timestamp DESC;`,
-        (error, results, fields) => {
-            if (error) throw error;
-            console.log(results);
-        });
+        let homePage = fs.readFileSync('./views/home.html', 'utf8').toString();
+        let homeDOM = new JSDOM(homePage);
 
-        let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
-        let profileDOM = new JSDOM(profilePage);
-        profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
-        profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
-        profilePage = profileDOM.serialize();
-        res.send(profilePage);
+        feed.populateFeed(homeDOM, con);
+
+        homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
+        homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
+        homePage = homeDOM.serialize();
+        res.send(homePage);
     } else {
         res.redirect("/");
     }

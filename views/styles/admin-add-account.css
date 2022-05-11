@@ -1,7 +1,10 @@
+.container {
+    display: grid;
+}
 #content {
     display: grid;
-    min-height: 100%;
-    grid-template-rows: 50px auto;
+    height: 100%;
+    grid-template-rows: 10% 15% 30%;
     grid-template-columns: 30% 70%;
 }
 
@@ -18,7 +21,7 @@
 }
 
 #welcome {
-    grid-row: 2 / span 1;
+    grid-row: 2 / span 3;
     grid-column: 1 / span 1;
     background-color: var(--primary-light);
     display: flex;
@@ -37,7 +40,7 @@
 
 #create-block {
     grid-column: 2 / span 1;
-    grid-row: 2 / span 1;
+    grid-row: 3 / span 1;
     margin-left: auto;
     margin-right: auto;
     height: 100%;

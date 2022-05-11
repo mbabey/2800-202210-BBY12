@@ -149,6 +149,15 @@ app.get('/is-admin', (req, res) => {
 // HOME PAGE
 app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
+        con.query(`SELECT users.profilePic, users.cName, post.*
+            FROM \`BBY_12_post\` AS post
+            INNER JOIN \`BBY_12_users\` AS users ON (post.username = users.username)
+            ORDER BY post.timestamp DESC;`,
+        (error, results, fields) => {
+            if (error) throw error;
+            console.log(results);
+        });
+
         let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
         let profileDOM = new JSDOM(profilePage);
         profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";

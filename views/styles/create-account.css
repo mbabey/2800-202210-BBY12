@@ -67,10 +67,10 @@
 }
 
 #create-block>form {
-    height: 22.6rem;
+    height: 25.8rem;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 3.8rem 5.8rem 4rem 5rem 4rem;
+    grid-template-rows: 2.4rem 5.6rem 2.4rem 7.4rem 4rem 4rem;
     /* size in rem so form scales with font size. */
     gap: 3px;
 }
@@ -80,48 +80,66 @@
     flex-direction: column;
 }
 
-#create-block>form>#username-block {
+#username-block {
     grid-row: 1 / span 1;
-    grid-column: 1 / span 1;
+    grid-column: 1 / span 2;
 }
 
-#create-block>form>#password-block {
-    grid-row: 1 / span 1;
-    grid-column: 2 / span 1;
-}
-
-#create-block>form>#name-block {
+#email-block {
     grid-row: 2 / span 1;
     grid-column: 1 / span 1;
 }
 
-#create-block>form>#location-block {
+#password-block {
     grid-row: 2 / span 1;
     grid-column: 2 / span 1;
 }
 
-#create-block>form>#contact-block {
+#biz-name-block {
     grid-row: 3 / span 1;
     grid-column: 1 / span 2;
 }
 
-#create-block>form>#description-block {
+#biz-name-block:before {
+    content: '';
+    position: relative;
+    width: 130%;
+    border-top: 1px solid rgba(0, 128, 0, 0.7);
+    border-radius: 50%;
+    top: -0.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#name-block {
     grid-row: 4 / span 1;
+    grid-column: 1 / span 1;
+}
+
+#location-block {
+    grid-row: 4 / span 1;
+    grid-column: 2 / span 1;
+}
+
+#description-block {
+    grid-row: 5 / span 1;
     grid-column: 1 / span 2;
 }
 
-#create-block>form>div>.create-input {
+div>.create-input {
     border: 1px black solid;
-    padding: 0.3rem;
+    padding: 0.5rem;
+    font-size: 0.9rem;
     margin: 2px;
     text-align: center;
     background-color: rgba(128, 128, 128, 0.3);
 }
 
-#create-block>form>#create-submit {
-    grid-row: 5 / span 1;
+#create-submit {
+    grid-row: 6 / span 1;
     grid-column: 1 / span 2;
     padding: .7rem;
+    margin: auto;
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
@@ -129,13 +147,14 @@
     color: white;
     border: none;
     cursor: pointer;
+    width: 50%;
     -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#create-block>form>#create-submit::after {
+#create-submit::after {
     content: '';
     position: absolute;
     z-index: -1;
@@ -149,17 +168,17 @@
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-#create-block>form>#create-submit:focus,
-#create-block>form>#create-submit:hover {
+#create-submit:focus,
+#create-submit:hover {
     transform: scale(1.025, 1.025);
 }
 
-#create-block>form>#create-submit:focus::after,
-#create-block>form>#create-submit:hover::after {
+#create-submit:focus::after,
+#create-submit:hover::after {
     opacity: 1;
 }
 
-#create-block>form>#create-submit:active {
+#create-submit:active {
     transform: scale(1);
 }
 
@@ -214,6 +233,10 @@
         grid-column: 1 / span 1;
         min-width: 256px;
         width: 72%;
+    }
+
+    #biz-name-block:before {
+        width: 100%;
     }
 
     #welcome {

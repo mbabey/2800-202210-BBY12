@@ -74,7 +74,7 @@
     <div class="container">
         <div class="content">
             <h1>Create Post</h1>
-            <form class="form-post" action="/create-post" method="post" enctype="multipart/form-data">
+            <form id="form-post" class="form-post" action="/create-post" method="post" enctype="multipart/form-data">
                 <label>Post Title</label>
                 <input id="input-title" name="input-title" placeholder="Add Title"><br>
                 <div class="form-image">
@@ -90,8 +90,8 @@
                 <label>Description</label>
                 <textarea rows="10" name="input-description" placeholder="Add description"></textarea><br>
                 <div class="tags">
-                    <input type="text" name="input-tag" placeholder="Add tag">
-                    <button id="button-tag">Add tag</button>
+                    <input id="input-tag" name="input-tag" type="text" placeholder="Add tag">
+                    <button id="button-tag" type="button" onclick="writeTag()">Add tag</button>
                     <p id="tag-field"></p>
 
                 </div>
@@ -134,7 +134,36 @@
         </div>
     </footer>
 
-    <script src="nav.js"></script>
+    <script>
+        document.getElementById("input-tag").onkeypress = function(e) {
+            if (checkKey(e)) {
+                e.preventDefault();
+                writeTag(event)
+            }
+        }
+        document.getElementById("input-title").onkeypress = function(e) {
+            if (checkKey(e)) {
+                e.preventDefault();
+            }
+        }
+
+        function checkKey(e) {
+            let key = e.charCode || e.keyCode || 0;
+            return (key == 13)
+        }
+
+        function writeTag(event) {
+            if (checkKey(event)) {
+                let tagField = document.getElementById("tag-field");
+                const re = /[\s,]/
+                let tags = document.getElementById("input-tag").value.split(re);
+                tags.forEach(tag => {
+                    if (tag) tagField.innerHTML += "#" + tag + " ";
+                });
+                document.getElementById("input-tag").value = "";
+            }
+        }
+    </script>
     <script src="nav.js"></script>
 </body>
 

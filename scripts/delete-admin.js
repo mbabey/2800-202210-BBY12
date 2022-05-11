@@ -19,15 +19,16 @@ document.getElementById("delete-admin").addEventListener("click", function (e) {
 
             // 200 means everthing worked
             if (xhr.status === 200) {
-
-                getAdmins();
                 document.getElementById("status").innerHTML = "User deleted as admin.";
+                getAdmins();
+     
                 console.log(formData.username);
                 
             } else {
-
+                document.getElementById("error-message").innerHTML = "Cannot delete user as admin.";
                 // not a 200, could be anything (404, 500, etc.)
                 console.log(this.status);
+      
 
             }
 

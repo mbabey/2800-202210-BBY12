@@ -264,36 +264,42 @@ app.route('/admin-view-accounts')
 
 app.post('/delete-admins', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-    let con = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'COMP2800'
-    });
-    con.connect();
-    let username = req.body.username;
-    con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [username],
-            function (error, results, fields) {
-        if (error) {
-            console.log(error);
-        }
-        //console.log('Rows returned are: ', results);
-        res.send({ status: "success", msg: "Recorded all deleted." });
-
-      });
-      con.end();
-
+        con.query('SELECT * FROM BBY_12_admins',
+                function (err, results) {
+                  console.log(results);
+                  console.log(req.body.username);
+                  if (results.length != 1) {
+                    con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
+                    function (err, results) {
+                      if (err) throw err;
+                      res.redirect('/admin-view-accounts');
+                    })
+                  } else {
+                    console.log("Cannot delete admin if there is only one admin left.");
+                    if (err) throw err;
+                    let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+                    let adminViewAccDOM = new JSDOM(adminViewAcc);
+                    let error = adminViewAccDOM.window.document.getElementById("status");
+                    error.innerHTML = "Cannot delete last admin!";
+                    res.send(error);
+                  }
+          });
 });
-//     document.getElementById("delete-input") = req.body.username;
-//     let username = req.body.username;
-//     con.query('DELETE FROM BBY_12_admins WHERE BBY_12_users.username = ?', [username], function (err, results) {
-//         if (err) throw err;
-//         res.send({
-//             status: "Success",
-//             msg: "Admin access removed."
-//         });
-//     });
-//     con.end();
+
+
+// app.post('/delete-admins', function (req, res) {
+//   res.setHeader('Content-Type', 'application/json');
+//   con.query('SELECT * FROM BBY_12_admins'),
+//     function (err, results) {
+//       if (err) throw err;
+//       if (results.length > 1) {
+//         con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
+//           function (err, results) {
+//             if (err) throw ("Cannot delete admin");
+//             res.send({ status: "success", msg: "Admin deleted." });
+//           });
+//       }
+//     }
 // });
 
 

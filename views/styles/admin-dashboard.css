@@ -1,26 +1,77 @@
 .container {
     display: grid;
+    grid-template-rows: 15% 85%;
 }
 
 #content {
+    grid-row: 2 / span 1;
     display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: minmax(100px, 20%) 1fr;
+    grid-template-columns: 35% 65%;
+    grid-template-rows: 20% 20% 20%;
 }
+
+.left-side-profile {
+    display: grid;
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 4;
+    background-color: var(--primary);
+    margin-top: 0;
+    box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    background-color: var(--primary);
+    text-align: center;
+  }
+  
+  .profile-picture {
+    display: flex;
+    justify-content: center;
+  }
+
+  h3 {
+    font-size: 25px;
+  }
+  
+  .profile-picture img {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    clip-path: circle(42% at center);
+    width: 60%;
+    background-color: var(--secondary-dark);
+  }
+  
+  .profile > div > p {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .profile-details {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+  }
+  
+  .profile-details > p {
+    padding: 10px;
+    margin: 0;
+  }
+  
+  .profile-info > h3 {
+    text-align: center;
+  }
 
 .dashboard-header {
     background-color: var(--primary-text);
-    max-height: 101px;
-    min-height: 100px;
 }
 
 #dashboard-title {
-    font-size: 30px;
+    font-size: 40px;
     text-align: center;
 }
 
 #admin-button-group {
-    grid-column: 1 / span 1;
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
     margin: auto;
     min-width: 300px;
     max-width: 480px;
@@ -86,32 +137,37 @@
 @media only screen and (max-width: 800px) {
     .container {
         display: grid;
+        grid-template-columns: 100%;
         grid-template-rows: 15% 85%;
+    }
+
+    .left-side-profile {
+        display: none;
     }
 
     #content {
         display: grid;
-        grid-template-rows: 15% 15% 10%;
+        grid-template-columns: 100%;
+        grid-template-rows: 20% 20% 20%;
         margin: 0px 10%;
     }
 
     .dashboard-header {
         grid-row: 1 / span 1;
-        display: block;
+        display: grid;
         min-height: 130px;
         max-height: 131px;
     }
 
     #dashboard-title {
         grid-row: 1 / span 1;
-        font-size: 40px;
         display: block;
         text-align: center;
     }
 
     #admin-button-group {
         display: grid;
-        grid-row: 2 / span 1;
+        grid-column: 1 / span 1;
         min-width: 0;
         max-width: none;
         width: 100%;
@@ -127,10 +183,10 @@
         background-color: var(--secondary-text);
         border-radius: 5px;
         outline: var(--secondary-dark) solid 2px;
-        font-weight: bold;
         -webkit-transition: none;
         transition: none;
         color: var(--secondary-dark);
+        font-weight: bolder;
     }
 
     #admin-button-group>.admin-button::after {

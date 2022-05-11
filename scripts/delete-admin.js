@@ -10,7 +10,7 @@ docLoaded(() => {
                 popAdminData(JSON.parse(data));
             }
         } catch (err) {
-
+            document.getElementById("error-messsage").innerHTML = "Cannot get admins.";
         }
     }
     getAdminData();
@@ -43,8 +43,8 @@ getAdmins();
 document.getElementById("delete-admin").addEventListener("click", function (e) {
     e.preventDefault();
 
-    let adminInput = { username: document.getElementById("username").value };
-        document.getElementById("username").value = "";
+    let adminInput = { username: document.getElementById("admin-username").value };
+        document.getElementById("admin-username").value = "";
 
     const xhr = new XMLHttpRequest();
     xhr.onload = function (error) {
@@ -55,7 +55,7 @@ document.getElementById("delete-admin").addEventListener("click", function (e) {
                 throw error;
             }
         } else {
-            console.log("ERROR", this.status);
+            throw "Error. Cannot get admins."
         }
     }
     xhr.open("POST", "/delete-admins");

@@ -196,6 +196,21 @@ color: white;
   transform: scale(1);
 }
 
+#edit-block {
+  display: flex;
+  flex-direction: row;
+}
+
+#edit-admin-link {
+  text-decoration: none;
+  color: var(--secondary-dark);
+  padding-left: 10px;
+}
+
+#edit-admin-link:hover {
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 650px) {
 
   .container {

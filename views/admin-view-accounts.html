@@ -73,9 +73,9 @@
     </div>
   </nav>
   <div class="container">
-      <div class="dashboard-header">
-        <h3 id="dashboard-title">Administration Board</h3>
-      </div>
+    <div class="dashboard-header">
+      <h3 id="dashboard-title">Administration Board</h3>
+    </div>
 
 
     <div class="content">
@@ -91,13 +91,18 @@
           <p><b>Delete Admin Account</b></p>
           <form method="post">
             <div id="username-block" class="input-wrapper">
-              <input name="username" type="text" placeholder="Username" id="username">
+              <input name="username" type="text" placeholder="Username" id="admin-username">
               <!-- <input name="username-verify" type="text" placeholder="Verify Username" class="delete-input"> -->
               <button id="delete-admin" type="submit" value="submit">Delete Account</button>
               <p id="status"></p>
+              <p id="error-message"></p>
             </div>
-            </form>
-      </div>
+          </form>
+        </div>
+        <div id="edit-block">
+          <div><p><b>Looking to edit admin account?</b></p></div>
+          <p><a href="edit-admin.html" id="edit-admin-link">Go to edit page.</a></p>
+        </div>
       </div>
       <div class="admin-left">
         <div class="profile">
@@ -158,7 +163,7 @@
       </a>
     </div>
   </footer>
-<script src="delete-admin.js"></script>
+  <script src="delete-admin.js"></script>
 </body>
 
 </html>

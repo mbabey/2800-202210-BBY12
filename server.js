@@ -210,6 +210,7 @@ app.get('/get-admins', function (req, res) {
 
 app.route('/admin-view-accounts')
     .get(function (req, res) {
+
         if (req.session.loggedIn && req.session.admin == true) {
             let session_username = req.session.username;
             let admin = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
@@ -217,10 +218,9 @@ app.route('/admin-view-accounts')
             let first_name = "<p>";
             let last_name = "<p>";
             let business_name = "<p>";
-            con.query(admin, [session_username], function (err, results, fields) {
-                if (err) throw err;
-                console.log(results);
+            con.query(admin, [session_username], function (err, results) {
 
+                if (err) throw err;
                 username += results[0].username + "</h3>";
                 first_name += results[0].fName + "</p>";
                 last_name += results[0].lName + "</p>";
@@ -235,7 +235,7 @@ app.route('/admin-view-accounts')
                     }
                     table2 += "</table>";
                 });
-                con.query(users, function (err, results, fields) {
+                con.query(users, function (err, results) {
                     if (err) throw err;
 
                     let table = "<table><tr><th>Username</th><th class=\"admin-user-info\">First Name</th><th class=\"admin-user-info\">Last Name</th><th class=\"admin-user-info\">Business Name</th></tr>";
@@ -246,6 +246,7 @@ app.route('/admin-view-accounts')
                             results[i].cName + "</td></tr>";
                     }
                     table += "</table>";
+
                     let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
                     let adminViewAccDOM = new JSDOM(adminViewAcc);
                     adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
@@ -266,16 +267,13 @@ app.post('/delete-admins', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
         con.query('SELECT * FROM BBY_12_admins',
                 function (err, results) {
-                  console.log(results);
-                  console.log(req.body.username);
                   if (results.length != 1) {
                     con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
                     function (err, results) {
                       if (err) throw err;
                     })
                   } else {
-                    console.log("Cannot delete admin if there is only one admin left.");
-                    if (err) throw err;
+                    if (err) throw "Cannot delete admin if there is only one admin left.";
                   }
           });
 });

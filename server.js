@@ -274,6 +274,7 @@ app.route("/create-post")
                 })
                 .catch(function(err) {
                     console.log(err); // Redirect to something
+                    res.redirect('back');
                 });
         } else {
             res.redirect('back')

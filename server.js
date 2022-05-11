@@ -12,7 +12,6 @@ const upload = multer({ dest: 'uploads/' });
 const createAccount = require('./scripts/create-account');
 const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
-const isHeroku = process.env.IS_HEROKU || false;
 const {
     redirect
 } = require('express/lib/response');
@@ -34,16 +33,14 @@ app.use(session({
     saveUninitialized: true
 }));
 
-console.log(isHeroku);
-
-const herokuConConfig = {
+const herokuConfig = {
     host: 'g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
     user: 'bvi0o6i4puwihszs',
     password: 't6j3hhjg82p5yi6v',
     database: 'ooesezqo9t1r5sup'
 }
 
-const localConConfig = {
+const localConfig = {
     host: 'localhost',
     user: 'root',
     password: '',
@@ -51,27 +48,19 @@ const localConConfig = {
 };
 
 let con;
+const isHeroku = process.env.IS_HEROKU || false;
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log('Gro-Operate running on ' + port);
     dbInitialize.dbInitialize(isHeroku)
     .then(() => {
-        // con = (isHeroku) ? mysql.createConnection(herokuConConfig) : mysql.createConnection(localConConfig);
+        // con = (isHeroku) ? mysql.createConnection(herokuConfig) : mysql.createConnection(localConfig);
         if (isHeroku) {
             console.log('hero');
-            con = mysql.createConnection(herokuConConfig);
+            con = mysql.createConnection(herokuConfig);
         } else {
-            console.log('local');
-            con = mysql.createConnection(localConConfig);
+            con = mysql.createConnection(localConfig);
         }
-
-        // con = mysql.createConnection({
-            //     host: 'localhost',
-            //     user: 'root',
-            //     password: '',
-            //     database: 'COMP2800'
-            // });
-            
         }).then(() => {
             con.connect(function(err) {
                 if (err) throw err;

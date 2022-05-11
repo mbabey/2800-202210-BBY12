@@ -1,13 +1,13 @@
 'use strict';
 
-const herokuConConfig = {
+const herokuConfig = {
     host: 'g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
     user: 'bvi0o6i4puwihszs',
     password: 't6j3hhjg82p5yi6v',
     database: 'ooesezqo9t1r5sup'
 }
 
-const localConConfig = {
+const localConfig = {
     host: 'localhost',
     user: 'root',
     password: '',
@@ -22,7 +22,7 @@ module.exports = {
         if (!isHeroku) {
             await initLocalDB();
         }
-        const importer = (isHeroku) ? new Importer(herokuConConfig) : new Importer(localConConfig);
+        const importer = (isHeroku) ? new Importer(herokuConfig) : new Importer(localConfig);
         /* Code for mysql-import functionality from here: https://github.com/Pamblam/mysql-import */
         importer.onProgress((progress) => {
             let percent = Math.floor(progress.bytes_processed / progress.total_bytes * 10000) / 100;

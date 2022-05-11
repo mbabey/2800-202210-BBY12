@@ -38,9 +38,9 @@ app.listen(port, () => {
     dbInitialize.dbInitialize()
         .then(() => {
             con = mysql.createConnection({
-                host: '127.0.0.1',
+                host: 'localhost',
                 user: 'root',
-                password: ' ',
+                password: '',
                 database: 'COMP2800'
             });
         }).then(() => {
@@ -271,7 +271,8 @@ app.post('/delete-admins', function (req, res) {
         database: 'COMP2800'
     });
     con.connect();
-    connection.query('DELETE FROM BBY_12_admins',
+    let username = req.body.username;
+    con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [username],
             function (error, results, fields) {
         if (error) {
             console.log(error);
@@ -280,7 +281,7 @@ app.post('/delete-admins', function (req, res) {
         res.send({ status: "success", msg: "Recorded all deleted." });
 
       });
-      connection.end();
+      con.end();
 
 });
 //     document.getElementById("delete-input") = req.body.username;

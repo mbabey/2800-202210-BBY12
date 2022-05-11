@@ -81,6 +81,7 @@
 
     <div class="content">
       <div class="admin-right">
+        <table id="customers"></table>
         <h3>All User Accounts</h3>
         <div id="user-list">
         </div>
@@ -91,16 +92,14 @@
           <p><b>Delete Admin Account</b></p>
           <form method="post">
             <div id="username-block" class="input-wrapper">
-              <input name="username" type="text" placeholder="Username" id="delete-input">
+              <input name="username" type="text" placeholder="Username" id="username">
               <!-- <input name="username-verify" type="text" placeholder="Verify Username" class="delete-input"> -->
-              <button id="delete-submit" type="submit" value="submit">Delete Account</button>
+              <button id="delete-admin" type="submit" value="submit">Delete Account</button>
             </div>
-            <fieldset>
-              <legend>Delete All Admins (use with caution!)</legend>
-              <input type="button" id="deleteAll" value="Delete All"/>
-            </fieldset>
-            <p id="status"></p>
+
+       
             </form>
+            <p id="status"></p>
       </div>
       </div>
       <div class="admin-left">
@@ -156,7 +155,7 @@
       </a>
     </div>
   </footer>
-<script src="/scripts/delete-admin.js"></script>
+<script src="delete-admin.js"></script>
 </body>
 
 </html>

@@ -11,6 +11,7 @@ const createAccount = require('./scripts/create-account');
 const dbInitialize = require('./db-init');
 const { redirect } = require('express/lib/response');
 
+app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
@@ -152,7 +153,16 @@ app.get('/get-users', function (req, res) {
 
 // Post that updates values to change data stored in db
 app.post('/update-users', function (req, res) {
-    con.query('UPDATE `BBY_12_users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
+    console.log("updat-users " , req.body);
+    con = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'COMP2800'
+    });
+    
+    con.query('UPDATE BBY_12_users SET cName = ? AND fName = ? AND lName = ? AND bType = ? AND email = ? AND phoneNo = ? AND location = ? AND description = ? WHERE username = ?;', 
+    [req.body.cName, req.body.fName, req.body.lName, req.body.biz_type, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
         function (error, results, fields) {
             if (error) throw error;
             res.setHeader('Content-Type', 'application/json');

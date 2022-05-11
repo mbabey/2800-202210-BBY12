@@ -7,7 +7,29 @@ const mysql = require('mysql2');
 const crypto = require('crypto');
 const { JSDOM } = require('jsdom');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads');
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+    }
+});
+const upload = multer({
+    storage: storage,
+    fileFilter: function(req, file, callback) {
+        let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+            req.fileValidtionError = "Images Only!";
+            return callback(null, false, req.fileValidtionError);
+        }
+        callback(null, true)
+    },
+    limits: {
+        fileSize: 1024 * 1024
+    }
+});
+
 
 const createAccount = require('./scripts/create-account');
 const createPost = require('./scripts/create-post');
@@ -244,14 +266,17 @@ app.route("/create-post")
         }
     })
     .post(upload.array('image-upload'), (req, res) => {
-        if (req.session.loggedIn) {
-            createPost.createPost(req, res)
+        if (req.session.loggedIn && !req.fileValidtionError) {
+            createPost.createPost(req, res, storage)
                 .then(function(resolve) {
                     console.log(resolve); // Redirect to post or feed
+                    res.redirect('/home');
                 })
                 .catch(function(err) {
                     console.log(err); // Redirect to something
                 });
+        } else {
+            res.redirect('back')
         }
     });
 // change

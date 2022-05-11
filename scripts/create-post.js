@@ -6,7 +6,7 @@ const { JSDOM } = require('jsdom');
 //const upload = multer({ dest: 'uploads/' });
 
 module.exports = {
-    createPost: async function(req, res) {
+    createPost: async function(req, res, storage) {
         res.setHeader('Content-Type', 'application/json');
         let con = await mysql.createConnection({
             host: 'localhost',
@@ -15,7 +15,7 @@ module.exports = {
             database: 'COMP2800'
         });
         // con.connect();
-        let success = await insertDB(req, con);
+        let success = await insertDB(req, con, storage);
         con.end();
         return success;
     }
@@ -30,8 +30,16 @@ async function insertDB(req, con) {
                 function(err) {
                     console.log(err);
                 });
-            if (req.files) {
+            if (req.files.length > 0) {
+                console.log(req.files);
                 console.log("TIME TO UPLOAD IMAGES NERD");
+                req.files.forEach(async image => {
+                    //console.log(req.session.username, postId, image.originalname);
+                    await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.session.username, postId, image.originalname],
+                        function(err) {
+                            console.log(err);
+                        });
+                });
             }
             resolve(true);
         } else {

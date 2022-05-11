@@ -64,15 +64,15 @@ footer svg {
 
 #nav-wrapper>div,
 #nav-wrapper>div #nav-search {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 #nav-search {
-  border: 1px solid var(--primary-dark);
-  border-radius: 3px;
-  margin-right: 20px;
+    border: 1px solid var(--primary-dark);
+    border-radius: 3px;
+    margin-right: 20px;
 }
 
 #nav-search input {
@@ -89,20 +89,21 @@ footer svg {
     cursor: pointer;
     background-color: rgb(227, 227, 227);
 }
+
 .nav-button {
-  text-decoration: none;
-  color: var(--primary-dark);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  height: 100%;
-  min-width: 45px;
-  padding-left: 10px;
-  padding-right: 10px;
-  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    text-decoration: none;
+    color: var(--primary-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 100%;
+    min-width: 45px;
+    padding-left: 10px;
+    padding-right: 10px;
+    -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .nav-button:hover {
@@ -127,53 +128,79 @@ footer {
     padding: 10px;
 }
 
-.post .post-images {
+.post-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.post-info {
+    width: 50%;
+    display: grid;
+    grid-template-rows: 50% 50%;
+}
+
+.post-business-name {
+    grid-row: 1 / span 1;
+    margin-bottom: 0;
+}
+
+.post-business-type {
+    grid-row: 2 / span 1;
+}
+
+.post-timestamp {
+    grid-row: 2 / span 1;
+}
+
+.post-header img {
+    width: 75px;
+    height: auto;
+    clip-path: circle(40%);
+    background-color: var(--secondary-dark);
+}
+
+.post-images {
     display: flex;
     flex-direction: row;
     gap: 10px;
 }
 
-.post .post-images img {
+.post-images img {
     width: 20%;
     height: auto;
     border-radius: 10px;
 }
 
 @media only screen and (max-width: 800px) {
-  .container {
-    min-height: calc(100vh - 100px);
-    margin-top: 50px;
-    margin-bottom: 50px;
-  }
-
-  #nav-home,
-  #nav-search,
-  #nav-post,
-  #nav-chat {
-    display: none !important;
-  }
-
-  nav {
-    height: 50px;
-  }
-
-  footer {
-    display: block;
-    position: fixed;
-    background-color: rgb(247, 247, 247);
-    width: 100vw;
-    height: 50px;
-    bottom: 0;
-    left: 0;
-  }
-
-  #footer-wrapper {
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-  }
-
-  #footer-wrapper .nav-button {
-    width: 100%;
-  }
+    .container {
+        min-height: calc(100vh - 100px);
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+    #nav-home,
+    #nav-search,
+    #nav-post,
+    #nav-chat {
+        display: none !important;
+    }
+    nav {
+        height: 50px;
+    }
+    footer {
+        display: block;
+        position: fixed;
+        background-color: rgb(247, 247, 247);
+        width: 100vw;
+        height: 50px;
+        bottom: 0;
+        left: 0;
+    }
+    #footer-wrapper {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+    #footer-wrapper .nav-button {
+        width: 100%;
+    }
 }

@@ -1,9 +1,6 @@
 .container {
-  height: 100vh;
-  display: grid;
-  grid-template-rows: minmax(100px, 10vh) auto;
+  background-color: rgba(98, 156, 132, 0.486);
 }
-
 .content {
   grid-row: 2 / span 1;
   display: grid;
@@ -15,13 +12,17 @@ h3 {
   justify-content: center;
 }
 
+.dashboard-header {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
 .admin-right {
-  justify-items: center;
+  justify-content: center;
   grid-column: 2 / span 1;
-  width: 100% !important;
   padding: 5%;
-  margin-left: 10px;
-  padding-top: 0;
+  padding-top: 10%;
 }
 
 #account-title {
@@ -33,7 +34,7 @@ table {
   grid-column: 1 / span 1;
   grid-row: 1 / span 1;
   border-collapse: collapse;
-  width: 90%;
+  width: 100%;
 }
 
 td, tr {
@@ -49,11 +50,15 @@ th {
 }
 
 tr:nth-child(even) {
-  background-color: #ddd;
+  background-color: rgb(228, 228, 228);
+}
+
+tr:nth-child(odd) {
+  background-color: white;
 }
 
 tr:hover {
-  background-color: var(--secondary-dark);
+  background-color: var(--secondary-light);
 }
 
 th {
@@ -65,17 +70,12 @@ color: white;
 }
 
 .admin-left {
-  grid-column: 1 / span 1;
-  grid-row: 1 / span 1;
   background-color: var(--primary);
-}
-
-.admin-left {
   position: fixed;
   margin-top: 0;
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  height: 400px;
+  height: 450px;
   width: 350px;
   padding: 10px;
   display: flex;
@@ -190,11 +190,32 @@ color: white;
   transform: scale(1);
 }
 
+#edit-block {
+  display: flex;
+  flex-direction: row;
+}
+
+#edit-admin-link {
+  text-decoration: none;
+  color: var(--secondary-dark);
+  padding-left: 10px;
+}
+
+#edit-admin-link:hover {
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 650px) {
 
+  .container {
+    display: block;
+  }
+
   .content {
-    display: grid;
-    grid-template-columns: 100%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-top: 5%;
   }
 
   .profile-head {
@@ -211,13 +232,21 @@ color: white;
   }
 
   table {
-    display: flex;
     justify-content: center;
+    width: 100%;
   }
 
-  .admin-right {
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
+  #admin-list {
+    grid-row: 2 / span 1;
+  }
+
+  #admin-table > tbody > tr > td {
+    width: 100%;
+    padding: 5%;
+  }
+
+  #admin-table > tbody > tr > th {
+    padding: 5%;
   }
 
   .admin-left {
@@ -226,6 +255,9 @@ color: white;
 
   tr, td, th {
     padding: 5%;
-    width: 10%;
+  }
+
+  th {
+    padding: 2%;
   }
 }

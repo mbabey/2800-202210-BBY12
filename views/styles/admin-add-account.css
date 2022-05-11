@@ -238,8 +238,13 @@
 
 
 @media only screen and (max-width: 800px) {
+    .container {
+        display: grid;
+    }
     #content {
-        display: block;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 10% repeat(5, 15%);
     }
 
     #dashboard-title {
@@ -247,7 +252,8 @@
     }
 
     #create-block {
-        grid-row: 1 / span 1;
+        grid-column: 1 / span 1;
+        grid-row: 3 / span 1;
         min-width: 256px;
         width: 70%;
         height: 50%;

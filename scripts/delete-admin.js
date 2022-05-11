@@ -40,7 +40,7 @@ function getAdmins() {
             if (xhr.status === 200) {
                 let data = JSON.parse(this.responseText);
                 if (data.status == "success") {
-                    let table = `"<table id='admin-table'><tr><th>Username</th></tr>`;
+                    let table = `<table id='admin-table'><tr><th>Username</th></tr>`;
                     for (let i = 0; i < data.rows.length; i++) {
                         table += ("<tr><td>" + data.rows[i].username + "</td></tr>");
                     }

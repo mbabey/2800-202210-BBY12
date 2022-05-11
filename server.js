@@ -256,6 +256,12 @@ app.get('/get-admin-table', function (req, res) {
     });
 });
 
+app.get('/is-admin', function (req, res) {
+    // console.log(req.session.admin);
+    res.setHeader('content-type', 'application/json');
+    res.send({admin: req.session.admin});
+});
+
 app.route('/admin-view-accounts')
     .get(function (req, res) {
 

@@ -1,3 +1,6 @@
+.container {
+}
+
 .content {
   grid-row: 2 / span 1;
   display: grid;
@@ -19,7 +22,7 @@ h3 {
   justify-content: center;
   grid-column: 2 / span 1;
   padding: 5%;
-  padding-top: 0;
+  padding-top: 10%;
 }
 
 #account-title {
@@ -191,9 +194,15 @@ color: white;
 
 @media only screen and (max-width: 650px) {
 
+  .container {
+    display: block;
+  }
+
   .content {
-    display: grid;
-    grid-template-columns: 100%;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-top: 5%;
   }
 
   .profile-head {
@@ -210,13 +219,21 @@ color: white;
   }
 
   table {
-    display: flex;
     justify-content: center;
+    width: 100%;
   }
 
-  .admin-right {
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
+  #admin-list {
+    grid-row: 2 / span 1;
+  }
+
+  #admin-table > tbody > tr > td {
+    width: 100%;
+    padding: 5%;
+  }
+
+  #admin-table > tbody > tr > th {
+    padding: 5%;
   }
 
   .admin-left {
@@ -225,6 +242,9 @@ color: white;
 
   tr, td, th {
     padding: 5%;
-    width: 10%;
+  }
+
+  th {
+    padding: 2%;
   }
 }

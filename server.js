@@ -227,7 +227,7 @@ app.route('/admin-view-accounts')
                 business_name += results[0].cName + "</p>";
                 let users = 'SELECT * FROM BBY_12_users';
                 let admins = 'SELECT * FROM BBY_12_admins';
-                let table2 = "<table><tr><th>Username</th></tr>";
+                let table2 = "<table id='admin-table'><tr><th>Username</th></tr>";
                 con.query(admins, function (err, results) {
                     if (err) throw err;
                     for (let i = 0; i < results.length; i++) {

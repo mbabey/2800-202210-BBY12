@@ -54,7 +54,7 @@ let con;
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log('Gro-Operate running on ' + port);
-    dbInitialize.dbInitialize()
+    dbInitialize.dbInitialize(isHeroku)
     .then(() => {
         // con = (isHeroku) ? mysql.createConnection(herokuConConfig) : mysql.createConnection(localConConfig);
         if (isHeroku) {

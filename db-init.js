@@ -1,18 +1,28 @@
 'use strict';
 
-const hostName = 'localhost';
-const userName = 'root';
-const pass = '';
-const db = 'COMP2800';
+const herokuConConfig = {
+    host: 'g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'bvi0o6i4puwihszs',
+    password: 't6j3hhjg82p5yi6v',
+    database: 'ooesezqo9t1r5sup'
+}
+
+const localConConfig = {
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'COMP2800'
+};
 
 const mysql = require('mysql2/promise');
 const Importer = require('mysql-import');
-const importer = new Importer({ host: hostName, user: userName, password: pass });
 
 module.exports = {
-    dbInitialize: async () => {
-        await initDB();
-        importer.use(db);
+    dbInitialize: async (isHeroku) => {
+        if (!isHeroku) {
+            await initLocalDB();
+        }
+        const importer = (isHeroku) ? new Importer(herokuConConfig) : new Importer(localConConfig);
         /* Code for mysql-import functionality from here: https://github.com/Pamblam/mysql-import */
         importer.onProgress((progress) => {
             let percent = Math.floor(progress.bytes_processed / progress.total_bytes * 10000) / 100;
@@ -27,11 +37,11 @@ module.exports = {
     }
 }
 
-async function initDB() {
+async function initLocalDB() {
     const con = await mysql.createConnection({
-        host: hostName,
-        user: userName,
-        password: pass,
+        host: 'localhost',
+        user: 'root',
+        password: '',
         multipleStatements: true
     });
     await con.query(`CREATE DATABASE IF NOT EXISTS COMP2800; USE COMP2800;`);

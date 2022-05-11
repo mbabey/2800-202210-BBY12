@@ -10,7 +10,7 @@ docLoaded(() => {
                 popAdminData(JSON.parse(data));
             }
         } catch (err) {
-            document.getElementById("error-messsage").innerHTML = "Cannot get admins.";
+  
         }
     }
     getAdminData();
@@ -35,7 +35,28 @@ function docLoaded(action) {
 
 function getAdmins() {
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "/get-admins");
+    xhr.onload = function () {
+        if (this.readyState == XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                let data = JSON.parse(this.responseText);
+                if (data.status == "success") {
+                    let table = `"<table id='admin-table'><tr><th>Username</th></tr>`;
+                    for (let i = 0; i < data.rows.length; i++) {
+                        table += ("<tr><td>" + data.rows[i].username + "</td></tr>");
+                    }
+                    table += "</table>";
+                    document.getElementById("admin-list").innerHTML = table;
+                } else {
+                    throw "Cannot populate admin table.";
+                }
+            } else {
+                throw "Cannot parse data.";
+            }
+        } else {
+            throw "Ready state not done.";
+        }
+    }
+    xhr.open("GET", "/get-admin-table");
     xhr.send();
 }
 getAdmins();

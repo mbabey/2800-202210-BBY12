@@ -201,11 +201,21 @@ app.route('/admin-add-account')
 app.get('/get-admins', function (req, res) {
     let admins = 'SELECT * FROM BBY_12_admins';
     con.query(admins, function (err, results) {
-        if (err) throw err;
+        if (err) throw "Query to database failed.";
         res.setHeader('content-type', 'application/json');
         res.send(results);
     });
 });
+
+app.get('/get-admin-table', function (req, res) {
+    let admins = 'SELECT * FROM BBY_12_admins';
+    con.query(admins, function (err, results) {
+        if (err) throw "Query to database failed.";
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: "success", rows: results });
+    });
+});
+
     
 
 app.route('/admin-view-accounts')
@@ -226,15 +236,6 @@ app.route('/admin-view-accounts')
                 last_name += results[0].lName + "</p>";
                 business_name += results[0].cName + "</p>";
                 let users = 'SELECT * FROM BBY_12_users';
-                let admins = 'SELECT * FROM BBY_12_admins';
-                let table2 = "<table id='admin-table'><tr><th>Username</th></tr>";
-                con.query(admins, function (err, results) {
-                    if (err) throw err;
-                    for (let i = 0; i < results.length; i++) {
-                        table2 += "<tr><td>" + results[i].username + "</td></tr>";
-                    }
-                    table2 += "</table>";
-                });
                 con.query(users, function (err, results) {
                     if (err) throw err;
 
@@ -250,7 +251,6 @@ app.route('/admin-view-accounts')
                     let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
                     let adminViewAccDOM = new JSDOM(adminViewAcc);
                     adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
-                    adminViewAccDOM.window.document.getElementById("admin-list").innerHTML = table2;
                     adminViewAccDOM.window.document.getElementById("u-name").innerHTML = username;
                     adminViewAccDOM.window.document.getElementById("name").innerHTML = first_name + last_name;
                     adminViewAccDOM.window.document.getElementById("b-name").innerHTML = business_name;

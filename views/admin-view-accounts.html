@@ -91,10 +91,14 @@
           <p><b>Delete Admin Account</b></p>
           <form method="post">
             <div id="username-block" class="input-wrapper">
-              <input name="username" type="text" placeholder="Username" class="delete-input">
-              <input name="username-verify" type="text" placeholder="Verify Username" class="delete-input">
+              <input name="username" type="text" placeholder="Username" id="delete-input">
+              <!-- <input name="username-verify" type="text" placeholder="Verify Username" class="delete-input"> -->
               <button id="delete-submit" type="submit" value="submit">Delete Account</button>
             </div>
+            <fieldset>
+              <legend>Delete All Admins (use with caution!)</legend>
+              <input type="button" id="deleteAll" value="Delete All"/>
+            </fieldset>
             <p id="status"></p>
             </form>
       </div>

@@ -202,16 +202,11 @@ app.get('/get-admins', function (req, res) {
     let admins = 'SELECT * FROM BBY_12_admins';
     con.query(admins, function (err, results) {
         if (err) throw err;
-
-        console.log("Rows returned are: ", results);
-
         res.setHeader('content-type', 'application/json');
-        res.send({
-            status: "success",
-            rows: results
-        });
+        res.send(results);
     });
 });
+    
 
 app.route('/admin-view-accounts')
     .get(function (req, res) {
@@ -267,27 +262,38 @@ app.route('/admin-view-accounts')
         }
     });
 
-    app.post('/delete-admin', function (req, res) {
-        console.log("Username", req.body.username);
-        res.setHeader('Content-Type', 'application/json');
-        let con = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'COMP2800'
-        });
-        con.connect();
-        document.getElementsByClassName("delete-input") = req.body.username;
-        let username = req.body.username;
-        con.query('DELETE FROM BBY_12_admins WHERE BBY_12_users.username = ?', [username], function (err, results) {
-            if (err) throw err;
-            res.send({
-                status: "Success",
-                msg: "Admin access removed."
-            });
-        });
-        con.end();
+app.post('/delete-admins', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    let con = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'COMP2800'
     });
+    con.connect();
+    connection.query('DELETE FROM BBY_12_admins',
+            function (error, results, fields) {
+        if (error) {
+            console.log(error);
+        }
+        //console.log('Rows returned are: ', results);
+        res.send({ status: "success", msg: "Recorded all deleted." });
 
-    
+      });
+      connection.end();
+
+});
+//     document.getElementById("delete-input") = req.body.username;
+//     let username = req.body.username;
+//     con.query('DELETE FROM BBY_12_admins WHERE BBY_12_users.username = ?', [username], function (err, results) {
+//         if (err) throw err;
+//         res.send({
+//             status: "Success",
+//             msg: "Admin access removed."
+//         });
+//     });
+//     con.end();
+// });
+
+
 // change

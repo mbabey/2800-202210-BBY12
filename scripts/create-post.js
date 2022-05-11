@@ -41,7 +41,19 @@ async function insertDB(req, con) {
                         });
                 });
             }
-            console.log(req.body["tag-field"]);
+            let tags = req.body["tag-field"].split(/[\s#]/)
+            tags = tags.filter(function(item, pos) {
+                return tags.indexOf(item) == pos;
+            });
+            console.log(tags);
+            tags.forEach(async tag => {
+                if (tag) {
+                    await con.execute('INSERT INTO \`BBY_12_Post_Tag\`(username, postId, tag) values (?,?,?)', [req.session.username, postId, tag],
+                        function(err) {
+                            console.log(err);
+                        });
+                }
+            });
             resolve(true);
         } else {
             reject(new Error("Title and description required"));

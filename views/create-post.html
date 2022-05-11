@@ -76,7 +76,7 @@
             <h1>Create Post</h1>
             <form id="form-post" class="form-post" action="/create-post" method="post" enctype="multipart/form-data">
                 <label>Post Title</label>
-                <input id="input-title" name="input-title" placeholder="Add Title"><br>
+                <input id="input-title" name="input-title" placeholder="Add Title" required><br>
                 <div class="form-image">
                     <div id="drop-area">
                         <label>Upload Images</label>
@@ -88,11 +88,11 @@
                     <div id="gallery"></div>
                 </div>
                 <label>Description</label>
-                <textarea rows="10" name="input-description" placeholder="Add description"></textarea><br>
+                <textarea rows="10" name="input-description" placeholder="Add description" required></textarea><br>
                 <div class="tags">
                     <input id="input-tag" name="input-tag" type="text" placeholder="Add tag">
                     <button id="button-tag" type="button" onclick="writeTag()">Add tag</button>
-                    <input id="tag-field" name="tag-field" type="text" disabled="true">
+                    <textarea id="tag-field" name="tag-field" type="text" rows="4" readonly></textarea>
 
                 </div>
                 <div class="buttons">

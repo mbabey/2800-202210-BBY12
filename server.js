@@ -18,12 +18,12 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     fileFilter: function(req, file, callback) {
-        let ext = file.originalname.split('.')[file.originalname.split('.').length - 1];
+        let ext = "." + file.originalname.split('.')[file.originalname.split('.').length - 1];
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
             req.fileValidtionError = "Images Only!";
             return callback(null, false, req.fileValidtionError);
         }
-        callback(null, true)
+        callback(null, true);
     },
     limits: {
         fileSize: 1024 * 1024
@@ -266,6 +266,7 @@ app.route("/create-post")
         }
     })
     .post(upload.array('image-upload'), (req, res) => {
+        console.log(req.fileValidtionError);
         if (req.session.loggedIn && !req.fileValidtionError) {
             createPost.createPost(req, res, storage)
                 .then(function(resolve) {

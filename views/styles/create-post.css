@@ -80,20 +80,19 @@ textarea {
 }
 
 .tags {
-    display: grid;
-    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .tags>#input-tag {
     padding: 0.5em;
-    grid-column-start: 1;
 }
 
 .tags>#button-tag {
     margin-left: 5px;
     padding: 0.5em;
     width: 100px;
-    grid-column-start: 2;
+    min-width: 100px;
 }
 
 #drop-text {
@@ -108,7 +107,8 @@ h1 {
 
 #tag-field {
     border: none;
-    align-self: flex-end;
+    min-width: 90%;
+    font-size: 0.85rem;
 }
 
 @media only screen and (min-width: 800px) {

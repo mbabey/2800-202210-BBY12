@@ -155,9 +155,8 @@ app.get('/get-users', function (req, res) {
 app.post('/update-users', function (req, res) {
     console.log("updat-users " , req.body);
 
-    
-    con.query('UPDATE BBY_12_users SET cName = ? AND fName = ? AND lName = ? AND bType = ? AND email = ? AND phoneNo = ? AND location = ? AND description = ? WHERE username = ?;', 
-    [req.body.cName, req.body.fName, req.body.lName, req.body.biz_type, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', 
+    [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
         function (error, results, fields) {
             if (error) throw error;
             res.setHeader('Content-Type', 'application/json');

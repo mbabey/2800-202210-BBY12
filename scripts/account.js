@@ -73,38 +73,71 @@ docLoaded(() => {
 
     });
 
+    function saved(data){
+        data.contentEditable = false;
+        data.style.color = '#000000';
+    };
+
+    function checkEmpty(data){
+        let checkEmpty = data.trim();
+        let checkSpace = data.replace('/&nbsp;/g', '');
+        let checkEnter = data.replace('/<div><br></div>/g', '');
+    
+        if(checkEmpty == '' || checkSpace.trim() == '' || checkEnter.trim() == ''){
+            return false;
+        } else {
+            return true;
+        }
+    };
+
     document.getElementById("save-button").addEventListener("click", function (event) {
-        biz_name.contentEditable = false;
-        biz_name.style.color = '#000000';
+        saved(biz_name);
         let biz_name_value = biz_name.innerHTML;
+        if(!checkEmpty(biz_name_value)){
+            biz_name_value = biz_name_value = "Enter business name here";
+        };
 
-        biz_owner_fName.contentEditable = false;
-        biz_owner_fName.style.color = '#000000';
+        saved(biz_owner_fName);
         let biz_owner_fName_value = biz_owner_fName.innerHTML;
+        if(!checkEmpty(biz_owner_fName_value)){
+            biz_owner_fName_value = "first name";
+        };
 
-        biz_owner_lName.contentEditable = false;
-        biz_owner_lName.style.color = '#000000';
+        saved(biz_owner_lName);
         let biz_owner_lName_value = biz_owner_lName.innerHTML;
+        if(!checkEmpty(biz_owner_lName_value)){
+            biz_owner_lName_value = "last name";
+        };
 
-        biz_type.contentEditable = false;
-        biz_type.style.color = '#000000';
+        saved(biz_type);
         let biz_type_value = biz_type.innerHTML;
+        if(!checkEmpty(biz_type_value)){
+            biz_type_value = "Enter business type";
+        };
 
-        biz_email.contentEditable = false;
-        biz_email.style.color = '#000000';
+        saved(biz_email);
         let biz_email_value = biz_email.innerHTML;
+        if(!checkEmpty(biz_email_value)){
+            biz_email_value = "Enter email";
+        };
 
-        biz_phone.contentEditable = false;
-        biz_phone.style.color = '#000000';
+        saved(biz_owner_fName);
         let biz_phone_value = biz_phone.innerHTML;
+        if(!checkEmpty(biz_phone_value)){
+            biz_phone_value = "Enter phone number";
+        };
 
-        biz_location.contentEditable = false;
-        biz_location.style.color = '#000000';
+        saved(biz_location);
         let biz_location_value = biz_location.innerHTML;
-
-        biz_description.contentEditable = false;
-        biz_description.style.color = '#000000';
+        if(!checkEmpty(biz_location_value)){
+            biz_location_value = "Enter location";
+        };
+        
+        saved(biz_description);
         let biz_description_value = biz_description.innerHTML;
+        if(!checkEmpty(biz_description_value)){
+            biz_description_value = "Enter description";
+        };
 
         document.getElementById("edit-status").innerHTML = "";
         edit_button.innerHTML = "Edit Profile";
@@ -117,37 +150,15 @@ docLoaded(() => {
             description: biz_description_value
         };
 
+        console.log(dataToSend);
         sendData(JSON.stringify(dataToSend));
-        // now send
-        // const xhr = new XMLHttpRequest();
-        // xhr.onload = function () {
-        //     if (this.readyState == XMLHttpRequest.DONE) {
-
-        //         // 200 means everthing worked
-        //         if (xhr.status === 200) {
-        //           document.getElementById("edit-status").innerHTML = "Record updated.";
-
-        //         } else {
-
-        //           // not a 200, could be anything (404, 500, etc.)
-        //           console.log(this.status);
-
-        //         }
-
-        //     } else {
-        //         console.log("ERROR", this.status);
-        //     }
-        // }
-        // xhr.open("POST", "/update-users");
-        // console.log("dataToSend", "biz name="+ dataToSend.cName + "&fName=" + dataToSend.fName + "&lName=" + dataToSend.cName + "&biz type=" + dataToSend.bType + "&email=" + dataToSend.email + "&phone=" + dataToSend.phoneNo + "&location=" + dataToSend.location + "&description=" + dataToSend.description);//works
-
-        // xhr.send(dataToSend);
-
-
-
+        location.reload();
+    
     });
 
 });
+
+
 
 async function sendData(data) {
     try {

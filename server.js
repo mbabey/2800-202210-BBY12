@@ -1,18 +1,26 @@
 'use strict';
-// const { Router } = require('express');
 const express = require('express');
 const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
 const crypto = require('crypto');
-const {
-    JSDOM
-} = require('jsdom');
+const { JSDOM } = require('jsdom');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const createAccount = require('./scripts/create-account');
+const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
+const isHeroku = process.env.IS_HEROKU || false;
+const {
+    redirect
+} = require('express/lib/response');
+const {
+    send
+} = require('process');
 
+app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
@@ -26,31 +34,57 @@ app.use(session({
     saveUninitialized: true
 }));
 
-const con = mysql.createConnection({
+console.log(isHeroku);
+
+const herokuConConfig = {
+    host: 'g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'bvi0o6i4puwihszs',
+    password: 't6j3hhjg82p5yi6v',
+    database: 'ooesezqo9t1r5sup'
+}
+
+const localConConfig = {
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'COMP2800'
-});
+};
 
-con.connect(function(err) {
-    if (err) throw err;
-    console.log("SQL Connected");
-});
-
-const port = 8000;
+let con;
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
-    console.log('Gro-Operate running on port: ' + port);
-    dbInitialize.dbInitialize();
+    console.log('Gro-Operate running on ' + port);
+    dbInitialize.dbInitialize()
+    .then(() => {
+        // con = (isHeroku) ? mysql.createConnection(herokuConConfig) : mysql.createConnection(localConConfig);
+        if (isHeroku) {
+            console.log('hero');
+            con = mysql.createConnection(herokuConConfig);
+        } else {
+            console.log('local');
+            con = mysql.createConnection(localConConfig);
+        }
+
+        // con = mysql.createConnection({
+            //     host: 'localhost',
+            //     user: 'root',
+            //     password: '',
+            //     database: 'COMP2800'
+            // });
+            
+        }).then(() => {
+            con.connect(function(err) {
+                if (err) throw err;
+            });
+        });
 });
 
 app.get('/', (req, res) => {
-    console.log(req.session);
     if (req.session.loggedIn) {
         if (req.session.admin)
             res.redirect('/admin-dashboard'); // TEMP show case that admin accounts are different, will remove once dash board button is implemented
         else
-            res.redirect('/home'); // /edit-profile for now, but will be /home in later versions 
+            res.redirect('/home');
     } else {
         res.redirect('/login');
     }
@@ -58,20 +92,23 @@ app.get('/', (req, res) => {
 
 app.route('/login')
     .get((req, res) => {
-        let loginPage = fs.readFileSync('./views/login.html', 'utf8');
-        res.send(loginPage);
+        if (!req.session.loggedIn) {
+            let loginPage = fs.readFileSync('./views/login.html', 'utf8');
+            res.send(loginPage);
+        } else {
+            res.redirect('/');
+        }
     })
     .post((req, res, ) => {
         let user = req.body.username.trim();
         let pass = req.body.password;
-        const hash = crypto.createHash('sha256').update(pass).digest('hex'); // this is kinda insecure; we should encrypt before we send
+        const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function(err, results, ) {
+            con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function(err, results) {
                 if (results && results.length > 0) {
                     login(req, user);
-                } else {
-                    console.log("Username/password combination not found");
                 }
+                if (err) throw err;
             });
             res.redirect('/');
         } catch (err) {
@@ -79,21 +116,36 @@ app.route('/login')
         }
     });
 
+function login(req, user) {
+    req.session.loggedIn = true;
+    req.session.username = user;
+    req.session.admin = false;
+
+    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], function(err, results) {
+        if (err) throw err;
+        if (results.length > 0) {
+            req.session.admin = true;
+        }
+        req.session.save();
+    });
+}
+
 app.route('/create-account')
     .get((req, res) => {
-        let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
-        res.send(createAccountPage);
+        if (!req.session.loggedIn) {
+            let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
+            res.send(createAccountPage);
+        } else {
+            res.redirect('/');
+        }
     })
     .post((req, res) => {
         createAccount.createAccount(req, res)
             .then(function(result) {
                 login(req, req.body["username"]);
-                //res.send({ status: "success", msg: "Record added." });
                 res.redirect('/');
             })
             .catch(function(err) {
-                console.log("Promise rejection error: " + err);
-                //res.send({ status: "fail", msg: "Record not added." });
                 res.redirect('/create-account');
             });
     });
@@ -104,35 +156,70 @@ app.get('/logout', (req, res) => {
     });
 });
 
+//get data from BBY_12_post and format the posts
+app.get('/home', (req, res) => {
+    if (req.session.loggedIn) {
+        let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
+        let profileDOM = new JSDOM(profilePage);
+        profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
+        profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
+        profilePage = profileDOM.serialize();
+        res.send(profilePage);
+    } else {
+        res.redirect("/");
+    }
+});
 
-function login(req, user) {
-    req.session.loggedIn = true;
-    req.session.username = user;
-    req.session.admin = false;
+app.get('/profile', (req, res) => {
+    if (req.session.loggedIn) {
+        let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
+        res.send(profilePage);
+    } else {
+        res.redirect('/');
+    }
+});
 
-    con.query('Select * from (`BBY-12-Admins`) Where (`username` = ?)', [user], function(err, results) {
-        if (err) throw err;
-        if (results.length > 0) {
-            req.session.admin = true;
-        }
-        req.session.save();
+app.get('/get-users', function(req, res) {
+    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
+        if (error) throw error;
+        res.setHeader('content-type', 'application/json');
+        res.send(results);
     });
-}
+});
 
-app.get('/edit-profile', (req, res) => {
-    let editProfilePage = fs.readFileSync('./views/edit-profile.html', 'utf8');
-    res.send(editProfilePage);
+// Post that updates values to change data stored in db
+app.post('/update-users', function (req, res) {
+    console.log("updat-users " , req.body);
+
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', 
+    [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
+        function (error, results, fields) {
+            if (error) throw error;
+            res.setHeader('Content-Type', 'application/json');
+            res.send({
+                status: "Success",
+                msg: "User information updated."
+            });
+        });
 });
 
 app.get('/admin-dashboard', (req, res) => {
-    let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
-    res.send(adminDashPage);
+    if (req.session.loggedIn && req.session.admin) {
+        let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
+        res.send(adminDashPage);
+    } else {
+        res.redirect('/');
+    }
 });
 
 app.route('/admin-add-account')
     .get((req, res) => {
-        let accountAddPage = fs.readFileSync('./views/admin-add-account.html', 'utf8');
-        res.send(accountAddPage);
+        if (req.session.loggedIn && req.session.admin) {
+            let accountAddPage = fs.readFileSync('./views/admin-add-account.html', 'utf8');
+            res.send(accountAddPage);
+        } else {
+            res.redirect('/');
+        }
     })
     .post((req, res) => {
         createAccount.createAdmin(req, res)
@@ -140,179 +227,105 @@ app.route('/admin-add-account')
                 res.redirect('/admin-dashboard');
             })
             .catch(function(err) {
-                console.log("Promise rejection error: " + err);
                 res.redirect('/admin-add-account');
             });
     });
-app.route('/create-account')
+
+app.get('/get-admins', function (req, res) {
+    let admins = 'SELECT * FROM BBY_12_admins';
+    con.query(admins, function (err, results) {
+        if (err) throw "Query to database failed.";
+        res.setHeader('content-type', 'application/json');
+        res.send(results);
+    });
+});
+
+app.get('/get-admin-table', function (req, res) {
+    let admins = 'SELECT * FROM BBY_12_admins';
+    con.query(admins, function (err, results) {
+        if (err) throw "Query to database failed.";
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: "success", rows: results });
+    });
+});
+
+app.route('/admin-view-accounts')
+    .get(function (req, res) {
+
+        if (req.session.loggedIn && req.session.admin == true) {
+            let session_username = req.session.username;
+            let admin = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
+            let username = "<h3>";
+            let first_name = "<p>";
+            let last_name = "<p>";
+            let business_name = "<p>";
+            con.query(admin, [session_username], function (err, results) {
+
+                if (err) throw err;
+                username += results[0].username + "</h3>";
+                first_name += results[0].fName + "</p>";
+                last_name += results[0].lName + "</p>";
+                business_name += results[0].cName + "</p>";
+                let users = 'SELECT * FROM BBY_12_users';
+                con.query(users, function (err, results) {
+                    if (err) throw err;
+
+                    let table = "<table><tr><th>Username</th><th class=\"admin-user-info\">First Name</th><th class=\"admin-user-info\">Last Name</th><th class=\"admin-user-info\">Business Name</th></tr>";
+                    for (let i = 0; i < results.length; i++) {
+                        table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info\">" +
+                            results[i].fName + "</td><td class=\"admin-user-info\">" +
+                            results[i].lName + "</td><td class=\"admin-user-info\">" +
+                            results[i].cName + "</td></tr>";
+                    }
+                    table += "</table>";
+
+                    let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+                    let adminViewAccDOM = new JSDOM(adminViewAcc);
+                    adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
+                    adminViewAccDOM.window.document.getElementById("u-name").innerHTML = username;
+                    adminViewAccDOM.window.document.getElementById("name").innerHTML = first_name + last_name;
+                    adminViewAccDOM.window.document.getElementById("b-name").innerHTML = business_name;
+                    let adminViewAccPage = adminViewAccDOM.serialize();
+                    res.send(adminViewAccPage);
+                });
+            });
+        } else {
+            res.redirect("/");
+        }
+    });
+
+app.route("/create-post")
     .get((req, res) => {
-        let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
-        res.send(createAccountPage);
+        if (req.session.loggedIn) {
+            let createPostPage = fs.readFileSync('./views/create-post.html', 'utf8');
+            res.send(createPostPage);
+        } else {
+            res.redirect('/');
+        }
     })
-    .post((req, res) => {
-        createAccount.createAccount(req, res)
-            .then(function(result) {
-                login(req, req.body["username"]);
-                //res.send({ status: "success", msg: "Record added." });
-                res.redirect('/');
-            })
-            .catch(function(err) {
-                console.log("Promise rejection error: " + err);
-                //res.send({ status: "fail", msg: "Record not added." });
-                res.redirect('/create-account');
-            });
-
-    });
-
-app.get('/logout', (req, res) => {
-    req.session.destroy(function() {
-        res.redirect('/');
-    });
-});
-
-
-function login(req, user) {
-    req.session.loggedIn = true;
-    req.session.username = user;
-    req.session.admin = false;
-
-    con.query('SELECT * FROM `BBY-12-Admins` WHERE (`username` = ?);', [user], function(err, results) {
-        if (err) throw err;
-        if (results.length > 0) {
-            req.session.admin = true;
+    .post(upload.array('image-upload'), (req, res) => {
+        if (req.session.loggedIn) {
+            createPost.createPost(req, res)
+                .then(function(resolve) {
+                    console.log(resolve); // Redirect to post or feed
+                })
+                .catch(function(err) {
+                    console.log(err); // Redirect to something
+                });
         }
-        req.session.save();
     });
-}
 
-app.get('/get-users', function(req, res) {
-    con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
-        if (error) {
-            console.log(error);
-        }
-        res.setHeader('content-type', 'application/json');
-        res.send(results);
-    });
-});
-
-// Post that updates values to change data stored in db
-app.post('/update-users', function(req, res) {
+app.post('/delete-admins', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
-
-    let connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'comp2800'
-    });
-    connection.connect();
-    console.log("update values", req.body.username, req.body.fName, req.body.lName,
-        req.body.email, req.body.password)
-    connection.query('UPDATE `BBY-12-Users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-        function(error, results, fields) {
-            if (error) {
-                console.log(error);
-            }
-            //console.log('Rows returned are: ', results);
-            res.send({ status: "Success", msg: "User information updated." });
-
-        });
-    connection.end();
-
-});
-
-app.get('/admin-view-accounts', function(req, res) {
-    if (req.session.loggedIn && req.session.admin == true) {
-        let users = 'SELECT * FROM `BBY-12-Users`;';
-        con.query(users, function(err, results, fields) {
-            if (err) throw err;
-            console.log(results);
-            let table = "<table id='user-accounts'><th>User Accounts</th>";
-            for (let i = 0; i < results.length; i++) {
-                table += "<tr><td>" + results[i].username + "</td><td>" +
-                    results[i].fName + "</td><td>" + results[i].lName + "</td></tr>";
-            }
-            table += "</table>";
-            let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-            let adminViewAccDOM = new JSDOM(adminViewAcc);
-            adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
-            let adminViewAccPage = adminViewAccDOM.serialize();
-            res.send(adminViewAccPage);
-        });
-
-    } else {
-        res.redirect("/");
-    }
-});
-
-//get data from BBY-12post and format the posts
-app.get('/home', (req, res) => {
-    if (req.session.loggedIn) {
-        console.log("Logged in from username:" + req.session.username);
-        let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
-        let profileDOM = new JSDOM(profilePage);
-        profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Profile";
-        profileDOM.window.document.getElementById("profile-name").innerHTML = req.session.username;
-        con.query(
-            `SELECT * FROM \`BBY-12-post\` WHERE username = "${req.session.username}";`,
-            function(error, results, fields) {
-                // results is an array of records, in JSON format
-                console.log("Results from DB", results);
-                //let myResults = results;
-                if (error) {
-                    console.log(error);
-                }
-                // get data, format output
-                let postSection = "<div class='post-block>";
-                let post;
-                for (let i = 0; i < results.length; i++) {
-                    post += "<div class='post'><h1 class='post-title'>" + results[i].postTitle + "</h1><h3 class='post-business-name'>" + results[i].businessName +
-                        "</h3><div class='post-images'>" + "</div><p class='post-description'>" + results[i].content +
-                        "</p><p class='post-timestamp'><small>" + results[i].timestamp + "</small></p></div>";
-                }
-                // don't forget the end
-                postSection += "</div>"
-                var profilePage = profileDOM.serialize(); //this is the profile page
-                res.send(profilePage + postSection); //sends the profile page and the posts
-            });
-    } else {
-        // not logged in - no session and no access, redirect to root!
-        res.redirect("/");
-    }
-});
-
-app.get('/get-users', function(req, res) {
-    con.query('SELECT * FROM `BBY-12-Users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
-        if (error) {
-            console.log(error);
-        }
-        res.setHeader('content-type', 'application/json');
-        res.send(results);
-    });
-});
-
-// Post that updates values to change data stored in db
-app.post('/update-users', function(req, res) {
-    res.setHeader('Content-Type', 'application/json');
-
-    let connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: '',
-        database: 'comp2800'
-    });
-    connection.connect();
-    console.log("update values", req.body.username, req.body.fName, req.body.lName,
-        req.body.email, req.body.password)
-    connection.query('UPDATE users SET (fName = ? , lName = ? , email = ? , password = ?) WHERE username = ?', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-        function(error, results, fields) {
-            if (error) {
-                console.log(error);
-            }
-            //console.log('Rows returned are: ', results);
-            res.send({ status: "Success", msg: "User information updated." });
-
-        });
-    connection.end();
-
+        con.query('SELECT * FROM BBY_12_admins',
+                function (err, results) {
+                  if (results.length != 1) {
+                    con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
+                    function (err, results) {
+                      if (err) throw err;
+                    })
+                  } else {
+                    if (err) throw "Cannot delete admin if there is only one admin left.";
+                  }
+          });
 });

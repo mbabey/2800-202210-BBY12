@@ -32,17 +32,12 @@ module.exports = {
             .then(function(result) {
                 insertAdmin(req.body.username, connection)
                     .then()
-                    .catch(function(err) {
-                        console.log("Promise rejection error: " + err);
-                    });
-            }).catch(function(err) {
-                console.log("Promise rejection error: " + err);
-            });
+                    .catch(function(err) {});
+            }).catch(function(err) {});
         connection.end();
         return success;
     }
 };
-
 
 function insertDB(req, connection) {
     return new Promise((resolve, reject) => {
@@ -51,7 +46,7 @@ function insertDB(req, connection) {
         if (checkUsername(username, req) && checkPassword(pass, req)) {
             const hash = crypto.createHash('sha256').update(pass).digest('hex');
             let location = req.body["location-street"] + ", " + req.body["location-city"] + ", " + req.body["location-country"];
-            connection.query('INSERT INTO BBY-12-users (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]],
+            connection.query('INSERT INTO BBY_12_users (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]],
                 function(err) {
                     if (err) {
                         reject(new Error("User Insert failed"));
@@ -67,10 +62,9 @@ function insertDB(req, connection) {
 
 function insertAdmin(username, connection) {
     return new Promise((resolve, reject) => {
-        connection.query('INSERT INTO BBY-12-admins values(?)', [username],
+        connection.query('INSERT INTO BBY_12_admins values(?)', [username],
             function(err) {
                 if (err) {
-                    console.log(err);
                     reject(new Error("Admin Insert failed"));
                 } else {
                     resolve(true);

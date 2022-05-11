@@ -13,6 +13,7 @@ const {
 const createAccount = require('./scripts/create-account');
 const dbInitialize = require('./db-init');
 const isHeroku = process.env.IS_HEROKU || false;
+console.log(isHeroku);
 
 app.use(express.urlencoded({
     extended: true
@@ -42,7 +43,16 @@ const localConConfig = {
     database: 'COMP2800'
 };
 
-const con = (isHeroku) ? mysql.createConnection(herokuConConfig) : mysql.createConnection(localConConfig);
+// const con = (isHeroku) ? mysql.createConnection(herokuConConfig) : mysql.createConnection(localConConfig);
+
+let con;
+if (isHeroku) {
+    console.log('hero');
+    mysql.createConnection(herokuConConfig);
+} else {
+    console.log('local');
+    mysql.createConnection(localConConfig);
+}
 
 con.connect(function(err) {
     if (err) throw err;

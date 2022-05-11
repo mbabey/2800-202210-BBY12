@@ -14,6 +14,7 @@ const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
 const { redirect } = require('express/lib/response');
 
+app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
@@ -154,9 +155,12 @@ app.get('/get-users', function(req, res) {
 });
 
 // Post that updates values to change data stored in db
-app.post('/update-users', function(req, res) {
-    con.query('UPDATE `BBY_12_users` SET (`fName` = ?) AND (`lName` = ?) AND (`email` = ?) AND (`password` = ?) WHERE (`username` = ?);', [req.body.username, req.body.fName, req.body.lName, req.body.email, req.body.password],
-        function(error, results, fields) {
+app.post('/update-users', function (req, res) {
+    console.log("updat-users " , req.body);
+
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', 
+    [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
+        function (error, results, fields) {
             if (error) throw error;
             res.setHeader('Content-Type', 'application/json');
             res.send({ status: "Success", msg: "User information updated." });

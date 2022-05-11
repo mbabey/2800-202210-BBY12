@@ -1,13 +1,13 @@
 .container {
     display: grid;
-    grid-template-rows: 15% 85%;
+    grid-template-rows: 10% 90%;
 }
 
 #content {
     grid-row: 2 / span 1;
     display: grid;
     grid-template-columns: 40% 60%;
-    grid-template-rows: 20% 20% 20%;
+    grid-template-rows: repeat(3, 25%);
 }
 
 .left-side-profile {
@@ -45,8 +45,9 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    clip-path: circle(42% at center);
-    width: 60%;
+    clip-path: circle(40% at center);
+    max-width: 35%;
+    min-width: 34%;
     background-color: var(--secondary-dark);
   }
   

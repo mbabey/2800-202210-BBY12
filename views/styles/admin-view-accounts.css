@@ -1,10 +1,12 @@
 .container {
+  display: grid;
   background-color: rgba(98, 156, 132, 0.486);
 }
 .content {
   grid-row: 2 / span 1;
   display: grid;
   grid-template-columns: 355px 1fr;
+  grid-template-rows: repeat(4, 25%);
 }
 
 h3 {
@@ -16,6 +18,8 @@ h3 {
   text-align: center;
   display: flex;
   justify-content: center;
+  min-height: 23%;
+  max-height: 23%;
 }
 
 .admin-right {
@@ -69,13 +73,17 @@ background-color: var(--secondary-dark);
 color: white;
 }
 
+h3 {
+  font-size: 25px;
+}
+
 .admin-left {
   background-color: var(--primary);
   position: fixed;
   margin-top: 0;
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  height: 500px;
+  height: 480px;
   width: 350px;
   padding: 10px;
   display: flex;
@@ -83,6 +91,31 @@ color: white;
   align-items: center;
   background-color: var(--primary);
   text-align: center;
+}
+
+#user-list {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
+}
+
+#admin-list {
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+}
+
+#delete-block {
+  grid-column: 2 / span 1;
+  grid-row: 3 / span 1;
+}
+
+#edit-block {
+  grid-column: 2 / span 1;
+  grid-row: 4 / span 1;
+}
+
+.profile-head {
+  padding: 0;
+  margin: 0;
 }
 
 .profile-picture {
@@ -94,8 +127,9 @@ color: white;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  clip-path: circle(42% at center);
-  width: 60%;
+  clip-path: circle(40% at center);
+  max-width: 35%;
+  min-width: 34%;
   background-color: var(--secondary-dark);
 }
 

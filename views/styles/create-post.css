@@ -46,6 +46,16 @@
     color: white;
 }
 
+#drop-area {
+    display: flex;
+    flex-direction: column;
+}
+
+progress {
+    min-width: 100px;
+    width: 30%;
+}
+
 #gallery {
     margin-top: 10px;
 }
@@ -69,8 +79,20 @@ textarea {
     padding: 0.5rem;
 }
 
-.tags>input {
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tags>#input-tag {
     padding: 0.5em;
+}
+
+.tags>#button-tag {
+    margin-left: 5px;
+    padding: 0.5em;
+    width: 100px;
+    min-width: 100px;
 }
 
 #drop-text {
@@ -81,6 +103,12 @@ textarea {
 
 h1 {
     margin: 0;
+}
+
+#tag-field {
+    border: none;
+    min-width: 90%;
+    font-size: 0.85rem;
 }
 
 @media only screen and (min-width: 800px) {

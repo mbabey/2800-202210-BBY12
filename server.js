@@ -12,6 +12,7 @@ const {
 
 const createAccount = require('./scripts/create-account');
 const dbInitialize = require('./db-init');
+const isHeroku = process.env.IS_HEROKU || false;
 
 app.use(express.urlencoded({
     extended: true
@@ -26,19 +27,30 @@ app.use(session({
     saveUninitialized: true
 }));
 
-const con = mysql.createConnection({
+// mysql://bvi0o6i4puwihszs:t6j3hhjg82p5yi6v@g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/ooesezqo9t1r5sup
+
+const herokuConConfig = {
+    host: 'g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'bvi0o6i4puwihszs',
+    password: 't6j3hhjg82p5yi6v',
+    database: 'ooesezqo9t1r5sup'
+}
+
+const localConConfig = {
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'COMP2800'
-});
+};
+
+const con = (isHeroku) ? mysql.createConnection(herokuConConfig) : mysql.createConnection(localConConfig);
 
 con.connect(function(err) {
     if (err) throw err;
     console.log("SQL Connected");
 });
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log('Gro-Operate running on port: ' + port);
     dbInitialize.dbInitialize();

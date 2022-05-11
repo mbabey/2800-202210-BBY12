@@ -2,22 +2,22 @@
 <html lang="en">
 
 <head>
-  <title>Gro-Operate | Create Account</title>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./styles/global.css">
-  <link rel="stylesheet" href="./styles/admin-add-account.css">
-  <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
+    <title>Gro-Operate | Create Account</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/global.css">
+    <link rel="stylesheet" href="./styles/admin-add-account.css">
+    <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
 
-  <nav>
-    <div id="nav-wrapper">
-      <div id="nav-left">
-        <a href="/home" id="nav-home" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
+    <nav>
+        <div id="nav-wrapper">
+            <div id="nav-left">
+                <a href="/home" id="nav-home" class="nav-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
             <path fill="currentColor"
               d="M8 42V18L24.1 6L40 18V42H28.3V27.75H19.65V42ZM11 39H16.65V24.75H31.3V39H37V19.5L24.1 9.75L11 19.5ZM24 24.35Z" />
           </svg>
@@ -50,6 +50,7 @@
             <path fill="currentColor"
               d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z" />
           </svg>
+
           <span>Post</span>
         </a>
         <a href="#" id="nav-chat" class="nav-button">
@@ -72,56 +73,54 @@
     </div>
   </nav>
 
-  <div class="container">
-    <div id="content">
-      <div class="dashboard-header">
-        <h3 id="dashboard-title">Administration</h3>
-      </div>
-      <div id="welcome">
-        <h1>Greetings,<br />Administrator</h1>
-        <p>Create an account for a user</p>
-      </div>
-      <div id="create-block">
-        <p><b>Create Account</b></p>
-        <form method="post">
-          <div id="admin-block" class="input-wrapper">
-            <label id="admin-checkbox-container">Make this user an administrator
+    <div class="container">
+        <div id="content">
+            <div class="dashboard-header">
+                <h3 id="dashboard-title">Administration</h3>
+            </div>
+            <div id="welcome">
+                <h1>Greetings,<br />Administrator</h1>
+                <p>Create an account for a user</p>
+            </div>
+            <div id="create-block">
+                <p><b>Create Account</b></p>
+                <form method="post">
+                    <div id="admin-block" class="input-wrapper">
+                        <label id="admin-checkbox-container">Make this user an administrator
               <input name="isAdmin" type="checkbox">
               <span id="admin-checkmark"></span>
             </label>
-          </div>
-          <div id="username-block" class="input-wrapper">
-            <input name="username" type="text" placeholder="Username" class="create-input" required>
-          </div>
-          <div id="email-block">
-            <input name="email" type="text" placeholder="Email" class="create-input" required>
-            <input name="email-verify" type="text" placeholder="Verify Email" class="create-input" required>
-          </div>
-          <div id="password-block" class="input-wrapper">
-            <input name="password" type="password" placeholder="Password" class="create-input" required>
-            <input name="password-verify" type="password" placeholder="Verify Password" class="create-input" required>
-          </div>
-          <div id="biz-name-block">
-            <input name="company-name" type="text" placeholder="Business Name" class="create-input">
-          </div>
-          <div id="name-block" class="input-wrapper">
-            <input name="first-name" type="text" placeholder="First Name" class="create-input">
-            <input name="last-name" type="text" placeholder="Last Name" class="create-input">
-            <input name="phone-num" type="text" placeholder="Phone Number" class="create-input">
-          </div>
-          <div id="location-block" class="input-wrapper">
-            <input name="location-country" type="text" placeholder="Country" class="create-input">
-            <input name="location-city" type="text" placeholder="City" class="create-input">
-            <input name="location-street" type="text" placeholder="Street Address" class="create-input">
-          </div>
-          <input id="description-block" name="description" type="text" placeholder="Business description"
-            class="create-input">
-          <button id="create-submit" type="submit" value="submit">Create Account</button>
-        </form>
-      </div>
+                    </div>
+                    <div id="username-block" class="input-wrapper">
+                        <input name="username" type="text" placeholder="Username" class="create-input" required>
+                    </div>
+                    <div id="email-block">
+                        <input name="email" type="text" placeholder="Email" class="create-input" required>
+                        <input name="email-verify" type="text" placeholder="Verify Email" class="create-input" required>
+                    </div>
+                    <div id="password-block" class="input-wrapper">
+                        <input name="password" type="password" placeholder="Password" class="create-input" required>
+                        <input name="password-verify" type="password" placeholder="Verify Password" class="create-input" required>
+                    </div>
+                    <div id="biz-name-block">
+                        <input name="company-name" type="text" placeholder="Business Name" class="create-input">
+                    </div>
+                    <div id="name-block" class="input-wrapper">
+                        <input name="first-name" type="text" placeholder="First Name" class="create-input">
+                        <input name="last-name" type="text" placeholder="Last Name" class="create-input">
+                        <input name="phone-num" type="text" placeholder="Phone Number" class="create-input">
+                    </div>
+                    <div id="location-block" class="input-wrapper">
+                        <input name="location-country" type="text" placeholder="Country" class="create-input">
+                        <input name="location-city" type="text" placeholder="City" class="create-input">
+                        <input name="location-street" type="text" placeholder="Street Address" class="create-input">
+                    </div>
+                    <input id="description-block" name="description" type="text" placeholder="Business description" class="create-input">
+                    <button id="create-submit" type="submit" value="submit">Create Account</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-
   <footer>
     <div id="footer-wrapper">
       <a href="/home" id="footer-home" class="nav-button">
@@ -140,6 +139,7 @@
       </a>
       <a href="#" id="footer-post" class="nav-button">
         <svg xmlns="http://www.w3.org/2000/svg" viewbox="-4 -4 32 32" width="32" height="32">
+
           <path fill="currentColor"
             d="M18.656.93,6.464,13.122A4.966,4.966,0,0,0,5,16.657V18a1,1,0,0,0,1,1H7.343a4.966,4.966,0,0,0,3.535-1.464L23.07,5.344a3.125,3.125,0,0,0,0-4.414A3.194,3.194,0,0,0,18.656.93Zm3,3L9.464,16.122A3.02,3.02,0,0,1,7.343,17H7v-.343a3.02,3.02,0,0,1,.878-2.121L20.07,2.344a1.148,1.148,0,0,1,1.586,0A1.123,1.123,0,0,1,21.656,3.93Z" />
           <path fill="currentColor"

@@ -294,7 +294,7 @@ app.route("/create-post")
     .post(upload.array('image-upload'), (req, res) => {
         console.log(req.fileValidtionError);
         if (req.session.loggedIn && !req.fileValidtionError) {
-            createPost.createPost(req, res, storage)
+            createPost.createPost(req, res, storage, con)
                 .then(function(resolve) {
                     console.log(resolve); // Redirect to post or feed
                     res.redirect('/home');

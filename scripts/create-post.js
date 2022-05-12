@@ -1,22 +1,9 @@
 'use strict';
-const mysql = require('mysql2/promise');
-const { render } = require('express/lib/response');
-const { JSDOM } = require('jsdom');
-//const multer = require('multer');
-//const upload = multer({ dest: 'uploads/' });
 
 module.exports = {
-    createPost: async function(req, res, storage) {
+    createPost: async function(req, res, storage, con) {
         res.setHeader('Content-Type', 'application/json');
-        let con = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'COMP2800'
-        });
-        // con.connect();
         let success = await insertDB(req, con, storage);
-        con.end();
         return success;
     }
 };

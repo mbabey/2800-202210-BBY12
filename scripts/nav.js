@@ -2,7 +2,7 @@
 docLoaded(() => {
     async function getData() {
         try {
-            let response = await fetch('/get-users', {
+            let response = await fetch('/get-user', {
                 method: 'GET'
             });
             if (response.status == 200) {

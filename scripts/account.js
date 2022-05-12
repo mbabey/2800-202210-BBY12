@@ -4,7 +4,7 @@ const { append } = require("express/lib/response");
 docLoaded(() => {
     async function getData() {
         try {
-            let response = await fetch('/get-users', {
+            let response = await fetch('/get-user', {
                 method: 'GET'
             });
             if (response.status == 200) {
@@ -41,8 +41,9 @@ docLoaded(() => {
 
 
 
-    document.getElementById("edit-button").addEventListener("click", function(event) {
 
+    document.getElementById("edit-button").addEventListener("click", (event) => {
+      
         biz_name.contentEditable = true;
         biz_name.style.color = '#3632a8';
 
@@ -92,7 +93,8 @@ docLoaded(() => {
         }
     };
 
-    document.getElementById("save-button").addEventListener("click", function(event) {
+
+    document.getElementById("save-button").addEventListener("click", (event) => {
         saved(biz_name);
         let biz_name_value = biz_name.innerHTML;
         if (!checkEmpty(biz_name_value)) {
@@ -166,7 +168,7 @@ docLoaded(() => {
 
 async function sendData(data) {
     try {
-        await fetch('/update-users', {
+        await fetch('/update-user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: data
@@ -183,10 +185,3 @@ function docLoaded(action) {
     else
         document.addEventListener('DOMContentLoaded', action);
 }
-
-
-// function editCell(e) {
-//     let spanText = e.target.innerHTML;
-//     let parent = e.target.parentNode;
-//     let input = document.createElement("input");
-// }

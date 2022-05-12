@@ -16,11 +16,11 @@ docLoaded(() => {
     getUserData();
 
     function popUserData(data) {
-        document.getElementById("delete-user").addEventListener("click", function (e) {
+        document.getElementById("delete-user").addEventListener("click", (e) => {
             if (data.length != 1) {
                 document.getElementById("status-2").innerHTML = "User successfully deleted.";
                 //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
-                window.setTimeout(function(){location.reload()},1000);
+                window.setTimeout(() => { location.reload(); }, 1000);
             } else {
                 document.getElementById("status-2").innerHTML = "User cannot be deleted if only one user is left.";
             }
@@ -61,12 +61,12 @@ function getUsers() {
             throw "Ready state not done.";
         }
     }
-    xhr.open("GET", "/get-user-table");
+    xhr.open("GET", "/get-all-users");
     xhr.send();
 }
 getUsers();
 
-document.getElementById("delete-user").addEventListener("click", function (e) {
+document.getElementById("delete-user").addEventListener("click", (e) => {
     e.preventDefault();
 
     let userInput = { username: document.getElementById("user-username").value };
@@ -74,7 +74,7 @@ document.getElementById("delete-user").addEventListener("click", function (e) {
 
 
     const xhr = new XMLHttpRequest();
-    xhr.onload = function (error) {
+    xhr.onload = (error) => {
         if (this.readyState == XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 getUsers();
@@ -85,7 +85,7 @@ document.getElementById("delete-user").addEventListener("click", function (e) {
             throw "Error. Cannot get users."
         }
     }
-    xhr.open("POST", "/delete-users");
+    xhr.open("POST", "/delete-user");
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send("username=" + userInput.username);

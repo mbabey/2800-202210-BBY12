@@ -361,4 +361,9 @@ app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
         });
     }
     res.redirect("/profile");
-})
+});
+
+app.post("/reset-password", (req, res) => {
+    console.log("password reset");
+    res.redirect("/");
+});

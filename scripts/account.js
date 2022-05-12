@@ -39,7 +39,7 @@ docLoaded(() => {
 
 
 
-    document.getElementById("edit-button").addEventListener("click", function (event) {
+    document.getElementById("edit-button").addEventListener("click", (event) => {
 
         biz_name.contentEditable = true;
         biz_name.style.color = '#3632a8';
@@ -90,7 +90,7 @@ docLoaded(() => {
         }
     };
 
-    document.getElementById("save-button").addEventListener("click", function (event) {
+    document.getElementById("save-button").addEventListener("click", (event) => {
         saved(biz_name);
         let biz_name_value = biz_name.innerHTML;
         if(!checkEmpty(biz_name_value)){

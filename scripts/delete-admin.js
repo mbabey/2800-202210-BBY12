@@ -17,11 +17,11 @@ docLoaded(() => {
     getAdminData();
 
     function popAdminData(data) {
-        document.getElementById("delete-admin").addEventListener("click", function (e) {
+        document.getElementById("delete-admin").addEventListener("click", (e) => {
             if (data.length != 1) {
                 document.getElementById("status").innerHTML = "User successfully deleted as admin."; 
                 //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
-                window.setTimeout(function(){location.reload()},1000);
+                window.setTimeout(() => { location.reload(); }, 1000);
             } else {
                 document.getElementById("status").innerHTML = "Admin cannot be deleted if only one admin is left.";
             }
@@ -38,7 +38,7 @@ function docLoaded(action) {
 
 function getAdmins() {
     const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
+    xhr.onload = () => {
         if (this.readyState == XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 let data = JSON.parse(this.responseText);
@@ -64,14 +64,14 @@ function getAdmins() {
 }
 getAdmins();
 
-document.getElementById("delete-admin").addEventListener("click", function (e) {
+document.getElementById("delete-admin").addEventListener("click", (e) => {
     e.preventDefault();
 
     let adminInput = { username: document.getElementById("admin-username").value };
         document.getElementById("admin-username").value = "";
 
     const xhr = new XMLHttpRequest();
-    xhr.onload = function (error) {
+    xhr.onload = (error) => {
         if (this.readyState == XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 getAdmins();

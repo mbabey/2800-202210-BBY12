@@ -108,9 +108,7 @@ app.route('/login')
                 if (results && results.length > 0) {
                     login(req, user);
                 }
-                if (err) {
-                    
-                };
+                if (err) throw err;
             });
             res.redirect('/');
         } catch (err) {

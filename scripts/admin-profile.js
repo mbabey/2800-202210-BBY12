@@ -2,7 +2,7 @@
 docLoaded(() => {
     function getAdmins() {
         const xhr = new XMLHttpRequest();
-        xhr.onload = function () {
+        xhr.onload = () => {
             if (this.readyState == XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     let data = JSON.parse(this.responseText);

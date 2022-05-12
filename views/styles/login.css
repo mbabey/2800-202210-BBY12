@@ -140,7 +140,7 @@
     color: rgb(55, 124, 55);
 }
 
-@media only screen and (max-width: 690px) {
+@media only screen and (max-width: 800px) {
     #wrapper {
         min-height: 100vh;
         display: grid;

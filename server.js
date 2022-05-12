@@ -33,11 +33,10 @@ const upload = multer({
     }
 });
 
-
 const dbInitialize = require('./db-init');
 const createAccount = require('./scripts/create-account');
+const feed = require('./scripts/feed');
 const createPost = require('./scripts/create-post');
-const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 
 app.use(express.json());

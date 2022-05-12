@@ -10,10 +10,11 @@ module.exports = {
             (error, results, fields) => {
                 if (error) throw error;
                 results.forEach((result) => {
-                    // get an array of images in the post
-                    let postImages = getImages(result.username, result.postId, con);
-                    // get an array of tags in the post
-                    let postTags = getTags(result.username, result.postId, con);
+                    
+                    retrievePostExtras(result.username, result.postId, con)
+                        .then((extras) => {
+
+                        });
                     // build the post using all data
                     //appendchild to the post block
                 }); {
@@ -23,26 +24,40 @@ module.exports = {
     }
 }
 
-function getImages(username, postId, con) {
-    con.query(
+function retrievePostExtras(username, postId, con) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let postImages = await getImages(username, postId, con);
+            let postTags = await getTags(username, postId, con);
+            resolve(true);
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+
+async function getImages(username, postId, con) {
+    await con.promise().query(
         `SELECT * 
         FROM \`BBY_12_post_img\`
-        WHERE username = '${username}' AND postId = '${postId}'`,
-        (error, results, fields) => {
+        WHERE username = '${username}' AND postId = '${postId}'`)
+        .then((error, results, fields) => {
             if (error) throw error;
-            console.log(results);
+
             return results;
+        }).catch((err) => {
         });
 }
 
-function getTags(username, postId, con) {
-    con.query(
+async function getTags(username, postId, con) {
+    await con.promise().query(
         `SELECT * 
         FROM \`BBY_12_post_tag\`
-        WHERE username = '${username}' AND postId = '${postId}'`,
-        (error, results, fields) => {
+        WHERE username = '${username}' AND postId = '${postId}'`)
+        .then((error, results, fields) => {
             if (error) throw error;
-            console.log(results);
+            
             return results;
+        }).catch((err) => {
         });
 }

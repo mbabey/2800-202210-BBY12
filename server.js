@@ -37,8 +37,9 @@ const upload = multer({
 // ---------------- Custom Dependencies ----------------- \\
 const createAccount = require('./scripts/create-account');
 const resetPassword = require('./scripts/reset-password');
-const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
+const createAccount = require('./scripts/create-account');
+const createPost = require('./scripts/create-post');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
 const { redirect } = require('express/lib/response');

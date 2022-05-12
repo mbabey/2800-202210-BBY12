@@ -330,3 +330,47 @@ app.post('/delete-admins', function (req, res) {
                   }
           });
 });
+
+//ADMIN EDIT USER PROFILE SEARCH
+app.post('/search-user', function (req, res) {
+    console.log("search-user" , req.body);
+
+    con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username] , 
+    function (err, results, fields){
+        if (err) throw err;
+        res.setHeader('Content-Type', 'application/json');
+        res.send({
+            status: "Success",
+            msg: "User information updated."
+        });
+    });
+    
+});
+
+app.post('/update-users', function (req, res) {
+    console.log("updat-users " , req.body);
+
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', 
+    [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
+        function (error, results, fields) {
+            if (error) throw error;
+            res.setHeader('Content-Type', 'application/json');
+            res.send({
+                status: "Success",
+                msg: "User information updated."
+            });
+        });
+});
+
+//POPULATE USER PROFILE FOR ADMIN TO EDIT USER PROFILE
+app.get('/admin-get-users', function(req, res) {
+    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
+        if (error) throw error;
+        res.setHeader('content-type', 'application/json');
+        res.send(results);
+    });
+});
+
+//ADMIN SEND EDITED USER PROFILE
+
+//ADMIN SEND EDITED USER PASSWORD   

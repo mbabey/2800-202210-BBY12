@@ -129,14 +129,23 @@ h3 {
   justify-content: center;
 }
 
-.profile-picture img {
+.profile-picture-background {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  clip-path: circle(40% at center);
-  max-width: 35%;
-  min-width: 34%;
-  background-color: var(--secondary-dark);
+  align-items: center;
+}
+
+.profile-picture img {
+  max-width: 100%;
+  width: auto;
+  max-height: 100%;
+  height: auto;
+  clip-path: circle(50% at center);
 }
 
 .profile > div > p {

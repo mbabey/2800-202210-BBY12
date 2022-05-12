@@ -1,4 +1,5 @@
 'use strict';
+
 docLoaded(() => {
     async function getAdminData() {
         try {
@@ -19,6 +20,8 @@ docLoaded(() => {
         document.getElementById("delete-admin").addEventListener("click", function (e) {
             if (data.length != 1) {
                 document.getElementById("status").innerHTML = "User successfully deleted as admin."; 
+                //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
+                window.setTimeout(function(){location.reload()},1000);
             } else {
                 document.getElementById("status").innerHTML = "Admin cannot be deleted if only one admin is left.";
             }

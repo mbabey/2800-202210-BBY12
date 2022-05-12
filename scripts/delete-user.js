@@ -18,7 +18,9 @@ docLoaded(() => {
     function popUserData(data) {
         document.getElementById("delete-user").addEventListener("click", function (e) {
             if (data.length != 1) {
-                document.getElementById("status-2").innerHTML = "User successfully deleted."; 
+                document.getElementById("status-2").innerHTML = "User successfully deleted.";
+                //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
+                window.setTimeout(function(){location.reload()},1000);
             } else {
                 document.getElementById("status-2").innerHTML = "User cannot be deleted if only one user is left.";
             }

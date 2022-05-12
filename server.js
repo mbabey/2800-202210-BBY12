@@ -36,6 +36,7 @@ const upload = multer({
 
 // ---------------- Custom Dependencies ----------------- \\
 const createAccount = require('./scripts/create-account');
+const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
@@ -93,6 +94,8 @@ app.get('/', (req, res) => {
 app.route('/login')
     .get((req, res) => {
         if (!req.session.loggedIn) {
+            //Check and reset token for password reset confirmation
+            //Then create some popup/overlay confirming password reset
             let loginPage = fs.readFileSync('./views/login.html', 'utf8');
             res.send(loginPage);
         } else {
@@ -361,4 +364,23 @@ app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
         });
     }
     res.redirect("/profile");
-})
+});
+
+// RESET PASSWORD
+app.route("/reset-password")
+    .get((req, res) => {
+        let resetPasswordPage = fs.readFileSync('./views/reset-password.html', 'utf8');
+        res.send(resetPasswordPage);
+    })
+    .post((req, res) => {
+        resetPassword.resetPassword(req, res, con)
+            .then(() => {
+                res.redirect("/");
+            })
+            .catch((err) => {
+                console.log(err);
+                res.redirect("/reset-password");
+            });
+        //Add some token for reset confirmation
+
+    });

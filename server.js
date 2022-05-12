@@ -10,7 +10,29 @@ const mysql = require('mysql2');
 const crypto = require('crypto');
 const { JSDOM } = require('jsdom');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads');
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+    }
+});
+const upload = multer({
+    storage: storage,
+    fileFilter: function(req, file, callback) {
+        let ext = "." + file.originalname.split('.')[file.originalname.split('.').length - 1];
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+            req.fileValidtionError = "Images Only!";
+            return callback(null, false, req.fileValidtionError);
+        }
+        callback(null, true);
+    },
+    limits: {
+        fileSize: 1024 * 1024
+    }
+});
+
 
 const createAccount = require('./scripts/create-account');
 const createPost = require('./scripts/create-post');
@@ -146,6 +168,14 @@ app.get('/profile', (req, res) => {
     }
 });
 
+app.get('/get-all-users', function(req, res) {
+    con.query('SELECT * FROM BBY_12_users', function(error, results) {
+        if (error) throw error;
+        res.setHeader('content-type', 'application/json');
+        res.send(results);
+    });
+});
+
 app.get('/get-users', function(req, res) {
     con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
         if (error) throw error;
@@ -207,6 +237,18 @@ app.get('/get-admins', function (req, res) {
     });
 });
 
+app.get('/get-admin', function (req, res) {
+    if (req.session.loggedIn && req.session.admin == true) {
+        let session_username = req.session.username;
+        let admins = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
+        con.query(admins, [session_username], function (err, results) {
+            if (err) throw "Query to database failed.";
+            res.setHeader('content-type', 'application/json');
+            res.send({ status: "success", rows: results });
+        });
+    }
+});;
+
 app.get('/get-admin-table', function (req, res) {
     let admins = 'SELECT * FROM BBY_12_admins';
     con.query(admins, function (err, results) {
@@ -216,50 +258,29 @@ app.get('/get-admin-table', function (req, res) {
     });
 });
 
-app.route('/admin-view-accounts')
-    .get(function (req, res) {
-
-        if (req.session.loggedIn && req.session.admin == true) {
-            let session_username = req.session.username;
-            let admin = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
-            let username = "<h3>";
-            let first_name = "<p>";
-            let last_name = "<p>";
-            let business_name = "<p>";
-            con.query(admin, [session_username], function (err, results) {
-
-                if (err) throw err;
-                username += results[0].username + "</h3>";
-                first_name += results[0].fName + "</p>";
-                last_name += results[0].lName + "</p>";
-                business_name += results[0].cName + "</p>";
-                let users = 'SELECT * FROM BBY_12_users';
-                con.query(users, function (err, results) {
-                    if (err) throw err;
-
-                    let table = "<table><tr><th>Username</th><th class=\"admin-user-info\">First Name</th><th class=\"admin-user-info\">Last Name</th><th class=\"admin-user-info\">Business Name</th></tr>";
-                    for (let i = 0; i < results.length; i++) {
-                        table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info\">" +
-                            results[i].fName + "</td><td class=\"admin-user-info\">" +
-                            results[i].lName + "</td><td class=\"admin-user-info\">" +
-                            results[i].cName + "</td></tr>";
-                    }
-                    table += "</table>";
-
-                    let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-                    let adminViewAccDOM = new JSDOM(adminViewAcc);
-                    adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
-                    adminViewAccDOM.window.document.getElementById("u-name").innerHTML = username;
-                    adminViewAccDOM.window.document.getElementById("name").innerHTML = first_name + last_name;
-                    adminViewAccDOM.window.document.getElementById("b-name").innerHTML = business_name;
-                    let adminViewAccPage = adminViewAccDOM.serialize();
-                    res.send(adminViewAccPage);
-                });
-            });
-        } else {
-            res.redirect("/");
-        }
+app.get('/get-user-table', function (req, res) {
+    let users = 'SELECT * FROM BBY_12_users';
+    con.query(users, function (err, results) {
+        if (err) throw "Query to database failed.";
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: "success", rows: results });
     });
+});
+
+app.get('/is-admin', function (req, res) {
+    // console.log(req.session.admin);
+    res.setHeader('content-type', 'application/json');
+    res.send({admin: req.session.admin});
+});
+
+app.get('/admin-view-accounts', function (req, res) {
+    if (req.session.loggedIn && req.session.admin) {
+        let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
+        res.send(adminViewAcc);
+    } else {
+        res.redirect('/');
+    }
+});
 
 app.route("/create-post")
     .get((req, res) => {
@@ -271,14 +292,19 @@ app.route("/create-post")
         }
     })
     .post(upload.array('image-upload'), (req, res) => {
-        if (req.session.loggedIn) {
-            createPost.createPost(req, res)
+        console.log(req.fileValidtionError);
+        if (req.session.loggedIn && !req.fileValidtionError) {
+            createPost.createPost(req, res, storage)
                 .then(function(resolve) {
                     console.log(resolve); // Redirect to post or feed
+                    res.redirect('/home');
                 })
                 .catch(function(err) {
                     console.log(err); // Redirect to something
+                    res.redirect('back');
                 });
+        } else {
+            res.redirect('back')
         }
     });
 
@@ -293,6 +319,21 @@ app.post('/delete-admins', function (req, res) {
                     })
                   } else {
                     if (err) throw "Cannot delete admin if there is only one admin left.";
+                  }
+          });
+});
+
+app.post('/delete-users', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+        con.query('SELECT * FROM BBY_12_users',
+                function (err, results) {
+                  if (results.length != 1) {
+                    con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
+                    function (err, results) {
+                      if (err) throw err;
+                    })
+                  } else {
+                    if (err) throw "Cannot delete user if there is only one user left.";
                   }
           });
 });

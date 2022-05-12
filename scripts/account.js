@@ -21,10 +21,11 @@ docLoaded(() => {
                 let data = await response.text();
                 popThaSpots(JSON.parse(data));
             }
-        } catch (err) {}
+        } catch (err) {
+
+        }
     }
     getData();
-
 
     function popThaSpots(data) {
         biz_name.innerHTML = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
@@ -37,39 +38,30 @@ docLoaded(() => {
         biz_description.innerHTML = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
     }
 
-    document.getElementById("edit-button").addEventListener("click", function(event) {
-        let input = document.createElement("input");
+    document.getElementById("edit-button").addEventListener("click", (event) => {
 
         biz_name.contentEditable = true;
-        input.appendChild(biz_name);
         biz_name.style.color = '#3632a8';
 
         biz_owner_fName.contentEditable = true;
-        input.appendChild(biz_owner_lName);
         biz_owner_fName.style.color = '#3632a8';
 
         biz_owner_lName.contentEditable = true;
-        input.appendChild(biz_owner_lName);
         biz_owner_lName.style.color = '#3632a8';
 
         biz_type.contentEditable = true;
         biz_type.style.color = '#3632a8';
 
         biz_email.contentEditable = true;
-        input.appendChild(biz_email);
         biz_email.style.color = '#3632a8';
 
         biz_phone.contentEditable = true;
-        input.appendChild(biz_phone);
         biz_phone.style.color = '#3632a8';
 
         biz_location.contentEditable = true;
-        input.appendChild(biz_location);
         biz_location.style.color = '#3632a8';
 
         biz_description.contentEditable = true;
-        input.appendChild(biz_description);
-        document.getElementById("edit-status").innerHTML = "Click on the fields to edit.";
         biz_description.style.color = '#3632a8';
 
         document.getElementById("edit-status").innerHTML = "";
@@ -95,7 +87,7 @@ docLoaded(() => {
         }
     };
 
-    document.getElementById("save-button").addEventListener("click", function(event) {
+    document.getElementById("save-button").addEventListener("click", (event) => {
         saved(biz_name);
         let biz_name_value = biz_name.innerHTML;
         if (!checkEmpty(biz_name_value)) {
@@ -164,12 +156,11 @@ docLoaded(() => {
         location.reload();
 
     });
-
 });
 
 async function sendData(data) {
     try {
-        await fetch('/update-users', {
+        await fetch('/update-user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: data
@@ -184,10 +175,4 @@ function docLoaded(action) {
         action();
     else
         document.addEventListener('DOMContentLoaded', action);
-}
-
-function editCell(e) {
-    let spanText = e.target.innerHTML;
-    let parent = e.target.parentNode;
-    let input = document.createElement("input");
 }

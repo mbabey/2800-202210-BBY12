@@ -93,6 +93,8 @@ app.get('/', (req, res) => {
 app.route('/login')
     .get((req, res) => {
         if (!req.session.loggedIn) {
+            //Check and reset token for password reset confirmation
+            //Then create some popup/overlay confirming password reset
             let loginPage = fs.readFileSync('./views/login.html', 'utf8');
             res.send(loginPage);
         } else {
@@ -363,7 +365,14 @@ app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
     res.redirect("/profile");
 });
 
-app.post("/reset-password", (req, res) => {
-    console.log("password reset");
-    res.redirect("/");
-});
+// RESET PASSWORD
+app.route("/reset-password")
+    .get((req, res) => {
+        let resetPasswordPage = fs.readFileSync('./views/reset-password.html', 'utf8');
+        res.send(resetPasswordPage);
+    })
+    .post((req, res) => {
+        console.log("password reset");
+        //Add some token for reset confirmation
+        res.redirect("/");
+    });

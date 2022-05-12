@@ -12,16 +12,16 @@ const crypto = require('crypto');
 const { JSDOM } = require('jsdom');
 const multer = require('multer');
 const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
+    destination: function (req, file, cb) {
         cb(null, './uploads');
     },
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, file.originalname + file.originalname.split('.')[file.originalname.split('.').length - 1]);
     }
 });
 const upload = multer({
     storage: storage,
-    fileFilter: function(req, file, callback) {
+    fileFilter: function (req, file, callback) {
         let ext = "." + file.originalname.split('.')[file.originalname.split('.').length - 1];
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
             req.fileValidtionError = "Images Only!";
@@ -64,10 +64,10 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log('Gro-Operate running on ' + port);
     dbInitialize.dbInitialize(isHeroku)
-    .then(() => {
-        con = (isHeroku) ? mysql.createConnection(H_CONFIG()) : mysql.createConnection(LOCAL_CONFIG());
+        .then(() => {
+            con = (isHeroku) ? mysql.createConnection(H_CONFIG()) : mysql.createConnection(LOCAL_CONFIG());
         }).then(() => {
-            con.connect(function(err) {
+            con.connect((err) => {
                 if (err) throw err;
             });
         });
@@ -99,16 +99,18 @@ app.route('/login')
             res.redirect('/');
         }
     })
-    .post((req, res, ) => {
+    .post((req, res,) => {
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-            con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function(err, results) {
+            con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], (err, results) => {
                 if (results && results.length > 0) {
                     login(req, user);
                 }
-                if (err) throw err;
+                if (err) {
+                    
+                };
             });
             res.redirect('/');
         } catch (err) {
@@ -121,7 +123,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], function(err, results) {
+    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], (err, results) => {
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -132,13 +134,13 @@ function login(req, user) {
 
 // LOGOUT
 app.get('/logout', (req, res) => {
-    req.session.destroy(function() {
+    req.session.destroy(() => {
         res.redirect('/');
     });
 });
 
 // GET SESSION ISADMIN BOOLEAN
-app.get('/is-admin', function (req, res) {
+app.get('/is-admin', (req, res) => {
     res.setHeader('content-type', 'application/json');
     res.send({ admin: req.session.admin });
 });
@@ -181,11 +183,11 @@ app.route("/create-post")
         console.log(req.fileValidtionError);
         if (req.session.loggedIn && !req.fileValidtionError) {
             createPost.createPost(req, res, storage, con)
-                .then(function(resolve) {
+                .then((resolve) => {
                     console.log(resolve); // Redirect to post or feed
                     res.redirect('/home');
                 })
-                .catch(function(err) {
+                .catch((err) => {
                     console.log(err); // Redirect to something
                     res.redirect('back');
                 });
@@ -206,11 +208,11 @@ app.route('/create-account')
     })
     .post((req, res) => {
         createAccount.createAccount(req, res, con)
-            .then(function(result) {
+            .then(() => {
                 login(req, req.body["username"]);
                 res.redirect('/');
             })
-            .catch(function(err) {
+            .catch(() => {
                 res.redirect('/create-account');
             });
     });
@@ -226,7 +228,7 @@ app.get('/admin-dashboard', (req, res) => {
 });
 
 // ADMIN VIEW ACCOUNTS
-app.get('/admin-view-accounts', function (req, res) {
+app.get('/admin-view-accounts', (req, res) => {
     if (req.session.loggedIn && req.session.admin) {
         let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
         res.send(adminViewAcc);
@@ -247,17 +249,17 @@ app.route('/admin-add-account')
     })
     .post((req, res) => {
         createAccount.createAdmin(req, res, con)
-            .then(function(result) {
+            .then(() => {
                 res.redirect('/admin-dashboard');
             })
-            .catch(function(err) {
+            .catch(() => {
                 res.redirect('/admin-add-account');
             });
     });
 
 // QUERY: GET ALL USERS
-app.get('/get-all-users', function(req, res) {
-    con.query('SELECT * FROM BBY_12_users', function(error, results) {
+app.get('/get-all-users', (req, res) => {
+    con.query('SELECT * FROM BBY_12_users', (err, results) => {
         if (err) throw "Query to database failed.";
         res.setHeader('content-type', 'application/json');
         res.send({ status: "success", rows: results });
@@ -265,8 +267,8 @@ app.get('/get-all-users', function(req, res) {
 });
 
 // QUERY: GET CURRENT USER
-app.get('/get-user', function(req, res) {
-    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function(error, results, fields) {
+app.get('/get-user', (req, res) => {
+    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], (error, results, fields) => {
         if (error) throw error;
         res.setHeader('content-type', 'application/json');
         res.send(results);
@@ -274,12 +276,12 @@ app.get('/get-user', function(req, res) {
 });
 
 // QUERY: UPDATE USER
-app.post('/update-user', function (req, res) {
-    console.log("updat-users " , req.body);
+app.post('/update-user', (req, res) => {
+    console.log("updat-users ", req.body);
 
-    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', 
-    [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
-        function (error, results, fields) {
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
+        [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
+        (error) => {
             if (error) throw error;
             res.setHeader('Content-Type', 'application/json');
             res.send({
@@ -290,9 +292,9 @@ app.post('/update-user', function (req, res) {
 });
 
 // QUERY: GET ALL ADMINS
-app.get('/get-all-admins', function (req, res) {
+app.get('/get-all-admins', (req, res) => {
     let admins = 'SELECT * FROM BBY_12_admins';
-    con.query(admins, function (err, results) {
+    con.query(admins, (err, results) => {
         if (err) throw "Query to database failed.";
         res.setHeader('content-type', 'application/json');
         res.send({ status: "success", rows: results });
@@ -300,11 +302,11 @@ app.get('/get-all-admins', function (req, res) {
 });
 
 // QUERY: GET CURRENT USER INFO IF USER IS ADMIN
-app.get('/get-admin', function (req, res) {
+app.get('/get-admin', (req, res) => {
     if (req.session.loggedIn && req.session.admin == true) {
         let session_username = req.session.username;
         let admins = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
-        con.query(admins, [session_username], function (err, results) {
+        con.query(admins, [session_username], (err, results) => {
             if (err) throw "Query to database failed.";
             res.setHeader('content-type', 'application/json');
             res.send({ status: "success", rows: results });
@@ -313,34 +315,34 @@ app.get('/get-admin', function (req, res) {
 });
 
 // QUERY: DELETE ADMIN
-app.post('/delete-admin', function (req, res) {
+app.post('/delete-admin', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-        con.query('SELECT * FROM BBY_12_admins',
-                function (err, results) {
-                  if (results.length != 1) {
-                    con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
-                    function (err, results) {
-                      if (err) throw err;
+    con.query('SELECT * FROM BBY_12_admins',
+        (err, results) => {
+            if (results.length != 1) {
+                con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
+                    (err, results) => {
+                        if (err) throw err;
                     })
-                  } else {
-                    if (err) throw "Cannot delete admin if there is only one admin left.";
-                  }
-          });
+            } else {
+                if (err) throw "Cannot delete admin if there is only one admin left.";
+            }
+        });
 });
 
 // QUERY: DELETE USER
-app.post('/delete-user', function (req, res) {
+app.post('/delete-user', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
-        con.query('SELECT * FROM BBY_12_users',
-                function (err, results) {
-                  if (results.length != 1) {
-                    con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
-                    function (err, results) {
-                      if (err) throw err;
+    con.query('SELECT * FROM BBY_12_users',
+        (err, results) => {
+            if (results.length != 1) {
+                con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
+                    (err, results) => {
+                        if (err) throw err;
                     })
-                  } else {
-                    if (err) throw "Cannot delete user if there is only one user left.";
-                  }
-          });
+            } else {
+                if (err) throw "Cannot delete user if there is only one user left.";
+            }
+        });
 });
 

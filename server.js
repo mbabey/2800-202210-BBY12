@@ -1,4 +1,7 @@
 'use strict';
+
+// import { H_CONFIG, LOCAL_CONFIG } from './server-configs.js';
+
 const express = require('express');
 const session = require('express-session');
 const fs = require('fs');
@@ -12,12 +15,7 @@ const upload = multer({ dest: 'uploads/' });
 const createAccount = require('./scripts/create-account');
 const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
-const {
-    redirect
-} = require('express/lib/response');
-const {
-    send
-} = require('process');
+const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -33,20 +31,6 @@ app.use(session({
     saveUninitialized: true
 }));
 
-const herokuConfig = {
-    host: 'g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'bvi0o6i4puwihszs',
-    password: 't6j3hhjg82p5yi6v',
-    database: 'ooesezqo9t1r5sup'
-}
-
-const localConfig = {
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'COMP2800'
-};
-
 let con;
 const isHeroku = process.env.IS_HEROKU || false;
 const port = process.env.PORT || 8000;
@@ -54,13 +38,7 @@ app.listen(port, () => {
     console.log('Gro-Operate running on ' + port);
     dbInitialize.dbInitialize(isHeroku)
     .then(() => {
-        // con = (isHeroku) ? mysql.createConnection(herokuConfig) : mysql.createConnection(localConfig);
-        if (isHeroku) {
-            console.log('hero');
-            con = mysql.createConnection(herokuConfig);
-        } else {
-            con = mysql.createConnection(localConfig);
-        }
+        con = (isHeroku) ? mysql.createConnection(H_CONFIG()) : mysql.createConnection(LOCAL_CONFIG());
         }).then(() => {
             con.connect(function(err) {
                 if (err) throw err;
@@ -71,7 +49,7 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
     if (req.session.loggedIn) {
         if (req.session.admin)
-            res.redirect('/admin-dashboard'); // TEMP show case that admin accounts are different, will remove once dash board button is implemented
+            res.redirect('/admin-dashboard');
         else
             res.redirect('/home');
     } else {
@@ -129,7 +107,7 @@ app.route('/create-account')
         }
     })
     .post((req, res) => {
-        createAccount.createAccount(req, res)
+        createAccount.createAccount(req, res, con)
             .then(function(result) {
                 login(req, req.body["username"]);
                 res.redirect('/');
@@ -211,7 +189,7 @@ app.route('/admin-add-account')
         }
     })
     .post((req, res) => {
-        createAccount.createAdmin(req, res)
+        createAccount.createAdmin(req, res, con)
             .then(function(result) {
                 res.redirect('/admin-dashboard');
             })

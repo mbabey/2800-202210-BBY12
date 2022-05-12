@@ -1,40 +1,22 @@
 'use strict';
-const mysql = require('mysql2');
 const crypto = require('crypto');
-const { render } = require('express/lib/response');
 
 module.exports = {
-    createAccount: async function(req, res) {
+    createAccount: async function(req, res, con) {
         res.setHeader('Content-Type', 'application/json');
-        let connection = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'COMP2800'
-        });
-        connection.connect();
-        let success = await insertDB(req, connection);
-        connection.end();
+        let success = await insertDB(req, con);
         return success;
     },
 
-    createAdmin: async function(req, res) {
+    createAdmin: async function(req, res, con) {
         res.setHeader('Content-Type', 'application/json');
-        let connection = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'COMP2800'
-        });
-        connection.connect();
-        let success = insertDB(req, connection);
+        let success = insertDB(req, con);
         await success
             .then(function(result) {
-                insertAdmin(req.body.username, connection)
+                insertAdmin(req.body.username, con)
                     .then()
                     .catch(function(err) {});
             }).catch(function(err) {});
-        connection.end();
         return success;
     }
 };

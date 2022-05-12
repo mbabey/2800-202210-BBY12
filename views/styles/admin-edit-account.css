@@ -271,7 +271,6 @@
     transform: scale(1);
 }
 
-
 /* Pop-up CSS referenced from https://codepen.io/imprakash/pen/GgNMXO*/
 .overlay {
 position: fixed;
@@ -279,7 +278,7 @@ top: 0;
 bottom: 0;
 left: 0;
 right: 0;
-background: rgba(0, 0, 0, 0.7);
+background: rgba(0, 0, 0, 0.39);
 visibility: hidden;
 opacity: 0;
 }
@@ -288,22 +287,25 @@ visibility: visible;
 opacity: 1;
 }
 
-.pop-up {
-
-padding: 20px;
+.password-verify-box {
+top: 40%;
+bottom: 0;
+left: 40%;
+right: 0;
+padding: 1rem;
 background: #fff;
 border-radius: 5px;
-width: 30%;
+width: 20%;
+height: 20%;
 position: relative;
 }
 
-
-.pop-up h2 {
+.password-verify-box h2 {
 margin-top: 0;
 color: #333;
 font-family: Tahoma, Arial, sans-serif;
 }
-.pop-up .close {
+.password-verify-box .close {
 position: absolute;
 top: 20px;
 right: 30px;
@@ -313,10 +315,10 @@ font-weight: bold;
 text-decoration: none;
 color: #333;
 }
-.pop-up .close:hover {
+.password-verify-box .close:hover {
 color: #06D85F;
 }
-.pop-up .content {
+.password-verify-box .content {
 max-height: 30%;
 overflow: auto;
 }

@@ -224,7 +224,7 @@
 }
 /* End code for checkbox styles. */
 
-#edit-submit {
+.edit-submit {
     grid-row: 10 / span 1;
     grid-column: 1 / span 2;
     padding: .7rem;
@@ -243,7 +243,7 @@
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#edit-submit::after {
+.edit-submit::after {
     content: '';
     position: absolute;
     z-index: -1;
@@ -257,17 +257,17 @@
     transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-#edit-submit:focus,
-#edit-submit:hover {
+.edit-submit:focus,
+.edit-submit:hover {
     transform: scale(1.025, 1.025);
 }
 
-#edit-submit:focus::after,
-#edit-submit:hover::after {
+.edit-submit:focus::after,
+.edit-submit:hover::after {
     opacity: 1;
 }
 
-#edit-submit:active {
+.edit-submit:active {
     transform: scale(1);
 }
 
@@ -287,30 +287,40 @@ visibility: visible;
 opacity: 1;
 }
 
+.password-box {
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+    padding-top: 5%;
+    margin: 0.5rem;
+}
+
 .password-verify-box {
 top: 40%;
 bottom: 0;
 left: 40%;
 right: 0;
-padding: 1rem;
+padding: 2rem;
 background: #fff;
 border-radius: 5px;
-width: 20%;
-height: 20%;
+min-width: 130px;
+min-height: 200px;
+max-width: 30%;
+max-height: 30%;
 position: relative;
 }
 
-.password-verify-box h2 {
-margin-top: 0;
+.password-verify-box h4 {
+margin-top: 10px;
 color: #333;
-font-family: Tahoma, Arial, sans-serif;
+text-align: center;
 }
 .password-verify-box .close {
 position: absolute;
-top: 20px;
+top: 10px;
 right: 30px;
 transition: all 200ms;
-font-size: 30px;
+font-size: 1.5rem;
 font-weight: bold;
 text-decoration: none;
 color: #333;
@@ -318,9 +328,18 @@ color: #333;
 .password-verify-box .close:hover {
 color: #06D85F;
 }
-.password-verify-box .content {
+.password-verify-box .password-content {
+    display: flex;
+    justify-content: center;
 max-height: 30%;
 overflow: auto;
+display: flex;
+flex-direction: column;
+width: 100%;
+}
+
+#password-submit {
+
 }
   
   @media screen and (max-width: 700px){

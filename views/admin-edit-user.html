@@ -72,12 +72,17 @@
         <!-- Pop up HTML -->
         <div id="password-pop-up" class="overlay">
           <div class="password-verify-box">
-            <h2>Here i am</h2>
+            <h4>Change Password</h4>
+            <div class="password-box">
             <a class="close" href="#">&times;</a>
-            <div class="content">
-              Thank to pop me out of that button, but now i'm done so you can close this window.
+            <div class="password-content">
+              <input id="password-box-input" name="password" type="password" placeholder="Change Password" class="edit-input" required>
+              <input id="password-box-verify-input" name="password" type="password" placeholder="Verify Password" class="edit-input" required><br>
+              <button class="edit-submit" type="submit" value="submit">Submit</button>
             </div>
+ 
           </div>
+        </div>
         </div>
     <div class="dashboard-header">
       <h3 id="dashboard-title">Administration Board</h3>
@@ -137,7 +142,7 @@
           </div>
           <input id="description-block" name="description" type="text" placeholder="Business description"
             class="edit-input">
-          <button id="edit-submit" type="submit" value="submit">Edit Account</button>
+          <button class="edit-submit" id="edit-sumbit" type="submit" value="submit">Edit Account</button>
         </form>
       </div>
     </div>

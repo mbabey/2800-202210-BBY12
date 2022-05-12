@@ -1,5 +1,17 @@
 'use strict';
 docLoaded(() => {
+  let biz_name = document.querySelector('.business-name-block');
+  let biz_owner_fName = document.querySelector('.business-owner-fname-block');
+  let biz_owner_lName = document.querySelector('.business-owner-lname-block');
+  let biz_type = document.querySelector('.business-type-block');
+  let biz_email = document.querySelector('.business-email-block');
+  let biz_phone = document.querySelector('.business-phone-block');
+  let biz_location = document.querySelector('.business-location-block');
+  let biz_description = document.querySelector('.business-description-block');
+  
+  let edit_button = document.getElementById("edit-button");
+  let save_button = document.getElementById("save-button");
+
     async function getData() {
         try {
             let response = await fetch('/get-user', {
@@ -13,26 +25,8 @@ docLoaded(() => {
     }
     getData();
 
-    let biz_name = document.querySelector('.business-name-block');
-    let biz_owner_fName = document.querySelector('.business-owner-fname-block');
-    let biz_owner_lName = document.querySelector('.business-owner-lname-block');
-    let biz_type = document.querySelector('.business-type-block');
-    let biz_email = document.querySelector('.business-email-block');
-    let biz_phone = document.querySelector('.business-phone-block');
-    let biz_location = document.querySelector('.business-location-block');
-    let biz_description = document.querySelector('.business-description-block');
-    let edit_button = document.getElementById("edit-button");
-    let save_button = document.getElementById("save-button");
 
     function popThaSpots(data) {
-        document.querySelector('.business-name-block').innerHTML = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
-        document.querySelector('.business-owner-fname-block').innerHTML = (data[0].fName != undefined && data[0].fName != null) ? data[0].fName : '';
-        document.querySelector('.business-owner-lname-block').innerHTML = (data[0].lName != undefined && data[0].lName != null) ? data[0].lName : '';
-        document.querySelector('.business-type-block').innerHTML = (data[0].bType != undefined && data[0].bType != null) ? data[0].bType : '';
-        document.querySelector('.business-email-block').innerHTML = (data[0].email != undefined && data[0].email != null) ? data[0].email : '';
-        document.querySelector('.business-phone-block').innerHTML = (data[0].phoneNo != undefined && data[0].phoneNo != null) ? data[0].phoneNo : '';
-        document.querySelector('.business-location-block').innerHTML = (data[0].location != undefined && data[0].location != null) ? data[0].location : '';
-        document.querySelector('.business-description-block').innerHTML = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
         biz_name.innerHTML = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
         biz_owner_fName.innerHTML = (data[0].fName != undefined && data[0].fName != null) ? data[0].fName : '';
         biz_owner_lName.innerHTML = (data[0].lName != undefined && data[0].lName != null) ? data[0].lName : '';
@@ -43,17 +37,8 @@ docLoaded(() => {
         biz_description.innerHTML = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
     }
 
-
-
     document.getElementById("edit-button").addEventListener("click", function(event) {
         let input = document.createElement("input");
-        let biz_name = document.getElementById("business-name-block");
-        let biz_owner_fName = document.getElementById("business-owner-fname-block");
-        let biz_owner_lName = document.getElementById("business-owner-lname-block");
-        let biz_email = document.getElementById("business-email-block");
-        let biz_phone = document.getElementById("business-email-block");
-        let biz_location = document.getElementById("business-location-block");
-        let biz_description = document.getElementById("business-description-block");
 
         biz_name.contentEditable = true;
         input.appendChild(biz_name);
@@ -91,8 +76,6 @@ docLoaded(() => {
         edit_button.innerHTML = "";
         save_button.innerHTML = "Save";
         event.preventDefault();
-
-
     });
 
     function saved(data) {
@@ -184,8 +167,6 @@ docLoaded(() => {
 
 });
 
-
-
 async function sendData(data) {
     try {
         await fetch('/update-users', {
@@ -197,7 +178,6 @@ async function sendData(data) {
         console.log(err);
     }
 }
-
 
 function docLoaded(action) {
     if (document.readyState != 'loading')
@@ -211,9 +191,3 @@ function editCell(e) {
     let parent = e.target.parentNode;
     let input = document.createElement("input");
 }
-
-// function editCell(e) {
-//     let spanText = e.target.innerHTML;
-//     let parent = e.target.parentNode;
-//     let input = document.createElement("input");
-// }

@@ -65,6 +65,10 @@ function saved(data){
     
 }
 
+function verifySame(data){
+
+}
+
 document.querySelector('#edit-submit').addEventListener("click", function(event){
 
     let username_sent = username_block.value;
@@ -76,6 +80,7 @@ document.querySelector('#edit-submit').addEventListener("click", function(event)
     let biz_type_sent = biz_type_block.value;
     let fName_sent
     let lName_sent
-    let 
+    let phoneNo_sent
+    let locatio
 })
 

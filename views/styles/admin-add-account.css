@@ -41,8 +41,17 @@
     color: rgb(55, 124, 55);
 }
 
-#create-block {
+.left-side {
+    display: grid;
     grid-column: 2 / span 1;
+    grid-row: 1 / span 3;
+    grid-template-rows: repeat(3);
+    grid-template-columns: 100%;
+}
+
+.create-block-container {
+    display: grid;
+    grid-column: 1 / span 1;
     grid-row: 2 / span 1;
     margin-left: auto;
     margin-right: auto;
@@ -50,8 +59,10 @@
     width: 70%;
 }
 
-#create-block p {
+#edit-block-title {
     text-align: center;
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
 }
 
 #create-block>form {
@@ -243,22 +254,28 @@
     .container {
         display: grid;
     }
+
     #content {
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 10% repeat(5, 15%);
+        grid-template-rows: 100%;
     }
 
     #dashboard-title {
         font-size: 25px;
     }
 
-    #create-block {
+    .left-side {
         grid-column: 1 / span 1;
-        grid-row: 3 / span 1;
+        grid-row: 1 / span 1;
+    }
+
+    .create-block-container {
+        grid-column: 1 / span 1;
+        grid-row: 2 / span 1;
         min-width: 256px;
         width: 70%;
-        height: 50%;
+        vertical-align: middle;
     }
 
     #biz-name-block:before {

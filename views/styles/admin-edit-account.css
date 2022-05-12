@@ -89,6 +89,18 @@
     grid-column: 1 / span 2;
 }
 
+#password-block > a {
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 2;
+    display: inline-flex;
+    width: 100%;
+    text-decoration: none;
+}
+
+#password-block > a > input {
+    width: 100%;
+}
+
 #biz-name-block {
     grid-row: 4 / span 1;
     grid-column: 1 / span 2;
@@ -258,6 +270,65 @@
 #edit-submit:active {
     transform: scale(1);
 }
+
+
+/* Pop-up CSS referenced from https://codepen.io/imprakash/pen/GgNMXO*/
+.overlay {
+position: fixed;
+top: 0;
+bottom: 0;
+left: 0;
+right: 0;
+background: rgba(0, 0, 0, 0.7);
+visibility: hidden;
+opacity: 0;
+}
+.overlay:target {
+visibility: visible;
+opacity: 1;
+}
+
+.pop-up {
+
+padding: 20px;
+background: #fff;
+border-radius: 5px;
+width: 30%;
+position: relative;
+}
+
+
+.pop-up h2 {
+margin-top: 0;
+color: #333;
+font-family: Tahoma, Arial, sans-serif;
+}
+.pop-up .close {
+position: absolute;
+top: 20px;
+right: 30px;
+transition: all 200ms;
+font-size: 30px;
+font-weight: bold;
+text-decoration: none;
+color: #333;
+}
+.pop-up .close:hover {
+color: #06D85F;
+}
+.pop-up .content {
+max-height: 30%;
+overflow: auto;
+}
+  
+  @media screen and (max-width: 700px){
+    .box{
+      width: 70%;
+    }
+    .password-verify-pop-up{
+      width: 70%;
+    }
+  }
 
 
 @media only screen and (max-width: 800px) {

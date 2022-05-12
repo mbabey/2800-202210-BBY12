@@ -61,7 +61,7 @@ function getUsers() {
             throw "Ready state not done.";
         }
     }
-    xhr.open("GET", "/get-user-table");
+    xhr.open("GET", "/get-all-users");
     xhr.send();
 }
 getUsers();
@@ -85,7 +85,7 @@ document.getElementById("delete-user").addEventListener("click", function (e) {
             throw "Error. Cannot get users."
         }
     }
-    xhr.open("POST", "/delete-users");
+    xhr.open("POST", "/delete-user");
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send("username=" + userInput.username);

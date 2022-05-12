@@ -3,7 +3,7 @@
 docLoaded(() => {
     async function getAdminData() {
         try {
-            let response = await fetch('/get-admins', {
+            let response = await fetch('/get-all-admins', {
                 method: 'GET'
             });
             if (response.status == 200) {
@@ -59,7 +59,7 @@ function getAdmins() {
             throw "Ready state not done.";
         }
     }
-    xhr.open("GET", "/get-admin-table");
+    xhr.open("GET", "/get-all-admins");
     xhr.send();
 }
 getAdmins();
@@ -82,7 +82,7 @@ document.getElementById("delete-admin").addEventListener("click", function (e) {
             throw "Error. Cannot get admins."
         }
     }
-    xhr.open("POST", "/delete-admins");
+    xhr.open("POST", "/delete-admin");
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send("username=" + adminInput.username);

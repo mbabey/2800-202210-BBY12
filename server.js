@@ -352,7 +352,7 @@ app.post('/search-user', function (req, res) {
 
             });
     } else {
-        res.send("Please enter valid username");
+        response.send({ status: "fail", msg: "Auth Fail" });
     }
 
 });

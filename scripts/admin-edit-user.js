@@ -1,6 +1,6 @@
 'use strict';
 
-document.querySelector('#delete-admin').addEventListener("click", function (event) {
+document.querySelector('#search-user').addEventListener("click", function (event) {
     let searchInput = { username: document.querySelector('#search-input').value }
     document.querySelector('#search-input').value = "";
     sendSearch(searchInput);
@@ -71,9 +71,6 @@ let phone_num_block_ori = phone_num_block.value;
 let location_block_ori = location_block.value;
 let description_block_ori = description_block.value;
 
-function saved(data) {
-
-}
 
 function verifySame(data1, data2) {
     return data1 == data2;
@@ -91,13 +88,6 @@ function checkEmpty(data) {
     }
 };
 
-//edit password
-// password_block.addEventListener("click", function (event){
-//         if (event.target.)
-//         let password_entered = password_block.value;
-
-//         edit_password = true;
-//     })
 
 document.querySelector('#edit-submit').addEventListener("click", function (event) {
 
@@ -106,7 +96,6 @@ document.querySelector('#edit-submit').addEventListener("click", function (event
         username_sent = username_block_ori;
     };
 
-    //verify
     if (verifySame(email_block.value, email_verify_block)) {
         let email_sent = email_block.value;
         if (!checkEmpty(email_sent)) {
@@ -116,11 +105,6 @@ document.querySelector('#edit-submit').addEventListener("click", function (event
         alert("Please verify both fields in the email.");//or update msg
         email_sent = email_block_ori;
     }
-
-
-    // if (edit_password){
-    //     let password_sent = password_block.value;//might need to change that later
-    // }
 
     let cName_sent = company_name_block.value;
     if (!checkEmpty(cName_sent)) {
@@ -180,6 +164,14 @@ async function sendData(data) {
         console.log(err);
     }
 }
+
+//edit password
+password_block.addEventListener("click", function (event){
+        if (event.target.)
+        let password_entered = password_block.value;
+
+        edit_password = true;
+    })
 
 async function sendPswd(data) {
     try {

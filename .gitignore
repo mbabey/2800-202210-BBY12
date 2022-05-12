@@ -1,3 +1,6 @@
 .DS_Store
 database.sql
+.env
+server-configs.js
 uploads
+avatars

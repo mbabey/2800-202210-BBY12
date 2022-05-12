@@ -78,48 +78,49 @@
         <p>Create an account for a user</p>
       </div>
       <div class="left-side">
-<div class="create-block-container">
-      <div id="create-block">
-        <p id="edit-block-title"><b>Create Account</b></p>
-        <form method="post">
-          <div id="admin-block" class="input-wrapper">
-            <label id="admin-checkbox-container">Make this user an administrator
-              <input name="isAdmin" type="checkbox">
-              <span id="admin-checkmark"></span>
-            </label>
+        <div class="create-block-container">
+          <div id="create-block">
+            <p id="edit-block-title"><b>Create Account</b></p>
+            <form method="post">
+              <div id="admin-block" class="input-wrapper">
+                <label id="admin-checkbox-container">Make this user an administrator
+                  <input name="isAdmin" type="checkbox">
+                  <span id="admin-checkmark"></span>
+                </label>
+              </div>
+              <div id="username-block" class="input-wrapper">
+                <input name="username" type="text" placeholder="Username" class="create-input" required>
+              </div>
+              <div id="email-block">
+                <input name="email" type="text" placeholder="Email" class="create-input" required>
+                <input name="email-verify" type="text" placeholder="Verify Email" class="create-input" required>
+              </div>
+              <div id="password-block" class="input-wrapper">
+                <input name="password" type="password" placeholder="Password" class="create-input" required>
+                <input name="password-verify" type="password" placeholder="Verify Password" class="create-input"
+                  required>
+              </div>
+              <div id="biz-name-block">
+                <input name="company-name" type="text" placeholder="Business Name" class="create-input">
+              </div>
+              <div id="name-block" class="input-wrapper">
+                <input name="first-name" type="text" placeholder="First Name" class="create-input">
+                <input name="last-name" type="text" placeholder="Last Name" class="create-input">
+                <input name="phone-num" type="text" placeholder="Phone Number" class="create-input">
+              </div>
+              <div id="location-block" class="input-wrapper">
+                <input name="location-country" type="text" placeholder="Country" class="create-input">
+                <input name="location-city" type="text" placeholder="City" class="create-input">
+                <input name="location-street" type="text" placeholder="Street Address" class="create-input">
+              </div>
+              <input id="description-block" name="description" type="text" placeholder="Business description"
+                class="create-input">
+              <button id="create-submit" type="submit" value="submit">Create Account</button>
+            </form>
           </div>
-          <div id="username-block" class="input-wrapper">
-            <input name="username" type="text" placeholder="Username" class="create-input" required>
-          </div>
-          <div id="email-block">
-            <input name="email" type="text" placeholder="Email" class="create-input" required>
-            <input name="email-verify" type="text" placeholder="Verify Email" class="create-input" required>
-          </div>
-          <div id="password-block" class="input-wrapper">
-            <input name="password" type="password" placeholder="Password" class="create-input" required>
-            <input name="password-verify" type="password" placeholder="Verify Password" class="create-input" required>
-          </div>
-          <div id="biz-name-block">
-            <input name="company-name" type="text" placeholder="Business Name" class="create-input">
-          </div>
-          <div id="name-block" class="input-wrapper">
-            <input name="first-name" type="text" placeholder="First Name" class="create-input">
-            <input name="last-name" type="text" placeholder="Last Name" class="create-input">
-            <input name="phone-num" type="text" placeholder="Phone Number" class="create-input">
-          </div>
-          <div id="location-block" class="input-wrapper">
-            <input name="location-country" type="text" placeholder="Country" class="create-input">
-            <input name="location-city" type="text" placeholder="City" class="create-input">
-            <input name="location-street" type="text" placeholder="Street Address" class="create-input">
-          </div>
-          <input id="description-block" name="description" type="text" placeholder="Business description"
-            class="create-input">
-          <button id="create-submit" type="submit" value="submit">Create Account</button>
-        </form>
+        </div>
       </div>
     </div>
-    </div>
-  </div>
   </div>
   <footer>
     <div id="footer-wrapper">

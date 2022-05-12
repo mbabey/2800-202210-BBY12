@@ -1,37 +1,36 @@
 'use strict';
 
-const hostName = 'localhost';
-const userName = 'root';
-const pass = '';
-const db = 'COMP2800';
+// import LOCAL_CONFIG from './server-configs.js';
 
 const mysql = require('mysql2/promise');
 const Importer = require('mysql-import');
-const importer = new Importer({ host: hostName, user: userName, password: pass });
+const { LOCAL_CONFIG } = require('./server-configs');
 
 module.exports = {
-    dbInitialize: async () => {
-        await initDB();
-        importer.use(db);
-        /* Code for mysql-import functionality from here: https://github.com/Pamblam/mysql-import */
-        importer.onProgress((progress) => {
-            let percent = Math.floor(progress.bytes_processed / progress.total_bytes * 10000) / 100;
-            console.log(`database.sql import ${percent}% complete`);
-        });
-        importer.import('database.sql').then(() => {
-            var filesImported = importer.getImported();
-            console.log(`Database initialized: ${filesImported.length} file imported`);
-        }).catch(() => {
-            console.log('Database already initialized');
-        });
+    dbInitialize: async (isHeroku) => {
+        if (!isHeroku) {
+            await initLocalDB();
+            const importer = new Importer(LOCAL_CONFIG());
+            /* Code for mysql-import functionality from here: https://github.com/Pamblam/mysql-import */
+            importer.onProgress((progress) => {
+                let percent = Math.floor(progress.bytes_processed / progress.total_bytes * 10000) / 100;
+                console.log(`database.sql import ${percent}% complete`);
+            });
+            importer.import('database.sql').then(() => {
+                var filesImported = importer.getImported();
+                console.log(`Database initialized: ${filesImported.length} file imported`);
+            }).catch(() => {
+                console.log('Database already initialized');
+            });
+        }
     }
 }
 
-async function initDB() {
+async function initLocalDB() {
     const con = await mysql.createConnection({
-        host: hostName,
-        user: userName,
-        password: pass,
+        host: 'localhost',
+        user: 'root',
+        password: '',
         multipleStatements: true
     });
     await con.query(`CREATE DATABASE IF NOT EXISTS COMP2800; USE COMP2800;`);

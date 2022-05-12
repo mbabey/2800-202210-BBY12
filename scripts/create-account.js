@@ -1,40 +1,22 @@
 'use strict';
-const mysql = require('mysql2');
 const crypto = require('crypto');
-const { render } = require('express/lib/response');
 
 module.exports = {
-    createAccount: async function(req, res) {
+    createAccount: async function(req, res, con) {
         res.setHeader('Content-Type', 'application/json');
-        let connection = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'COMP2800'
-        });
-        connection.connect();
-        let success = await insertDB(req, connection);
-        connection.end();
+        let success = await insertDB(req, con);
         return success;
     },
 
-    createAdmin: async function(req, res) {
+    createAdmin: async function(req, res, con) {
         res.setHeader('Content-Type', 'application/json');
-        let connection = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'COMP2800'
-        });
-        connection.connect();
-        let success = insertDB(req, connection);
+        let success = insertDB(req, con);
         await success
-            .then(function(result) {
-                insertAdmin(req.body.username, connection)
+            .then((result) => {
+                insertAdmin(req.body.username, con)
                     .then()
-                    .catch(function(err) {});
-            }).catch(function(err) {});
-        connection.end();
+                    .catch((err) => {});
+            }).catch((err) => {});
         return success;
     }
 };
@@ -47,7 +29,7 @@ function insertDB(req, connection) {
             const hash = crypto.createHash('sha256').update(pass).digest('hex');
             let location = req.body["location-street"] + ", " + req.body["location-city"] + ", " + req.body["location-country"];
             connection.query('INSERT INTO BBY_12_users (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]],
-                function(err) {
+                (err) => {
                     if (err) {
                         reject(new Error("User Insert failed"));
                     } else {

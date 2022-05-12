@@ -1,10 +1,14 @@
 .container {
+  display: grid;
   background-color: rgba(98, 156, 132, 0.486);
+  grid-template-rows: 120px 1fr;
 }
+
 .content {
   grid-row: 2 / span 1;
   display: grid;
   grid-template-columns: 355px 1fr;
+  grid-template-rows: repeat(4, 25%);
 }
 
 h3 {
@@ -13,9 +17,15 @@ h3 {
 }
 
 .dashboard-header {
-  text-align: center;
-  display: flex;
-  justify-content: center;
+  background-color: var(--primary-text);
+  max-height: 121px;
+  min-height: 120px;
+}
+
+#dashboard-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 2.5rem;
 }
 
 .admin-right {
@@ -69,13 +79,17 @@ background-color: var(--secondary-dark);
 color: white;
 }
 
+h3 {
+  font-size: 25px;
+}
+
 .admin-left {
   background-color: var(--primary);
   position: fixed;
   margin-top: 0;
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  height: 500px;
+  height: 380px;
   width: 350px;
   padding: 10px;
   display: flex;
@@ -85,18 +99,39 @@ color: white;
   text-align: center;
 }
 
+#user-list {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
+}
+
+#admin-list {
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+}
+
+#delete-block {
+  grid-column: 2 / span 1;
+  grid-row: 3 / span 1;
+}
+
+#edit-block {
+  grid-column: 2 / span 1;
+  grid-row: 4 / span 1;
+}
+
+.profile-head {
+  padding: 0;
+  margin: 0;
+}
+
 .profile-picture {
   display: flex;
   justify-content: center;
 }
 
-.profile-picture img {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  clip-path: circle(42% at center);
-  width: 60%;
-  background-color: var(--secondary-dark);
+.profile-picture-background {
+  width: 100px;
+  height: 100px;
 }
 
 .profile > div > p {
@@ -205,7 +240,7 @@ color: white;
   font-weight: bold;
 }
 
-@media only screen and (max-width: 650px) {
+@media only screen and (max-width: 800px) {
 
   .container {
     display: block;

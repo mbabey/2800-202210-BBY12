@@ -36,6 +36,7 @@ const upload = multer({
 
 // ---------------- Custom Dependencies ----------------- \\
 const createAccount = require('./scripts/create-account');
+const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
@@ -372,7 +373,14 @@ app.route("/reset-password")
         res.send(resetPasswordPage);
     })
     .post((req, res) => {
-        console.log("password reset");
+        resetPassword.resetPassword(req, res, con)
+            .then(() => {
+                res.redirect("/");
+            })
+            .catch((err) => {
+                console.log(err);
+                res.redirect("/reset-password");
+            });
         //Add some token for reset confirmation
-        res.redirect("/");
+
     });

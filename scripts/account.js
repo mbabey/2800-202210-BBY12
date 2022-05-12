@@ -1,4 +1,6 @@
 'use strict';
+const { append } = require("express/lib/response");
+
 docLoaded(() => {
     async function getData() {
         try {
@@ -39,8 +41,9 @@ docLoaded(() => {
 
 
 
-    document.getElementById("edit-button").addEventListener("click", (event) => {
 
+    document.getElementById("edit-button").addEventListener("click", (event) => {
+      
         biz_name.contentEditable = true;
         biz_name.style.color = '#3632a8';
 
@@ -73,69 +76,70 @@ docLoaded(() => {
 
     });
 
-    function saved(data){
+    function saved(data) {
         data.contentEditable = false;
         data.style.color = '#000000';
     };
 
-    function checkEmpty(data){
+    function checkEmpty(data) {
         let checkEmpty = data.trim();
         let checkSpace = data.replace('/&nbsp;/g', '');
         let checkEnter = data.replace('/<div><br></div>/g', '');
-    
-        if(checkEmpty == '' || checkSpace.trim() == '' || checkEnter.trim() == ''){
+
+        if (checkEmpty == '' || checkSpace.trim() == '' || checkEnter.trim() == '') {
             return false;
         } else {
             return true;
         }
     };
 
+
     document.getElementById("save-button").addEventListener("click", (event) => {
         saved(biz_name);
         let biz_name_value = biz_name.innerHTML;
-        if(!checkEmpty(biz_name_value)){
+        if (!checkEmpty(biz_name_value)) {
             biz_name_value = biz_name_value = "Enter business name here";
         };
 
         saved(biz_owner_fName);
         let biz_owner_fName_value = biz_owner_fName.innerHTML;
-        if(!checkEmpty(biz_owner_fName_value)){
+        if (!checkEmpty(biz_owner_fName_value)) {
             biz_owner_fName_value = "first name";
         };
 
         saved(biz_owner_lName);
         let biz_owner_lName_value = biz_owner_lName.innerHTML;
-        if(!checkEmpty(biz_owner_lName_value)){
+        if (!checkEmpty(biz_owner_lName_value)) {
             biz_owner_lName_value = "last name";
         };
 
         saved(biz_type);
         let biz_type_value = biz_type.innerHTML;
-        if(!checkEmpty(biz_type_value)){
+        if (!checkEmpty(biz_type_value)) {
             biz_type_value = "Enter business type";
         };
 
         saved(biz_email);
         let biz_email_value = biz_email.innerHTML;
-        if(!checkEmpty(biz_email_value)){
+        if (!checkEmpty(biz_email_value)) {
             biz_email_value = "Enter email";
         };
 
         saved(biz_owner_fName);
         let biz_phone_value = biz_phone.innerHTML;
-        if(!checkEmpty(biz_phone_value)){
+        if (!checkEmpty(biz_phone_value)) {
             biz_phone_value = "Enter phone number";
         };
 
         saved(biz_location);
         let biz_location_value = biz_location.innerHTML;
-        if(!checkEmpty(biz_location_value)){
+        if (!checkEmpty(biz_location_value)) {
             biz_location_value = "Enter location";
         };
-        
+
         saved(biz_description);
         let biz_description_value = biz_description.innerHTML;
-        if(!checkEmpty(biz_description_value)){
+        if (!checkEmpty(biz_description_value)) {
             biz_description_value = "Enter description";
         };
 
@@ -144,21 +148,23 @@ docLoaded(() => {
         save_button.innerHTML = "";
 
         let dataToSend = {
-            fName: biz_owner_fName_value, lName: biz_owner_lName_value,
-            cName: biz_name_value, bType: biz_type_value, email: biz_email_value,
-            phoneNo: biz_phone_value, location: biz_location_value,
+            fName: biz_owner_fName_value,
+            lName: biz_owner_lName_value,
+            cName: biz_name_value,
+            bType: biz_type_value,
+            email: biz_email_value,
+            phoneNo: biz_phone_value,
+            location: biz_location_value,
             description: biz_description_value
         };
 
         console.log(dataToSend);
         sendData(JSON.stringify(dataToSend));
         location.reload();
-    
+
     });
 
 });
-
-
 
 async function sendData(data) {
     try {

@@ -255,6 +255,7 @@ app.route('/admin-add-account')
             });
     });
 
+
 // QUERY: GET ALL USERS
 app.get('/get-all-users', (req, res) => {
     con.query('SELECT * FROM BBY_12_users', (err, results) => {
@@ -328,6 +329,7 @@ app.post('/delete-admin', (req, res) => {
         });
 });
 
+
 // QUERY: DELETE USER
 app.post('/delete-user', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
@@ -343,4 +345,21 @@ app.post('/delete-user', (req, res) => {
             }
         });
 });
+
+//Upload profile avatar
+app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
+    console.log(req.fileValidtionError);
+    if (req.session.loggedIn && !req.fileValidtionError) {
+        con.query('UPDATE BBY_12_users SET profilePic = ? WHERE username = ?', [req.file.filename, req.session.username],
+            function(err) {
+                console.log(err);
+            });
+        let oldPath = req.file.path;
+        let newPath = "./views/avatars/" + req.file.filename;
+        fs.rename(oldPath, newPath, function(err) {
+            if (err) throw err
+            console.log('Successfully renamed - AKA moved!')
+        })
+    }
+})
 

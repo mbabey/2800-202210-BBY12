@@ -91,10 +91,18 @@
           <form method="post">
             <div id="username-block" class="input-wrapper">
               <input name="username" type="text" placeholder="Username" id="admin-username">
-              <!-- <input name="username-verify" type="text" placeholder="Verify Username" class="delete-input"> -->
               <button id="delete-admin" type="submit" value="submit">Delete Account</button>
               <p id="status"></p>
               <p id="error-message"></p>
+            </div>
+          </form>
+          <p><b>Delete User Account</b></p>
+          <form method="post">
+            <div id="username-block-2" class="input-wrapper">
+              <input name="username" type="text" placeholder="Username" id="user-username">
+              <button id="delete-user" type="submit" value="submit">Delete Account</button>
+              <p id="status-2"></p>
+              <p id="error-message-2"></p>
             </div>
           </form>
         </div>
@@ -162,6 +170,7 @@
     </div>
   </footer>
   <script src="delete-admin.js"></script>
+  <script src="delete-user.js"></script>
   <script src="admin-profile.js"></script>
   <script src="nav.js"></script>
 

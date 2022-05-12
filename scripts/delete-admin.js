@@ -10,7 +10,7 @@ docLoaded(() => {
                 popAdminData(JSON.parse(data));
             }
         } catch (err) {
-  
+            throw "Cannot get admins."
         }
     }
     getAdminData();

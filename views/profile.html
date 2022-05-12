@@ -78,7 +78,7 @@
                     <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
                         <label for="edit-avatar">
                           Edit Profile Picture
-                          <input type="file" id="edit-avatar" name="edit-avatar" accept="image/png, image/jpeg" hidden>
+                          <input type="file" id="edit-avatar" name="edit-avatar" accept="image/png, image/jpeg" hidden onchange="form.submit()">
                         </label>
 
                     </form>

@@ -1,4 +1,6 @@
 'use strict';
+const { append } = require("express/lib/response");
+
 docLoaded(() => {
     async function getData() {
         try {
@@ -72,10 +74,6 @@ docLoaded(() => {
 
 
     });
-
-    document.getElementById("edit-avatar").onchange = function() {
-        document.getElementById("form-edit-avatar").submit();
-    }
 
     function saved(data) {
         data.contentEditable = false;
@@ -166,8 +164,6 @@ docLoaded(() => {
 
 });
 
-
-
 async function sendData(data) {
     try {
         await fetch('/update-users', {
@@ -187,6 +183,7 @@ function docLoaded(action) {
     else
         document.addEventListener('DOMContentLoaded', action);
 }
+
 
 // function editCell(e) {
 //     let spanText = e.target.innerHTML;

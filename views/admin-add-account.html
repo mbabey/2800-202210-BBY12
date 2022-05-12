@@ -2,33 +2,28 @@
 <html lang="en">
 
 <head>
-    <title>Gro-Operate | Create Account</title>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/global.css">
-    <link rel="stylesheet" href="./styles/admin-add-account.css">
-    <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
+  <title>Gro-Operate | Create Account</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles/global.css">
+  <link rel="stylesheet" href="./styles/admin-add-account.css">
+  <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
 
-    <nav>
-        <div id="nav-wrapper">
-            <div id="nav-left">
-                <a href="/home" id="nav-home" class="nav-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
+  <nav>
+    <div id="nav-wrapper">
+      <div id="nav-left">
+        <a href="/home" id="nav-home" class="nav-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
             <path fill="currentColor"
               d="M8 42V18L24.1 6L40 18V42H28.3V27.75H19.65V42ZM11 39H16.65V24.75H31.3V39H37V19.5L24.1 9.75L11 19.5ZM24 24.35Z" />
           </svg>
           <span>Home</span>
         </a>
-        <a href="/admin-dashboard" id="nav-admin" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
-            <path fill="currentColor"
-              d="M24 25.15ZM11.65 44 16.3 28.8 4 20H19.2L24 4L28.8 20H44L31.7 28.8L36.35 44L24 34.6ZM17.15 35.85 24 30.65 30.85 35.85 28.1 27.2 34.4 23.1H26.85L24 14.45L21.15 23.1H13.6L19.9 27.2Z" />
-          </svg>
-          <span>Admin</span>
+        <a id="nav-admin">
         </a>
       </div>
       <div id="nav-right">
@@ -73,54 +68,55 @@
     </div>
   </nav>
 
-    <div class="container">
-        <div id="content">
-            <div class="dashboard-header">
-                <h3 id="dashboard-title">Administration</h3>
-            </div>
-            <div id="welcome">
-                <h1>Greetings,<br />Administrator</h1>
-                <p>Create an account for a user</p>
-            </div>
-            <div id="create-block">
-                <p><b>Create Account</b></p>
-                <form method="post">
-                    <div id="admin-block" class="input-wrapper">
-                        <label id="admin-checkbox-container">Make this user an administrator
+  <div class="container">
+    <div id="content">
+      <div class="dashboard-header">
+        <h3 id="dashboard-title">Administration</h3>
+      </div>
+      <div id="welcome">
+        <h1>Greetings,<br />Administrator</h1>
+        <p>Create an account for a user</p>
+      </div>
+      <div id="create-block">
+        <p><b>Create Account</b></p>
+        <form method="post">
+          <div id="admin-block" class="input-wrapper">
+            <label id="admin-checkbox-container">Make this user an administrator
               <input name="isAdmin" type="checkbox">
               <span id="admin-checkmark"></span>
             </label>
-                    </div>
-                    <div id="username-block" class="input-wrapper">
-                        <input name="username" type="text" placeholder="Username" class="create-input" required>
-                    </div>
-                    <div id="email-block">
-                        <input name="email" type="text" placeholder="Email" class="create-input" required>
-                        <input name="email-verify" type="text" placeholder="Verify Email" class="create-input" required>
-                    </div>
-                    <div id="password-block" class="input-wrapper">
-                        <input name="password" type="password" placeholder="Password" class="create-input" required>
-                        <input name="password-verify" type="password" placeholder="Verify Password" class="create-input" required>
-                    </div>
-                    <div id="biz-name-block">
-                        <input name="company-name" type="text" placeholder="Business Name" class="create-input">
-                    </div>
-                    <div id="name-block" class="input-wrapper">
-                        <input name="first-name" type="text" placeholder="First Name" class="create-input">
-                        <input name="last-name" type="text" placeholder="Last Name" class="create-input">
-                        <input name="phone-num" type="text" placeholder="Phone Number" class="create-input">
-                    </div>
-                    <div id="location-block" class="input-wrapper">
-                        <input name="location-country" type="text" placeholder="Country" class="create-input">
-                        <input name="location-city" type="text" placeholder="City" class="create-input">
-                        <input name="location-street" type="text" placeholder="Street Address" class="create-input">
-                    </div>
-                    <input id="description-block" name="description" type="text" placeholder="Business description" class="create-input">
-                    <button id="create-submit" type="submit" value="submit">Create Account</button>
-                </form>
-            </div>
-        </div>
+          </div>
+          <div id="username-block" class="input-wrapper">
+            <input name="username" type="text" placeholder="Username" class="create-input" required>
+          </div>
+          <div id="email-block">
+            <input name="email" type="text" placeholder="Email" class="create-input" required>
+            <input name="email-verify" type="text" placeholder="Verify Email" class="create-input" required>
+          </div>
+          <div id="password-block" class="input-wrapper">
+            <input name="password" type="password" placeholder="Password" class="create-input" required>
+            <input name="password-verify" type="password" placeholder="Verify Password" class="create-input" required>
+          </div>
+          <div id="biz-name-block">
+            <input name="company-name" type="text" placeholder="Business Name" class="create-input">
+          </div>
+          <div id="name-block" class="input-wrapper">
+            <input name="first-name" type="text" placeholder="First Name" class="create-input">
+            <input name="last-name" type="text" placeholder="Last Name" class="create-input">
+            <input name="phone-num" type="text" placeholder="Phone Number" class="create-input">
+          </div>
+          <div id="location-block" class="input-wrapper">
+            <input name="location-country" type="text" placeholder="Country" class="create-input">
+            <input name="location-city" type="text" placeholder="City" class="create-input">
+            <input name="location-street" type="text" placeholder="Street Address" class="create-input">
+          </div>
+          <input id="description-block" name="description" type="text" placeholder="Business description"
+            class="create-input">
+          <button id="create-submit" type="submit" value="submit">Create Account</button>
+        </form>
+      </div>
     </div>
+  </div>
   <footer>
     <div id="footer-wrapper">
       <a href="/home" id="footer-home" class="nav-button">

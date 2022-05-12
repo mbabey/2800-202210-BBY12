@@ -59,7 +59,7 @@
     height: 29.8rem;
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 2.4rem 5.6rem 2.4rem 2.4rem 2.4rem 2.4rem 5.6rem 2.4rem 4rem;
+    grid-template-rows: 2.4rem 2.4rem 3rem 2.4rem 2.4rem 2.4rem 2.4rem 5.6rem 2.4rem 4rem;
     /* size in rem so form scales with font size. */
     gap: 3px;
 }
@@ -79,13 +79,18 @@
     grid-column: 1 / span 1;
 }
 
-#password-block {
+#email-verify-block {
     grid-row: 2 / span 1;
     grid-column: 2 / span 1;
 }
 
-#biz-name-block {
+#password-block {
     grid-row: 3 / span 1;
+    grid-column: 1 / span 2;
+}
+
+#biz-name-block {
+    grid-row: 4 / span 1;
     grid-column: 1 / span 2;
 }
 
@@ -101,32 +106,32 @@
 }
 
 #biz-type-block {
-    grid-row: 4 / span 1;
+    grid-row: 5 / span 1;
     grid-column: 1 / span 1;
 }
 
 #phone-num-block {
-    grid-row: 4 / span 1;
+    grid-row: 5 / span 1;
     grid-column: 2 / span 1;
 }
 
 #first-name-block {
-    grid-row: 5 / span 1;
+    grid-row: 6 / span 1;
     grid-column: 1 / span 1;
 }
 
 #last-name-block {
-    grid-row: 5 / span 1;
+    grid-row: 6 / span 1;
     grid-column: 2 / span 1;
 }
 
 #location-block {
-    grid-row: 6 / span 1;
+    grid-row: 7 / span 1;
     grid-column: 1 / span 2;
 }
 
 #description-block {
-    grid-row: 7 / span 1;
+    grid-row: 8 / span 1;
     grid-column: 1 / span 2;
 }
 
@@ -140,7 +145,7 @@
 }
 
 #admin-block {
-    grid-row: 8 / span 1;
+    grid-row: 9 / span 1;
     grid-column: 1 / span 2;
     margin: auto;
 }
@@ -208,7 +213,7 @@
 /* End code for checkbox styles. */
 
 #edit-submit {
-    grid-row: 9 / span 1;
+    grid-row: 10 / span 1;
     grid-column: 1 / span 2;
     padding: .7rem;
     margin: auto;

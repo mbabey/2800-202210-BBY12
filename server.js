@@ -12,16 +12,16 @@ const crypto = require('crypto');
 const { JSDOM } = require('jsdom');
 const multer = require('multer');
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function(req, file, cb) {
         cb(null, './uploads');
     },
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         cb(null, file.originalname + file.originalname.split('.')[file.originalname.split('.').length - 1]);
     }
 });
 const upload = multer({
     storage: storage,
-    fileFilter: function (req, file, callback) {
+    fileFilter: function(req, file, callback) {
         let ext = "." + file.originalname.split('.')[file.originalname.split('.').length - 1];
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
             req.fileValidtionError = "Images Only!";
@@ -99,7 +99,7 @@ app.route('/login')
             res.redirect('/');
         }
     })
-    .post((req, res,) => {
+    .post((req, res, ) => {
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
@@ -278,8 +278,7 @@ app.get('/get-user', (req, res) => {
 app.post('/update-user', (req, res) => {
     console.log("updat-users ", req.body);
 
-    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-        [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
         (error) => {
             if (error) throw error;
             res.setHeader('Content-Type', 'application/json');
@@ -359,7 +358,7 @@ app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
         fs.rename(oldPath, newPath, function(err) {
             if (err) throw err
             console.log('Successfully renamed - AKA moved!')
-        })
+        });
     }
+    res.redirect("/profile");
 })
-

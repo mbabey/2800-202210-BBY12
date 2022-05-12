@@ -9,7 +9,9 @@ docLoaded(() => {
                 let data = await response.text();
                 popThaSpots(JSON.parse(data));
             }
-        } catch (err) {}
+        } catch (err) {
+
+        }
     }
     getData();
 
@@ -25,14 +27,6 @@ docLoaded(() => {
     let save_button = document.getElementById("save-button");
 
     function popThaSpots(data) {
-        document.querySelector('.business-name-block').innerHTML = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
-        document.querySelector('.business-owner-fname-block').innerHTML = (data[0].fName != undefined && data[0].fName != null) ? data[0].fName : '';
-        document.querySelector('.business-owner-lname-block').innerHTML = (data[0].lName != undefined && data[0].lName != null) ? data[0].lName : '';
-        document.querySelector('.business-type-block').innerHTML = (data[0].bType != undefined && data[0].bType != null) ? data[0].bType : '';
-        document.querySelector('.business-email-block').innerHTML = (data[0].email != undefined && data[0].email != null) ? data[0].email : '';
-        document.querySelector('.business-phone-block').innerHTML = (data[0].phoneNo != undefined && data[0].phoneNo != null) ? data[0].phoneNo : '';
-        document.querySelector('.business-location-block').innerHTML = (data[0].location != undefined && data[0].location != null) ? data[0].location : '';
-        document.querySelector('.business-description-block').innerHTML = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
         biz_name.innerHTML = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
         biz_owner_fName.innerHTML = (data[0].fName != undefined && data[0].fName != null) ? data[0].fName : '';
         biz_owner_lName.innerHTML = (data[0].lName != undefined && data[0].lName != null) ? data[0].lName : '';
@@ -45,46 +39,30 @@ docLoaded(() => {
 
 
 
-    document.getElementById("edit-button").addEventListener("click", function(event) {
-        let input = document.createElement("input");
-        let biz_name = document.getElementById("business-name-block");
-        let biz_owner_fName = document.getElementById("business-owner-fname-block");
-        let biz_owner_lName = document.getElementById("business-owner-lname-block");
-        let biz_email = document.getElementById("business-email-block");
-        let biz_phone = document.getElementById("business-email-block");
-        let biz_location = document.getElementById("business-location-block");
-        let biz_description = document.getElementById("business-description-block");
+    document.getElementById("edit-button").addEventListener("click", (event) => {
 
         biz_name.contentEditable = true;
-        input.appendChild(biz_name);
         biz_name.style.color = '#3632a8';
 
         biz_owner_fName.contentEditable = true;
-        input.appendChild(biz_owner_lName);
         biz_owner_fName.style.color = '#3632a8';
 
         biz_owner_lName.contentEditable = true;
-        input.appendChild(biz_owner_lName);
         biz_owner_lName.style.color = '#3632a8';
 
         biz_type.contentEditable = true;
         biz_type.style.color = '#3632a8';
 
         biz_email.contentEditable = true;
-        input.appendChild(biz_email);
         biz_email.style.color = '#3632a8';
 
         biz_phone.contentEditable = true;
-        input.appendChild(biz_phone);
         biz_phone.style.color = '#3632a8';
 
         biz_location.contentEditable = true;
-        input.appendChild(biz_location);
         biz_location.style.color = '#3632a8';
 
         biz_description.contentEditable = true;
-        input.appendChild(biz_description);
-        document.getElementById("edit-status").innerHTML = "Click on the fields to edit.";
         biz_description.style.color = '#3632a8';
 
         document.getElementById("edit-status").innerHTML = "";
@@ -112,7 +90,7 @@ docLoaded(() => {
         }
     };
 
-    document.getElementById("save-button").addEventListener("click", function(event) {
+    document.getElementById("save-button").addEventListener("click", (event) => {
         saved(biz_name);
         let biz_name_value = biz_name.innerHTML;
         if (!checkEmpty(biz_name_value)) {
@@ -188,7 +166,7 @@ docLoaded(() => {
 
 async function sendData(data) {
     try {
-        await fetch('/update-users', {
+        await fetch('/update-user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: data
@@ -205,15 +183,3 @@ function docLoaded(action) {
     else
         document.addEventListener('DOMContentLoaded', action);
 }
-
-function editCell(e) {
-    let spanText = e.target.innerHTML;
-    let parent = e.target.parentNode;
-    let input = document.createElement("input");
-}
-
-// function editCell(e) {
-//     let spanText = e.target.innerHTML;
-//     let parent = e.target.parentNode;
-//     let input = document.createElement("input");
-// }

@@ -1,6 +1,8 @@
 .container {
     display: grid;
+    grid-template-rows: 120px 1fr;
 }
+
 #content {
     display: grid;
     height: 100%;
@@ -17,7 +19,7 @@
 #dashboard-title {
     font-size: 2rem;
     text-align: center;
-    margin: 5px auto;
+    margin-top: 2.5rem;
 }
 
 #welcome {

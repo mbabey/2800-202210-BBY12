@@ -1,19 +1,19 @@
 .container {
     display: grid;
-    grid-template-rows: 10% 90%;
+    grid-template-rows: 120px 1fr;
 }
 
 #content {
     grid-row: 2 / span 1;
     display: grid;
     grid-template-columns: 40% 60%;
-    grid-template-rows: repeat(3, 25%);
+    grid-template-rows: repeat(3, 1fr);
 }
 
 .left-side-profile {
     display: grid;
     grid-column: 1 / span 1;
-    grid-row: 1 / span 4;
+    grid-row: 1 / span 3;
     background-color: var(--primary);
     margin-top: 0;
     box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
@@ -72,25 +72,29 @@
   }
 
 .dashboard-header {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 1;
     background-color: var(--primary-text);
 }
 
 #dashboard-title {
-    font-size: 40px;
+    font-size: 2rem;
     text-align: center;
+    margin-top: 2.5rem;
+}
+
+.admin-right {
+    grid-row: 2 / span 1;
+    display: grid;
 }
 
 #admin-button-group {
-    grid-column: 2 / span 1;
-    grid-row: 2 / span 1;
     margin: auto;
     min-width: 300px;
     max-width: 480px;
-    width: 50%;
+    width: 65%;
     text-align: center;
-    display: flex;
     flex-direction: column;
-    margin-top: 10%;
 }
 
 #admin-button-group>.admin-button {
@@ -146,10 +150,11 @@
 }
 
 @media only screen and (max-width: 800px) {
+
     .container {
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 15% 85%;
+        grid-template-rows: 120px 85%;
     }
 
     .left-side-profile {
@@ -158,32 +163,31 @@
 
     #content {
         display: grid;
+        grid-row: 2 / span 1;
         grid-template-columns: 100%;
-        grid-template-rows: 20% 20% 20%;
-        margin: 0px 10%;
+        grid-template-rows: repeat(3, 0%);
+        margin: auto;
     }
 
     .dashboard-header {
+        grid-column: 1 / span 2;
         grid-row: 1 / span 1;
-        display: grid;
-        min-height: 130px;
-        max-height: 131px;
+        background-color: var(--primary-text);
+    }
+    
+    #dashboard-title {
+        font-size: 2rem;
+        text-align: center;
+        margin-top: 2.5rem;
     }
 
-    #dashboard-title {
-        grid-row: 1 / span 1;
-        display: block;
-        text-align: center;
+    .admin-right {
+        grid-row: 2 / span 1;
+        display: grid;
     }
 
     #admin-button-group {
-        display: grid;
-        grid-column: 1 / span 1;
-        min-width: 0;
-        max-width: none;
         width: 100%;
-        margin-top: 0;
-        margin: 0;
     }
 
     #admin-button-group>.admin-button {

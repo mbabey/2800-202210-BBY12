@@ -29,9 +29,9 @@ const upload = multer({
         }
         callback(null, true);
     },
-    limits: {
-        fileSize: 1024 * 1024
-    }
+    // limits: {
+    //     fileSize: 1024 * 1024
+    // }
 });
 
 // ---------------- Custom Dependencies ----------------- \\

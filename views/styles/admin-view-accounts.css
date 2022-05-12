@@ -1,7 +1,9 @@
 .container {
   display: grid;
   background-color: rgba(98, 156, 132, 0.486);
+  grid-template-rows: 120px 1fr;
 }
+
 .content {
   grid-row: 2 / span 1;
   display: grid;
@@ -15,11 +17,15 @@ h3 {
 }
 
 .dashboard-header {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  min-height: 100px;
-  max-height: 101px;
+  background-color: var(--primary-text);
+  max-height: 121px;
+  min-height: 120px;
+}
+
+#dashboard-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 2.5rem;
 }
 
 .admin-right {

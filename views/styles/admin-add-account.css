@@ -1,280 +1,278 @@
-.container {
-    display: grid;
-    grid-template-rows: 120px 1fr;
-}
-
 #content {
-    display: grid;
-    height: 100%;
-    grid-template-columns: 30% 70%;
+  display: grid;
+  grid-template-rows: 10% 90%;
+  /* grid-template-columns: 30% 70%; */
 }
 
 .dashboard-header {
-    grid-column: 1 / span 2;
-    grid-row: 1 / span 1;
-    background-color: var(--primary-text);
+  /* grid-column: 1 / span 2; */
+  grid-row: 1 / span 1;
+  background-color: var(--primary-text);
 }
 
 #dashboard-title {
-    font-size: 2rem;
-    text-align: center;
-    margin-top: 2.5rem;
+  font-size: 2rem;
+  text-align: center;
 }
 
-#welcome {
-    grid-column: 1 / span 1;
-    background-color: var(--primary-light);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+/* #welcome {
+  grid-column: 1 / span 1;
+  grid-row: 2 / span 1;
+  background-color: var(--primary-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 #welcome h1 {
-    color: white;
+  color: white;
 }
 
 #welcome p {
-    color: rgb(55, 124, 55);
-}
+  color: rgb(55, 124, 55);
+} */
 
 #create-block {
-    grid-column: 2 / span 1;
-    margin-left: auto;
-    margin-right: auto;
-    height: 100%;
-    min-width: 380px;
-    width: 70%;
+  grid-row: 2 / span 1;
+  /* grid-column: 2 / span 1; */
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  min-width: 380px;
+  width: 70%;
 }
 
 #create-block p {
-    text-align: center;
+  text-align: center;
 }
 
 #create-block>form {
-    height: 29.8rem;
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 2.4rem 5.6rem 2.4rem 7.4rem 4rem 2rem 4rem;
-    /* size in rem so form scales with font size. */
-    gap: 3px;
+  height: 29.8rem;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 2.4rem 5.6rem 2.4rem 7.4rem 4rem 2rem 4rem;
+  /* size in rem so form scales with font size. */
+  gap: 3px;
 }
 
 #create-block>form>div {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #username-block {
-    grid-row: 1 / span 1;
-    grid-column: 1 / span 2;
+  grid-row: 1 / span 1;
+  grid-column: 1 / span 2;
 }
 
 #email-block {
-    grid-row: 2 / span 1;
-    grid-column: 1 / span 1;
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 1;
 }
 
 #password-block {
-    grid-row: 2 / span 1;
-    grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+  grid-column: 2 / span 1;
 }
 
 #biz-name-block {
-    grid-row: 3 / span 1;
-    grid-column: 1 / span 2;
+  grid-row: 3 / span 1;
+  grid-column: 1 / span 2;
 }
 
 #biz-name-block:before {
-    content: '';
-    position: relative;
-    width: 130%;
-    border-top: 1px solid rgba(0, 128, 0, 0.7);
-    border-radius: 50%;
-    top: -0.4rem;
-    left: 50%;
-    transform: translateX(-50%);
+  content: '';
+  position: relative;
+  width: 130%;
+  border-top: 1px solid rgba(0, 128, 0, 0.7);
+  border-radius: 50%;
+  top: -0.4rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 #name-block {
-    grid-row: 4 / span 1;
-    grid-column: 1 / span 1;
+  grid-row: 4 / span 1;
+  grid-column: 1 / span 1;
 }
 
 #location-block {
-    grid-row: 4 / span 1;
-    grid-column: 2 / span 1;
+  grid-row: 4 / span 1;
+  grid-column: 2 / span 1;
 }
 
 #description-block {
-    grid-row: 5 / span 1;
-    grid-column: 1 / span 2;
+  grid-row: 5 / span 1;
+  grid-column: 1 / span 2;
 }
 
 .create-input {
-    border: 1px black solid;
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    margin: 2px;
-    text-align: center;
-    background-color: rgba(128, 128, 128, 0.3);
+  border: 1px black solid;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  margin: 2px;
+  text-align: center;
+  background-color: rgba(128, 128, 128, 0.3);
 }
 
 #admin-block {
-    grid-row: 6 / span 1;
-    grid-column: 1 / span 2;
-    margin: auto;
+  grid-row: 6 / span 1;
+  grid-column: 1 / span 2;
+  margin: auto;
 }
 
 /* Code for checkbox styles from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox */
 #admin-checkbox-container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #admin-checkbox-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 #admin-checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: rgba(128, 128, 128, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: rgba(128, 128, 128, 0.3);
 }
 
 #admin-checkbox-container:hover input~#admin-checkmark {
-    background-color:rgba(64, 128, 64, 0.5);
+  background-color: rgba(64, 128, 64, 0.5);
 }
 
 #admin-checkbox-container input:checked~#admin-checkmark {
-    background-color: rgb(0, 128, 0);
+  background-color: rgb(0, 128, 0);
 }
 
 #admin-checkmark:after {
-    content: '';
-    position: absolute;
-    display: none;
+  content: '';
+  position: absolute;
+  display: none;
 }
 
 #admin-checkbox-container input:checked~#admin-checkmark:after {
-    display: block;
+  display: block;
 }
 
 #admin-checkmark:after {
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
+
 /* End code for checkbox styles. */
 
 #create-submit {
-    grid-row: 7 / span 1;
-    grid-column: 1 / span 2;
-    padding: .7rem;
-    margin: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-    background-color: rgb(55, 124, 55);
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 50%;
-    -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  grid-row: 7 / span 1;
+  grid-column: 1 / span 2;
+  padding: .7rem;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: rgb(55, 124, 55);
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
 #create-submit::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 #create-submit:focus,
 #create-submit:hover {
-    transform: scale(1.025, 1.025);
+  transform: scale(1.025, 1.025);
 }
 
 #create-submit:focus::after,
 #create-submit:hover::after {
-    opacity: 1;
+  opacity: 1;
 }
 
 #create-submit:active {
-    transform: scale(1);
+  transform: scale(1);
 }
 
 
 @media only screen and (max-width: 800px) {
-    .container {
-        display: grid;
-    }
-    #content {
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 10% repeat(5, 15%);
-    }
+  .container {
+    display: grid;
+  }
 
-    #dashboard-title {
-        font-size: 25px;
-    }
+  #content {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% repeat(5, 15%);
+  }
 
-    #create-block {
-        grid-column: 1 / span 1;
-        grid-row: 3 / span 1;
-        min-width: 256px;
-        width: 70%;
-        height: 50%;
-    }
+  #dashboard-title {
+    font-size: 25px;
+  }
 
-    #biz-name-block:before {
-        width: 100%;
-    }
+  #create-block {
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 1;
+    min-width: 256px;
+    width: 70%;
+    height: 50%;
+  }
 
-    #admin-checkbox-container {
-        font-size: 1rem;
-    }
+  #biz-name-block:before {
+    width: 100%;
+  }
 
-    #welcome {
-        display: none;
-    }
+  #admin-checkbox-container {
+    font-size: 1rem;
+  }
 
-    #welcome h1 {
-        display: none;
-    }
+  #welcome {
+    display: none;
+  }
 
-    #welcome p {
-        display: none;
-    }
+  #welcome h1 {
+    display: none;
+  }
+
+  #welcome p {
+    display: none;
+  }
 }

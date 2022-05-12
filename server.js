@@ -137,6 +137,12 @@ app.get('/logout', (req, res) => {
     });
 });
 
+// GET SESSION ISADMIN BOOLEAN
+app.get('/is-admin', function (req, res) {
+    res.setHeader('content-type', 'application/json');
+    res.send({ admin: req.session.admin });
+});
+
 // HOME PAGE
 app.get('/home', (req, res) => {
     if (req.session.loggedIn) {
@@ -293,14 +299,7 @@ app.get('/get-all-admins', function (req, res) {
     });
 });
 
-
-// GET IF SESSION IS ADMIN
-app.get('/is-admin', function (req, res) {
-    res.setHeader('content-type', 'application/json');
-    res.send({ admin: req.session.admin });
-});
-
-// QUERY: GET IF CURRENT USER IS ADMIN
+// QUERY: GET CURRENT USER INFO IF USER IS ADMIN
 app.get('/get-admin', function (req, res) {
     if (req.session.loggedIn && req.session.admin == true) {
         let session_username = req.session.username;

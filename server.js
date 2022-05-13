@@ -382,5 +382,4 @@ app.route("/reset-password")
                 res.redirect("/reset-password");
             });
         //Add some token for reset confirmation
-
     });

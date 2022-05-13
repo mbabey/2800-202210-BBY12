@@ -5,64 +5,53 @@ document.querySelector('#search-user').addEventListener("click", function (event
     username: document.querySelector('#search-input').value
   }
   document.querySelector('#search-input').value = "";
+  document.querySelector('.edit-submit').innerHTML = "Edit Account";
   sendSearch(searchInput);
   event.preventDefault();
 })
 
 async function sendSearch(data) {
   try {
-    await fetch('/search-user', {
+    let response = await fetch('/search-user', {
       method: 'POST',
       headers: {
         'Content-Type': "application/json"
       },
-      body: data
-    });
-  } catch (err) {
-    if (err) throw err;
-  }
-}
-
-async function getUserData() {
-  try {
-    let response = await fetch('/admin-get-user', {
-      method: 'GET'
+      body: JSON.stringify(data)
     });
     if (response.status == 200) {
       let data = await response.text();
-      popUserData(JSON.parse(data));
+      let dataParsed = JSON.parse(data);
+      popUserData(dataParsed.rows);
     }
   } catch (err) {
     if (err) throw err;
   }
 }
-getUserData();
 
-let username_block = document.querySelector('input[username]');
-let email_block = document.querySelector('input[email]');
-let email_verify_block = document.querySelector('input[email-verify]');
-let password_block = document.querySelector('input[password]');
-let password_verify_block = document.querySelector('input[password-verify]');
-let company_name_block = document.querySelector('input[company-name]');
-let biz_type_block = document.querySelector('input[biz-type]');
-let first_name_block = document.querySelector('input[first-name]');
-let last_name_block = document.querySelector('input[last-name]');
-let phone_num_block = document.querySelector('input[phone-num]');
-let location_block = document.querySelector('input[location]');
-let description_block = document.querySelector('input[]');
-let checkbox_block = document.querySelector('input[isAdmin]');
+let username_block = document.querySelector('input[name=\'username\']');
+let email_block = document.querySelector('input[name=\'email\']');
+let email_verify_block = document.querySelector('input[name=\'emailVerify\']');
+let company_name_block = document.querySelector('input[name=\'cName\']');
+let biz_type_block = document.querySelector('input[name=\'bType\']');
+let first_name_block = document.querySelector('input[name=\'fName\']');
+let last_name_block = document.querySelector('input[name=\'lName\']');
+let phone_num_block = document.querySelector('input[name=\'phoneNo\']');
+let location_block = document.querySelector('input[name=\'location\']');
+let description_block = document.querySelector('input[name=\'description\']');
+let checkbox_block = document.querySelector('input[name=\'isAdmin\']');
 let edit_password = false;
 
-function popUserData(data) {
-  username_block.value = (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
-  email_block.value = (data[0].email != undefined && data[0].email != null) ? data[0].email : '';
-  company_name_block.value = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
-  biz_type_block.value = (data[0].bType != undefined && data[0].bType != null) ? data[0].bType : '';
-  first_name_block.value = (data[0].fName != undefined && data[0].fName != null) ? data[0].fName : '';
-  last_name_block.value = (data[0].lName != undefined && data[0].lName != null) ? data[0].lName : '';
-  phone_num_block.value = (data[0].phoneNo != undefined && data[0].phoneNo != null) ? data[0].phoneNo : '';
-  location_block.value = (data[0].location != undefined && data[0].location != null) ? data[0].location : '';
-  description_block.value = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
+function popUserData(rows) {
+  username_block.value = (rows[0].username != undefined && rows[0].username != null) ? rows[0].username : '';
+  email_block.value = (rows[0].email != undefined && rows[0].email != null) ? rows[0].email : '';
+  company_name_block.value = (rows[0].cName != undefined && rows[0].cName != null) ? rows[0].cName : '';
+  biz_type_block.value = (rows[0].bType != undefined && rows[0].bType != null) ? rows[0].bType : '';
+  first_name_block.value = (rows[0].fName != undefined && rows[0].fName != null) ? rows[0].fName : '';
+  last_name_block.value = (rows[0].lName != undefined && rows[0].lName != null) ? rows[0].lName : '';
+  phone_num_block.value = (rows[0].phoneNo != undefined && rows[0].phoneNo != null) ? rows[0].phoneNo : '';
+  location_block.value = (rows[0].location != undefined && rows[0].location != null) ? rows[0].location : '';
+  description_block.value = (rows[0].description != undefined && rows[0].description != null) ? rows[0].description : '';
 }
 
 let username_block_ori = username_block.value;
@@ -91,22 +80,28 @@ function checkEmpty(data) {
   }
 };
 
-document.querySelector('#edit-submit').addEventListener("click", function (event) {
+email_block.addEventListener("click", function (event) {
+  email_verify_block.setAttribute('required', '');
+})
 
+document.querySelector('#edit-submit').addEventListener("click", function (event) {
   let username_sent = username_block.value;
   if (!checkEmpty(username_sent)) {
     username_sent = username_block_ori;
   };
 
+  if (email_verify_block == null) {
+    email_verify_block == '';
+  };
+
+  let email_sent = email_block.value;
   if (verifySame(email_block.value, email_verify_block)) {
-    let email_sent = email_block.value;
     if (!checkEmpty(email_sent)) {
       username_sent = username_block_ori;
     };
   } else {
-    alert("Please verify both fields in the email."); //or update msg
     email_sent = email_block_ori;
-  }
+  };
 
   let cName_sent = company_name_block.value;
   if (!checkEmpty(cName_sent)) {
@@ -123,65 +118,26 @@ document.querySelector('#edit-submit').addEventListener("click", function (event
     fName_sent = first_name_block_ori;
   };
 
-  let lName_sent = last_name_block.value;
-  if (!checkEmpty(lName_sent)) {
-    lName_sent = last_name_block_ori;
-  };
+  if (verifySame(email_block.value, email_verify_block)) {
+    let email_sent = email_block.value;
+    if (!checkEmpty(email_sent)) {
+      username_sent = username_block_ori;
+    };
 
-  let phoneNo_sent = phone_num_block.value;
-  if (!checkEmpty(phoneNo_sent)) {
-    phoneNo_sent = phone_num_block_ori;
-  };
+    let phoneNo_sent = phone_num_block.value;
+    if (!checkEmpty(phoneNo_sent)) {
+      phoneNo_sent = phone_num_block_ori;
+    };
 
-  let location_sent = location.value;
-  if (!checkEmpty(location_sent)) {
-    location_sent = location_block_ori;
-  };
+    let location_sent = location_block.value;
+    if (!checkEmpty(location_sent)) {
+      location_sent = location_block_ori;
+    };
 
-  let description_sent = description_block.value;
-  if (!checkEmpty(description_sent)) {
-    description_sent = description_block_ori;
-  };
-
-  let dataToSend = {
-    username: username_sent,
-    email: email_sent,
-    cName: cName_sent,
-    bType: biz_type_sent,
-    fName: fName_sent,
-    lName: lName_sent,
-    phoneNo: phoneNo_sent,
-    location: location_sent,
-    description: description_sent
-  };
-  sendData(JSON.stringify(dataToSend));
-  //update message
+    let description_sent = description_block.value;
+    if (!checkEmpty(description_sent)) {
+      description_sent = description_block_ori;
+    };
+    document.querySelector('.edit-submit').innerHTML = "Sent!";
+  }
 });
-
-async function sendData(data) {
-  try {
-    await fetch('/admin-edit-user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: data
-    });
-  } catch (err) {
-    if (err) throw err;
-  }
-}
-
-async function sendPswd(data) {
-  try {
-    await fetch('/admin-edit-user-pswd', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: data
-    });
-  } catch (err) {
-    if (err) throw err;
-  }
-}

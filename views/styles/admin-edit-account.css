@@ -1,36 +1,37 @@
 .container {
-    display: grid;
-    grid-template-rows: 120px 1fr;
+  display: grid;
+  grid-template-rows: 120px 1fr;
 }
 
 #content {
-    grid-column: 1 / span 3;
-    grid-row: 2 / span 1;
-    display: grid;
-    grid-template-columns: 40% 60%;
-    grid-template-rows: 25% 50% 25%;
+  grid-column: 1 / span 3;
+  grid-row: 2 / span 1;
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: 25% 50% 25%;
 }
 
+
 .dashboard-header {
-    grid-column: 1 / span 3;
-    grid-row: 1 / span 1;
-    background-color: var(--primary-text);
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 1;
+  background-color: var(--primary-text);
 }
 
 #dashboard-title {
-    font-size: 2rem;
-    text-align: center;
-    margin-top: 2.5rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 2.5rem;
 }
 
 #welcome {
-    grid-row: 1 / span 3;
-    grid-column: 1 / span 1;
-    background-color: var(--primary-light);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+  grid-row: 1 / span 3;
+  grid-column: 1 / span 1;
+  background-color: var(--primary-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 #welcome h1 {
@@ -41,40 +42,30 @@
   color: rgb(55, 124, 55);
 }
 
-.left-side {
-    display: grid;
-    grid-column: 2 / span 1;
-    grid-row: 1 / span 3;
-    grid-template-rows: repeat(3);
-    grid-template-columns: 100%;
+#edit-block {
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  min-width: 380px;
+  width: 70%;
 }
 
-.create-block-container {
-    display: grid;
-    grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-    margin-left: auto;
-    margin-right: auto;
-    min-width: 380px;
-    width: 70%;
+#edit-block p {
+  text-align: center;
 }
 
-#edit-block-title {
-    text-align: center;
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
-}
-
-#create-block>form {
+#edit-block>form {
   height: 29.8rem;
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 2.4rem 5.6rem 2.4rem 7.4rem 4rem 2rem 4rem;
+  grid-template-rows: 2.4rem 2.4rem 3rem 2.4rem 2.4rem 2.4rem 2.4rem 5.6rem 2.4rem 4rem;
   /* size in rem so form scales with font size. */
   gap: 3px;
 }
 
-#create-block>form>div {
+#edit-block>form>div {
   display: flex;
   flex-direction: column;
 }
@@ -89,13 +80,30 @@
   grid-column: 1 / span 1;
 }
 
-#password-block {
+#email-verify-block {
   grid-row: 2 / span 1;
   grid-column: 2 / span 1;
 }
 
-#biz-name-block {
+#password-block {
   grid-row: 3 / span 1;
+  grid-column: 1 / span 2;
+}
+
+#password-block>a {
+  grid-row: 3 / span 1;
+  grid-column: 1 / span 2;
+  display: inline-flex;
+  width: 100%;
+  text-decoration: none;
+}
+
+#password-block>a>input {
+  width: 100%;
+}
+
+#biz-name-block {
+  grid-row: 4 / span 1;
   grid-column: 1 / span 2;
 }
 
@@ -110,22 +118,37 @@
   transform: translateX(-50%);
 }
 
-#name-block {
-  grid-row: 4 / span 1;
+#biz-type-block {
+  grid-row: 5 / span 1;
   grid-column: 1 / span 1;
 }
 
-#location-block {
-  grid-row: 4 / span 1;
+#phone-num-block {
+  grid-row: 5 / span 1;
   grid-column: 2 / span 1;
 }
 
-#description-block {
-  grid-row: 5 / span 1;
+#first-name-block {
+  grid-row: 6 / span 1;
+  grid-column: 1 / span 1;
+}
+
+#last-name-block {
+  grid-row: 6 / span 1;
+  grid-column: 2 / span 1;
+}
+
+#location-block {
+  grid-row: 7 / span 1;
   grid-column: 1 / span 2;
 }
 
-.create-input {
+#description-block {
+  grid-row: 8 / span 1;
+  grid-column: 1 / span 2;
+}
+
+.edit-input {
   border: 1px black solid;
   padding: 0.5rem;
   font-size: 0.9rem;
@@ -135,7 +158,7 @@
 }
 
 #admin-block {
-  grid-row: 6 / span 1;
+  grid-row: 9 / span 1;
   grid-column: 1 / span 2;
   margin: auto;
 }
@@ -203,8 +226,8 @@
 
 /* End code for checkbox styles. */
 
-#create-submit {
-  grid-row: 7 / span 1;
+.edit-submit {
+  grid-row: 10 / span 1;
   grid-column: 1 / span 2;
   padding: .7rem;
   margin: auto;
@@ -222,7 +245,7 @@
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#create-submit::after {
+.edit-submit::after {
   content: '';
   position: absolute;
   z-index: -1;
@@ -236,62 +259,108 @@
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-#create-submit:focus,
-#create-submit:hover {
+.edit-submit:focus,
+.edit-submit:hover {
   transform: scale(1.025, 1.025);
 }
 
-#create-submit:focus::after,
-#create-submit:hover::after {
+.edit-submit:focus::after,
+.edit-submit:hover::after {
   opacity: 1;
 }
 
-#create-submit:active {
+.edit-submit:active {
   transform: scale(1);
 }
 
+/* Pop-up CSS referenced from https://codepen.io/imprakash/pen/GgNMXO*/
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.39);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.password-box {
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+  padding-top: 5%;
+  margin: 0.5rem;
+}
+
+.password-verify-box {
+  top: 50%;
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -150px;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 5px;
+  min-width: 350px;
+  min-height: 150px;
+  max-width: 500px;
+  max-height: 300px;
+  position: absolute;
+}
+
+.password-verify-box h4 {
+  margin-top: 10px;
+  color: #333;
+  text-align: center;
+}
+
+.password-verify-box .close {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.password-verify-box .password-content {
+  display: flex;
+  justify-content: center;
+  max-height: 30%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
 @media only screen and (max-width: 800px) {
-    .container {
-        display: grid;
-    }
-
-    #content {
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 100%;
-    }
+  .container {
+    display: grid;
+  }
 
   #content {
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 100%;
+    grid-template-rows: 10% repeat(5, 15%);
   }
 
-    .left-side {
-        grid-column: 1 / span 1;
-        grid-row: 1 / span 1;
-    }
-
-    .create-block-container {
-        grid-column: 1 / span 1;
-        grid-row: 2 / span 1;
-        min-width: 256px;
-        width: 70%;
-        vertical-align: middle;
-    }
-
-  .left-side {
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
+  #dashboard-title {
+    font-size: 2rem;
   }
 
-  .create-block-container {
+  #edit-block {
     grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
+    grid-row: 3 / span 1;
     min-width: 256px;
     width: 70%;
-    vertical-align: middle;
+    height: 50%;
   }
 
   #biz-name-block:before {
@@ -312,5 +381,24 @@
 
   #welcome p {
     display: none;
+  }
+
+  .password-verify-box {
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -100px;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 5px;
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 200px;
+    max-height: 200px;
+    position: absolute;
+  }
+
+  .password-verify-pop-up {
+    width: 70%;
   }
 }

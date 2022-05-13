@@ -1,11 +1,10 @@
 .profile-header-wrapper {
-  display: grid;
   background-color: var(--primary-light);
 }
 
 .profile-header {
   display: grid;
-  grid-template-columns: repeat(3, 33%);
+  grid-template-columns: 29.75% 40.5% 29.75%;
   grid-template-rows: 100%;
 }
 
@@ -71,6 +70,7 @@
 }
 
 .profile-info {
+  position: relative;
   grid-column: 3 / span 1;
   grid-row: 1 / span 1;
 }
@@ -116,7 +116,17 @@
   background-color: #dff7ff;
 }
 
+<<<<<<< HEAD
+@media only screen and (min-width: 601px) and (max-width: 800px) {
+=======
 @media only screen and (min-width: 600px) and (max-width: 800px) {
+
+  .edit-profile-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+>>>>>>> dev
   .profile-header {
     justify-content: center;
     margin: 0 2%;
@@ -137,14 +147,19 @@
   }
 
   .profile-edit-buttons {
-    top: 160px;
+<<<<<<< HEAD
+    top: 170px;
+=======
+    top: 150px;
+>>>>>>> dev
     left: 0;
   }
 
   .edit-profile,
   .edit-avatar {
-    padding: 5px 2px;
-    margin: 2px;
+    font-size: 0.8rem;
+    padding: 3px 2px;
+    margin: 3px;
   }
 
   .profile-info {
@@ -180,13 +195,12 @@
   }
 }
 
-@media only screen and (max-width: 599px) {
+@media only screen and (max-width: 600px) {
   .profile-header {
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 40% 15% 45%;
+    grid-template-rows: 220px 15% 45%;
     margin: 0 2%;
-    justify-content: unset;
   }
 
   .profile-picture {
@@ -210,7 +224,7 @@
     position: relative;
   }
 
-  .profile-name h1 {
+  .profile-name h2 {
     margin: 0;
   }
 
@@ -229,7 +243,8 @@
   .profile-info {
     grid-column: 1 / span 1;
     grid-row: 3 / span 1;
-    margin-bottom: 40%;
+    margin-left: 5%;
+    margin-bottom: 10%;
   }
 
   .profile-info h3,
@@ -241,7 +256,6 @@
     width: 70%;
     min-width: 300px;
     max-height: 8rem;
-    transform: translateY(-5px);
   }
 
   .profile-description p {
@@ -250,5 +264,12 @@
 
   .post-block {
     width: 96%;
+  }
+}
+
+@media only screen and (max-width: 330px) {
+  .profile-picture-background {
+    height: 180px;
+    width: 180px;
   }
 }

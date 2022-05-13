@@ -76,10 +76,17 @@
   <div class="container">
     <div class="profile-header-wrapper">
       <div class="profile-edit-buttons">
-        <div class="edit-profile">
-          <a id="edit-button">Edit Profile</a>
-          <a id="save-button"></a>
+
+        <div class="edit-profile-container">
+          <div class="edit-profile">
+            <a id="edit-button">Edit Profile</a>
+            <a id="save-button"></a>
+          </div>
+          <div class="edit-profile">
+            <a id="password-button" href="reset-password.html">Change Password</a>
+          </div>
         </div>
+       
         <div class="edit-avatar">
           <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
             <label for="edit-avatar">
@@ -92,7 +99,7 @@
       </div>
       <div class="profile-header">
         <div class="profile-name">
-          <h1 class="business-name-block">Business NameBusiness NameBusiness NameBusiness NameBusiness Name</h1>
+          <h2 class="business-name-block">Business Name</h2>
           <p class="business-type-block">Type of Business</p>
         </div>
         <span id="edit-status"></span>

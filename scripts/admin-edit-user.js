@@ -154,13 +154,6 @@ async function sendData(data) {
     }
 }
 
-//edit password
-// password_block.addEventListener("click", function (event){
-//         if (event.target.)
-//         let password_entered = password_block.value;
-
-//         edit_password = true;
-//     })
 
 async function sendPswd(data) {
     try {

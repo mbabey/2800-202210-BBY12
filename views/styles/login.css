@@ -65,7 +65,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
-    background-color: rgb(55, 124, 55);
+    background-color: var(--primary-light);
     color: white;
     border: none;
     cursor: pointer;
@@ -137,7 +137,7 @@
 }
 
 #welcome p {
-    color: rgb(55, 124, 55);
+    color: var(--primary-text);
 }
 
 @media only screen and (max-width: 800px) {

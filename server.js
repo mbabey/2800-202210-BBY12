@@ -103,7 +103,7 @@ app.route('/login')
       res.redirect('/');
     }
   })
-  .post((req, res, ) => {
+  .post((req, res,) => {
     let user = req.body.username.trim();
     let pass = req.body.password;
     const hash = crypto.createHash('sha256').update(pass).digest('hex');
@@ -249,13 +249,23 @@ app.route('/admin-add-account')
     }
   })
   .post((req, res) => {
-    createAccount.createAdmin(req, res, con)
-      .then(() => {
-        res.redirect('/admin-dashboard');
-      })
-      .catch(() => {
-        res.redirect('/admin-add-account');
-      });
+    if (req.body.isAdmin) {
+      createAccount.createAdmin(req, res, con)
+        .then(() => {
+          res.redirect('/admin-dashboard');
+        })
+        .catch(() => {
+          res.redirect('/admin-add-account');
+        });
+    } else {
+      createAccount.createAccount(req, res, con)
+        .then(() => {
+          res.redirect('/admin-dashboard');
+        })
+        .catch(() => {
+          res.redirect('/admin-add-account');
+        });
+    }
   });
 
 // QUERY: GET ALL USERS
@@ -340,17 +350,22 @@ app.post('/delete-admin', (req, res) => {
 // QUERY: DELETE USER
 app.post('/delete-user', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  con.query('SELECT * FROM BBY_12_users',
-    (err, results) => {
-      if (results.length != 1) {
-        con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
-          (err, results) => {
-            if (err) throw "Cannot delete user if there is only one user left.";
-          })
-      } else {
-        if (err) throw err;
-      }
-    });
+  try {
+    con.query('SELECT * FROM BBY_12_users',
+      (err, results) => {
+        if (results.length != 1) {
+          try {
+            con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
+              (err, results) => {
+              })
+          } catch (err) { }
+        } else {
+          if (err) throw "Cannot delete user if there is only one user left.";
+        }
+      });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 //Upload profile avatar

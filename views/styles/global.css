@@ -38,6 +38,21 @@ textarea {
     margin-top: 85px;
 }
 
+.profile-picture-background {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: circle(50% at center);
+}
+
+.profile-picture img {
+    max-width: 100%;
+    width: auto;
+    max-height: 100%;
+    height: auto;
+}
+
 nav {
     z-index: 1;
     position: fixed;

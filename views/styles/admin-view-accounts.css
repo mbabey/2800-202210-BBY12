@@ -1,6 +1,6 @@
 #content {
   display: grid;
-  grid-template-rows: 120px 1fr;
+  grid-template-rows: 10% 1fr;
 }
 
 .dashboard-header {

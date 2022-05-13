@@ -28,6 +28,12 @@
   height: 100px;
 }
 
+.post-user-avatar-background {
+  width: 80px;
+  height: 80px;
+  clip-path: circle(50% at center);
+}
+
 .profile-picture:after {
   content: '';
   display: block;

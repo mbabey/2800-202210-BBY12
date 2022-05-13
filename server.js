@@ -217,7 +217,8 @@ app.route('/create-account')
         login(req, req.body["username"]);
         res.redirect('/');
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         res.redirect('/create-account');
       });
   });

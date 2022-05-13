@@ -28,10 +28,12 @@ function insertDB(req, connection) {
         if (checkUsername(username, req) && checkPassword(pass, req)) {
             const hash = crypto.createHash('sha256').update(pass).digest('hex');
             let location = req.body["location-street"] + ", " + req.body["location-city"] + ", " + req.body["location-country"];
-            connection.query('INSERT INTO BBY_12_users (username, password, fName, lName, email, phoneNo, location, description) values (?, ?,?,?,?,?,?,?)', [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body["description"]],
+            connection.query(
+              'INSERT INTO BBY_12_users (username, password, fName, lName, cName, email, phoneNo, location, description) values (?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+              [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body.description],
                 (err) => {
                     if (err) {
-                        reject(new Error("User Insert failed"));
+                        reject(err);
                     } else {
                         resolve(true);
                     }

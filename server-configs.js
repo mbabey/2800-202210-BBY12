@@ -12,9 +12,9 @@ module.exports = {
     },
     LOCAL_CONFIG: () => {
         const LOCAL_CONFIG = {
-            host: '127.0.0.1',
+            host: 'localhost',
             user: 'root',
-            password: ' ',
+            password: '',
             database: 'COMP2800'
         };
         return LOCAL_CONFIG;

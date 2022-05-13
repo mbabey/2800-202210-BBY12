@@ -3,7 +3,8 @@
 :root {
   /*Colours*/
   --primary: #588676;
-  --primary-light: #86b6a5;
+  /* --primary-light: #86b6a5; Old colour, saved */
+  --primary-light: #249c60;
   --primary-dark: #2c594a;
   --primary-text: #ffeb88;
   --secondary: #5f86be;
@@ -55,7 +56,7 @@ textarea {
 }
 
 nav {
-  z-index: 1;
+  z-index: 10;
   position: fixed;
   top: 0;
   left: 0;
@@ -144,13 +145,44 @@ footer {
   padding: 10px;
 }
 
-.post .post-images {
+.post-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.post-info {
+  width: 50%;
+  display: grid;
+  grid-template-rows: 50% 50%;
+}
+
+.post-business-name {
+  grid-row: 1 / span 1;
+  margin-bottom: 0;
+}
+
+.post-business-type {
+  grid-row: 2 / span 1;
+}
+
+.post-timestamp {
+  grid-row: 2 / span 1;
+}
+
+.post-header img {
+  width: 75px;
+  height: auto;
+  clip-path: circle(40%);
+  background-color: var(--secondary-dark);
+}
+
+.post-images {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
 
-.post .post-images img {
+.post-images img {
   width: 20%;
   height: auto;
   border-radius: 10px;
@@ -172,6 +204,11 @@ footer {
 
   nav {
     height: 50px;
+  }
+
+  .post-block {
+    min-width: 0;
+    width: 96%; 
   }
 
   footer {

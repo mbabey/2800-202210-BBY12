@@ -31,9 +31,10 @@
 .profile-picture:after {
   content: '';
   display: block;
-  border-bottom: 1px solid var(--secondary-dark);
-  width: 250%;
-  transform: translate(-30%, 10px);
+  border-bottom: 1px solid var(--secondary-text);
+  border-radius: 50%;
+  width: 175%;
+  transform: translate(-22.5%, 10px);
 }
 
 .profile-name {

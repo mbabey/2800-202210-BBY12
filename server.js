@@ -28,13 +28,11 @@ const upload = multer({
       return callback(null, false, req.fileValidtionError);
     }
     callback(null, true);
-  },
-  // limits: {
-  //     fileSize: 1024 * 1024
-  // }
+  }
 });
 
 // ---------------- Custom Dependencies ----------------- \\
+
 const createAccount = require('./scripts/create-account');
 const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
@@ -124,7 +122,6 @@ function login(req, user) {
   req.session.loggedIn = true;
   req.session.username = user;
   req.session.admin = false;
-
   con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], (err, results) => {
     if (err) throw err;
     if (results.length > 0) {
@@ -152,9 +149,7 @@ app.get('/home', async (req, res) => {
   if (req.session.loggedIn) {
     let homePage = fs.readFileSync('./views/home.html', 'utf8').toString();
     let homeDOM = new JSDOM(homePage);
-
     homeDOM = await feed.populateFeed(homeDOM, con);
-
     homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
     homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
     homePage = homeDOM.serialize();
@@ -185,15 +180,12 @@ app.route("/create-post")
     }
   })
   .post(upload.array('image-upload'), (req, res) => {
-    console.log(req.fileValidtionError);
     if (req.session.loggedIn && !req.fileValidtionError) {
       createPost.createPost(req, res, storage, con)
         .then((resolve) => {
-          console.log(resolve); // Redirect to post or feed
           res.redirect('/home');
         })
         .catch((err) => {
-          console.log(err); // Redirect to something
           res.redirect('back');
         });
     } else {
@@ -218,7 +210,6 @@ app.route('/create-account')
         res.redirect('/');
       })
       .catch((err) => {
-        console.log(err);
         res.redirect('/create-account');
       });
   });
@@ -262,7 +253,6 @@ app.route('/admin-add-account')
         res.redirect('/admin-add-account');
       });
   });
-
 
 // QUERY: GET ALL USERS
 app.get('/get-all-users', (req, res) => {
@@ -323,13 +313,13 @@ app.post('/delete-admin', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   con.query('SELECT * FROM BBY_12_admins',
     (err, results) => {
-      if (results.length != 1) {
+      if (results.length > 1) {
         con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
           (err, results) => {
-            if (err) throw err;
+            if (err) throw "Cannot delete admin if there is only one admin left.";
           })
       } else {
-        if (err) throw "Cannot delete admin if there is only one admin left.";
+        if (err) throw err;
       }
     });
 });
@@ -339,13 +329,13 @@ app.post('/delete-user', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   con.query('SELECT * FROM BBY_12_users',
     (err, results) => {
-      if (results.length != 1) {
+      if (results.length > 1) {
         con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
           (err, results) => {
-            if (err) throw err;
+            if (err) throw "Cannot delete user if there is only one user left.";
           })
       } else {
-        if (err) throw "Cannot delete user if there is only one user left.";
+        if (err) throw err;
       }
     });
 });
@@ -353,17 +343,15 @@ app.post('/delete-user', (req, res) => {
 //Upload profile avatar
 //TODO: Move code to different file
 app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
-  console.log(req.fileValidtionError);
   if (req.session.loggedIn && !req.fileValidtionError) {
     con.query('UPDATE BBY_12_users SET profilePic = ? WHERE username = ?', [req.file.filename, req.session.username],
       function (err) {
-        console.log(err);
+        if (err) throw err;
       });
     let oldPath = req.file.path;
     let newPath = "./views/avatars/" + req.file.filename;
     fs.rename(oldPath, newPath, function (err) {
       if (err) throw err
-      console.log('Successfully renamed - AKA moved!')
     });
   }
   res.redirect("/profile");
@@ -381,22 +369,18 @@ app.route("/reset-password")
         res.redirect("/");
       })
       .catch((err) => {
-        console.log(err);
         res.redirect("/reset-password");
       });
     //Add some token for reset confirmation
-
   });
 
 //ADMIN EDIT USER PROFILE SEARCH
 app.post('/search-user', function (req, res) {
-  console.log("search-user", req.body);
   let user_username = req.body.username;
   if (user_username) {
     con.query('SELECT * FROM BBY_12_users WHERE username = ?', [user_username],
       function (error, results, fields) {
         if (error) throw error;
-
         req.session.dBUsername = results[0].username;
         req.session.dBEmail = results[0].email;
         req.session.dBCName = results[0].cName;
@@ -406,7 +390,6 @@ app.post('/search-user', function (req, res) {
         req.session.dBPhone = results[0].phoneNo;
         req.session.dBLocation = results[0].location;
         req.session.dBDescription = results[0].description;
-
       });
   } else {
     response.send({ status: "fail", msg: "Auth Fail" });
@@ -426,8 +409,6 @@ app.get('/admin-get-users', function (req, res) {
 });
 //ADMIN SEND EDITED USER PROFILE
 app.post('/admin-edit-user', function (req, res) {
-  console.log("admin-edit-user ", req.body);
-
   con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
     [req.body.cName, req.body.fName, req.body.lName, req.body.bType,
     req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
@@ -444,7 +425,6 @@ app.post('/admin-edit-user', function (req, res) {
 
 //ADMIN SEND EDITED USER PASSWORD
 app.post('/admin-edit-user-pswd', function (req, res) {
-  console.log("admin-edit-user-pswd ", req.body);
   let newPswd = req.body.password;
   const newHash = crypto.createHash('sha256').update(newPswd).digest('hex');
   try {
@@ -458,7 +438,6 @@ app.post('/admin-edit-user-pswd', function (req, res) {
         });
       });
   } catch (err) {
-    console.log(err);
+    if (err) throw err;
   }
-
 });

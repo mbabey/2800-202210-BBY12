@@ -33,11 +33,11 @@
 }
 
 #welcome h1 {
-color: white;
+  color: white;
 }
 
 #welcome p {
-color: var(--primary-text);
+  color: var(--primary-text);
 }
 
 .left-side {
@@ -369,18 +369,18 @@ color: var(--primary-text);
     grid-template-rows: 100%;
   }
 
-    .left-side {
-        grid-column: 1 / span 1;
-        grid-row: 1 / span 1;
-    }
+  .left-side {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+  }
 
-    .edit-block-container {
-        grid-column: 1 / span 1;
-        grid-row: 2 / span 1;
-        min-width: 256px;
-        width: 70%;
-        vertical-align: middle;
-    }
+  .edit-block-container {
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
+    min-width: 256px;
+    width: 70%;
+    vertical-align: middle;
+  }
 
   #dashboard-title {
     font-size: 2rem;

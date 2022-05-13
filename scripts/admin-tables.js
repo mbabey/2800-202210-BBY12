@@ -1,4 +1,5 @@
 'use strict';
+
 docLoaded(() => {
   async function getUserData() {
     try {
@@ -6,8 +7,8 @@ docLoaded(() => {
         method: 'GET'
       });
       if (response.status == 200) {
-        let data = await response.text();
-        popUserData(JSON.parse(data));
+        let userData = await response.text();
+        popUserData(JSON.parse(userData));
       }
     } catch (err) {
       throw "Cannot get users.";
@@ -15,14 +16,14 @@ docLoaded(() => {
   }
   getUserData();
 
-  function popUserData(data) {
+  function popUserData(userData) {
     document.getElementById("delete-user").addEventListener("click", (e) => {
-      if (data.length != 1) {
+      if (userData.length > 1) {
         document.getElementById("status-2").innerHTML = "User successfully deleted.";
         //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
         window.setTimeout(() => { location.reload(); }, 1000);
       } else {
-        document.getElementById("status-2").innerHTML = "User cannot be deleted if only one user is left.";
+        document.getElementById("status-2").innerHTML = "Last user cannot be deleted.";
       }
     });
   }
@@ -33,8 +34,8 @@ docLoaded(() => {
         method: 'GET'
       });
       if (response.status == 200) {
-        let data = await response.text();
-        popAdminData(JSON.parse(data));
+        let adminData = await response.text();
+        popAdminData(JSON.parse(adminData));
       }
     } catch (err) {
       throw "Cannot get admins."
@@ -42,14 +43,14 @@ docLoaded(() => {
   }
   getAdminData();
 
-  function popAdminData(data) {
+  function popAdminData(adminData) {
     document.getElementById("delete-admin").addEventListener("click", (e) => {
-      if (data.length != 1) {
+      if (adminData.length > 1) {
         document.getElementById("status").innerHTML = "User successfully deleted as admin.";
         //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
         window.setTimeout(() => { location.reload(); }, 1000);
       } else {
-        document.getElementById("status").innerHTML = "Admin cannot be deleted if only one admin is left.";
+        document.getElementById("status").innerHTML = "Last admin cannot be deleted.";
       }
     });
   }
@@ -67,17 +68,17 @@ function getUsers() {
   xhr.onload = function () {
     if (this.readyState == XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        let data = JSON.parse(this.responseText);
-        if (data.status == "success") {
+        let userData = JSON.parse(this.responseText);
+        if (userData.status == "success") {
           // USER TABLE CREATED HERE
-          let table = "<table id=\"user-table\"><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Business Name</th></tr>";
-          for (let i = 0; i < data.rows.length; i++) {
-            table += (
-              "<tr><td class=\"data-index\">" + data.rows[i].username + "</td><td>" + data.rows[i].fName + "</td><td>" + data.rows[i].lName + "</td><td>" + data.rows[i].cName + "</td></tr>"
+          let userTable = "<table id=\"user-table\"><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Business Name</th></tr>";
+          for (let i = 0; i < userData.rows.length; i++) {
+            userTable += (
+              "<tr><td class=\"data-index\">" + userData.rows[i].username + "</td><td>" + userData.rows[i].fName + "</td><td>" + userData.rows[i].lName + "</td><td>" + userData.rows[i].cName + "</td></tr>"
             );
           }
-          table += "</table>";
-          document.getElementById("user-list").innerHTML = table;
+          userTable += "</table>";
+          document.getElementById("user-list").innerHTML = userTable;
         } else {
           throw "Cannot populate user table.";
         }
@@ -120,15 +121,15 @@ function getAdmins() {
   xhr.onload = function () {
     if (this.readyState == XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        let data = JSON.parse(this.responseText);
-        if (data.status == "success") {
+        let adminData = JSON.parse(this.responseText);
+        if (adminData.status == "success") {
           // ADMIN TABLE CREATED HERE
-          let table = `<table id='admin-table'><tr><th>Username</th></tr>`;
-          for (let i = 0; i < data.rows.length; i++) {
-            table += ("<tr><td class=\"data-index\">" + data.rows[i].username + "</td></tr>");
+          let adminTable = `<table id='admin-table'><tr><th>Username</th></tr>`;
+          for (let i = 0; i < adminData.rows.length; i++) {
+            adminTable += ("<tr><td class=\"data-index\">" + adminData.rows[i].username + "</td></tr>");
           }
-          table += "</table>";
-          document.getElementById("admin-list").innerHTML = table;
+          adminTable += "</table>";
+          document.getElementById("admin-list").innerHTML = adminTable;
         } else {
           throw "Cannot populate admin table.";
         }

@@ -54,7 +54,7 @@
 }
 
 #create-block p {
-    text-align: center;
+  text-align: center;
 }
 
 #create-block>form {
@@ -119,15 +119,15 @@
 
 div>.create-input,
 #description-block {
-    border: 1px black solid;
-    font-size: 0.9rem;
-    margin: 2px;
-    background-color: rgba(128, 128, 128, 0.3);
+  border: 1px black solid;
+  font-size: 0.9rem;
+  margin: 2px;
+  background-color: rgba(128, 128, 128, 0.3);
 }
 
-div>.create-input{
-    padding: 0.5rem;
-    text-align: center;
+div>.create-input {
+  padding: 0.5rem;
+  text-align: center;
 }
 
 #admin-block {
@@ -246,13 +246,12 @@ div>.create-input{
   transform: scale(1);
 }
 
-
 @media only screen and (max-width: 800px) {
   .container {
     grid-template-rows: 50px 1fr;
     grid-template-columns: 100%;
   }
-  
+
   #welcome {
     display: none;
   }
@@ -265,7 +264,7 @@ div>.create-input{
 
   #biz-name-block:before {
     width: 100%;
-}
+  }
 
   .create-block-container {
     grid-row: 2 / span 1;

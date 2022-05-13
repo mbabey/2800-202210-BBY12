@@ -45,7 +45,6 @@
             <path fill="currentColor"
               d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z" />
           </svg>
-
           <span>Post</span>
         </a>
         <a href="#" id="nav-chat" class="nav-button">
@@ -76,24 +75,25 @@
   </nav>
 
   <div class="container">
-
     <!-- Pop up HTML -->
     <div id="password-pop-up" class="overlay">
       <div class="password-verify-box">
         <h4>Change Password</h4>
         <div class="password-box">
-        <a class="close" href="#">&times;</a>
-        <div class="password-content">
-          <input id="password-box-input" name="password" type="password" placeholder="Change Password" class="edit-input" required>
-          <input id="password-box-verify-input" name="password" type="password" placeholder="Verify Password" class="edit-input" required><br>
-          <button class="edit-submit" type="submit" value="submit">Submit</button>
-        </div>
+          <a class="close" href="#">&times;</a>
+          <div class="password-content">
+            <input id="password-box-input" name="password" type="password" placeholder="Change Password"
+              class="edit-input" required>
+            <input id="password-box-verify-input" name="password" type="password" placeholder="Verify Password"
+              class="edit-input" required><br>
+            <button class="edit-submit" type="submit" value="submit">Submit</button>
+          </div>
 
+        </div>
       </div>
     </div>
-    </div>
     <!--END-->
-    
+
     <div class="dashboard-header">
       <h3 id="dashboard-title">Administration Board</h3>
     </div>
@@ -104,64 +104,64 @@
       </div>
       <div class="left-side">
         <div class="edit-block-container">
-
-        
-      <div id="edit-block">
-        <div id="search-user-block">Search user
-          <input type="text" placeholder="Username" id="search-input">
-          <button id="search-user" type="submit" value="submit">Search</button>
-          <p id="status"></p>
-          <p id="error-message"></p>
+          <div id="edit-block">
+            <div id="search-user-block">Search user
+              <input type="text" placeholder="Username" id="search-input">
+              <button id="search-user" type="submit" value="submit">Search</button>
+              <p id="status"></p>
+              <p id="error-message"></p>
+            </div>
+            <p id="edit-block-title"><b>Edit Account</b></p>
+            <form method="post">
+              <div id="admin-block" class="input-wrapper">
+                <label id="admin-checkbox-container">Make this user an administrator
+                  <input name="isAdmin" type="checkbox">
+                  <span id="admin-checkmark"></span>
+                </label>
+              </div>
+              <div id="username-block" class="input-wrapper">
+                <input name="username" type="text" placeholder="Username" class="edit-input" required>
+              </div>
+              <div id="email-block">
+                <input name="email" type="text" placeholder="Email" class="edit-input" required>
+              </div>
+              <div id="email-verify-block">
+                <input name="email-verify" type="text" placeholder="Verify Email" class="edit-input" required>
+              </div>
+              <div id="password-block" class="input-wrapper">
+                <a id="password-a-tag" href="#password-pop-up">
+                  <input id="password-input" name="password" type="password" placeholder="Change Password"
+                    class="edit-input" required>
+                </a>
+              </div>
+              <div id="biz-name-block" class="input-wrapper">
+                <input name="company-name" type="text" placeholder="Business Name" class="edit-input">
+              </div>
+              <div id="biz-type-block" class="input-wrapper">
+                <input name="biz-type" type="text" placeholder="Business Type" class="edit-input">
+              </div>
+              <div id="phone-num-block" class="input-wrapper">
+                <input name="phone-num" type="text" placeholder="Phone Number" class="edit-input">
+              </div>
+              <div id="first-name-block" class="input-wrapper">
+                <input name="first-name" type="text" placeholder="First Name" class="edit-input">
+              </div>
+              <div id="last-name-block" class="input-wrapper">
+                <input name="last-name" type="text" placeholder="Last Name" class="edit-input">
+              </div>
+              <div id="location-block" class="input-wrapper">
+                <input name="location" type="text" placeholder="Address" class="edit-input">
+              </div>
+              <input id="description-block" name="description" type="text" placeholder="Business description"
+                class="edit-input">
+              <button class="edit-submit" id="edit-sumbit" type="submit" value="submit">Edit Account</button>
+            </form>
+          </div>
         </div>
-        <p id="edit-block-title"><b>Edit Account</b></p>
-        <form method="post">
-          <div id="admin-block" class="input-wrapper">
-            <label id="admin-checkbox-container">Make this user an administrator
-              <input name="isAdmin" type="checkbox">
-              <span id="admin-checkmark"></span>
-            </label>
-          </div>
-          <div id="username-block" class="input-wrapper">
-            <input name="username" type="text" placeholder="Username" class="edit-input" required>
-          </div>
-          <div id="email-block">
-            <input name="email" type="text" placeholder="Email" class="edit-input" required>
-          </div>
-          <div id="email-verify-block">
-            <input name="email-verify" type="text" placeholder="Verify Email" class="edit-input" required>
-          </div>
-          <div id="password-block" class="input-wrapper">
-            <a id="password-a-tag" href="#password-pop-up">
-              <input id="password-input" name="password" type="password" placeholder="Change Password" class="edit-input" required>
-            </a>
-          </div>
-          <div id="biz-name-block" class="input-wrapper">
-            <input name="company-name" type="text" placeholder="Business Name" class="edit-input">
-          </div>
-          <div id="biz-type-block" class="input-wrapper">
-            <input name="biz-type" type="text" placeholder="Business Type" class="edit-input">
-          </div>
-          <div id="phone-num-block" class="input-wrapper">
-            <input name="phone-num" type="text" placeholder="Phone Number" class="edit-input">
-          </div>
-          <div id="first-name-block" class="input-wrapper">
-            <input name="first-name" type="text" placeholder="First Name" class="edit-input">
-          </div>
-          <div id="last-name-block" class="input-wrapper">
-            <input name="last-name" type="text" placeholder="Last Name" class="edit-input">
-          </div>
-          <div id="location-block" class="input-wrapper">
-            <input name="location" type="text" placeholder="Address" class="edit-input">
-          </div>
-          <input id="description-block" name="description" type="text" placeholder="Business description"
-            class="edit-input">
-          <button class="edit-submit" id="edit-sumbit" type="submit" value="submit">Edit Account</button>
-        </form>
       </div>
     </div>
   </div>
-</div>
-</div>
+
   <footer>
     <div id="footer-wrapper">
       <a href="/home" id="footer-home" class="nav-button">
@@ -197,6 +197,7 @@
       </a>
     </div>
   </footer>
+
   <script src="nav.js"></script>
 </body>
 

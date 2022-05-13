@@ -10,7 +10,6 @@ module.exports = {
         };
         return H_CONFIG;
     },
-    
     LOCAL_CONFIG: () => {
         const LOCAL_CONFIG = {
             host: 'localhost',

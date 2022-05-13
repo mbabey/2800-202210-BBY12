@@ -111,17 +111,16 @@
   .container {
     grid-template-rows: 50px 1fr;
   }
-  
+
   .admin-left {
     grid-column: 1 / span 2;
   }
-  
+
   #admin-button-group {
     min-width: 300px;
   }
-  
+
   #welcome {
     display: none;
   }
-  
 }

@@ -44,7 +44,6 @@
             <path fill="currentColor"
               d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z" />
           </svg>
-
           <span>Post</span>
         </a>
         <a href="#" id="nav-chat" class="nav-button">
@@ -87,7 +86,6 @@
             <input type="file" class="form-image-upload" id="form-image-upload" name="image-upload" multiple
               accept="image/*">
             <progress id="progress-bar" max="100" value="0"></progress>
-
           </div>
           <div id="gallery"></div>
         </div>
@@ -97,7 +95,6 @@
           <input id="input-tag" name="input-tag" type="text" placeholder="Add tag">
           <button id="button-tag" type="button" onclick="writeTag()">Add tag</button>
           <textarea id="tag-field" name="tag-field" rows="4" readonly></textarea>
-
         </div>
         <div class="buttons">
           <input type="button" value="Cancel">
@@ -144,7 +141,6 @@
   </footer>
 
   <script src="nav.js"></script>
-
   <script>
     document.getElementById("input-tag").onkeypress = function (e) {
       if (checkKey(e)) {

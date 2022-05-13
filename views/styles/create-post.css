@@ -1,169 +1,182 @@
 .container {
-    margin: 50px 10px;
-    position: relative;
+  margin: 50px 10px;
+  position: relative;
 }
 
 .content {
-    margin: 0 0 50px;
-    position: relative;
+  margin: 0 0 50px;
+  position: relative;
 }
 
 .form-post {
-    display: flex;
-    flex-direction: column;
-    align-content: stretch;
-    padding: 5px;
-    gap: 10px;
-    background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  padding: 5px;
+  gap: 10px;
+  background-color: white;
 }
 
 #button-tag {
-    border: none;
-    padding: 1em 1em;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
+  border: none;
+  padding: 1em 1em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .buttons {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .buttons>input {
-    border: none;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
 .buttons>[type="submit"] {
-    background-color: var(--primary-dark);
-    color: white;
+  background-color: var(--primary-dark);
+  color: white;
 }
 
 #drop-area {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 progress {
-    min-width: 100px;
-    width: 30%;
+  min-width: 100px;
+  width: 30%;
 }
 
 #gallery {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 #gallery img {
-    width: 100px;
-    margin-bottom: 10px;
-    margin-right: 10px;
-    vertical-align: middle;
+  width: 100px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 
 #fileElem {
-    display: none;
+  display: none;
 }
 
 #input-title {
-    padding: 0.5rem;
+  padding: 0.5rem;
 }
 
 textarea {
-    padding: 0.5rem;
+  padding: 0.5rem;
 }
 
 .tags {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .tags>#input-tag {
-    padding: 0.5em;
+  padding: 0.5em;
 }
 
 .tags>#button-tag {
-    margin-left: 5px;
-    padding: 0.5em;
-    width: 100px;
-    min-width: 100px;
+  margin-left: 5px;
+  padding: 0.5em;
+  width: 100px;
+  min-width: 100px;
 }
 
 #drop-text {
-    margin: 0;
-    font-size: 0;
-    visibility: hidden;
+  margin: 0;
+  font-size: 0;
+  visibility: hidden;
 }
 
 h1 {
-    margin: 0;
+  margin: 0;
 }
 
 #tag-field {
-    border: none;
-    min-width: 90%;
-    font-size: 0.85rem;
+  border: none;
+  min-width: 90%;
+  font-size: 0.85rem;
 }
 
 @media only screen and (min-width: 800px) {
-    #drop-area {
-        display: flex;
-        flex-direction: column;
-        border: 2px dashed #ccc;
-        border-radius: 20px;
-        padding: 10px;
-        min-height: 100px;
-    }
-    #drop-area.highlight {
-        border-color: purple;
-    }
-    #gallery img {
-        width: 150px;
-    }
-    .container {
-        margin: 85px 0px 0px;
-        position: relative;
-    }
-    .content {
-        margin: 0;
-    }
-    .form-post {
-        margin: 0 10%;
-    }
-    .form-image {
-        display: flex;
-    }
-    progress {
-        align-self: flex-end;
-    }
-    #input-title {
-        font-size: 1.5em;
-        padding: 1rem;
-    }
-    textarea {
-        font-size: 1em;
-        padding: 1rem;
-    }
-    .tags>input {
-        padding: 1em;
-    }
-    label {
-        font-size: 2em;
-    }
-    h1 {
-        color: white;
-        text-align: center;
-        background-color: var(--secondary-light);
-    }
-    #drop-text {
-        padding: 1em 0;
-        font-size: 1em;
-        visibility: visible;
-    }
+  #drop-area {
+    display: flex;
+    flex-direction: column;
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    padding: 10px;
+    min-height: 100px;
+  }
+
+  #drop-area.highlight {
+    border-color: purple;
+  }
+
+  #gallery img {
+    width: 150px;
+  }
+
+  .container {
+    margin: 85px 0px 0px;
+    position: relative;
+  }
+
+  .content {
+    margin: 0;
+  }
+
+  .form-post {
+    margin: 0 10%;
+  }
+
+  .form-image {
+    display: flex;
+  }
+
+  progress {
+    align-self: flex-end;
+  }
+
+  #input-title {
+    font-size: 1.5em;
+    padding: 1rem;
+  }
+
+  textarea {
+    font-size: 1em;
+    padding: 1rem;
+  }
+
+  .tags>input {
+    padding: 1em;
+  }
+
+  label {
+    font-size: 2em;
+  }
+
+  h1 {
+    color: white;
+    text-align: center;
+    background-color: var(--secondary-light);
+  }
+
+  #drop-text {
+    padding: 1em 0;
+    font-size: 1em;
+    visibility: visible;
+  }
 }

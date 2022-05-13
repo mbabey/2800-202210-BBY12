@@ -97,25 +97,23 @@
   transform: scale(1);
 }
 
-@media only screen and (max-width: 800px) {
-
+@media only screen and (min-width: 601px) and (max-width: 800px) {
   .container {
     display: grid;
     grid-template-rows: 50px 1fr;
   }
 
-  .dashboard-header {
-    grid-row: 1 / span 1;
-    background-color: var(--primary-text);
-  }
-
-  .admin-right {
-    grid-row: 2 / span 1;
-    display: grid;
-  }
-
   #admin-button-group {
-    width: 100%;
+    min-width: 300px;
   }
+}
 
+@media only screen and (max-width: 600px) {
+  .admin-right {
+    grid-column: 1 / span 2;
+  }
+  
+  #welcome {
+    display: none;
+  }
 }

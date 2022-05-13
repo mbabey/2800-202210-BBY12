@@ -39,7 +39,10 @@ const createAccount = require('./scripts/create-account');
 const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
-const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
+const {
+  H_CONFIG,
+  LOCAL_CONFIG
+} = require('./server-configs');
 const feed = require('./scripts/feed');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
@@ -70,7 +73,6 @@ app.listen(port, () => {
       con = (isHeroku) ? mysql.createConnection(H_CONFIG()) : mysql.createConnection(LOCAL_CONFIG());
     }).then(() => {
       con.connect((err) => {
-        if (err) throw err;
       });
     });
 });
@@ -269,6 +271,24 @@ app.get('/get-all-users', (req, res) => {
     });
   });
 });
+
+// //QUERY: LOGIN USER AUTHENTICATION
+// app.get('/check-login', function (req, res) {
+//   let email = req.session.email;
+//   let password = req.session.password;
+//   con.query('SELECT * FROM BBY_12_users WHERE BBY_12_users.email = ? AND BBY_12_users.password = ?'),
+//     [email, password],
+//     function (err, results) {
+//       if (err) throw err;
+//       for (let i = 0; i < results.length; i++) {
+//         if (results[0].email == req.body.email && results[0].password == req.body.password) {
+//           res.send({ status: "success", msg: "Logged in." });
+//         } else {
+//           res.send({ status: "fail", msg: "Account doesn't exist!" });
+//         }
+//       }
+//     }
+// });
 
 // QUERY: GET CURRENT USER
 app.get('/get-user', (req, res) => {

@@ -355,6 +355,7 @@ app.post('/delete-user', (req, res) => {
 });
 
 //Upload profile avatar
+//TODO: Move code to different file
 app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
     console.log(req.fileValidtionError);
     if (req.session.loggedIn && !req.fileValidtionError) {

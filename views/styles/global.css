@@ -3,7 +3,8 @@
 :root {
   /*Colours*/
   --primary: #588676;
-  --primary-light: #86b6a5;
+  /* --primary-light: #86b6a5; Old colour, saved */
+  --primary-light: #249c60;
   --primary-dark: #2c594a;
   --primary-text: #ffeb88;
   --secondary: #5f86be;
@@ -133,6 +134,7 @@ footer {
 .post-block {
   margin: 0 auto;
   width: 50%;
+  min-width: 768px; /* 800px - (800px * 0.04) */ 
 }
 
 .post {
@@ -172,6 +174,11 @@ footer {
 
   nav {
     height: 50px;
+  }
+
+  .post-block {
+    min-width: 0;
+    width: 96%; 
   }
 
   footer {

@@ -164,7 +164,7 @@ color: white;
 
 
 @media only screen and (max-width: 800px) {
-  .content {
+  #content {
     grid-template-rows: 50px 1fr;
   }
 

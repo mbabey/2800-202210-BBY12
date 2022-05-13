@@ -279,8 +279,6 @@ app.get('/get-user', (req, res) => {
 
 // QUERY: UPDATE USER
 app.post('/update-user', (req, res) => {
-    console.log("updat-users ", req.body);
-
     con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
         (error) => {
             if (error) throw error;

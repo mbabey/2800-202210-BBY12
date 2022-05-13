@@ -79,27 +79,19 @@
         <h3 id="dashboard-title">Administration Board</h3>
       </div>
       <div class="admin-right">
-        <h3>User Accounts</h3>
-        <div id="user-list">
-          <!-- user table populates -->
-        </div>
-        <h3>Admin Accounts</h3>
-        <div id="admin-list">
-          <!-- admin table populates -->
-        </div>
         <div id="delete-block">
-          <p><b>Delete Admin Account</b></p>
           <form method="post">
             <div id="username-block" class="input-wrapper">
+              <label for="admin-username"><b>Delete Admin Account</b></label>
               <input name="username" type="text" placeholder="Username" id="admin-username">
               <button id="delete-admin" type="submit" value="submit">Delete Account</button>
               <p id="status"></p>
               <p id="error-message"></p>
             </div>
           </form>
-          <p><b>Delete User Account</b></p>
           <form method="post">
             <div id="username-block-2" class="input-wrapper">
+              <label for="user-username"><b>Delete User Account</b></label>
               <input name="username" type="text" placeholder="Username" id="user-username">
               <button id="delete-user" type="submit" value="submit">Delete Account</button>
               <p id="status-2"></p>
@@ -111,7 +103,15 @@
           <div>
             <p><b>Looking to edit admin account?</b></p>
           </div>
-          <p><a href="admin-edit-user.html" id="edit-admin-link">Go to edit page.</a></p>
+          <p><a href="#" id="edit-admin-link">Go to edit page.</a></p>
+        </div>
+        <h3>User Accounts</h3>
+        <div id="user-list">
+          <!-- user table populates -->
+        </div>
+        <h3>Admin Accounts</h3>
+        <div id="admin-list">
+          <!-- admin table populates -->
         </div>
       </div>
       
@@ -152,8 +152,7 @@
       </a>
     </div>
   </footer>
-  <script src="delete-admin.js"></script>
-  <script src="delete-user.js"></script>
+  <script src="admin-tables.js"></script>
   <script src="nav.js"></script>
 
 </body>

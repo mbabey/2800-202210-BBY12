@@ -18,14 +18,7 @@
 }
 
 .admin-right {
-  justify-content: center;
-  padding: 5%;
-  padding-top: 10%;
-}
-
-#account-title {
-  display: flex;
-  justify-content: center;
+  margin: 0 5%;
 }
 
 table {
@@ -35,7 +28,7 @@ table {
 
 td, tr {
   border: 1px solid #ddd;
-  padding: 3%;
+  padding: 1rem;
 }
 
 th {

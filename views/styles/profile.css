@@ -71,6 +71,7 @@
 }
 
 .profile-info {
+  position: relative;
   grid-column: 3 / span 1;
   grid-row: 1 / span 1;
 }
@@ -116,7 +117,7 @@
   background-color: #dff7ff;
 }
 
-@media only screen and (min-width: 600px) and (max-width: 800px) {
+@media only screen and (min-width: 601px) and (max-width: 960px) {
   .profile-header {
     justify-content: center;
     margin: 0 2%;
@@ -180,7 +181,7 @@
   }
 }
 
-@media only screen and (max-width: 599px) {
+@media only screen and (max-width: 600px) {
   .profile-header {
     display: grid;
     grid-template-columns: 100%;
@@ -230,6 +231,14 @@
     grid-column: 1 / span 1;
     grid-row: 3 / span 1;
     margin-bottom: 40%;
+    margin-left: 5%;
+  }
+
+  .profile-header h4:after,
+  .profile-header h3:after {
+    position: absolute;
+    bottom: -2px;
+    right: 0;
   }
 
   .profile-info h3,

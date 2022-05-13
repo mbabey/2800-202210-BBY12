@@ -40,6 +40,7 @@ const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
+const feed = require('./scripts/feed');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -147,14 +148,17 @@ app.get('/is-admin', (req, res) => {
 });
 
 // HOME PAGE
-app.get('/home', (req, res) => {
+app.get('/home', async (req, res) => {
   if (req.session.loggedIn) {
-    let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
-    let profileDOM = new JSDOM(profilePage);
-    profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
-    profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
-    profilePage = profileDOM.serialize();
-    res.send(profilePage);
+    let homePage = fs.readFileSync('./views/home.html', 'utf8').toString();
+    let homeDOM = new JSDOM(homePage);
+
+    homeDOM = await feed.populateFeed(homeDOM, con);
+
+    homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
+    homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
+    homePage = homeDOM.serialize();
+    res.send(homePage);
   } else {
     res.redirect("/");
   }
@@ -346,6 +350,7 @@ app.post('/delete-user', (req, res) => {
 });
 
 //Upload profile avatar
+//TODO: Move code to different file
 app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
   console.log(req.fileValidtionError);
   if (req.session.loggedIn && !req.fileValidtionError) {

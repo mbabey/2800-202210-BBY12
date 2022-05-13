@@ -37,36 +37,50 @@
   color: var(--primary-text);
 }
 
-.admin-right {
+.right-side {
   grid-column: 2 / span 1;
-  grid-row: 2 / span 1;
+  grid-row: 2 / span;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#create-block {
+#edit-block {
   grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
   margin-left: auto;
   margin-right: auto;
   min-width: 380px;
   width: 70%;
 }
 
-#create-block p {
-    text-align: center;
+#search-user-block {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 2rem;
 }
 
-#create-block>form {
+#status,
+#error-message {
+  position: absolute;
+  top: 100%;
+}
+
+#edit-block p {
+  text-align: center;
+}
+
+#edit-block>form {
   height: 29.8rem;
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 2.4rem 5.6rem 2.4rem 7.4rem 4rem 2rem 4rem;
+  grid-template-rows: 2.4rem 3rem  2.4rem 2.4rem 2.4rem 2.4rem 5rem 4rem;
   /* size in rem so form scales with font size. */
   gap: 3px;
 }
 
-#create-block>form>div {
+#edit-block>form>div {
   display: flex;
   flex-direction: column;
 }
@@ -81,7 +95,7 @@
   grid-column: 1 / span 1;
 }
 
-#password-block {
+#email-verify-block {
   grid-row: 2 / span 1;
   grid-column: 2 / span 1;
 }
@@ -102,106 +116,55 @@
   transform: translateX(-50%);
 }
 
-#name-block {
+#biz-type-block {
   grid-row: 4 / span 1;
   grid-column: 1 / span 1;
 }
 
-#location-block {
+#phone-num-block {
   grid-row: 4 / span 1;
   grid-column: 2 / span 1;
 }
 
-#description-block {
+#first-name-block {
   grid-row: 5 / span 1;
-  grid-column: 1 / span 2;
+  grid-column: 1 / span 1;
 }
 
-div>.create-input,
-#description-block {
-    border: 1px black solid;
-    font-size: 0.9rem;
-    margin: 2px;
-    background-color: rgba(128, 128, 128, 0.3);
+#last-name-block {
+  grid-row: 5 / span 1;
+  grid-column: 2 / span 1;
 }
 
-div>.create-input{
-    padding: 0.5rem;
-    text-align: center;
-}
-
-#admin-block {
+#location-block {
   grid-row: 6 / span 1;
   grid-column: 1 / span 2;
-  margin: auto;
 }
 
-/* Code for checkbox styles from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox */
-#admin-checkbox-container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-#admin-checkbox-container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-#admin-checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
+#description-block {
+  grid-row: 7 / span 1;
+  grid-column: 1 / span 2; border: 1px black solid;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  margin: 2px;
   background-color: rgba(128, 128, 128, 0.3);
 }
 
-#admin-checkbox-container:hover input~#admin-checkmark {
-  background-color: rgba(64, 128, 64, 0.5);
+.edit-input {
+  border: 1px black solid;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  margin: 2px;
+  background-color: rgba(128, 128, 128, 0.3);
+  text-align: center;
 }
 
-#admin-checkbox-container input:checked~#admin-checkmark {
-  background-color: rgb(0, 128, 0);
-}
-
-#admin-checkmark:after {
-  content: '';
-  position: absolute;
-  display: none;
-}
-
-#admin-checkbox-container input:checked~#admin-checkmark:after {
-  display: block;
-}
-
-#admin-checkmark:after {
-  left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
-/* End code for checkbox styles. */
-
-#create-submit {
-  grid-row: 7 / span 1;
+.edit-submit {
+  grid-row: 8 / span 1;
   grid-column: 1 / span 2;
+}
+
+.right-side button {
   padding: .7rem;
   margin: auto;
   margin-top: 10px;
@@ -216,9 +179,10 @@ div>.create-input{
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#create-submit::after {
+button::after {
   content: '';
   position: absolute;
   z-index: -1;
@@ -232,45 +196,44 @@ div>.create-input{
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-#create-submit:focus,
-#create-submit:hover {
+button:focus,
+button:hover {
   transform: scale(1.025, 1.025);
 }
 
-#create-submit:focus::after,
-#create-submit:hover::after {
+button:focus::after,
+button:hover::after {
   opacity: 1;
 }
 
-#create-submit:active {
+button:active {
   transform: scale(1);
 }
-
 
 @media only screen and (max-width: 800px) {
   .container {
     grid-template-rows: 50px 1fr;
     grid-template-columns: 100%;
   }
-  
-  #welcome {
-    display: none;
-  }
 
-  .admin-right {
+  .right-side {
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
   }
 
+  #edit-block {
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
+    min-width: 256px;
+    width: 70%;
+  }
 
   #biz-name-block:before {
     width: 100%;
-}
-
-  .create-block-container {
-    grid-row: 2 / span 1;
-    min-width: 256px;
-    width: 70%;
-    vertical-align: middle;
   }
+
+  #welcome {
+    display: none;
+  }
+
 }

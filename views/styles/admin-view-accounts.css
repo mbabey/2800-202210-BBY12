@@ -1,45 +1,138 @@
-.container {
-  background-color: rgba(98, 156, 132, 0.486);
-}
-.content {
-  grid-row: 2 / span 1;
+#content {
   display: grid;
-  grid-template-columns: 355px 1fr;
-}
-
-h3 {
-  display: flex;
-  justify-content: center;
+  grid-template-rows: 120px 1fr;
 }
 
 .dashboard-header {
+  grid-row: 1 / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-text);
+}
+
+#dashboard-title {
+  font-size: 2rem;
   text-align: center;
-  display: flex;
-  justify-content: center;
+  margin: 0;
 }
 
-.admin-right {
-  justify-content: center;
+.admin-wrapper {
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+
+#delete-block {
+  grid-column: 1 / span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
+  margin-top: 30px;
+  background-color: white; 
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+  position: relative;
+  margin-bottom: 4rem;
+}
+
+.input-wrapper input {
+  border: 1px black solid;
+  font-size: 0.9rem;
+  padding: 8px 2px;
+  margin-bottom: 10px;
+  background-color: rgba(192, 192, 192, 0.3);
+
+}
+
+.delete-message {
+  position: absolute;
+  top: 100%;
+}
+
+.admin-button {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  padding: 1rem;
+  text-align: center;
+  background-color: rgb(211, 34, 34);
+  border: none;
+  cursor: pointer;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
+/ https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
+.admin-button::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.admin-button:focus,
+.admin-button:hover {
+  transform: scale(1.025, 1.025);
+}
+
+.admin-button:focus::after,
+.admin-button:hover::after {
+  opacity: 1;
+}
+
+.admin-button:active {
+  transform: scale(1);
+}
+
+#edit-block {
+  display: flex;
+  flex-direction: row;
+}
+
+#edit-admin-link {
+  text-decoration: none;
+  color: var(--secondary-dark);
+  padding-left: 10px;
+}
+
+#edit-admin-link:hover {
+  font-weight: bold;
+}
+
+#user-tables {
   grid-column: 2 / span 1;
-  padding: 5%;
-  padding-top: 10%;
-}
-
-#account-title {
-  display: flex;
-  justify-content: center;
+  margin: 0 30px;
+  overflow: auto; 
 }
 
 table {
-  grid-column: 1 / span 1;
-  grid-row: 1 / span 1;
   border-collapse: collapse;
   width: 100%;
 }
 
+.data-index {
+  font-weight: bold;
+}
+
 td, tr {
   border: 1px solid #ddd;
-  padding: 3%;
+  padding: 1rem;
 }
 
 th {
@@ -69,201 +162,38 @@ background-color: var(--secondary-dark);
 color: white;
 }
 
-.admin-left {
-  display: grid;
-  grid-column: 1 / span 1;
-  grid-row: 1 / span 1;
-  background-color: var(--primary);
-}
 
-.admin-left {
-  position: fixed;
-  margin-top: 0;
-  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  height: 450px;
-  width: 350px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--primary);
-  text-align: center;
-}
-
-.profile-picture {
-  display: flex;
-  justify-content: center;
-}
-
-.profile-picture img {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  clip-path: circle(42% at center);
-  width: 60%;
-  background-color: var(--secondary-dark);
-}
-
-.profile > div > p {
-  display: flex;
-  justify-content: center;
-}
-
-.profile-details {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-}
-
-.profile-details > p {
-  padding: 10px;
-  margin: 0;
-}
-
-.profile-info > h3 {
-  text-align: center;
-}
-
-.admin-right {
-  grid-column: 2 / span 1;
-  grid-row: 1 / span 1;
-}
-
-.dashboard-header {
-  background-color: var(--primary-text);
-}
-
-#dashboard-title {
-  font-size: 30px;
-  text-align: center;
-}
-
-#admin-button-group {
-  grid-column: 1 / span 1;
-  margin: auto;
-  min-width: 300px;
-  max-width: 480px;
-  width: 50%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-}
-
-#admin-button-group>.admin-button {
-  text-decoration: none;
-  padding: 1rem;
-  font-size: 18px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  text-align: center;
-  background-color: rgb(193, 193, 193);
-  color: black;
-  border: none;
-  cursor: pointer;
-  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  padding: 1rem;
-}
-
-/* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
-/ https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#admin-button-group>.admin-button::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-#admin-button-group>.admin-button:focus,
-#admin-button-group>.admin-button:hover {
-  transform: scale(1.025, 1.025);
-}
-
-#admin-button-group>.admin-button:focus::after,
-#admin-button-group>.admin-button:hover::after {
-  opacity: 1;
-}
-
-#admin-button-group>.admin-button:active {
-  transform: scale(1);
-}
-
-#edit-block {
-  display: flex;
-  flex-direction: row;
-}
-
-#edit-admin-link {
-  text-decoration: none;
-  color: var(--secondary-dark);
-  padding-left: 10px;
-}
-
-#edit-admin-link:hover {
-  font-weight: bold;
-}
-
-@media only screen and (max-width: 650px) {
-
-  .container {
-    display: block;
+@media only screen and (max-width: 800px) {
+  #content {
+    grid-template-rows: 50px 1fr;
   }
 
-  .content {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding-top: 5%;
+  .admin-wrapper {
+    grid-template-columns: 100%;
+    grid-template-rows: 12.5rem calc(100vh - 12.5rem - 150px);
   }
 
-  .profile-head {
-    margin-left: 20px;
-  }
-
-  #pseudonav {
-    display: flex;
-    justify-content: center;
-  }
-
-  #nav-logo-background {
+  #delete-block {
+    grid-row: 1 / span 1;
+    flex-direction: row;
     margin: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 20px;
   }
 
-  table {
-    justify-content: center;
-    width: 100%;
+  #delete-block h3 {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
   }
 
-  #admin-list {
+  .admin-button {
+    padding: 0.5rem;
+  }
+
+  #user-tables {
+    grid-column: 1 / span 1;
     grid-row: 2 / span 1;
+    margin: 0 2%;
   }
 
-  #admin-table > tbody > tr > td {
-    width: 100%;
-    padding: 5%;
-  }
-
-  #admin-table > tbody > tr > th {
-    padding: 5%;
-  }
-
-  .admin-left {
-    display: none;
-  }
-
-  tr, td, th {
-    padding: 5%;
-  }
-
-  th {
-    padding: 2%;
-  }
 }

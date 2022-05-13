@@ -2,33 +2,28 @@
 <html lang="en">
 
 <head>
-    <title>Gro-Operate | Admin Dashboard</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="./styles/global.css">
-    <link rel="stylesheet" type="text/css" href="./styles/admin-dashboard.css">
-    <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
+  <title>Gro-Operate | Admin Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="./styles/global.css">
+  <link rel="stylesheet" type="text/css" href="./styles/admin-dashboard.css">
+  <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
 
 </head>
 
 <body>
 
-    <nav>
-        <div id="nav-wrapper">
-            <div id="nav-left">
-                <a href="/home" id="nav-home" class="nav-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
+  <nav>
+    <div id="nav-wrapper">
+      <div id="nav-left">
+        <a href="/home" id="nav-home" class="nav-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
             <path fill="currentColor"
               d="M8 42V18L24.1 6L40 18V42H28.3V27.75H19.65V42ZM11 39H16.65V24.75H31.3V39H37V19.5L24.1 9.75L11 19.5ZM24 24.35Z" />
           </svg>
           <span>Home</span>
         </a>
-        <a href="/admin-dashboard" id="nav-admin" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
-            <path fill="currentColor"
-              d="M24 25.15ZM11.65 44 16.3 28.8 4 20H19.2L24 4L28.8 20H44L31.7 28.8L36.35 44L24 34.6ZM17.15 35.85 24 30.65 30.85 35.85 28.1 27.2 34.4 23.1H26.85L24 14.45L21.15 23.1H13.6L19.9 27.2Z" />
-          </svg>
-          <span>Admin</span>
+        <a id="nav-admin">
         </a>
       </div>
       <div id="nav-right">
@@ -68,22 +63,35 @@
           </svg>
           <span id="profile-name">Profile</span>
         </a>
+        <a href="/logout" id="nav-logout" class="nav-button">
+          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 44 44" height="32" width="32">
+            <path fill="currentColor"
+              d="M18.75 22.5H36.15L31.05 17.4L33.2 15.25L42 24.05L33.3 32.75L31.15 30.6L36.25 25.5H18.75ZM23.55 6V9H9Q9 9 9 9Q9 9 9 9V39Q9 39 9 39Q9 39 9 39H23.55V42H9Q7.8 42 6.9 41.1Q6 40.2 6 39V9Q6 7.8 6.9 6.9Q7.8 6 9 6Z" />
+          </svg>
+          <span>Logout</span>
+        </a>
       </div>
     </div>
   </nav>
 
-    <div class="container">
-        <div id="content">
-            <div class="dashboard-header">
-                <h3 id="dashboard-title">Administration Board</h3>
-            </div>
-            <div id="admin-button-group">
-                <a href="/admin-view-accounts" class="admin-button">View Users</a>
-                <a href="/admin-add-account" class="admin-button">Add User</a>
-                <a href="#" class="admin-button">Add Admin</a>
-            </div>
-        </div>
+  <div class="container">
+    <header class="dashboard-header">
+      <h3 id="dashboard-title">Administration Board</h3>
+    </header>
+    <div class="admin-left">
+      <div id="admin-button-group">
+        <a href="/admin-view-accounts" class="admin-button">Manage Users</a>
+        <a href="/admin-add-account" class="admin-button">Add User</a>
+        <!-- <a href="#" class="admin-button">Add Admin</a> -->
+        <a href="/admin-edit-user" class="admin-button">Edit User Information</a>
+        <a href="/reset-password" class="admin-button">Edit A Password</a>
+      </div>
     </div>
+    <div id="welcome">
+      <h1>Greetings,<br />Administrator</h1>
+      <p>Here to rule the world?</p>
+    </div>
+  </div>
 
   <footer>
     <div id="footer-wrapper">

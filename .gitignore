@@ -2,3 +2,5 @@
 database.sql
 .env
 server-configs.js
+uploads
+avatars

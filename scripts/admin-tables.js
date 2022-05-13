@@ -69,12 +69,12 @@ function getUsers() {
       if (xhr.status === 200) {
         let data = JSON.parse(this.responseText);
         if (data.status == "success") {
-          let table = "<table><tr><th>Username</th><th class=\"admin-user-info\">First Name</th><th class=\"admin-user-info\">Last Name</th><th class=\"admin-user-info\">Business Name</th></tr>";
+          // USER TABLE CREATED HERE
+          let table = "<table id=\"user-table\"><tr><th>Username</th><th>First Name</th><th>Last Name</th><th>Business Name</th></tr>";
           for (let i = 0; i < data.rows.length; i++) {
-            table += ("<tr><td>" + data.rows[i].username + "</td><td class=\"admin-user-info\">"
-              + data.rows[i].fName + "</td><td class=\"admin-user-info\">"
-              + data.rows[i].lName + "</td><td class=\"admin-user-info\">"
-              + data.rows[i].cName + "</td></tr>");
+            table += (
+              "<tr><td class=\"data-index\">" + data.rows[i].username + "</td><td>" + data.rows[i].fName + "</td><td>" + data.rows[i].lName + "</td><td>" + data.rows[i].cName + "</td></tr>"
+            );
           }
           table += "</table>";
           document.getElementById("user-list").innerHTML = table;
@@ -122,9 +122,10 @@ function getAdmins() {
       if (xhr.status === 200) {
         let data = JSON.parse(this.responseText);
         if (data.status == "success") {
+          // ADMIN TABLE CREATED HERE
           let table = `<table id='admin-table'><tr><th>Username</th></tr>`;
           for (let i = 0; i < data.rows.length; i++) {
-            table += ("<tr><td>" + data.rows[i].username + "</td></tr>");
+            table += ("<tr><td class=\"data-index\">" + data.rows[i].username + "</td></tr>");
           }
           table += "</table>";
           document.getElementById("admin-list").innerHTML = table;

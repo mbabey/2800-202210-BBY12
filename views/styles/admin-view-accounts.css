@@ -1,29 +1,118 @@
 .content {
   display: grid;
-  grid-template-rows: 10% repeat(3, 30%);
+  grid-template-rows: 10% 1fr;
 }
 
 .dashboard-header {
-  background-color: var(--primary-text);
   grid-row: 1 / span 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--primary-text);
 }
 
 #dashboard-title {
-    font-size: 2rem;
-    text-align: center;
-    margin: 0;
+  font-size: 2rem;
+  text-align: center;
+  margin: 0;
 }
 
-.admin-right {
-  margin: 0 5%;
+.admin-wrapper {
+  display: grid;
+  grid-template-columns: 20% 80%;
+}
+
+#delete-block {
+  grid-column: 1 / span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: white; 
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper input {
+  border: 1px black solid;
+  font-size: 0.9rem;
+  padding: 1rem 2px;
+  margin: 2px;
+  background-color: rgba(192, 192, 192, 0.3);
+}
+
+.admin-button {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  padding: 1rem;
+  text-align: center;
+  background-color: red;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
+/ https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
+.admin-button::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.admin-button:focus,
+.admin-button:hover {
+  transform: scale(1.025, 1.025);
+}
+
+.admin-button:focus::after,
+.admin-button:hover::after {
+  opacity: 1;
+}
+
+.admin-button:active {
+  transform: scale(1);
+}
+
+#edit-block {
+  display: flex;
+  flex-direction: row;
+}
+
+#edit-admin-link {
+  text-decoration: none;
+  color: var(--secondary-dark);
+  padding-left: 10px;
+}
+
+#edit-admin-link:hover {
+  font-weight: bold;
+}
+
+#user-tables {
+  grid-column: 2 / span 1;
+  margin: 0 30px;
 }
 
 table {
   border-collapse: collapse;
   width: 100%;
+}
+
+.data-index {
+  font-weight: bold;
 }
 
 td, tr {
@@ -57,103 +146,7 @@ text-align: left;
 background-color: var(--secondary-dark);
 color: white;
 }
-/* 
-#user-list {
-  grid-column: 2 / span 1;
-  grid-row: 1 / span 1;
-}
 
-#admin-list {
-  grid-column: 2 / span 1;
-  grid-row: 2 / span 1;
-}
-
-#delete-block {
-  grid-column: 2 / span 1;
-  grid-row: 3 / span 1;
-}
-
-#edit-block {
-  grid-column: 2 / span 1;
-  grid-row: 4 / span 1;
-} */
-
-/* .admin-right {
-  grid-column: 1 / span 1;
-  grid-row: 1 / span 1;
-} */
-
-#admin-button-group {
-  grid-column: 1 / span 1;
-  margin: auto;
-  min-width: 300px;
-  max-width: 480px;
-  width: 50%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-}
-
-#admin-button-group>.admin-button {
-  text-decoration: none;
-  padding: 1rem;
-  font-size: 18px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  text-align: center;
-  background-color: rgb(193, 193, 193);
-  color: black;
-  border: none;
-  cursor: pointer;
-  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  padding: 1rem;
-}
-
-/* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
-/ https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#admin-button-group>.admin-button::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-#admin-button-group>.admin-button:focus,
-#admin-button-group>.admin-button:hover {
-  transform: scale(1.025, 1.025);
-}
-
-#admin-button-group>.admin-button:focus::after,
-#admin-button-group>.admin-button:hover::after {
-  opacity: 1;
-}
-
-#admin-button-group>.admin-button:active {
-  transform: scale(1);
-}
-
-#edit-block {
-  display: flex;
-  flex-direction: row;
-}
-
-#edit-admin-link {
-  text-decoration: none;
-  color: var(--secondary-dark);
-  padding-left: 10px;
-}
-
-#edit-admin-link:hover {
-  font-weight: bold;
-}
 
 @media only screen and (max-width: 800px) {
   /* .content {

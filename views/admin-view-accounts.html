@@ -78,40 +78,42 @@
       <div class="dashboard-header">
         <h3 id="dashboard-title">Administration Board</h3>
       </div>
-      <div class="admin-right">
+      <div class="admin-wrapper">
         <div id="delete-block">
           <form method="post">
             <div id="username-block" class="input-wrapper">
-              <label for="admin-username"><b>Delete Admin Account</b></label>
+              <h3>Delete Admin Account</h3>
               <input name="username" type="text" placeholder="Username" id="admin-username">
-              <button id="delete-admin" type="submit" value="submit">Delete Account</button>
+              <button id="delete-admin" class="admin-button" type="submit" value="submit">Delete Account</button>
               <p id="status"></p>
               <p id="error-message"></p>
             </div>
           </form>
           <form method="post">
             <div id="username-block-2" class="input-wrapper">
-              <label for="user-username"><b>Delete User Account</b></label>
+              <h3>Delete User Account</h3>
               <input name="username" type="text" placeholder="Username" id="user-username">
-              <button id="delete-user" type="submit" value="submit">Delete Account</button>
+              <button id="delete-user" class="admin-button" type="submit" value="submit">Delete Account</button>
               <p id="status-2"></p>
               <p id="error-message-2"></p>
             </div>
           </form>
         </div>
-        <div id="edit-block">
+        <!-- <div id="edit-block">
           <div>
             <p><b>Looking to edit admin account?</b></p>
           </div>
           <p><a href="#" id="edit-admin-link">Go to edit page.</a></p>
-        </div>
-        <h3>User Accounts</h3>
-        <div id="user-list">
-          <!-- user table populates -->
-        </div>
-        <h3>Admin Accounts</h3>
-        <div id="admin-list">
-          <!-- admin table populates -->
+        </div> -->
+        <div id="user-tables">
+          <h2>User Accounts</h2>
+          <div id="user-list">
+            <!-- user table populates -->
+          </div>
+          <h2>Admin Accounts</h2>
+          <div id="admin-list">
+            <!-- admin table populates -->
+          </div>
         </div>
       </div>
       

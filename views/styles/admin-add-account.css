@@ -249,64 +249,28 @@ div>.create-input{
 
 @media only screen and (max-width: 800px) {
   .container {
-    display: grid;
-  }
-
-  #content {
-    display: grid;
+    grid-template-rows: 50px 1fr;
     grid-template-columns: 100%;
-    grid-template-rows: 100%;
   }
-
-  #content {
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 100%;
-  }
-
-  .admin-right {
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
-  }
-
-  .create-block-container {
-    grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-    min-width: 256px;
-    width: 70%;
-    vertical-align: middle;
-  }
-
-  .admin-right {
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
-  }
-
-  .create-block-container {
-    grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-    min-width: 256px;
-    width: 70%;
-    vertical-align: middle;
-  }
-
-  #biz-name-block:before {
-    width: 100%;
-  }
-
-  #admin-checkbox-container {
-    font-size: 1rem;
-  }
-
+  
   #welcome {
     display: none;
   }
 
-  #welcome h1 {
-    display: none;
+  .admin-right {
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
   }
 
-  #welcome p {
-    display: none;
+
+  #biz-name-block:before {
+    width: 100%;
+}
+
+  .create-block-container {
+    grid-row: 2 / span 1;
+    min-width: 256px;
+    width: 70%;
+    vertical-align: middle;
   }
 }

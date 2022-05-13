@@ -247,12 +247,4 @@ div>.create-input{
     #welcome {
         display: none;
     }
-
-    #welcome h1 {
-        display: none;
-    }
-
-    #welcome p {
-        display: none;
-    }
 }

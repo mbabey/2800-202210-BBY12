@@ -2,63 +2,52 @@
 
 document.querySelector('#search-user').addEventListener("click", function (event) {
     let searchInput = { username: document.querySelector('#search-input').value }
-    document.querySelector('#search-input').value = "";
+    // document.querySelector('#search-input').value = "";
     sendSearch(searchInput);
     event.preventDefault();
 })
 
 async function sendSearch(data) {
     try {
-        await fetch('/search-user', {
+        let response = await fetch('/search-user', {
             method: 'POST',
             headers: { 'Content-Type': "application/json" },
-            body: data
+            body: JSON.stringify(data)
         });
+        if (response.status == 200) {
+            let data = await response.text();
+            let dataParsed = JSON.parse(data);
+            popUserData(dataParsed.rows);
+        }
     } catch (err) {
         console.log(err);
     }
 }
 
-
-async function getUserData() {
-    try {
-        let response = await fetch('/admin-get-user', { method: 'GET' });
-        if (response.status == 200) {
-            let data = await response.text();
-            popUserData(JSON.parse(data));
-        }
-    } catch (err) {
-
-    }
-}
-getUserData();
-
-let username_block = document.querySelector('input[username]');
-let email_block = document.querySelector('input[email]');
-let email_verify_block = document.querySelector('input[email-verify]');
-let password_block = document.querySelector('input[password]');
-let password_verify_block = document.querySelector('input[password-verify]');
-let company_name_block = document.querySelector('input[company-name]');
-let biz_type_block = document.querySelector('input[biz-type]');
-let first_name_block = document.querySelector('input[first-name]');
-let last_name_block = document.querySelector('input[last-name]');
-let phone_num_block = document.querySelector('input[phone-num]');
-let location_block = document.querySelector('input[location]');
-let description_block = document.querySelector('input[]');
-let checkbox_block = document.querySelector('input[isAdmin]');
+let username_block = document.querySelector('input[name=\'username\']');
+let email_block = document.querySelector('input[name=\'email\']');
+let email_verify_block = document.querySelector('input[name=\'email-verify\']');
+let company_name_block = document.querySelector('input[name=\'company-name\']');
+let biz_type_block = document.querySelector('input[name=\'biz-type\']');
+let first_name_block = document.querySelector('input[name=\'first-name\']');
+let last_name_block = document.querySelector('input[name=\'last-name\']');
+let phone_num_block = document.querySelector('input[name=\'phone-num\']');
+let location_block = document.querySelector('input[name=\'location\']');
+let description_block = document.querySelector('input[name=\'description\']');
+let checkbox_block = document.querySelector('input[name=\'isAdmin\']');
 let edit_password = false;
-// let _block = document.querySelector('input[]');
 
-function popUserData(data) {
-    username_block.value = (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
-    email_block.value = (data[0].email != undefined && data[0].email != null) ? data[0].email : '';
-    company_name_block.value = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
-    biz_type_block.value = (data[0].bType != undefined && data[0].bType != null) ? data[0].bType : '';
-    first_name_block.value = (data[0].fName != undefined && data[0].fName != null) ? data[0].fName : '';
-    last_name_block.value = (data[0].lName != undefined && data[0].lName != null) ? data[0].lName : '';
-    phone_num_block.value = (data[0].phoneNo != undefined && data[0].phoneNo != null) ? data[0].phoneNo : '';
-    location_block.value = (data[0].location != undefined && data[0].location != null) ? data[0].location : '';
-    description_block.value = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
+function popUserData(rows) {
+    username_block.value = (rows[0].username != undefined && rows[0].username != null) ? rows[0].username : '';
+    email_block.value = (rows[0].email != undefined && rows[0].email != null) ? rows[0].email : '';
+    company_name_block.value = (rows[0].cName != undefined && rows[0].cName != null) ? rows[0].cName : '';
+    biz_type_block.value = (rows[0].bType != undefined && rows[0].bType != null) ? rows[0].bType : '';
+    first_name_block.value = (rows[0].fName != undefined && rows[0].fName != null) ? rows[0].fName : '';
+    last_name_block.value = (rows[0].lName != undefined && rows[0].lName != null) ? rows[0].lName : '';
+    phone_num_block.value = (rows[0].phoneNo != undefined && rows[0].phoneNo != null) ? rows[0].phoneNo : '';
+    location_block.value = (rows[0].location != undefined && rows[0].location != null) ? rows[0].location : '';
+    description_block.value = (rows[0].description != undefined && rows[0].description != null) ? rows[0].description : '';
+
 }
 
 let username_block_ori = username_block.value;
@@ -166,12 +155,12 @@ async function sendData(data) {
 }
 
 //edit password
-password_block.addEventListener("click", function (event){
-        if (event.target.)
-        let password_entered = password_block.value;
+// password_block.addEventListener("click", function (event){
+//         if (event.target.)
+//         let password_entered = password_block.value;
 
-        edit_password = true;
-    })
+//         edit_password = true;
+//     })
 
 async function sendPswd(data) {
     try {

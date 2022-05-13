@@ -385,34 +385,46 @@ app.route("/reset-password")
 
     });
 
-    //ADMIN EDIT USER PROFILE SEARCH
-app.post('/search-user', function (req, res) {
-    console.log("search-user", req.body);
-    let user_username = req.body.username;
-    if (user_username) {
-        con.query('SELECT * FROM BBY_12_users WHERE username = ?', [user_username],
-            function (error, results, fields) {
+//ADMIN EDIT USER PAGE
+    app.get('/admin-edit-user', (req, res) => {
+        if (req.session.loggedIn && req.session.admin) {
+            let profilePage = fs.readFileSync('./views/admin-edit-user.html', 'utf8');
+            res.send(profilePage);
+        } else {
+            res.redirect('/');
+        }
+    });
+
+//QUERY: ADMIN EDIT USER PROFILE SEARCH
+app.post('/search-user', (req, res) => {
+    console.log("search-user: ", req.body);
+    if (req.body.username) {
+        con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
+            function (error, results) {
                 if (error) throw error;
 
-                req.session.dBUsername = results[0].username;
-                req.session.dBEmail = results[0].email;
-                req.session.dBCName = results[0].cName;
-                req.session.dBBType = results[0].bType;
-                req.session.dBFName = results[0].fName;
-                req.session.dBLName = results[0].lName;
-                req.session.dBPhone = results[0].phoneNo;
-                req.session.dBLocation = results[0].location;
-                req.session.dBDescription = results[0].description;
+                console.log(results);
+                res.setHeader('content-type', 'application/json');
+                res.send({ status: 'success', rows: results });
 
+                // req.session.dBUsername = results[0].username;
+                // req.session.dBEmail = results[0].email;
+                // req.session.dBCName = results[0].cName;
+                // req.session.dBBType = results[0].bType;
+                // req.session.dBFName = results[0].fName;
+                // req.session.dBLName = results[0].lName;
+                // req.session.dBPhone = results[0].phoneNo;
+                // req.session.dBLocation = results[0].location;
+                // req.session.dBDescription = results[0].description;
             });
     } else {
-        response.send({ status: "fail", msg: "Auth Fail" });
+        res.send({ status: "fail", msg: "Auth Fail" });
     }
 
 });
 
 //POPULATE USER PROFILE FOR ADMIN TO EDIT USER PROFILE
-app.get('/admin-get-users', function (req, res) {
+app.get('/admin-get-user', function (req, res) {
     var results = {
         username: req.session.dBUsername, email: req.session.dBEmail, cName: req.session.dBCName,
         bType: req.session.dBBType, fName: req.session.dBFName, lName: req.session.dBLName,
@@ -421,6 +433,7 @@ app.get('/admin-get-users', function (req, res) {
     res.setHeader('content-type', 'application/json');
     res.send(results);
 });
+
 //ADMIN SEND EDITED USER PROFILE
 app.post('/admin-edit-user', function (req, res) {
     console.log("admin-edit-user ", req.body);

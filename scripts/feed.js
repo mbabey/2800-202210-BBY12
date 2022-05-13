@@ -37,7 +37,8 @@ module.exports = {
             clone.querySelector("#post-user-avatar").src = "./avatars/" + post.profilePic;
             clone.querySelector("#post-business-name").textContent = post.cName;
             clone.querySelector("#post-business-type").textContent = post.bType;
-            clone.querySelector("#post-timestamp").textContent = post.timestamp;
+            clone.querySelector("#post-timestamp").textContent = post.timestamp.toDateString().split(' ').slice(1).join(' ');
+            //console.log(post.timestamp.toDateString().split(' ').slice(1).join(' '));
             clone.querySelector("#post-description").textContent = post.content;
             clone.querySelector("#post-title").textContent = post.postTitle;
             console.log(post.postId, postImages, postTags);
@@ -49,6 +50,7 @@ module.exports = {
                 if (image) {
                     let img = pImgTemplateContent.cloneNode(true);
                     img.querySelector("img").src = "./images/" + image["imgFile"];
+                    img.querySelector("img").alt = image["imgFile"];
                     pImgs.appendChild(img);
                     console.log(image["imgFile"]);
                 }

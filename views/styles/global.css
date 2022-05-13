@@ -143,31 +143,49 @@ footer {
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   height: auto;
-  padding: 10px;
+  padding: 10px 20px;
+  font-size: 100%;
 }
 
 .post-header {
   display: flex;
   flex-direction: row;
+  margin-bottom: 5px;
+}
+
+.post-user-avatar-background {
+  width: 60px;
+  height: 60px;
+  clip-path: circle(50% at center);
+  margin-right: 10px;
 }
 
 .post-info {
-  width: 50%;
+  width: 85%;
   display: grid;
   grid-template-rows: 50% 50%;
+  grid-template-columns: 75% 25%;
+}
+
+.post-title{
+  margin: 0;
+  line-height: 80%;
 }
 
 .post-business-name {
   grid-row: 1 / span 1;
-  margin-bottom: 0;
+  margin: 0;
+  font-size: 1.5em;
 }
 
 .post-business-type {
   grid-row: 2 / span 1;
+  padding-right: 5px;
 }
 
 .post-timestamp {
   grid-row: 2 / span 1;
+  text-align: end;
 }
 
 .post-header img {
@@ -191,6 +209,10 @@ footer {
   border-radius: 10px;
 }
 
+.post-tags{
+  margin: 5px 0;
+}
+
 @media only screen and (max-width: 800px) {
   .container {
     min-height: calc(100vh - 100px);
@@ -212,6 +234,12 @@ footer {
   .post-block {
     min-width: 0;
     width: 96%;
+  }
+
+  .post-user-avatar-background {
+    width: 50px;
+    height: 50px;
+    clip-path: circle(50% at center);
   }
 
   footer {

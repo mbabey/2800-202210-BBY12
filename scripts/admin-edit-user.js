@@ -34,11 +34,12 @@ let first_name_block = document.querySelector('input[name=\'fName\']');
 let last_name_block = document.querySelector('input[name=\'lName\']');
 let phone_num_block = document.querySelector('input[name=\'phoneNo\']');
 let location_block = document.querySelector('input[name=\'location\']');
-let description_block = document.querySelector('input[name=\'description\']');
+let description_block = document.querySelector('textarea[name=\'description\']');
 let checkbox_block = document.querySelector('input[name=\'isAdmin\']');
 let edit_password = false;
 
 function popUserData(rows) {
+
     username_block.value = (rows[0].username != undefined && rows[0].username != null) ? rows[0].username : '';
     email_block.value = (rows[0].email != undefined && rows[0].email != null) ? rows[0].email : '';
     company_name_block.value = (rows[0].cName != undefined && rows[0].cName != null) ? rows[0].cName : '';

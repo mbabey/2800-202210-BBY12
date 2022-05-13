@@ -39,7 +39,10 @@ const createAccount = require('./scripts/create-account');
 const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
-const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
+const {
+  H_CONFIG,
+  LOCAL_CONFIG
+} = require('./server-configs');
 const feed = require('./scripts/feed');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
@@ -70,7 +73,6 @@ app.listen(port, () => {
       con = (isHeroku) ? mysql.createConnection(H_CONFIG()) : mysql.createConnection(LOCAL_CONFIG());
     }).then(() => {
       con.connect((err) => {
-        if (err) throw err;
       });
     });
 });
@@ -103,7 +105,7 @@ app.route('/login')
       res.redirect('/');
     }
   })
-  .post((req, res, ) => {
+  .post((req, res) => {
     let user = req.body.username.trim();
     let pass = req.body.password;
     const hash = crypto.createHash('sha256').update(pass).digest('hex');

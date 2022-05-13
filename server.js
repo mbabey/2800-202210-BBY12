@@ -12,16 +12,16 @@ const crypto = require('crypto');
 const { JSDOM } = require('jsdom');
 const multer = require('multer');
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: function(req, file, cb) {
         cb(null, './uploads');
     },
-    filename: function (req, file, cb) {
+    filename: function(req, file, cb) {
         cb(null, file.originalname + file.originalname.split('.')[file.originalname.split('.').length - 1]);
     }
 });
 const upload = multer({
     storage: storage,
-    fileFilter: function (req, file, callback) {
+    fileFilter: function(req, file, callback) {
         let ext = "." + file.originalname.split('.')[file.originalname.split('.').length - 1];
         if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
             req.fileValidtionError = "Images Only!";
@@ -68,11 +68,7 @@ app.listen(port, () => {
         .then(() => {
             con = (isHeroku) ? mysql.createConnection(H_CONFIG()) : mysql.createConnection(LOCAL_CONFIG());
         }).then(() => {
-<<<<<<< HEAD
-            con.connect(function (err) {
-=======
             con.connect((err) => {
->>>>>>> dev
                 if (err) throw err;
             });
         });
@@ -106,16 +102,12 @@ app.route('/login')
             res.redirect('/');
         }
     })
-    .post((req, res,) => {
+    .post((req, res, ) => {
         let user = req.body.username.trim();
         let pass = req.body.password;
         const hash = crypto.createHash('sha256').update(pass).digest('hex');
         try {
-<<<<<<< HEAD
-            con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], function (err, results) {
-=======
             con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], (err, results) => {
->>>>>>> dev
                 if (results && results.length > 0) {
                     login(req, user);
                 }
@@ -132,11 +124,7 @@ function login(req, user) {
     req.session.username = user;
     req.session.admin = false;
 
-<<<<<<< HEAD
-    con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], function (err, results) {
-=======
     con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], (err, results) => {
->>>>>>> dev
         if (err) throw err;
         if (results.length > 0) {
             req.session.admin = true;
@@ -145,34 +133,9 @@ function login(req, user) {
     });
 }
 
-<<<<<<< HEAD
-app.route('/create-account')
-    .get((req, res) => {
-        if (!req.session.loggedIn) {
-            let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
-            res.send(createAccountPage);
-        } else {
-            res.redirect('/');
-        }
-    })
-    .post((req, res) => {
-        createAccount.createAccount(req, res)
-            .then(function (result) {
-                login(req, req.body["username"]);
-                res.redirect('/');
-            })
-            .catch(function (err) {
-                res.redirect('/create-account');
-            });
-    });
-
-app.get('/logout', (req, res) => {
-    req.session.destroy(function () {
-=======
 // LOGOUT
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
->>>>>>> dev
         res.redirect('/');
     });
 });
@@ -207,123 +170,6 @@ app.get('/profile', (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-app.get('/get-users', function (req, res) {
-    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], function (error, results, fields) {
-        if (error) throw error;
-        res.setHeader('content-type', 'application/json');
-        res.send(results);
-    });
-});
-
-// Post that updates values to change data stored in db
-app.post('/update-users', function (req, res) {
-    console.log("updat-users ", req.body);
-
-    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-        [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
-        function (error, results, fields) {
-            if (error) throw error;
-            res.setHeader('Content-Type', 'application/json');
-            res.send({
-                status: "Success",
-                msg: "User information updated."
-            });
-        });
-});
-
-app.get('/admin-dashboard', (req, res) => {
-    if (req.session.loggedIn && req.session.admin) {
-        let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
-        res.send(adminDashPage);
-    } else {
-        res.redirect('/');
-    }
-});
-
-app.route('/admin-add-account')
-    .get((req, res) => {
-        if (req.session.loggedIn && req.session.admin) {
-            let accountAddPage = fs.readFileSync('./views/admin-add-account.html', 'utf8');
-            res.send(accountAddPage);
-        } else {
-            res.redirect('/');
-        }
-    })
-    .post((req, res) => {
-        createAccount.createAdmin(req, res)
-            .then(function (result) {
-                res.redirect('/admin-dashboard');
-            })
-            .catch(function (err) {
-                res.redirect('/admin-add-account');
-            });
-    });
-
-app.get('/get-admins', function (req, res) {
-    let admins = 'SELECT * FROM BBY_12_admins';
-    con.query(admins, function (err, results) {
-        if (err) throw "Query to database failed.";
-        res.setHeader('content-type', 'application/json');
-        res.send(results);
-    });
-});
-
-app.get('/get-admin', function (req, res) {
-    if (req.session.loggedIn && req.session.admin == true) {
-        let session_username = req.session.username;
-        let admins = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
-        con.query(admins, [session_username], function (err, results) {
-            if (err) throw "Query to database failed.";
-            res.setHeader('content-type', 'application/json');
-            res.send({ status: "success", rows: results });
-        });
-    }
-});;
-
-app.get('/get-admin-table', function (req, res) {
-    let admins = 'SELECT * FROM BBY_12_admins';
-    con.query(admins, function (err, results) {
-        if (err) throw "Query to database failed.";
-        res.setHeader('content-type', 'application/json');
-        res.send({ status: "success", rows: results });
-    });
-});
-
-app.get('/is-admin', function (req, res) {
-    // console.log(req.session.admin);
-    res.setHeader('content-type', 'application/json');
-    res.send({ admin: req.session.admin });
-});
-
-app.route('/admin-view-accounts')
-    .get(function (req, res) {
-
-        if (req.session.loggedIn && req.session.admin == true) {
-            let users = 'SELECT * FROM BBY_12_users';
-            con.query(users, function (err, results) {
-                if (err) throw err;
-
-                let table = "<table><tr><th>Username</th><th class=\"admin-user-info\">First Name</th><th class=\"admin-user-info\">Last Name</th><th class=\"admin-user-info\">Business Name</th></tr>";
-                for (let i = 0; i < results.length; i++) {
-                    table += "<tr><td>" + results[i].username + "</td><td class=\"admin-user-info\">" +
-                        results[i].fName + "</td><td class=\"admin-user-info\">" +
-                        results[i].lName + "</td><td class=\"admin-user-info\">" +
-                        results[i].cName + "</td></tr>";
-                }
-                table += "</table>";
-
-                let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-                let adminViewAccDOM = new JSDOM(adminViewAcc);
-                adminViewAccDOM.window.document.getElementById("user-list").innerHTML = table;
-                let adminViewAccPage = adminViewAccDOM.serialize();
-                res.send(adminViewAccPage);
-            });
-        } else {
-            res.redirect("/");
-        }
-    });
-
 // CREATE POST
 app.route("/create-post")
     .get((req, res) => {
@@ -337,12 +183,12 @@ app.route("/create-post")
     .post(upload.array('image-upload'), (req, res) => {
         console.log(req.fileValidtionError);
         if (req.session.loggedIn && !req.fileValidtionError) {
-            createPost.createPost(req, res, storage)
-                .then(function (resolve) {
+            createPost.createPost(req, res, storage, con)
+                .then((resolve) => {
                     console.log(resolve); // Redirect to post or feed
                     res.redirect('/home');
                 })
-                .catch(function (err) {
+                .catch((err) => {
                     console.log(err); // Redirect to something
                     res.redirect('back');
                 });
@@ -473,10 +319,6 @@ app.get('/get-admin', (req, res) => {
 app.post('/delete-admin', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     con.query('SELECT * FROM BBY_12_admins',
-        function (err, results) {
-            if (results.length != 1) {
-                con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
-                    function (err, results) {
         (err, results) => {
             if (results.length != 1) {
                 con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
@@ -489,81 +331,6 @@ app.post('/delete-admin', (req, res) => {
         });
 });
 
-//ADMIN EDIT USER PROFILE SEARCH
-app.post('/search-user', function (req, res) {
-    console.log("search-user", req.body);
-    let user_username = req.body.username;
-    if (user_username) {
-        con.query('SELECT * FROM BBY_12_users WHERE username = ?', [user_username],
-            function (error, results, fields) {
-                if (error) throw error;
-
-                req.session.dBUsername = results[0].username;
-                req.session.dBEmail = results[0].email;
-                req.session.dBCName = results[0].cName;
-                req.session.dBBType = results[0].bType;
-                req.session.dBFName = results[0].fName;
-                req.session.dBLName = results[0].lName;
-                req.session.dBPhone = results[0].phoneNo;
-                req.session.dBLocation = results[0].location;
-                req.session.dBDescription = results[0].description;
-
-            });
-    } else {
-        response.send({ status: "fail", msg: "Auth Fail" });
-    }
-
-});
-
-//POPULATE USER PROFILE FOR ADMIN TO EDIT USER PROFILE
-app.get('/admin-get-users', function (req, res) {
-    var results = {
-        username: req.session.dBUsername, email: req.session.dBEmail, cName: req.session.dBCName,
-        bType: req.session.dBBType, fName: req.session.dBFName, lName: req.session.dBLName,
-        phoneNo: req.session.dBPhone, location: req.session.dBLocation, description: req.session.dBDescription
-    }
-    res.setHeader('content-type', 'application/json');
-    res.send(results);
-});
-
-//ADMIN SEND EDITED USER PROFILE
-app.post('/admin-edit-user', function (req, res) {
-    console.log("admin-edit-user ", req.body);
-
-    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-        [req.body.cName, req.body.fName, req.body.lName, req.body.bType,
-        req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
-        function (error, results, fields) {
-            if (error) throw error;
-            res.setHeader('Content-Type', 'application/json');
-            res.send({
-                status: "Success",
-                msg: "User information updated."
-            });
-        });
-});
-
-
-//ADMIN SEND EDITED USER PASSWORD   
-app.post('/admin-edit-user-pswd', function (req, res) {
-    console.log("admin-edit-user-pswd ", req.body);
-    let newPswd = req.body.password;
-    const newHash = crypto.createHash('sha256').update(newPswd).digest('hex');
-    try {
-        con.query('UPDATE BBY_12_users SET password = ? WHERE username = ?', [newHash, req.session.dBUsername],
-            function (error, results, fields) {
-                if (error) throw error;
-                res.setHeader('Content-Type', 'application/json');
-                res.send({
-                    status: "Success",
-                    msg: "User information updated."
-                });
-            });
-    } catch (err) {
-        console.log(err);
-    }
-
-});
 
 // QUERY: DELETE USER
 app.post('/delete-user', (req, res) => {
@@ -617,3 +384,78 @@ app.route("/reset-password")
         //Add some token for reset confirmation
 
     });
+
+    //ADMIN EDIT USER PROFILE SEARCH
+app.post('/search-user', function (req, res) {
+    console.log("search-user", req.body);
+    let user_username = req.body.username;
+    if (user_username) {
+        con.query('SELECT * FROM BBY_12_users WHERE username = ?', [user_username],
+            function (error, results, fields) {
+                if (error) throw error;
+
+                req.session.dBUsername = results[0].username;
+                req.session.dBEmail = results[0].email;
+                req.session.dBCName = results[0].cName;
+                req.session.dBBType = results[0].bType;
+                req.session.dBFName = results[0].fName;
+                req.session.dBLName = results[0].lName;
+                req.session.dBPhone = results[0].phoneNo;
+                req.session.dBLocation = results[0].location;
+                req.session.dBDescription = results[0].description;
+
+            });
+    } else {
+        response.send({ status: "fail", msg: "Auth Fail" });
+    }
+
+});
+
+//POPULATE USER PROFILE FOR ADMIN TO EDIT USER PROFILE
+app.get('/admin-get-users', function (req, res) {
+    var results = {
+        username: req.session.dBUsername, email: req.session.dBEmail, cName: req.session.dBCName,
+        bType: req.session.dBBType, fName: req.session.dBFName, lName: req.session.dBLName,
+        phoneNo: req.session.dBPhone, location: req.session.dBLocation, description: req.session.dBDescription
+    }
+    res.setHeader('content-type', 'application/json');
+    res.send(results);
+});
+//ADMIN SEND EDITED USER PROFILE
+app.post('/admin-edit-user', function (req, res) {
+    console.log("admin-edit-user ", req.body);
+
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
+        [req.body.cName, req.body.fName, req.body.lName, req.body.bType,
+        req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
+        function (error, results, fields) {
+            if (error) throw error;
+            res.setHeader('Content-Type', 'application/json');
+            res.send({
+                status: "Success",
+                msg: "User information updated."
+            });
+        });
+});
+
+
+//ADMIN SEND EDITED USER PASSWORD
+app.post('/admin-edit-user-pswd', function (req, res) {
+    console.log("admin-edit-user-pswd ", req.body);
+    let newPswd = req.body.password;
+    const newHash = crypto.createHash('sha256').update(newPswd).digest('hex');
+    try {
+        con.query('UPDATE BBY_12_users SET password = ? WHERE username = ?', [newHash, req.session.dBUsername],
+            function (error, results, fields) {
+                if (error) throw error;
+                res.setHeader('Content-Type', 'application/json');
+                res.send({
+                    status: "Success",
+                    msg: "User information updated."
+                });
+            });
+    } catch (err) {
+        console.log(err);
+    }
+
+});

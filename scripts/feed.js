@@ -35,6 +35,7 @@ module.exports = {
       clone.querySelector("#post-description").textContent = post.content;
       clone.querySelector("#post-title").textContent = post.postTitle;
 
+<<<<<<< HEAD
       let pImgs = clone.querySelector(".post-images");
       let pTags = clone.querySelector(".post-tags");
       for (const image of postImages) {
@@ -50,6 +51,51 @@ module.exports = {
           tag.querySelector("a").textContent = tags["tag"];
           tag.querySelector("a").href = tags["tag"];
           pTags.appendChild(tag);
+=======
+
+        let pImgTemplateContent = doc.getElementById("image-template").content;
+        let pTagTemplateContent = doc.getElementById("tag-template").content;
+
+
+        for (const post of posts) {
+            let postImages = await getImages(post.username, post.postId, con);
+            let postTags = await getTags(post.username, post.postId, con);
+
+            let clone = pTemplateContent.cloneNode(true);
+            clone.querySelector("#post-user-avatar").src = "./avatars/" + post.profilePic;
+            clone.querySelector("#post-business-name").textContent = post.cName;
+            clone.querySelector("#post-business-type").textContent = post.bType;
+            clone.querySelector("#post-timestamp").textContent = post.timestamp.toDateString().split(' ').slice(1).join(' ');
+            //console.log(post.timestamp.toDateString().split(' ').slice(1).join(' '));
+            clone.querySelector("#post-description").textContent = post.content;
+            clone.querySelector("#post-title").textContent = post.postTitle;
+            console.log(post.postId, postImages, postTags);
+
+
+            let pImgs = clone.querySelector(".post-images");
+            let pTags = clone.querySelector(".post-tags");
+            for (const image of postImages) {
+                if (image) {
+                    let img = pImgTemplateContent.cloneNode(true);
+                    img.querySelector("img").src = "./images/" + image["imgFile"];
+                    img.querySelector("img").alt = image["imgFile"];
+                    pImgs.appendChild(img);
+                    console.log(image["imgFile"]);
+                }
+
+            }
+            for (const tags of postTags) {
+                if (tags) {
+                    let tag = pTagTemplateContent.cloneNode(true);
+                    tag.querySelector("a").textContent = tags["tag"];
+                    tag.querySelector("a").href = tags["tag"];
+                    pTags.appendChild(tag);
+                }
+                console.log(tags["tag"]);
+            }
+
+            pBody.appendChild(clone);
+>>>>>>> dev
         }
       }
       pBody.appendChild(clone);

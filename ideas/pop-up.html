@@ -1,0 +1,83 @@
+    <!-- Pop up HTML -->
+    <!-- <div id="password-pop-up" class="overlay">
+      <div class="password-verify-box">
+        <h4>Change Password</h4>
+        <div class="password-box">
+        <a class="close" href="#">&times;</a>
+        <div class="password-content">
+          <input id="password-box-input" name="password" type="password" placeholder="Change Password" class="edit-input" required>
+          <input id="password-box-verify-input" name="password" type="password" placeholder="Verify Password" class="edit-input" required><br>
+          <button class="edit-submit" type="submit" value="submit">Submit</button>
+        </div>
+
+      </div>
+    </div>
+    </div> -->
+    <!--END-->
+
+    /* Pop-up CSS referenced from https://codepen.io/imprakash/pen/GgNMXO*/
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.39);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.password-box {
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+  padding-top: 5%;
+  margin: 0.5rem;
+}
+
+.password-verify-box {
+  top: 50%;
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -150px;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 5px;
+  min-width: 350px;
+  min-height: 150px;
+  max-width: 500px;
+  max-height: 300px;
+  position: absolute;
+}
+
+.password-verify-box h4 {
+  margin-top: 10px;
+  color: #333;
+  text-align: center;
+}
+
+.password-verify-box .close {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.password-verify-box .password-content {
+  display: flex;
+  justify-content: center;
+  max-height: 30%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}

@@ -28,6 +28,8 @@
   height: 100px;
 }
 
+
+
 .profile-picture:after {
   content: '';
   display: block;

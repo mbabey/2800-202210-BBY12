@@ -137,29 +137,6 @@ document.querySelector('#edit-submit').addEventListener("click", function (event
         description_sent = description_block_ori;
     };
 
-
-    let dataToSend = {
-        username: username_sent, email: email_sent, cName: cName_sent,
-        bType: biz_type_sent, fName: fName_sent, lName: lName_sent,
-        phoneNo: phoneNo_sent, location: location_sent, description: description_sent
-    };
-
-    console.log(dataToSend);
-    sendData(JSON.stringify(dataToSend));
     document.querySelector('.edit-submit').innerHTML="Sent!";
 
 });
-
-
-async function sendData(data) {
-    try {
-        await fetch('/admin-edit-user', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: data
-        });
-    } catch (err) {
-        console.log(err);
-    }
-}
-

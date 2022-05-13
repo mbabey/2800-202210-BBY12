@@ -134,7 +134,6 @@ footer {
 .post-block {
   margin: 0 auto;
   width: 50%;
-  min-width: 768px; /* 800px - (800px * 0.04) */ 
 }
 
 .post {
@@ -146,13 +145,44 @@ footer {
   padding: 10px;
 }
 
-.post .post-images {
+.post-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.post-info {
+  width: 50%;
+  display: grid;
+  grid-template-rows: 50% 50%;
+}
+
+.post-business-name {
+  grid-row: 1 / span 1;
+  margin-bottom: 0;
+}
+
+.post-business-type {
+  grid-row: 2 / span 1;
+}
+
+.post-timestamp {
+  grid-row: 2 / span 1;
+}
+
+.post-header img {
+  width: 75px;
+  height: auto;
+  clip-path: circle(40%);
+  background-color: var(--secondary-dark);
+}
+
+.post-images {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
 
-.post .post-images img {
+.post-images img {
   width: 20%;
   height: auto;
   border-radius: 10px;

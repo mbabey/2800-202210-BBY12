@@ -113,8 +113,9 @@
   background: var(--secondary-dark);
 }
 
-.post-images img {
-  background-color: #dff7ff;
+.post-block {
+  width: 96%;
+  max-width: 700px;
 }
 
 @media only screen and (min-width: 601px) and (max-width: 800px) {
@@ -237,7 +238,7 @@
     grid-column: 1 / span 1;
     grid-row: 3 / span 1;
     margin-left: 5%;
-    margin-bottom: 10%;
+    margin-bottom: 50px;
   }
 
   .profile-info h3,

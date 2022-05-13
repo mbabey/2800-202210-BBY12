@@ -41,10 +41,8 @@ const createAccount = require('./scripts/create-account');
 const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
-const {
-  H_CONFIG,
-  LOCAL_CONFIG
-} = require('./server-configs');
+const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
+const feed = require('./scripts/feed');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -154,14 +152,17 @@ app.get('/is-admin', (req, res) => {
 });
 
 // HOME PAGE
-app.get('/home', (req, res) => {
+app.get('/home', async (req, res) => {
   if (req.session.loggedIn) {
-    let profilePage = fs.readFileSync('./views/home.html', 'utf8').toString();
-    let profileDOM = new JSDOM(profilePage);
-    profileDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
-    profileDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
-    profilePage = profileDOM.serialize();
-    res.send(profilePage);
+    let homePage = fs.readFileSync('./views/home.html', 'utf8').toString();
+    let homeDOM = new JSDOM(homePage);
+
+    homeDOM = await feed.populateFeed(homeDOM, con);
+
+    homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
+    homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
+    homePage = homeDOM.serialize();
+    res.send(homePage);
   } else {
     res.redirect("/");
   }
@@ -220,7 +221,8 @@ app.route('/create-account')
         login(req, req.body["username"]);
         res.redirect('/');
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         res.redirect('/create-account');
       });
   });
@@ -362,6 +364,7 @@ app.post('/delete-user', (req, res) => {
 });
 
 //Upload profile avatar
+//TODO: Move code to different file
 app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
   console.log(req.fileValidtionError);
   if (req.session.loggedIn && !req.fileValidtionError) {
@@ -445,24 +448,3 @@ app.post('/search-user', (req, res) => {
   }
 
 });
-
-//ADMIN SEND EDITED USER PASSWORD
-// app.post('/admin-edit-user-pswd', function (req, res) {
-//   console.log("admin-edit-user-pswd ", req.body);
-//   let newPswd = req.body.password;
-//   const newHash = crypto.createHash('sha256').update(newPswd).digest('hex');
-//   try {
-//     con.query('UPDATE BBY_12_users SET password = ? WHERE username = ?', [newHash, req.session.dBUsername],
-//       function (error, results, fields) {
-//         if (error) throw error;
-//         res.setHeader('Content-Type', 'application/json');
-//         res.send({
-//           status: "Success",
-//           msg: "User information updated."
-//         });
-//       });
-//   } catch (err) {
-//     console.log(err);
-//   }
-
-// });

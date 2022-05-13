@@ -51,7 +51,7 @@ function insertAdmin(username, connection) {
                 } else {
                     resolve(true);
                 }
-            });
+            }); 
     });
 }
 

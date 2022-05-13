@@ -70,7 +70,7 @@
 
   <div class="container">
     <!-- Pop up HTML -->
-    <div id="password-pop-up" class="overlay">
+    <!-- <div id="password-pop-up" class="overlay">
       <div class="password-verify-box">
         <h4>Change Password</h4>
         <div class="password-box">
@@ -83,7 +83,7 @@
 
       </div>
     </div>
-    </div>
+    </div> -->
     <!--END-->
     
     <div class="dashboard-header">
@@ -104,10 +104,10 @@
         <p><b>Edit Account</b></p>
         <form method="post">
           <div id="admin-block" class="input-wrapper">
-            <label id="admin-checkbox-container">Make this user an administrator
+            <!-- <label id="admin-checkbox-container">Make this user an administrator
               <input name="isAdmin" type="checkbox">
               <span id="admin-checkmark"></span>
-            </label>
+            </label> -->
           </div>
           <div id="username-block" class="input-wrapper">
             <input name="username" type="text" placeholder="Username" class="edit-input" required>
@@ -116,36 +116,36 @@
             <input name="email" type="text" placeholder="Email" class="edit-input" required>
           </div>
           <div id="email-verify-block">
-            <input name="email-verify" type="text" placeholder="Verify Email" class="edit-input" required>
+            <input name="emailVerify" type="text" placeholder="Verify Email" class="edit-input">
           </div>
           <div id="password-block" class="input-wrapper">
             <a id="password-a-tag" href="#password-pop-up">
               <input id="password-input" name="password" type="password" placeholder="Change Password"
-                class="edit-input" required>
+                class="edit-input">
             </a>
           </div>
           <div id="biz-name-block" class="input-wrapper">
-            <input name="company-name" type="text" placeholder="Business Name" class="edit-input">
+            <input name="cName" type="text" placeholder="Business Name" class="edit-input">
           </div>
           <div id="biz-type-block" class="input-wrapper">
-            <input name="biz-type" type="text" placeholder="Business Type" class="edit-input">
+            <input name="bType" type="text" placeholder="Business Type" class="edit-input">
           </div>
           <div id="phone-num-block" class="input-wrapper">
-            <input name="phone-num" type="text" placeholder="Phone Number" class="edit-input">
+            <input name="phoneNo" type="text" placeholder="Phone Number" class="edit-input">
           </div>
 
           <div id="first-name-block" class="input-wrapper">
-            <input name="first-name" type="text" placeholder="First Name" class="edit-input">
+            <input name="fName" type="text" placeholder="First Name" class="edit-input">
           </div>
           <div id="last-name-block" class="input-wrapper">
-            <input name="last-name" type="text" placeholder="Last Name" class="edit-input">
+            <input name="lName" type="text" placeholder="Last Name" class="edit-input">
           </div>
           <div id="location-block" class="input-wrapper">
             <input name="location" type="text" placeholder="Address" class="edit-input">
           </div>
           <input id="description-block" name="description" type="text" placeholder="Business description"
             class="edit-input">
-          <button class="edit-submit" id="edit-sumbit" type="submit" value="submit">Edit Account</button>
+          <button class="edit-submit" id="edit-submit" type="submit" value="submit">Edit Account</button>
         </form>
       </div>
     </div>

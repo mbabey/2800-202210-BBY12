@@ -418,34 +418,30 @@ app.post('/admin-edit-user', function (req, res) {
   con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
     [req.body.cName, req.body.fName, req.body.lName, req.body.bType,
     req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
-    function (error, results, fields) {
+    function (error) {
       if (error) throw error;
-      res.setHeader('Content-Type', 'application/json');
-      res.send({
-        status: "Success",
-        msg: "User information updated."
-      });
+      res.send(fs.readFileSync('./views/admin-edit-user.html', 'utf8'));
     });
 });
 
 
 //ADMIN SEND EDITED USER PASSWORD
-app.post('/admin-edit-user-pswd', function (req, res) {
-  console.log("admin-edit-user-pswd ", req.body);
-  let newPswd = req.body.password;
-  const newHash = crypto.createHash('sha256').update(newPswd).digest('hex');
-  try {
-    con.query('UPDATE BBY_12_users SET password = ? WHERE username = ?', [newHash, req.session.dBUsername],
-      function (error, results, fields) {
-        if (error) throw error;
-        res.setHeader('Content-Type', 'application/json');
-        res.send({
-          status: "Success",
-          msg: "User information updated."
-        });
-      });
-  } catch (err) {
-    console.log(err);
-  }
+// app.post('/admin-edit-user-pswd', function (req, res) {
+//   console.log("admin-edit-user-pswd ", req.body);
+//   let newPswd = req.body.password;
+//   const newHash = crypto.createHash('sha256').update(newPswd).digest('hex');
+//   try {
+//     con.query('UPDATE BBY_12_users SET password = ? WHERE username = ?', [newHash, req.session.dBUsername],
+//       function (error, results, fields) {
+//         if (error) throw error;
+//         res.setHeader('Content-Type', 'application/json');
+//         res.send({
+//           status: "Success",
+//           msg: "User information updated."
+//         });
+//       });
+//   } catch (err) {
+//     console.log(err);
+//   }
 
-});
+// });

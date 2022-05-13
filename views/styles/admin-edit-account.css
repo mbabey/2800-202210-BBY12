@@ -1,396 +1,393 @@
 .container {
-    display: grid;
-    grid-template-rows: 120px 1fr;
+  display: grid;
+  grid-template-rows: 120px 1fr;
 }
 
 #content {
-    grid-column: 1 / span 3;
-    grid-row: 2 / span 1;
-    display: grid;
-    grid-template-columns: 40% 60%;
-    grid-template-rows: 25% 50% 25%;
+  grid-column: 1 / span 3;
+  grid-row: 2 / span 1;
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: 25% 50% 25%;
 }
 
 
 .dashboard-header {
-    grid-column: 1 / span 3;
-    grid-row: 1 / span 1;
-    background-color: var(--primary-text);
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 1;
+  background-color: var(--primary-text);
 }
 
 #dashboard-title {
-    font-size: 2rem;
-    text-align: center;
-    margin-top: 2.5rem;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 2.5rem;
 }
+
 #welcome {
-    grid-row: 1 / span 3;
-    grid-column: 1 / span 1;
-    background-color: var(--primary-light);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+  grid-row: 1 / span 3;
+  grid-column: 1 / span 1;
+  background-color: var(--primary-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 #welcome h1 {
-    color: white;
+  color: white;
 }
 
 #welcome p {
-    color: rgb(55, 124, 55);
+  color: rgb(55, 124, 55);
 }
 
 #edit-block {
-    grid-column: 2 / span 1;
-    grid-row: 2 / span 1;
-    margin-left: auto;
-    margin-right: auto;
-    height: 100%;
-    min-width: 380px;
-    width: 70%;
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  min-width: 380px;
+  width: 70%;
 }
 
 #edit-block p {
-    text-align: center;
+  text-align: center;
 }
 
 #edit-block>form {
-    height: 29.8rem;
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 2.4rem 2.4rem 3rem 2.4rem 2.4rem 2.4rem 2.4rem 5.6rem 2.4rem 4rem;
-    /* size in rem so form scales with font size. */
-    gap: 3px;
+  height: 29.8rem;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 2.4rem 2.4rem 3rem 2.4rem 2.4rem 2.4rem 2.4rem 5.6rem 2.4rem 4rem;
+  /* size in rem so form scales with font size. */
+  gap: 3px;
 }
 
 #edit-block>form>div {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #username-block {
-    grid-row: 1 / span 1;
-    grid-column: 1 / span 2;
+  grid-row: 1 / span 1;
+  grid-column: 1 / span 2;
 }
 
 #email-block {
-    grid-row: 2 / span 1;
-    grid-column: 1 / span 1;
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 1;
 }
 
 #email-verify-block {
-    grid-row: 2 / span 1;
-    grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+  grid-column: 2 / span 1;
 }
 
 #password-block {
-    grid-row: 3 / span 1;
-    grid-column: 1 / span 2;
+  grid-row: 3 / span 1;
+  grid-column: 1 / span 2;
 }
 
-#password-block > a {
-    grid-row: 3 / span 1;
-    grid-column: 1 / span 2;
-    display: inline-flex;
-    width: 100%;
-    text-decoration: none;
+#password-block>a {
+  grid-row: 3 / span 1;
+  grid-column: 1 / span 2;
+  display: inline-flex;
+  width: 100%;
+  text-decoration: none;
 }
 
-#password-block > a > input {
-    width: 100%;
+#password-block>a>input {
+  width: 100%;
 }
 
 #biz-name-block {
-    grid-row: 4 / span 1;
-    grid-column: 1 / span 2;
+  grid-row: 4 / span 1;
+  grid-column: 1 / span 2;
 }
 
 #biz-name-block:before {
-    content: '';
-    position: relative;
-    width: 130%;
-    border-top: 1px solid rgba(0, 128, 0, 0.7);
-    border-radius: 50%;
-    top: -0.4rem;
-    left: 50%;
-    transform: translateX(-50%);
+  content: '';
+  position: relative;
+  width: 130%;
+  border-top: 1px solid rgba(0, 128, 0, 0.7);
+  border-radius: 50%;
+  top: -0.4rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 #biz-type-block {
-    grid-row: 5 / span 1;
-    grid-column: 1 / span 1;
+  grid-row: 5 / span 1;
+  grid-column: 1 / span 1;
 }
 
 #phone-num-block {
-    grid-row: 5 / span 1;
-    grid-column: 2 / span 1;
+  grid-row: 5 / span 1;
+  grid-column: 2 / span 1;
 }
 
 #first-name-block {
-    grid-row: 6 / span 1;
-    grid-column: 1 / span 1;
+  grid-row: 6 / span 1;
+  grid-column: 1 / span 1;
 }
 
 #last-name-block {
-    grid-row: 6 / span 1;
-    grid-column: 2 / span 1;
+  grid-row: 6 / span 1;
+  grid-column: 2 / span 1;
 }
 
 #location-block {
-    grid-row: 7 / span 1;
-    grid-column: 1 / span 2;
+  grid-row: 7 / span 1;
+  grid-column: 1 / span 2;
 }
 
 #description-block {
-    grid-row: 8 / span 1;
-    grid-column: 1 / span 2;
+  grid-row: 8 / span 1;
+  grid-column: 1 / span 2;
 }
 
 .edit-input {
-    border: 1px black solid;
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    margin: 2px;
-    text-align: center;
-    background-color: rgba(128, 128, 128, 0.3);
+  border: 1px black solid;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  margin: 2px;
+  text-align: center;
+  background-color: rgba(128, 128, 128, 0.3);
 }
 
 #admin-block {
-    grid-row: 9 / span 1;
-    grid-column: 1 / span 2;
-    margin: auto;
+  grid-row: 9 / span 1;
+  grid-column: 1 / span 2;
+  margin: auto;
 }
 
 /* Code for checkbox styles from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox */
 #admin-checkbox-container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #admin-checkbox-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 #admin-checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: rgba(128, 128, 128, 0.3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: rgba(128, 128, 128, 0.3);
 }
 
 #admin-checkbox-container:hover input~#admin-checkmark {
-    background-color:rgba(64, 128, 64, 0.5);
+  background-color: rgba(64, 128, 64, 0.5);
 }
 
 #admin-checkbox-container input:checked~#admin-checkmark {
-    background-color: rgb(0, 128, 0);
+  background-color: rgb(0, 128, 0);
 }
 
 #admin-checkmark:after {
-    content: '';
-    position: absolute;
-    display: none;
+  content: '';
+  position: absolute;
+  display: none;
 }
 
 #admin-checkbox-container input:checked~#admin-checkmark:after {
-    display: block;
+  display: block;
 }
 
 #admin-checkmark:after {
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
+
 /* End code for checkbox styles. */
 
 .edit-submit {
-    grid-row: 10 / span 1;
-    grid-column: 1 / span 2;
-    padding: .7rem;
-    margin: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-    background-color: rgb(55, 124, 55);
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 50%;
-    -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  grid-row: 10 / span 1;
+  grid-column: 1 / span 2;
+  padding: .7rem;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  background-color: rgb(55, 124, 55);
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
 /* https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
 .edit-submit::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .edit-submit:focus,
 .edit-submit:hover {
-    transform: scale(1.025, 1.025);
+  transform: scale(1.025, 1.025);
 }
 
 .edit-submit:focus::after,
 .edit-submit:hover::after {
-    opacity: 1;
+  opacity: 1;
 }
 
 .edit-submit:active {
-    transform: scale(1);
+  transform: scale(1);
 }
 
 /* Pop-up CSS referenced from https://codepen.io/imprakash/pen/GgNMXO*/
 .overlay {
-position: fixed;
-top: 0;
-bottom: 0;
-left: 0;
-right: 0;
-background: rgba(0, 0, 0, 0.39);
-visibility: hidden;
-opacity: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.39);
+  visibility: hidden;
+  opacity: 0;
 }
+
 .overlay:target {
-visibility: visible;
-opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
 .password-box {
-    display: flex;
-    flex-direction: column;
-    padding: 5%;
-    padding-top: 5%;
-    margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+  padding-top: 5%;
+  margin: 0.5rem;
 }
 
 .password-verify-box {
-top: 40%;
-bottom: 0;
-left: 40%;
-right: 0;
-padding: 2rem;
-background: #fff;
-border-radius: 5px;
-min-width: 130px;
-min-height: 200px;
-max-width: 30%;
-max-height: 30%;
-position: relative;
+  top: 40%;
+  bottom: 0;
+  left: 40%;
+  right: 0;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 5px;
+  min-width: 130px;
+  min-height: 200px;
+  max-width: 30%;
+  max-height: 30%;
+  position: relative;
 }
 
 .password-verify-box h4 {
-margin-top: 10px;
-color: #333;
-text-align: center;
+  margin-top: 10px;
+  color: #333;
+  text-align: center;
 }
+
 .password-verify-box .close {
-position: absolute;
-top: 10px;
-right: 30px;
-transition: all 200ms;
-font-size: 1.5rem;
-font-weight: bold;
-text-decoration: none;
-color: #333;
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
 }
-.password-verify-box .close:hover {
-color: #06D85F;
-}
+
 .password-verify-box .password-content {
-    display: flex;
-    justify-content: center;
-max-height: 30%;
-overflow: auto;
-display: flex;
-flex-direction: column;
-width: 100%;
+  display: flex;
+  justify-content: center;
+  max-height: 30%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
-
-#password-submit {
-
-}
-  
-  @media screen and (max-width: 700px){
-    .box{
-      width: 70%;
-    }
-    .password-verify-pop-up{
-      width: 70%;
-    }
-  }
-
 
 @media only screen and (max-width: 800px) {
-    .container {
-        display: grid;
-    }
-    #content {
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 10% repeat(5, 15%);
-    }
+  .container {
+    display: grid;
+  }
 
-    #dashboard-title {
-        font-size: 2rem;
-    }
+  #content {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 10% repeat(5, 15%);
+  }
 
-    #edit-block {
-        grid-column: 1 / span 1;
-        grid-row: 3 / span 1;
-        min-width: 256px;
-        width: 70%;
-        height: 50%;
-    }
+  #dashboard-title {
+    font-size: 2rem;
+  }
 
-    #biz-name-block:before {
-        width: 100%;
-    }
+  #edit-block {
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 1;
+    min-width: 256px;
+    width: 70%;
+    height: 50%;
+  }
 
-    #admin-checkbox-container {
-        font-size: 1rem;
-    }
+  #biz-name-block:before {
+    width: 100%;
+  }
 
-    #welcome {
-        display: none;
-    }
+  #admin-checkbox-container {
+    font-size: 1rem;
+  }
 
-    #welcome h1 {
-        display: none;
-    }
+  #welcome {
+    display: none;
+  }
 
-    #welcome p {
-        display: none;
-    }
+  #welcome h1 {
+    display: none;
+  }
+
+  #welcome p {
+    display: none;
+  }
+
+  .password-verify-box {
+    width: 70%;
+  }
+
+  .password-verify-pop-up {
+    width: 70%;
+  }
 }

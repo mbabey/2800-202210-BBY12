@@ -44,6 +44,7 @@
   position: absolute;
   top: 85px;
   right: 0;
+  z-index: 1;
 }
 
 .edit-profile,

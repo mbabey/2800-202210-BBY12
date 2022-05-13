@@ -8,9 +8,7 @@
   grid-row: 2 / span 1;
   display: grid;
   grid-template-columns: 40% 60%;
-  grid-template-rows: 25% 50% 25%;
 }
-
 
 .dashboard-header {
   grid-column: 1 / span 3;
@@ -27,7 +25,7 @@
 #welcome {
   grid-row: 1 / span 3;
   grid-column: 1 / span 1;
-  background-color: var(--primary-light);
+  background-color: var(--primary);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -35,11 +33,35 @@
 }
 
 #welcome h1 {
-  color: white;
+color: white;
 }
 
 #welcome p {
-  color: rgb(55, 124, 55);
+color: var(--primary-text);
+}
+
+.left-side {
+  display: grid;
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 3;
+  grid-template-rows: repeat(3);
+  grid-template-columns: 100%;
+}
+
+.edit-block-container {
+  display: grid;
+  grid-column: 1 / span 1;
+  grid-row: 2 / span 1;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 380px;
+  width: 70%;
+}
+
+#edit-block-title {
+  text-align: center;
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 1;
 }
 
 #edit-block {
@@ -60,7 +82,7 @@
   height: 29.8rem;
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 2.4rem 2.4rem 3rem 2.4rem 2.4rem 2.4rem 2.4rem 5.6rem 2.4rem 4rem;
+  grid-template-rows: 2.4rem 2.4rem 3rem 2.4rem 2.4rem 2.4rem 2.4rem 5rem 2.4rem 3.5rem;
   /* size in rem so form scales with font size. */
   gap: 3px;
 }
@@ -341,15 +363,24 @@
 }
 
 @media only screen and (max-width: 800px) {
-  .container {
-    display: grid;
-  }
-
   #content {
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 10% repeat(5, 15%);
+    grid-template-rows: 100%;
   }
+
+    .left-side {
+        grid-column: 1 / span 1;
+        grid-row: 1 / span 1;
+    }
+
+    .edit-block-container {
+        grid-column: 1 / span 1;
+        grid-row: 2 / span 1;
+        min-width: 256px;
+        width: 70%;
+        vertical-align: middle;
+    }
 
   #dashboard-title {
     font-size: 2rem;

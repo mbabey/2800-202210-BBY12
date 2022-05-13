@@ -62,8 +62,7 @@
 
 #login-block>form>#login-submit {
     padding: .7rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     text-align: center;
     background-color: var(--primary-light);
     color: white;

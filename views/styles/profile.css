@@ -44,6 +44,7 @@
   position: absolute;
   top: 85px;
   right: 0;
+  z-index: 1;
 }
 
 .edit-profile,
@@ -116,17 +117,13 @@
   background-color: #dff7ff;
 }
 
-<<<<<<< HEAD
 @media only screen and (min-width: 601px) and (max-width: 800px) {
-=======
-@media only screen and (min-width: 600px) and (max-width: 800px) {
 
   .edit-profile-container {
     display: flex;
     flex-direction: row;
   }
 
->>>>>>> dev
   .profile-header {
     justify-content: center;
     margin: 0 2%;
@@ -147,11 +144,7 @@
   }
 
   .profile-edit-buttons {
-<<<<<<< HEAD
     top: 170px;
-=======
-    top: 150px;
->>>>>>> dev
     left: 0;
   }
 

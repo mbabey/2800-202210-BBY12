@@ -1,36 +1,32 @@
 .container {
-    display: grid;
-    grid-template-rows: 120px 1fr;
-}
-
-#content {
-    grid-column: 1 / span 3;
-    grid-row: 2 / span 1;
-    display: grid;
-    grid-template-columns: 40% 60%;
-    grid-template-rows: 25% 50% 25%;
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-template-rows: 10% 1fr;
 }
 
 .dashboard-header {
-    grid-column: 1 / span 3;
-    grid-row: 1 / span 1;
-    background-color: var(--primary-text);
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-text);
 }
 
 #dashboard-title {
-    font-size: 2rem;
-    text-align: center;
-    margin-top: 2.5rem;
+  font-size: 2rem;
+  text-align: center;
+  margin: 0;
 }
 
 #welcome {
-    grid-row: 1 / span 3;
-    grid-column: 1 / span 1;
-    background-color: var(--primary-light);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 1;
+  background-color: var(--primary-dark);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 
 #welcome h1 {
@@ -38,31 +34,27 @@
 }
 
 #welcome p {
-  color: rgb(55, 124, 55);
+  color: var(--primary-text);
 }
 
-.left-side {
-    display: grid;
-    grid-column: 2 / span 1;
-    grid-row: 1 / span 3;
-    grid-template-rows: repeat(3);
-    grid-template-columns: 100%;
+.admin-right {
+  grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.create-block-container {
-    display: grid;
-    grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-    margin-left: auto;
-    margin-right: auto;
-    min-width: 380px;
-    width: 70%;
+#create-block {
+  grid-column: 2 / span 1;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 380px;
+  width: 70%;
 }
 
-#edit-block-title {
+#create-block p {
     text-align: center;
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
 }
 
 #create-block>form {
@@ -125,13 +117,17 @@
   grid-column: 1 / span 2;
 }
 
-.create-input {
-  border: 1px black solid;
-  padding: 0.5rem;
-  font-size: 0.9rem;
-  margin: 2px;
-  text-align: center;
-  background-color: rgba(128, 128, 128, 0.3);
+div>.create-input,
+#description-block {
+    border: 1px black solid;
+    font-size: 0.9rem;
+    margin: 2px;
+    background-color: rgba(128, 128, 128, 0.3);
+}
+
+div>.create-input{
+    padding: 0.5rem;
+    text-align: center;
 }
 
 #admin-block {
@@ -252,65 +248,29 @@
 
 
 @media only screen and (max-width: 800px) {
-    .container {
-        display: grid;
-    }
-
-    #content {
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 100%;
-    }
-
-  #content {
-    display: grid;
+  .container {
+    grid-template-rows: 50px 1fr;
     grid-template-columns: 100%;
-    grid-template-rows: 100%;
   }
-
-    .left-side {
-        grid-column: 1 / span 1;
-        grid-row: 1 / span 1;
-    }
-
-    .create-block-container {
-        grid-column: 1 / span 1;
-        grid-row: 2 / span 1;
-        min-width: 256px;
-        width: 70%;
-        vertical-align: middle;
-    }
-
-  .left-side {
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
-  }
-
-  .create-block-container {
-    grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-    min-width: 256px;
-    width: 70%;
-    vertical-align: middle;
-  }
-
-  #biz-name-block:before {
-    width: 100%;
-  }
-
-  #admin-checkbox-container {
-    font-size: 1rem;
-  }
-
+  
   #welcome {
     display: none;
   }
 
-  #welcome h1 {
-    display: none;
+  .admin-right {
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
   }
 
-  #welcome p {
-    display: none;
+
+  #biz-name-block:before {
+    width: 100%;
+}
+
+  .create-block-container {
+    grid-row: 2 / span 1;
+    min-width: 256px;
+    width: 70%;
+    vertical-align: middle;
   }
 }

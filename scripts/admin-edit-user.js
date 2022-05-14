@@ -38,7 +38,7 @@ let first_name_block = document.querySelector('input[name=\'fName\']');
 let last_name_block = document.querySelector('input[name=\'lName\']');
 let phone_num_block = document.querySelector('input[name=\'phoneNo\']');
 let location_block = document.querySelector('input[name=\'location\']');
-let description_block = document.querySelector('input[name=\'description\']');
+let description_block = document.querySelector('textarea[name=\'description\']');
 let checkbox_block = document.querySelector('input[name=\'isAdmin\']');
 let edit_password = false;
 

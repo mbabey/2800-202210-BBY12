@@ -328,7 +328,7 @@ app.post('/delete-admin', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   con.query('SELECT * FROM BBY_12_admins',
     (err, results) => {
-      if (results.length > 1) {
+      if (results.length != 1) {
         con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
           (err, results) => {
             if (err) throw "Cannot delete admin if there is only one admin left.";
@@ -344,7 +344,7 @@ app.post('/delete-user', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   con.query('SELECT * FROM BBY_12_users',
     (err, results) => {
-      if (results.length > 1) {
+      if (results.length != 1) {
         con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
           (err, results) => {
             if (err) throw "Cannot delete user if there is only one user left.";

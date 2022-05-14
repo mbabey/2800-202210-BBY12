@@ -18,7 +18,7 @@ docLoaded(() => {
 
   function popUserData(userData) {
     document.getElementById("delete-user").addEventListener("click", (e) => {
-      if (userData.length > 1) {
+      if (userData.length != 1) {
         document.getElementById("status-2").innerHTML = "User successfully deleted.";
         //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
         window.setTimeout(() => { location.reload(); }, 1000);
@@ -45,7 +45,7 @@ docLoaded(() => {
 
   function popAdminData(adminData) {
     document.getElementById("delete-admin").addEventListener("click", (e) => {
-      if (adminData.length > 1) {
+      if (adminData.length != 1) {
         document.getElementById("status").innerHTML = "User successfully deleted as admin.";
         //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
         window.setTimeout(() => { location.reload(); }, 1000);

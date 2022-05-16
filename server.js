@@ -154,7 +154,9 @@ app.get('/home', async (req, res) => {
   if (req.session.loggedIn) {
     let homePage = fs.readFileSync('./views/home.html', 'utf8').toString();
     let homeDOM = new JSDOM(homePage);
-    await feed.populateFeed(req, homeDOM, con)
+    let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
+    let templateDOM = new JSDOM(templates);
+    await feed.populateFeed(req, homeDOM, templateDOM, con)
     .then((result)=>{
       homeDOM = result;
     })

@@ -11,10 +11,9 @@
     grid-template-columns: 20% 1fr;
 }
 
-#nav-logo-background {
+#pseudo-nav-logo-background {
     position: relative;
     background-color: var(--secondary-text);
-    margin-left: 50px;
     width: 150px;
     height: auto;
     clip-path: circle(40% at center);
@@ -23,7 +22,7 @@
     align-items: center;
 }
 
-#nav-logo {
+#pseudo-nav-logo {
     width: auto;
     height: 90px;
     position: relative;

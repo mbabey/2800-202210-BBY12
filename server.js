@@ -27,6 +27,7 @@ const upload = multer({
     let ext = "." + file.originalname.split('.')[file.originalname.split('.').length - 1];
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
       req.fileValidtionError = "Images Only!";
+      console.log(req.fileValidtionError);
       return callback(null, false, req.fileValidtionError);
     }
     callback(null, true);

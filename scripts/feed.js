@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    populateFeed: async (req, homeDOM, con) => {
+    populateFeed: async (req, homeDOM, templateDOM, con) => {
         return new Promise(async (resolve, reject) => {
             console.log("Populating Feed");
             let posts;
@@ -16,24 +16,22 @@ module.exports = {
                 .catch((err) => {
                     reject(err);
                 });
-            homeDOM = await populatePosts(req, homeDOM, posts, con);
+            homeDOM = await populatePosts(req, homeDOM, templateDOM, posts, con);
             resolve(homeDOM);
-        })
-        
+        });
+
     }
 };
 
 // build the post using all data
 //appendchild to the post block
-async function populatePosts(req, homeDOM, posts, con) {
+async function populatePosts(req, homeDOM,templateDOM, posts, con) {
     let doc = homeDOM.window.document;
+    let postTemp = templateDOM.window.document;
     let pBody = doc.querySelector(".post-block");
-    let pTemplateContent = doc.getElementById("post-template").content;
-
-
-    let pImgTemplateContent = doc.getElementById("image-template").content;
-    let pTagTemplateContent = doc.getElementById("tag-template").content;
-
+    let pTemplateContent = postTemp.getElementById("post-template").content;
+    let pImgTemplateContent = postTemp.getElementById("image-template").content;
+    let pTagTemplateContent = postTemp.getElementById("tag-template").content;
 
     for (const post of posts) {
         let postImages = await getImages(post.username, post.postId, con);
@@ -46,7 +44,6 @@ async function populatePosts(req, homeDOM, posts, con) {
         clone.querySelector("#post-business-name").textContent = post.cName;
         clone.querySelector("#post-business-type").textContent = post.bType;
         clone.querySelector("#post-timestamp").textContent = post.timestamp.toDateString().split(' ').slice(1).join(' ');
-        //console.log(post.timestamp.toDateString().split(' ').slice(1).join(' '));
         clone.querySelector("#post-description").textContent = post.content;
         clone.querySelector("#post-title").textContent = post.postTitle;
 
@@ -74,18 +71,6 @@ async function populatePosts(req, homeDOM, posts, con) {
     }
     return homeDOM;
 }
-
-// function retrievePostExtras(username, postId, con) {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             let postImages = await getImages(username, postId, con);
-//             let postTags = await getTags(username, postId, con);
-//             resolve(postImages, postTags);
-//         } catch (err) {
-//             reject(err);
-//         }
-//     });
-// }
 
 async function getImages(username, postId, con) {
     let imgs;

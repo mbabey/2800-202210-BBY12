@@ -1,15 +1,12 @@
-const { getDocumentTypeNodeSystemId } = require("jsdom/lib/jsdom/living/domparsing/parse5-adapter-serialization");
-
 docLoaded(() => {
   ['click'].forEach(e => {
     document.querySelector('#login-submit').addEventListener(e, () => {
-      let data = { username: document.querySelector('input[\'username\']'), 
-      password: document.querySelector('input[\'password\']') };
-      
+      let data = { username: document.querySelector('input[name=\'username\']').value, 
+      password: document.querySelector('input[name=\'password\']').value };
+      console.log(data);
       sendData(data);
     });
   });
-  document.querySelector('#login-submit').addEventListener('click')
 });
 
 async function sendData(data) {
@@ -19,7 +16,14 @@ async function sendData(data) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
       });
-      if (response.status == 'loginFailure') {
+      console.log(response);
+      response = await response.text();
+      console.log(response);
+      response = JSON.parse(response);
+      console.log(response);
+      if (response.status == 'success') {
+        window.location.replace('/');
+      } else {
         document.querySelector('#error-message').innerHTML = 'Error! Username/password combination not found!';
       }
   } catch (err) {

@@ -102,6 +102,7 @@ app.route('/login')
     }
   })
   .post((req, res,) => {
+    res.setHeader('content-type', 'application/json');
     let user = req.body.username.trim();
     let pass = req.body.password;
     const hash = crypto.createHash('sha256').update(pass).digest('hex');
@@ -109,10 +110,9 @@ app.route('/login')
       con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], (err, results) => {
         if (results && results.length > 0) {
           login(req, user);
-          res.redirect('/');
+          res.send({ status: 'success' });
         } else {
-          res.setHeader({ 'content-type': 'application/json' })
-          res.send({ 'status': 'loginFailure' });
+          res.send({ status: 'fail' });
         }
         if (err) throw err;
       });

@@ -27,7 +27,6 @@ const upload = multer({
     let ext = "." + file.originalname.split('.')[file.originalname.split('.').length - 1];
     if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
       req.fileValidtionError = "Images Only!";
-      console.log(req.fileValidtionError);
       return callback(null, false, req.fileValidtionError);
     }
     callback(null, true);
@@ -185,12 +184,15 @@ app.route("/create-post")
     }
   })
   .post(upload.array('image-upload'), (req, res) => {
+    console.log("before if");
     if (req.session.loggedIn && !req.fileValidtionError) {
+      console.log("in if");
       createPost.createPost(req, res, storage, con)
         .then((resolve) => {
           res.redirect('/home');
         })
         .catch((err) => {
+          console.log(err);
           res.redirect('back');
         });
     } else {

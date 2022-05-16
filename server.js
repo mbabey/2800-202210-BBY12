@@ -154,7 +154,13 @@ app.get('/home', async (req, res) => {
   if (req.session.loggedIn) {
     let homePage = fs.readFileSync('./views/home.html', 'utf8').toString();
     let homeDOM = new JSDOM(homePage);
-    homeDOM = await feed.populateFeed(homeDOM, con);
+    await feed.populateFeed(req, homeDOM, con)
+    .then((result)=>{
+      homeDOM = result;
+    })
+    .catch((reject) =>{
+      console.log(reject);
+    });
     homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
     homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
     homePage = homeDOM.serialize();

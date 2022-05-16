@@ -32,12 +32,11 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
     let pTemplateContent = postTemp.getElementById("post-template").content;
     let pImgTemplateContent = postTemp.getElementById("image-template").content;
     let pTagTemplateContent = postTemp.getElementById("tag-template").content;
+    let pEditTemplateContent = postTemp.getElementById("edit-template").content;
 
     for (const post of posts) {
         let postImages = await getImages(post.username, post.postId, con);
         let postTags = await getTags(post.username, post.postId, con);
-
-        if (req.session.username == post.username) console.log("yup user");
 
         let clone = pTemplateContent.cloneNode(true);
         clone.querySelector("#post-user-avatar").src = "./avatars/" + post.profilePic;
@@ -56,8 +55,8 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
                 img.querySelector("img").alt = image["imgFile"];
                 pImgs.appendChild(img);
             }
-
         }
+        
         for (const tags of postTags) {
             if (tags) {
                 let tag = pTagTemplateContent.cloneNode(true);
@@ -66,6 +65,11 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
                 pTags.appendChild(tag);
             }
         }
+
+        if (req.session.username == post.username) {
+            let pEdit = pEditTemplateContent.cloneNode(true);
+            clone.querySelector("#post-footer").appendChild(pEdit)
+        };
 
         pBody.appendChild(clone);
     }
@@ -77,12 +81,9 @@ async function getImages(username, postId, con) {
     await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [username, postId])
         .then((results) => {
             imgs = results[0];
-            //console.log(results[0]);
-
         })
         .catch((err) => {
             console.log(err);
-            reject(err);
         });
     return imgs;
 }
@@ -92,7 +93,6 @@ async function getTags(username, postId, con) {
     await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [username, postId])
         .then((results) => {
             tags = results[0];
-            //console.log(results[0]);
         }).catch((err) => {
             console.log(err);
         });

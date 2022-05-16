@@ -109,7 +109,14 @@ h1 {
     border: none;
     min-width: 90%;
     font-size: 0.85rem;
+    cursor: default;
+    user-select: none;
+    resize: none;
 }
+
+#tag-field:focus {
+    outline: none;
+ }
 
 @media only screen and (min-width: 800px) {
     #drop-area {

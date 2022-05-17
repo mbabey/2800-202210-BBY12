@@ -255,8 +255,30 @@
     width: 72%;
   }
 
-  #biz-name-block:before {
-    width: 100%;
+  #create-block>form {
+    grid-template-columns: 100%;
+    grid-template-rows: 3rem repeat(2, 6rem) 4rem;
+    gap: 0;
+  }
+
+  #username-block {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+  }
+
+  #email-block {
+    grid-column: 1 / span 1;
+    grid-row: 2 / span 1;
+  }
+
+  #password-block {
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 1;
+  }
+
+  #create-submit {
+    grid-column: 1 / span 1;
+    grid-row: 4 / span 1;
   }
 
   #welcome {

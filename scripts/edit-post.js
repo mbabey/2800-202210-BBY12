@@ -4,8 +4,10 @@ docLoaded(() => {
     function editPost(event){
         console.log(event.target.parentNode.parentNode.innerHTML);
     }
-    let target = document.querySelector("#post-edit");
-    target.addEventListener( "click", editPost, false);
+    let targets = document.querySelectorAll("#post-edit");
+    targets.forEach((target)=>{
+        target.addEventListener( "click", editPost, false);
+    })
 });
 
 function docLoaded(action) {

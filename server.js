@@ -444,3 +444,10 @@ app.post('/search-user', (req, res) => {
     });
   }
 });
+
+//LOCATING URL OF ANY USER'S PROFILE
+app.get('/other-profile', function (req, res){
+  
+  
+  
+})

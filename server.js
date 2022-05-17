@@ -465,3 +465,7 @@ app.get('/get-post/:username/:postId', (req, res) => {
       res.send(results);
     });
 });
+
+app.post('/edit-post', upload.array('image-upload'), (req, res) => {
+  console.log(req.body);
+})

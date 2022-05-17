@@ -34,10 +34,29 @@ function savePost(event) {
     console.log("saved");
     let post = event.target.parentNode.parentNode;
     disableEdit(post);
+    let title = post.querySelector(".post-title").textContent;
+    let desc = post.querySelector(".post-description").textContent
+    let tags = post.querySelector(".post-tags").textContent;
+    let imgs = post.querySelector(".edit-image-upload");
+
+    const formData = new FormData();
+    formData.append("input-title", title);
+    formData.append("input-description", desc);
+    formData.append("tag-field", tags);
+    for (let i = 0; i < imgs.files.length; i++) {
+        console.log(imgs.files[i]);
+        formData.append("Image", imgs.files[i]);
+    }
+
+    fetch('/edit-post', {
+        method: 'POST',
+        body: formData,
+    }).catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 function enableEdit(post) {
-    console.log(post.querySelector(".add-image-hide"));
     post.querySelector(".add-image-hide").setAttribute("class", "add-image");
     post.querySelector(".post-delete-hide").setAttribute("class", "post-delete");
     post.querySelector(".post-save-hide").setAttribute("class", "post-save");
@@ -49,7 +68,6 @@ function enableEdit(post) {
 }
 
 function disableEdit(post) {
-    console.log(post.querySelector(".add-image-hide"));
     post.querySelector(".add-image").setAttribute("class", "add-image-hide");
     post.querySelector(".post-delete").setAttribute("class", "post-delete-hide");
     post.querySelector(".post-save").setAttribute("class", "post-save-hide");

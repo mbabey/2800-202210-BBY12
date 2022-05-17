@@ -76,6 +76,8 @@ function initUserDeletion(userData) {
       };
 
       sendData(userInput, '/delete-user', (response) => {
+
+        
         if (response.status == 'success') {
           document.querySelector('#status-2').innerHTML = 'User deleted';
         } else {
@@ -88,7 +90,6 @@ function initUserDeletion(userData) {
       // //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
       // window.setTimeout(() => { location.reload(); }, 1000);
     } else { // If user is the last user
-      // Display message, do not delete
       document.querySelector("#error-message-2").innerHTML = "Last user cannot be deleted";
     }
   });

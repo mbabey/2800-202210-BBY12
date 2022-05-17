@@ -9,8 +9,14 @@ module.exports = {
 };
 
 async function insertDB(req, con) {
-    const results = await con.execute('SELECT MAX(postId) AS maxId FROM bby_12_post');
-    let postId = results["maxId"] + 1;
+    let postId;
+    await con.promise().query('SELECT MAX(postId) AS maxId FROM bby_12_post')
+        .then((result) => {
+            postId = result[0][0].maxId + 1;
+        }).catch((err) => {
+            console.log(err);
+        });
+    console.log(postId);
     return new Promise(async (resolve, reject) => {
         if (req.body["input-title"] && (req.body["input-description"])) {
             await con.execute('INSERT INTO \`BBY_12_Post\` (username, postId, postTitle, timestamp, content) values (?,?,?,?,?)', [req.session.username, postId, req.body["input-title"], new Date().toISOString().slice(0, 19).replace('T', ' '), req.body["input-description"]],

@@ -157,12 +157,12 @@ app.get('/home', async (req, res) => {
     let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
     let templateDOM = new JSDOM(templates);
     await feed.populateFeed(req, homeDOM, templateDOM, con)
-    .then((result)=>{
-      homeDOM = result;
-    })
-    .catch((reject) =>{
-      console.log(reject);
-    });
+      .then((result) => {
+        homeDOM = result;
+      })
+      .catch((reject) => {
+        console.log(reject);
+      });
     homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
     homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
     homePage = homeDOM.serialize();
@@ -202,7 +202,7 @@ app.route("/create-post")
           res.redirect('back');
         });
     } else {
-      res.redirect('back')
+      res.redirect('back');
     }
   });
 
@@ -349,7 +349,7 @@ app.post('/delete-admin', (req, res) => {
         con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
           (err, results) => {
             if (err) throw "Cannot delete admin if there is only one admin left.";
-          })
+          });
       } else {
         if (err) throw err;
       }
@@ -366,7 +366,7 @@ app.post('/delete-user', (req, res) => {
           try {
             con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
               (err, results) => {
-              })
+              });
           } catch (err) { }
         } else {
           if (err) throw "Cannot delete user if there is only one user left.";
@@ -388,7 +388,7 @@ app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
     let oldPath = req.file.path;
     let newPath = "./views/avatars/" + req.file.filename;
     fs.rename(oldPath, newPath, function (err) {
-      if (err) throw err
+      if (err) throw err;
     });
   }
   res.redirect("/profile");
@@ -452,4 +452,15 @@ app.post('/search-user', (req, res) => {
       msg: "Auth Fail"
     });
   }
+});
+
+// QUERY: GET POST FROM ID AND USERNAME
+app.get('/get-post/:username/:postId', (req, res) => {
+  console.log(req.params);
+  con.query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId],
+    (error, results, fields) => {
+      if (error) throw error;
+      res.setHeader('content-type', 'application/json');
+      res.send(results);
+    });
 });

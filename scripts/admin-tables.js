@@ -70,21 +70,28 @@ function popAdminData(adminData) {
 function initUserDeletion(userData) {
   document.getElementById("delete-user").addEventListener("click", (e) => {
     if (userData.length != 1) { // If user is not the last user.
-      // Delete them
-      let userInput = { 
-        username: document.getElementById("user-username").value 
+      let user = document.getElementById("user-username").value;
+      let userInput = {
+        username: user
       };
 
       sendData(userInput, '/delete-user', (response) => {
 
-        
-        if (response.status == 'success') {
-          document.querySelector('#status-2').innerHTML = 'User deleted';
-        } else {
-          document.querySelector('#error-message-2').innerHTML = 'User could not be deleted';
-        }
+        // I don't know why I need to do it this way but it doesn't work when I bare back the conditionals.
+        let adminDeleted = response.adminX && response.userX && !response.lastAdmin;
+        let userDeleted = !response.adminX && response.userX && !response.lastAdmin;
+        let lastAdmin = !response.adminX && !response.userX && response.finalAdmin;
+
+        if (adminDeleted)
+          document.querySelector('#status-2').innerHTML = 'Administrator ' + user + ' deleted.';
+        else if (userDeleted)
+          document.querySelector('#status-2').innerHTML = 'User ' + user + ' deleted.';
+        else if (lastAdmin)
+          document.querySelector('#error-message-2').innerHTML = 'Administrator ' + user + ' could not be deleted; ' + user + ' is the only administrator.';
+        else
+          document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' could not be deleted.';
       });
-      
+
       document.getElementById("user-username").value = "";
 
       // //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
@@ -102,7 +109,7 @@ function initAdminDeletion(adminData) {
     if (adminData.length != 1) { // If admin is not the last admin.
       // Delete them
       let adminInput = { username: document.getElementById("admin-username").value };
-      
+
       sendData(adminInput, '/delete-admin', (response) => {
         if (response.status == 'success') {
           document.querySelector('#status').innerHTML = 'Admin removed';
@@ -110,7 +117,7 @@ function initAdminDeletion(adminData) {
           document.querySelector('#error-message').innerHTML = 'Admin could not be deleted';
         }
       });
-      
+
       // Display message
       document.getElementById("status").innerHTML = "User successfully deleted as admin.";
       document.getElementById("admin-username").value = "";
@@ -133,7 +140,7 @@ async function sendData(data, path, printMessage) {
     });
     response = await response.text();
     response = JSON.parse(response);
-    printMessage(response); 
+    printMessage(response);
   } catch (err) {
     if (err) throw err;
   }

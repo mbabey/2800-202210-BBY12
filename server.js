@@ -364,48 +364,20 @@ app.post('/delete-user', async (req, res) => {
 
   if (numUsers > 1) {
     if (numAdmins > 1) {
-      con.query('DELETE FROM BBY_12_Admins WHERE username = ?', [req.body.username], (err, results) => {
-        if (results.length > 0)
-          adminDeleted = true;
-      });
+      [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Admins WHERE username = ?', [req.body.username]);
+      if (rows.affectedRows)
+        adminDeleted = true;
     }
-    con.query('DELETE FROM BBY_12_Users WHERE username = ?', [req.body.username], (err, results) => {
-      if (err)
-        lastAdmin = true;
-      else if (results.length > 0)
+    try {
+      [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Users WHERE username = ?', [req.body.username]);
+      if (rows.affectedRows)
         userDeleted = true;
-    });
+    } catch (err) {
+        lastAdmin = true;
+    }
   }
-  
-  res.setHeader('Content-Type', 'application/json');
-  res.send({ adminX: adminDeleted, userX: userDeleted, finalAdmin: lastAdmin });
-
-  // if numusers > 1
-  //  query users to find user
-  //    if numadmin > 1
-  //      query admin to find admin
-  //        delete admin
-  //    else
-  //      nothing?
-  //    delete user
-  //   catch error
-  //    user was admin only admin, cannot delete
-
-
-  // if (results.length != 1) {
-  //   // con.query('DELETE FROM BBY_12_admins WHERE username = ?', [req.body.username]);
-  //   con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
-  //     (err, results) => {
-  //       if (err)
-  //         res.send({ status: 'fail' });
-  //       else
-  //         res.send({ status: 'success' });
-  //     });
-  // } else {
-  //   if (err) throw "Cannot delete user if there is only one user left.";
-  // }
-  // });
-
+res.setHeader('Content-Type', 'application/json');
+res.send({ adminX: adminDeleted, userX: userDeleted, finalAdmin: lastAdmin });
 });
 
 //Upload profile avatar

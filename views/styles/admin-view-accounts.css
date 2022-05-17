@@ -1,11 +1,12 @@
-#content {
+.container {
   display: grid;
-  grid-template-rows: 120px 1fr;
+  grid-template-rows: 10% 1fr;
+  grid-template-columns: 100%;
 }
 
 .dashboard-header {
-  grid-row: 1 / span 1;
   grid-column: 1 / span 3;
+  grid-row: 1 / span 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +22,7 @@
 .admin-wrapper {
   display: grid;
   grid-column: 1 / span 3;
-  grid-template-columns: 20% 45% 35%;
+  grid-template-columns: 20% 50% 30%;
 }
 
 #delete-block {
@@ -31,7 +32,7 @@
   justify-content: space-evenly;
   text-align: center;
   margin-top: 30px;
-  background-color: white; 
+  background-color: white;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
@@ -51,7 +52,6 @@
   padding: 8px 2px;
   margin-bottom: 10px;
   background-color: rgba(192, 192, 192, 0.3);
-
 }
 
 .delete-message {
@@ -66,7 +66,7 @@
   font-size: 1rem;
   padding: 1rem;
   text-align: center;
-  background-color: rgb(211, 34, 34);
+  background-color: var(--danger-red);
   border: none;
   cursor: pointer;
   -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -125,13 +125,13 @@ h2 {
 
 #user-profiles {
   grid-column: 2 / span 1;
-  margin: 0 10px; 
+  margin: 0 10px;
   overflow: auto;
 }
 
 #admin-profiles {
   grid-column: 3 / span 1;
-  margin: 0 10px; 
+  margin: 0 10px;
   overflow: auto;
 }
 
@@ -154,6 +154,7 @@ h2 {
   align-items: center;
   text-align: center;
   padding: 2px;
+  position: relative;
 }
 
 .user-card-header {
@@ -173,7 +174,7 @@ h2 {
   align-items: center;
 }
 
-.user-card-avatar-background > img {
+.user-card-avatar-background>img {
   width: auto;
   height: 90px;
   position: relative;
@@ -193,8 +194,56 @@ h2 {
 }
 
 .close {
-  display: flex;
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }
+
+.close svg {
+  color: black;
+}
+
+.close:hover svg {
+  color: var(--danger-red);
+}
+
+/* Tooltip styles courtesy of https://www.w3schools.com/css/css_tooltip.asp */
+
+.close .tooltip-text {
+  visibility: hidden;
+  width: 80px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 5px 0;
+  border-radius: 5px;
+  position: absolute;
+  top: -5px;
+  right: 150%;
+  z-index: 1;
+}
+
+.admin-card .close .tooltip-text {
+  width: 140px;
+}
+
+.close .tooltip-text::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: 100%; /* To the right of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(0, 0, 0, 0.3);
+}
+
+.close:hover .tooltip-text {
+  visibility: visible;
+}
+
+/* End tooltip styles */
 
 .admin-card {
   background-color: var(--secondary);
@@ -206,6 +255,7 @@ h2 {
   flex-direction: row;
   align-items: center;
   text-align: center;
+  position: relative;
 }
 
 .admin-card-header {
@@ -225,7 +275,7 @@ h2 {
   align-items: center;
 }
 
-.admin-card-avatar-background > img {
+.admin-card-avatar-background>img {
   width: auto;
   height: 90px;
   position: relative;
@@ -235,8 +285,6 @@ h2 {
   margin-bottom: 10px;
   margin-left: 30px;
 }
-
-
 
 @media only screen and (max-width: 800px) {
   #content {

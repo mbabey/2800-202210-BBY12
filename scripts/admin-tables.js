@@ -33,10 +33,15 @@ function popUserData(userData) {
   let userCard = "<div class='user-card-group'>";
   for (let i = 0; i < userData.rows.length; i++) {
     userCard += (
-      "<div class='user-card'><div class='user-card-info'>"
+      "<div class='user-card'>"
+      + "<div class='user-card-header'>"
+      + "<div class='user-card-avatar-background'><img id='user-card-avatar' src='"
+      // + "./avatars/" + userData.rows[i].profilePic + "' alt='Profile Picture'></div>"
+      + "./avatars/Logo.png' alt='Profile Picture'></div></div>"
+      + "<div class='user-card-info'>"
       + "<h3 class='user-card-username'>" + userData.rows[i].username 
-      + "</h3><span class='user-card-business-name'>" + userData.rows[i].cName 
-      + "</span><span class='user-card-first-name'>" + userData.rows[i].fName 
+      + "</h3><span class='user-card-business-name'>" + userData.rows[i].cName + " | "
+      + "</span><span class='user-card-first-name'>" + userData.rows[i].fName + " "
       + "</span><span class='user-card-last-name'>" + userData.rows[i].lName + "</span>"
       + "</div></div>"
     );
@@ -64,12 +69,16 @@ async function getAdminData() {
 
 function popAdminData(adminData) {
   // ADMIN TABLE CREATED HERE
-  let adminTable = `<table id='admin-table'><tr><th>Username</th></tr>`;
+  let adminCard = "<div class='admin-card-group'>";
   for (let i = 0; i < adminData.rows.length; i++) {
-    adminTable += ("<tr><td class=\"data-index\">" + adminData.rows[i].username + "</td></tr>");
+    adminCard += (
+      "<div class='admin-card'><div class='admin-card-info'>"
+      + "<h3 class='admin-card-username'>" + adminData.rows[i].username 
+      + "</h3></div></div>"
+    );
   }
-  adminTable += "</table>";
-  document.getElementById("admin-list").innerHTML = adminTable;
+  adminCard += "</div>";
+  document.getElementById("admin-list").innerHTML = adminCard;
 }
 
 function initUserDeletion(userData) {

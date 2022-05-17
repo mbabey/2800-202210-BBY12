@@ -118,8 +118,8 @@
 /* Table CSS */
 #user-tables {
   grid-column: 2 / span 1;
-  margin: 0 30px;
-  overflow: auto; 
+  margin: 0 30px; 
+  overflow: auto;
 }
 
 table {
@@ -164,20 +164,67 @@ color: white;
 }
 
 /* User card CSS */
+.user-card-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .user-card {
-  background-color: var(--primary);
+  background-color: var(--primary-light);
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  height: 80px;
+  height: 110px;
+  width: 350px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  padding: 2px;
+}
+
+.user-card-header {
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+}
+
+.user-card-avatar-background {
+  position: relative;
+  background-color: var(--secondary-text);
+  width: 100px;
+  height: auto;
+  clip-path: circle(40% at center);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-card-avatar-background > img {
+  width: auto;
+  height: 90px;
+  position: relative;
+}
+
+.user-card-info {
+  margin-bottom: 15px;
+  margin-left: 10px;
+}
+
+.admin-card {
+  background-color: var(--secondary);
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: 60px;
   width: 350px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--primary);
   text-align: center;
 }
-
 
 @media only screen and (max-width: 800px) {
   #content {

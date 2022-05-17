@@ -1,6 +1,6 @@
 <template id="post-template">
     <div class="post" id="post">
-        <div class="post-header" id="post-header">
+        <div class="post-header" id="post-header" data-postId=""  data-username="" >
             <div class="post-user-avatar-background">
                 <img id="post-user-avatar" src="#" alt="Profile Picture">
             </div>
@@ -27,5 +27,7 @@
 </template>
 
 <template id="edit-template">
+    <a class="post-delete" id="post-delete">Delete</a>
     <a class="post-edit" id="post-edit">Edit</a>
+    <a class="post-save" id="post-save">Save</a>
 </template>

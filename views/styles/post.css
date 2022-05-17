@@ -80,15 +80,44 @@
     margin-top: 10px;
 }
 
-.post-footer{
+.post-footer {
     display: grid;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 70% 15% 15%;
+    min-height: 2em;
 }
+
 .post-tags {
-    margin: 5px 0;
+    margin: auto 0;
+    grid-row: 1;
+    vertical-align: middle;
 }
-.post-edit{
+
+.post-edit {
+    visibility: visible;
     text-align: end;
+    grid-row: 1;
+    grid-column: 3;
+    margin: auto 0;
+}
+
+.post-save {
+    visibility: hidden;
+    text-align: end;
+    grid-row: 1;
+    grid-column: 3;
+    background-color: var(--secondary);
+    color: white;
+    margin: auto 0;
+}
+
+.post-delete {
+    visibility: hidden;
+    text-align: end;
+    grid-row: 1;
+    grid-column: 2;
+    background-color: var(--secondary);
+    color: white;
+    margin: auto 0;
 }
 
 @media only screen and (max-width: 800px) {

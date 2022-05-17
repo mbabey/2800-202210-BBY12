@@ -1,13 +1,22 @@
 'use strict';
 docLoaded(() => {
     console.log("aaa");
-    function editPost(event){
-        console.log(event.target.parentNode.parentNode.innerHTML);
+    function editPost(event) {
+        console.log("Edit");
     }
-    let targets = document.querySelectorAll("#post-edit");
-    targets.forEach((target)=>{
-        target.addEventListener( "click", editPost, false);
-    })
+    function savePost(event) {
+        console.log("saved");
+    }
+
+    let editButtons = document.querySelectorAll("#post-edit");
+    editButtons.forEach((target) => {
+        target.addEventListener("click", editPost, false);
+    });
+
+    let saveButtons = document.querySelectorAll("#post-save");
+    saveButtons.forEach((target) => {
+        target.addEventListener("click", savePost, false);
+    });
 });
 
 function docLoaded(action) {

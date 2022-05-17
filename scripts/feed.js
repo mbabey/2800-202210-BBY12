@@ -39,6 +39,8 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
         let postTags = await getTags(post.username, post.postId, con);
 
         let clone = pTemplateContent.cloneNode(true);
+        clone.querySelector("#post").dataset.postId = post.postId;
+        clone.querySelector("#post").dataset.postId = post.username;
         clone.querySelector("#post-user-avatar").src = "./avatars/" + post.profilePic;
         clone.querySelector("#post-business-name").textContent = post.cName;
         clone.querySelector("#post-business-type").textContent = post.bType;
@@ -67,9 +69,7 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
         }
 
         if (req.session.username == post.username) {
-            let pEdit = pEditTemplateContent.firstElementChild.cloneNode(true);
-            //console.log(clone.lastElementChild);
-            //pEdit.addEventListener("click", function(){alert("click");});
+            let pEdit = pEditTemplateContent.cloneNode(true);
             clone.querySelector("#post-footer").appendChild(pEdit)
         };
 

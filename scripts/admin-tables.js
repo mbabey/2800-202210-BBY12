@@ -40,7 +40,6 @@ function popUserData(userData) {
   document.getElementById("user-list").innerHTML = userTable;
 }
 
-
 async function getAdminData() {
   try {
     let adminData = await fetch('/get-all-admins', {
@@ -79,6 +78,7 @@ function initUserDeletion() {
       let lastAdmin = !response.adminX && !response.userX && response.finalAdmin && !response.finalUser;
       let lastUser = !response.adminX && !response.userX && !response.finalAdmin && response.finalUser;
       let notExists = !response.adminX && !response.userX && !response.finalAdmin && !response.finalUser;
+      let isSelf = response.adminX && response.userX && response.finalAdmin && response.finalUser;
 
       if (adminDeleted)
         document.querySelector('#status-2').innerHTML = 'Administrator ' + user + ' deleted.';
@@ -90,6 +90,8 @@ function initUserDeletion() {
         document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' could not be deleted; ' + user + ' is the only user.';
       else if (notExists)
         document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' not found.';
+      else if (isSelf)
+        document.querySelector('#error-message-2').innerHTML = 'Gro-Operate does not want you to delete yourself (it will get better).';
       else
         document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' could not be deleted.';
     });
@@ -112,6 +114,7 @@ function initAdminDeletion() {
       let adminDeleted = response.adminX && !response.finalAdmin;
       let lastAdmin = !response.adminX && response.finalAdmin;
       let notExists = !response.adminX && !response.finalAdmin;
+      let isSelf = response.adminX && response.finalAdmin;
 
       if (adminDeleted)
         document.querySelector('#status').innerHTML = 'Administrator privileges revoked for user ' + admin + '.';
@@ -119,6 +122,8 @@ function initAdminDeletion() {
         document.querySelector('#error-message').innerHTML = 'Administrator ' + admin + ' could not have their privileges revoked; ' + admin + ' is the only administrator.';
       else if (notExists)
         document.querySelector('#error-message').innerHTML = 'Administrator ' + admin + ' not found.';
+      else if (isSelf)
+        document.querySelector('#error-message').innerHTML = 'Cannot remove your own administrator privileges.';
       else
         document.querySelector('#error-message').innerHTML = 'Administrator ' + admin + ' could not have their privileges revoked.';
     });

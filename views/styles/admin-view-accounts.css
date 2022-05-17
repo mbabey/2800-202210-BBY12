@@ -191,6 +191,10 @@ h2 {
   gap: 5px;
 }
 
+.close {
+  display: flex;
+}
+
 .admin-card {
   background-color: var(--secondary);
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
@@ -270,6 +274,10 @@ h2 {
     grid-column: 1 / span 1;
     grid-row: 3 / span 1;
     margin: 0 2%;
+  }
+
+  .admin-card {
+    width: 340px;
   }
 
 }

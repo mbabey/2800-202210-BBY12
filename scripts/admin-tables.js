@@ -50,7 +50,7 @@ async function getAdminData() {
     adminData = JSON.parse(adminData);
     if (adminData.status == "success") {
       popAdminData(adminData);
-      initAdminDeletion(adminData);
+      initAdminDeletion();
     }
   } catch (err) {
     if (err) throw "Cannot get admins."
@@ -67,67 +67,66 @@ function popAdminData(adminData) {
   document.getElementById("admin-list").innerHTML = adminTable;
 }
 
-function initUserDeletion(userData) {
-  document.getElementById("delete-user").addEventListener("click", (e) => {
-    if (userData.length != 1) { // If user is not the last user.
-      let user = document.getElementById("user-username").value;
-      let userInput = {
-        username: user
-      };
+function initUserDeletion() {
+  document.getElementById("delete-user").addEventListener("click", () => {
+    let user = document.getElementById("user-username").value;
+    let userInput = { username: user };
 
-      sendData(userInput, '/delete-user', (response) => {
+    sendData(userInput, '/delete-user', (response) => {
+      // I don't know why I need to do it this way but it doesn't work when I bare back the conditionals.
+      let adminDeleted = response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
+      let userDeleted = !response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
+      let lastAdmin = !response.adminX && !response.userX && response.finalAdmin && !response.finalUser;
+      let lastUser = !response.adminX && !response.userX && !response.finalAdmin && response.finalUser;
+      let notExists = !response.adminX && !response.userX && !response.finalAdmin && !response.finalUser;
 
-        // I don't know why I need to do it this way but it doesn't work when I bare back the conditionals.
-        let adminDeleted = response.adminX && response.userX && !response.lastAdmin;
-        let userDeleted = !response.adminX && response.userX && !response.lastAdmin;
-        let lastAdmin = !response.adminX && !response.userX && response.finalAdmin;
+      if (adminDeleted)
+        document.querySelector('#status-2').innerHTML = 'Administrator ' + user + ' deleted.';
+      else if (userDeleted)
+        document.querySelector('#status-2').innerHTML = 'User ' + user + ' deleted.';
+      else if (lastAdmin)
+        document.querySelector('#error-message-2').innerHTML = 'Administrator ' + user + ' could not be deleted; ' + user + ' is the only administrator.';
+      else if (lastUser)
+        document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' could not be deleted; ' + user + ' is the only user.';
+      else if (notExists)
+        document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' not found.';
+      else
+        document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' could not be deleted.';
+    });
 
-        if (adminDeleted)
-          document.querySelector('#status-2').innerHTML = 'Administrator ' + user + ' deleted.';
-        else if (userDeleted)
-          document.querySelector('#status-2').innerHTML = 'User ' + user + ' deleted.';
-        else if (lastAdmin)
-          document.querySelector('#error-message-2').innerHTML = 'Administrator ' + user + ' could not be deleted; ' + user + ' is the only administrator.';
-        else
-          document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' could not be deleted.';
-      });
+    document.getElementById("user-username").value = "";
 
-      document.getElementById("user-username").value = "";
-
-      // //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
-      // window.setTimeout(() => { location.reload(); }, 1000);
-    } else { // If user is the last user
-      document.querySelector("#error-message-2").innerHTML = "Last user cannot be deleted";
-    }
+    // //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
+    // window.setTimeout(() => { location.reload(); }, 1000);
   });
 }
 
 
 
-function initAdminDeletion(adminData) {
-  document.getElementById("delete-admin").addEventListener("click", (e) => {
-    if (adminData.length != 1) { // If admin is not the last admin.
-      // Delete them
-      let adminInput = { username: document.getElementById("admin-username").value };
+function initAdminDeletion() {
+  document.getElementById("delete-admin").addEventListener("click", () => {
+    let admin = document.getElementById("admin-username").value;
+    let adminInput = { username: admin };
 
-      sendData(adminInput, '/delete-admin', (response) => {
-        if (response.status == 'success') {
-          document.querySelector('#status').innerHTML = 'Admin removed';
-        } else {
-          document.querySelector('#error-message').innerHTML = 'Admin could not be deleted';
-        }
-      });
+    sendData(adminInput, '/delete-admin', (response) => {
+      let adminDeleted = response.adminX && !response.finalAdmin;
+      let lastAdmin = !response.adminX && response.finalAdmin;
+      let notExists = !response.adminX && !response.finalAdmin;
 
-      // Display message
-      document.getElementById("status").innerHTML = "User successfully deleted as admin.";
-      document.getElementById("admin-username").value = "";
+      if (adminDeleted)
+        document.querySelector('#status').innerHTML = 'Administrator privileges revoked for user ' + admin + '.';
+      else if (lastAdmin)
+        document.querySelector('#error-message').innerHTML = 'Administrator ' + admin + ' could not have their privileges revoked; ' + admin + ' is the only administrator.';
+      else if (notExists)
+        document.querySelector('#error-message').innerHTML = 'Administrator ' + admin + ' not found.';
+      else
+        document.querySelector('#error-message').innerHTML = 'Administrator ' + admin + ' could not have their privileges revoked.';
+    });
 
-      // //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
-      // window.setTimeout(() => { location.reload(); }, 1000);
-    } else { // If admin is the last admin.
-      // Display message, do not delete
-      document.querySelector("#error-message").innerHTML = "Last admin cannot be deleted";
-    }
+    document.getElementById("admin-username").value = "";
+
+    // //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
+    // window.setTimeout(() => { location.reload(); }, 1000);
   });
 }
 

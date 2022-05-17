@@ -4,6 +4,7 @@ docLoaded(() => {
   getUserData();
   getAdminData();
   makeCardsClickable();
+  searchUser();
 });
 
 function docLoaded(action) {
@@ -50,13 +51,13 @@ function popAdminData(adminData) {
     <div class='admin-card'>
       <div class='admin-card-header'>
         <div class='admin-card-avatar-background'>
-          <img id='admin-card-avatar' src="./avatars/${adminData.rows[i].profilePic}" alt='Profile Picture'>
+          <img class='admin-card-avatar' src="./avatars/${adminData.rows[i].profilePic}" alt='Profile Picture'>
         </div>
       </div>
       <div class='admin-card-info'>
         <h3 class='admin-card-username'>${adminData.rows[i].username}</h3>
       </div>
-      <a class='close' href='#'>
+      <a class='close' id='delete-admin-account' href='#'>
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="16" height="16">
           <g>
             <path fill="currentColor" d="M286.161,255.867L505.745,36.283c8.185-8.474,7.951-21.98-0.523-30.165c-8.267-7.985-21.375-7.985-29.642,0   L255.995,225.702L36.411,6.118c-8.475-8.185-21.98-7.95-30.165,0.524c-7.985,8.267-7.985,21.374,0,29.641L225.83,255.867   L6.246,475.451c-8.328,8.331-8.328,21.835,0,30.165l0,0c8.331,8.328,21.835,8.328,30.165,0l219.584-219.584l219.584,219.584   c8.331,8.328,21.835,8.328,30.165,0l0,0c8.328-8.331,8.328-21.835,0-30.165L286.161,255.867z"/>
@@ -83,7 +84,7 @@ function popUserData(userData) {
 
       <div class='user-card-header'>
         <div class='user-card-avatar-background'>
-          <img id='user-card-avatar' src='./avatars/${userData.rows[i].profilePic}' alt='Profile Picture'>
+          <img class='user-card-avatar' src='./avatars/${userData.rows[i].profilePic}' alt='Profile Picture'>
         </div>
       </div>
       <div class='user-card-info'>
@@ -92,7 +93,7 @@ function popUserData(userData) {
         <span class='user-card-first-name'>${userData.rows[i].fName} </span>
         <span class='user-card-last-name'>${userData.rows[i].lName}</span>
       </div>
-      <a class='close' href='#'>
+      <a class='close' id='delete-user-account' href='#'>
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="16" height="16">
         <g>
           <path fill="currentColor" d="M286.161,255.867L505.745,36.283c8.185-8.474,7.951-21.98-0.523-30.165c-8.267-7.985-21.375-7.985-29.642,0   L255.995,225.702L36.411,6.118c-8.475-8.185-21.98-7.95-30.165,0.524c-7.985,8.267-7.985,21.374,0,29.641L225.83,255.867   L6.246,475.451c-8.328,8.331-8.328,21.835,0,30.165l0,0c8.331,8.328,21.835,8.328,30.165,0l219.584-219.584l219.584,219.584   c8.331,8.328,21.835,8.328,30.165,0l0,0c8.328-8.331,8.328-21.835,0-30.165L286.161,255.867z"/>
@@ -210,3 +211,63 @@ async function sendData(data, path, printMessage) {
     if (err) throw err;
   }
 }
+
+function searchUser() {
+  document.querySelector('#search-user').addEventListener("click", function (e) {
+    e.preventDefault();
+    let userSearchInput = { username: document.querySelector('#search-input').value }
+    sendSearchData(userSearchInput);
+    document.querySelector('#search-input').value = "";
+  });
+}
+
+async function sendSearchData(searchData) {
+  try {
+    let response = await fetch('/search-user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(searchData)
+    });
+    response = await response.text();
+    response = JSON.parse(response);
+    popUserCard(response);
+  } catch (err) {
+    if (err) throw err;
+  }
+}
+
+function popUserCard(searchData) {
+ // USER CARD CREATED HERE FOR SEARCH RESULT
+ let userCard = "<div class='user-card-group'>";
+ for (let i = 0; i < searchData.rows.length; i++) {
+   userCard += (`
+   <div class='user-card'>
+
+     <div class='user-card-header'>
+       <div class='user-card-avatar-background'>
+         <img class='user-card-avatar' src='./avatars/${searchData.rows[i].profilePic}' alt='Profile Picture'>
+       </div>
+     </div>
+     <div class='user-card-info'>
+       <h3 class='user-card-username'>${searchData.rows[i].username}</h3>
+       <span class='user-card-business-name'>${searchData.rows[i].cName} | </span>
+       <span class='user-card-first-name'>${searchData.rows[i].fName} </span>
+       <span class='user-card-last-name'>${searchData.rows[i].lName}</span>
+     </div>
+     <a class='close' id='delete-user-account' href='#'>
+     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="16" height="16">
+       <g>
+         <path fill="currentColor" d="M286.161,255.867L505.745,36.283c8.185-8.474,7.951-21.98-0.523-30.165c-8.267-7.985-21.375-7.985-29.642,0   L255.995,225.702L36.411,6.118c-8.475-8.185-21.98-7.95-30.165,0.524c-7.985,8.267-7.985,21.374,0,29.641L225.83,255.867   L6.246,475.451c-8.328,8.331-8.328,21.835,0,30.165l0,0c8.331,8.328,21.835,8.328,30.165,0l219.584-219.584l219.584,219.584   c8.331,8.328,21.835,8.328,30.165,0l0,0c8.328-8.331,8.328-21.835,0-30.165L286.161,255.867z"/>
+       </g>
+       <span class="tooltip-text">Delete users</span>
+   </a>
+   </div>
+   `);
+ }
+ userCard += "</div>";
+ document.getElementById("search-results").innerHTML = userCard;
+
+}
+

@@ -99,6 +99,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 3rem;
 }
 
 .label {
@@ -112,9 +113,10 @@
 }
 
 .label:before {
-  content: '';
-  height: 5px;
+  content: ' ';
+  height: 3px;
   position: absolute;
+  background:rgb(222, 222, 222);
   top: 0.5rem;
   left: 0;
   width: 100%;
@@ -127,7 +129,7 @@
   border: 2px solid var(--primary-dark);
   font-size: 0.9rem;
   margin: 0.5rem 0;
-  background-color: rgba(128, 128, 128, 0.3);
+  background-color: rgb(222, 222, 222);
   outline: none;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
@@ -139,7 +141,8 @@
 
 .create-input:focus+.label,
 .filled {
-  top: -0.5rem;
+  top: -0.2rem;
+  font-size: 0.9rem;
 }
 
 .create-input::placeholder {

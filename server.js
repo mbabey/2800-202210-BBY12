@@ -91,6 +91,14 @@ app.get('/', (req, res) => {
   }
 });
 
+// NAVBAR AND FOOTER
+app.get('/nav-and-footer', (req, res) => {
+  let navbarHTML = fs.readFileSync('./views/chunks/nav.xml', 'utf8');
+  let footerHTML = fs.readFileSync('./views/chunks/footer.xml', 'utf8');
+  res.setHeader('content-type', 'application/json');
+  res.send({ nav: navbarHTML, footer: footerHTML });
+});
+
 // LOGIN
 app.route('/login')
   .get((req, res) => {

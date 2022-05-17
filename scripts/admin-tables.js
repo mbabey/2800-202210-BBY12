@@ -14,12 +14,12 @@ function docLoaded(action) {
 
 async function getUserData() {
   try {
-    let response = await fetch('/get-all-users', {
+    let userData = await fetch('/get-all-users', {
       method: 'GET'
     });
-    if (response.status == "success") {
-      let userData = await response.text();
-      userData = JSON.parse(userData)
+    userData = await userData.text();
+    userData = JSON.parse(userData)
+    if (userData.status == "success") {
       popUserData(userData);
       initUserDeletion(userData);
     }
@@ -43,12 +43,12 @@ function popUserData(userData) {
 
 async function getAdminData() {
   try {
-    let response = await fetch('/get-all-admins', {
+    let adminData = await fetch('/get-all-admins', {
       method: 'GET'
     });
-    if (response.status == "success") {
-      let adminData = await response.text();
-      adminData = JSON.parse(adminData);
+    adminData = await adminData.text();
+    adminData = JSON.parse(adminData);
+    if (adminData.status == "success") {
       popAdminData(adminData);
       initAdminDeletion(adminData);
     }
@@ -71,56 +71,69 @@ function initUserDeletion(userData) {
   document.getElementById("delete-user").addEventListener("click", (e) => {
     if (userData.length != 1) { // If user is not the last user.
       // Delete them
-      let userInput = { username: document.getElementById("user-username").value };
+      let userInput = { 
+        username: document.getElementById("user-username").value 
+      };
+
+      sendData(userInput, '/delete-user', (response) => {
+        if (response.status == 'success') {
+          document.querySelector('#status-2').innerHTML = 'User deleted';
+        } else {
+          document.querySelector('#error-message-2').innerHTML = 'User could not be deleted';
+        }
+      });
+      
       document.getElementById("user-username").value = "";
 
-      fetch('/delete-user', {
-        method: 'POST',
-        header: ('content-type', 'application/json'),
-        data: JSON.stringify(userInput)
-      }).then((response) => {
-        console.log(await response.text());
-      }).catch((err) => {
-        console.log(err); //TEMP
-      });
-
-      // Display message
-      document.getElementById("status-2").innerHTML = "User successfully deleted.";
-      
       // //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
       // window.setTimeout(() => { location.reload(); }, 1000);
     } else { // If user is the last user
       // Display message, do not delete
-      document.getElementById("status-2").innerHTML = "Last user cannot be deleted.";
+      document.querySelector("#error-message-2").innerHTML = "Last user cannot be deleted";
     }
   });
 }
+
+
 
 function initAdminDeletion(adminData) {
   document.getElementById("delete-admin").addEventListener("click", (e) => {
     if (adminData.length != 1) { // If admin is not the last admin.
       // Delete them
       let adminInput = { username: document.getElementById("admin-username").value };
-      document.getElementById("admin-username").value = "";
-
-      fetch('/delete-admin', {
-        method: 'POST',
-        header: ('content-type', 'application/json'),
-        data: JSON.stringify(adminInput)
-      }).then((response) => {
-        console.log(await response.text());
-      }).catch((err) => {
-        console.log(err); //TEMP
+      
+      sendData(adminInput, '/delete-admin', (response) => {
+        if (response.status == 'success') {
+          document.querySelector('#status').innerHTML = 'Admin removed';
+        } else {
+          document.querySelector('#error-message').innerHTML = 'Admin could not be deleted';
+        }
       });
-
+      
       // Display message
       document.getElementById("status").innerHTML = "User successfully deleted as admin.";
+      document.getElementById("admin-username").value = "";
 
       // //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
       // window.setTimeout(() => { location.reload(); }, 1000);
     } else { // If admin is the last admin.
       // Display message, do not delete
-      document.getElementById("status").innerHTML = "Last admin cannot be deleted.";
+      document.querySelector("#error-message").innerHTML = "Last admin cannot be deleted";
     }
   });
+}
+
+async function sendData(data, path, printMessage) {
+  try {
+    let response = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    response = await response.text();
+    response = JSON.parse(response);
+    printMessage(response); 
+  } catch (err) {
+    if (err) throw err;
+  }
 }

@@ -29,61 +29,31 @@
       <div id="create-block">
         <p><b>Create Account</b></p>
         <form method="post">
-          <div class="input-container">
+          <div id="username-block" class="input-container">
             <input id="username" name="username" type="text" placeholder="Username" class="create-input" required>
             <label class="label" for="username">Username</label>
           </div>
-          <div class="input-container">
-            <input id="email" name="email" type="text" placeholder="Email" class="create-input" required>
-            <label class="label" for="email">Email</label>
+          <div id="email-block">
+            <div class="input-container">
+              <input id="email" name="email" type="text" placeholder="Email" class="create-input" required>
+              <label class="label" for="email">Email</label>
+            </div>
+            <div class="input-container">
+              <input id="email-verify" name="email-verify" type="text" placeholder="Verify Email" class="create-input"
+                required>
+              <label class="label" for="email-verify">Verify Email</label>
+            </div>
           </div>
-          <div class="input-container">
-            <input id="email-verify" name="email-verify" type="text" placeholder="Verify Email" class="create-input"
-              required>
-            <label class="label" for="email-verify">Verify Email</label>
-          </div>
-          <div class="input-container">
-            <input id="password" name="password" type="password" placeholder="Password" class="create-input" required>
-            <label class="label" for="password">Create Password</label>
-          </div>
-          <div class="input-container">
-            <input id="password-verify" name="password-verify" type="password" placeholder="Verify Password"
-              class="create-input" required>
-            <label class="label" for="password-verify">Verify Password</label>
-          </div>
-          <div class="input-container">
-            <input id="company-name" name="company-name" type="text" placeholder="Business Name" class="create-input">
-            <label class="label" for="company-name">Business Name</label>
-          </div>
-          <!-- <input name="business-type" type="text" placeholder="Type of Business" class="create-input"> -->
-          <div class="input-container">
-            <input id="first-name" name="first-name" type="text" placeholder="First Name" class="create-input">
-            <label class="label" for="first-name">First Name</label>
-          </div>
-          <div class="input-container">
-            <input id="last-name" name="last-name" type="text" placeholder="Last Name" class="create-input">
-            <label class="label" for="last-name">Last Name</label>
-          </div>
-          <div class="input-container">
-            <input id="phone-num" name="phone-num" type="text" placeholder="Phone Number" class="create-input">
-            <label class="label" for="phone-num">Phone Number</label>
-          </div>
-          <div class="input-container">
-            <input id="location-country" name="location-country" type="text" placeholder="Country" class="create-input">
-            <label class="label" for="location-country">Country</label>
-          </div>
-          <div class="input-container">
-            <input id="location-city" name="location-city" type="text" placeholder="City" class="create-input">
-            <label class="label" for="location-city">City</label>
-          </div>
-          <div class="input-container">
-            <input id="location-street" name="location-street" type="text" placeholder="Street Address"
-              class="create-input">
-            <label class="label" for="location-street">Street Address</label>
-          </div>
-          <div class="input-container">
-            <textarea id="description-block" name="description" placeholder="Business Description" class="create-input"></textarea>
-            <label class="label" for="description-block">Business Description</label>
+          <div id="password-block">
+            <div class="input-container">
+              <input id="password" name="password" type="password" placeholder="Password" class="create-input" required>
+              <label class="label" for="password">Create Password</label>
+            </div>
+            <div class="input-container">
+              <input id="password-verify" name="password-verify" type="password" placeholder="Verify Password"
+                class="create-input" required>
+              <label class="label" for="password-verify">Verify Password</label>
+            </div>
           </div>
           <button id="create-submit" type="submit" value="submit">Create Account</button>
         </form>
@@ -91,6 +61,7 @@
       </div>
     </div>
   </div>
+
 </body>
 
 </html>

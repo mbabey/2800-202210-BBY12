@@ -72,9 +72,14 @@ function popAdminData(adminData) {
   let adminCard = "<div class='admin-card-group'>";
   for (let i = 0; i < adminData.rows.length; i++) {
     adminCard += (
-      "<div class='admin-card'><div class='admin-card-info'>"
-      + "<h3 class='admin-card-username'>" + adminData.rows[i].username 
-      + "</h3></div></div>"
+      "<div class='admin-card'>"
+      + "<div class='admin-card-header'>"
+      + "<div class='admin-card-avatar-background'><img id='admin-card-avatar' src='"
+      // + "./avatars/" + userData.rows[i].profilePic + "' alt='Profile Picture'></div>"
+      + "./avatars/Logo.png' alt='Profile Picture'></div></div>"
+      + "<div class='admin-card-info'>"
+      + "<h3 class='admin-card-username'>" + adminData.rows[i].username + "</h3>"
+      + "</div></div>"
     );
   }
   adminCard += "</div>";

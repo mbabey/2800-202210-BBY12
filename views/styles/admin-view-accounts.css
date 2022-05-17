@@ -5,6 +5,7 @@
 
 .dashboard-header {
   grid-row: 1 / span 1;
+  grid-column: 1 / span 3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,7 +20,8 @@
 
 .admin-wrapper {
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-column: 1 / span 3;
+  grid-template-columns: 20% 45% 35%;
 }
 
 #delete-block {
@@ -115,55 +117,23 @@
   font-weight: bold;
 }
 
-/* Table CSS */
-#user-tables {
+/* User card CSS */
+h2 {
+  text-align: center;
+}
+
+#user-profiles {
   grid-column: 2 / span 1;
-  margin: 0 30px; 
+  margin: 0 10px; 
   overflow: auto;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
+#admin-profiles {
+  grid-column: 3 / span 1;
+  margin: 0 10px; 
+  overflow: auto;
 }
 
-.data-index {
-  font-weight: bold;
-}
-
-td, tr {
-  border: 1px solid #ddd;
-  padding: 1rem;
-}
-
-th {
-  border: 1px solid #ddd;
-  padding: 3%;
-  text-align: center;
-  width: 15%;
-}
-
-tr:nth-child(even) {
-  background-color: rgb(228, 228, 228);
-}
-
-tr:nth-child(odd) {
-  background-color: white;
-}
-
-tr:hover {
-  background-color: var(--secondary-light);
-}
-
-th {
-padding-top: 8px;
-padding-bottom: 8px;
-text-align: left;
-background-color: var(--secondary-dark);
-color: white;
-}
-
-/* User card CSS */
 .user-card-group {
   display: flex;
   justify-content: center;
@@ -177,7 +147,7 @@ color: white;
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   height: 110px;
-  width: 350px;
+  width: 340px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -213,22 +183,59 @@ color: white;
   margin-left: 10px;
 }
 
+.admin-card-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .admin-card {
   background-color: var(--secondary);
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  height: 60px;
-  width: 350px;
-  padding: 10px;
+  height: 110px;
+  width: 300px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   text-align: center;
 }
 
+.admin-card-header {
+  display: flex;
+  flex-direction: row;
+  margin-left: 50px;
+}
+
+.admin-card-avatar-background {
+  position: relative;
+  background-color: var(--secondary-text);
+  width: 100px;
+  height: auto;
+  clip-path: circle(40% at center);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-card-avatar-background > img {
+  width: auto;
+  height: 90px;
+  position: relative;
+}
+
+.admin-card-info {
+  margin-bottom: 10px;
+  margin-left: 30px;
+}
+
+
+
 @media only screen and (max-width: 800px) {
   #content {
-    grid-template-rows: 50px 1fr;
+    grid-template-rows: 50px 1fr 50px;
   }
 
   .admin-wrapper {
@@ -253,9 +260,15 @@ color: white;
     padding: 0.5rem;
   }
 
-  #user-tables {
+  #user-profiles {
     grid-column: 1 / span 1;
     grid-row: 2 / span 1;
+    margin: 0 2%;
+  }
+
+  #admin-profiles {
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 1;
     margin: 0 2%;
   }
 

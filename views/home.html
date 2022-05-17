@@ -6,8 +6,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="./styles/global.css">
+  <link rel="stylesheet" type="text/css" href="./styles/post.css">
   <link rel="stylesheet" type="text/css" href="./styles/home.css">
   <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
+  
 </head>
 
 <body>
@@ -99,31 +101,6 @@
     </div>
   </div>
 
-  <template id="post-template">
-    <div class="post" id="post">
-      <div class="post-header" id="post-header">
-        <div class="post-user-avatar-background">
-          <img id="post-user-avatar" src="#" alt="Profile Picture">
-        </div>
-        <div class="post-info" id="post-info">
-          <h3 class="post-business-name" id="post-business-name"></h3>
-          <span class="post-business-type" id="post-business-type"><small></small></span>
-          <span class="post-timestamp" id="post-timestamp"><small></small></span>
-        </div>
-      </div>
-      <h1 id="post-title" class="post-title"></h1>
-      <div class="post-images" id="post-images"></div>
-      <p class="post-description" id="post-description"></p>
-      <div class="post-tags"></div>
-    </div>
-  </template>
-  <template id="image-template">
-    <img src="#" alt="">
-  </template>
-  <template id="tag-template">
-    <a href="#"></a>
-  </template>
-
   <footer>
     <div id="footer-wrapper">
       <a href="/home" id="footer-home" class="nav-button">
@@ -160,7 +137,7 @@
     </div>
   </footer>
   <script src="nav.js"></script>
-
+  <script defer src="edit-post.js"></script>
 </body>
 
 

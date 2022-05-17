@@ -115,6 +115,7 @@
   font-weight: bold;
 }
 
+/* Table CSS */
 #user-tables {
   grid-column: 2 / span 1;
   margin: 0 30px;
@@ -160,6 +161,21 @@ padding-bottom: 8px;
 text-align: left;
 background-color: var(--secondary-dark);
 color: white;
+}
+
+/* User card CSS */
+.user-card {
+  background-color: var(--primary);
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: 80px;
+  width: 350px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--primary);
+  text-align: center;
 }
 
 

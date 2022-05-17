@@ -154,15 +154,7 @@ app.get('/home', async (req, res) => {
   if (req.session.loggedIn) {
     let homePage = fs.readFileSync('./views/home.html', 'utf8').toString();
     let homeDOM = new JSDOM(homePage);
-    let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
-    let templateDOM = new JSDOM(templates);
-    await feed.populateFeed(req, homeDOM, templateDOM, con)
-    .then((result)=>{
-      homeDOM = result;
-    })
-    .catch((reject) =>{
-      console.log(reject);
-    });
+    homeDOM = await feed.populateFeed(homeDOM, con);
     homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
     homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
     homePage = homeDOM.serialize();
@@ -342,16 +334,16 @@ app.get('/get-admin', (req, res) => {
 
 // QUERY: DELETE ADMIN
 app.post('/delete-admin', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
+  // res.setHeader('Content-Type', 'application/json');
   con.query('SELECT * FROM BBY_12_admins',
     (err, results) => {
       if (results.length != 1) {
         con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
           (err, results) => {
-            if (err) throw "Cannot delete admin if there is only one admin left.";
-          })
+            if (err) throw err;
+          });
       } else {
-        if (err) throw err;
+        if (err) throw "Cannot delete admin if there is only one admin left.";
       }
     });
 });
@@ -359,22 +351,21 @@ app.post('/delete-admin', (req, res) => {
 // QUERY: DELETE USER
 app.post('/delete-user', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  try {
-    con.query('SELECT * FROM BBY_12_users',
-      (err, results) => {
-        if (results.length != 1) {
-          try {
-            con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
-              (err, results) => {
-              })
-          } catch (err) { }
-        } else {
-          if (err) throw "Cannot delete user if there is only one user left.";
-        }
-      });
-  } catch (err) {
-    console.log(err);
-  }
+  console.log(req.body);
+  con.query('SELECT * FROM BBY_12_users',
+    (err, results) => {
+      if (results.length != 1) {
+        con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
+        (err, results) => {
+            if (err)
+              res.send({ status: 'fail' });
+            else
+              res.send({ status: 'success' });
+          });
+      } else {
+        if (err) throw "Cannot delete user if there is only one user left.";
+      }
+    });
 });
 
 //Upload profile avatar

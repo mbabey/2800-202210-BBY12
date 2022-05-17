@@ -21,7 +21,7 @@ async function getUserData() {
     userData = JSON.parse(userData)
     if (userData.status == "success") {
       popUserData(userData);
-      initUserDeletion(userData);
+      initUserDeletion();
     }
   } catch (err) {
     if (err) throw "Cannot get users.";
@@ -102,8 +102,6 @@ function initUserDeletion() {
     // window.setTimeout(() => { location.reload(); }, 1000);
   });
 }
-
-
 
 function initAdminDeletion() {
   document.getElementById("delete-admin").addEventListener("click", () => {

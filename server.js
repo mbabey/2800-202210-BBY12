@@ -468,9 +468,38 @@ app.get('/get-post/:username/:postId', (req, res) => {
 });
 
 app.post('/edit-post', upload.array('image-upload'), (req, res) => {
-  console.log(req.body);
   con.query('UPDATE BBY_12_POST SET postTitle = ?, content = ? WHERE (username = ?) AND (postId = ?)',
-    [req.body["input-title"], req.body["input-description"], req.body.username, req.body.postId], (error) => {
+    [req.body["input-title"], req.body["input-description"], req.body.username, req.body.postId],
+    (error) => {
+      //console.log(error);
+    });
+  con.query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
+    (error) => {
       console.log(error);
-    })
+    });
+  let tags = req.body["tag-field"].split(/[\s#]/)
+  tags = tags.filter((item, pos) => {
+    return tags.indexOf(item) == pos;
+  });
+  tags.forEach(async tag => {
+    if (tag) {
+      await con.execute('INSERT INTO \`BBY_12_Post_Tag\`(username, postId, tag) values (?,?,?)', [req.body.username, req.body.postId, tag],
+        (err) => {
+          //console.log(err);
+        });
+    }
+    if (req.files.length > 0) {
+      req.files.forEach(async image => {
+        let oldPath = image.path;
+        let newPath = "./views/images/" + image.filename;
+        fs.rename(oldPath, newPath, function (err) {
+          if (err) throw err;
+        });
+        await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.body.username, req.body.postId, image.filename],
+          (err) => {
+            //console.log(err);
+          });
+      });
+    }
+  });
 })

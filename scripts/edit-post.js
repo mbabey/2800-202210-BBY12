@@ -9,6 +9,10 @@ docLoaded(() => {
     saveButtons.forEach((target) => {
         target.addEventListener("click", savePost, false);
     });
+    let imageField = document.querySelectorAll("#post-images");
+    imageField.forEach((target) => {
+        target.addEventListener("change", addImage, false);
+    });
 });
 
 async function editPost(event) {
@@ -45,8 +49,7 @@ function savePost(event) {
     formData.append("input-description", desc);
     formData.append("tag-field", tags);
     for (let i = 0; i < imgs.files.length; i++) {
-        console.log(imgs.files[i]);
-        formData.append("Image", imgs.files[i]);
+        formData.append("image-upload", imgs.files[i]);
     }
 
     fetch('/edit-post', {
@@ -57,15 +60,28 @@ function savePost(event) {
     });
 }
 
+function addImage(event) {
+    let post = event.target.parentNode.parentNode;
+    let imgs = post.querySelector(".edit-image-upload");
+    console.log(imgs.files[imgs.files.length - 1]);
+
+    const image = document.createElement('img');
+    image.src = URL.createObjectURL(imgs.files[imgs.files.length - 1]);
+    imgs.appendChild(image);
+}
+
 function enableEdit(post) {
     post.querySelector(".add-image-hide").setAttribute("class", "add-image");
     post.querySelector(".post-delete-hide").setAttribute("class", "post-delete");
     post.querySelector(".post-save-hide").setAttribute("class", "post-save");
     post.querySelector(".post-edit").setAttribute("class", "post-edit-hide");
 
-    post.querySelector(".post-title").setAttribute("contentEditable", "true");
-    post.querySelector(".post-description").setAttribute("contentEditable", "true");
-    post.querySelector(".post-tags").setAttribute("contentEditable", "true");
+    let fields = [post.querySelector(".post-title"), post.querySelector(".post-description"), post.querySelector(".post-tags")]
+
+    for (let i = 0; i < fields.length; i++) {
+        fields[i].setAttribute("contentEditable", "true");
+        fields[i].style.border = "1px solid black";
+    }
 }
 
 function disableEdit(post) {
@@ -74,9 +90,12 @@ function disableEdit(post) {
     post.querySelector(".post-save").setAttribute("class", "post-save-hide");
     post.querySelector(".post-edit-hide").setAttribute("class", "post-edit");
 
-    post.querySelector(".post-title").setAttribute("contentEditable", "false");
-    post.querySelector(".post-description").setAttribute("contentEditable", "false");
-    post.querySelector(".post-tags").setAttribute("contentEditable", "false");
+    let fields = [post.querySelector(".post-title"), post.querySelector(".post-description"), post.querySelector(".post-tags")]
+
+    for (let i = 0; i < fields.length; i++) {
+        fields[i].setAttribute("contentEditable", "false");
+        fields[i].style.border = "none";
+    }
 }
 
 function docLoaded(action) {

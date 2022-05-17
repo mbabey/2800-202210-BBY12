@@ -1,12 +1,12 @@
 'use strict';
 
 module.exports = {
-    populateFeed: async(req, homeDOM, templateDOM, con) => {
-        return new Promise(async(resolve, reject) => {
+    populateFeed: async (req, homeDOM, templateDOM, con) => {
+        return new Promise(async (resolve, reject) => {
             console.log("Populating Feed");
             let posts;
             await con.promise().query(
-                    `SELECT users.profilePic, users.cName, users.bType, users.username, post.*
+                `SELECT users.profilePic, users.cName, users.bType, users.username, post.*
                 FROM \`BBY_12_post\` AS post
                 INNER JOIN \`BBY_12_users\` AS users ON (post.username = users.username)
                 ORDER BY post.timestamp DESC;`)
@@ -66,8 +66,8 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
         for (const tags of postTags) {
             if (tags) {
                 let tag = pTagTemplateContent.cloneNode(true);
-                tag.querySelector("a").textContent = tags["tag"];
-                tag.querySelector("a").href = tags["tag"];
+                tag.querySelector("a").textContent = '#' + tags["tag"];
+                tag.querySelector("a").href = '#' + tags["tag"];
                 pTags.appendChild(tag);
             }
         }

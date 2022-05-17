@@ -157,12 +157,12 @@ app.get('/home', async (req, res) => {
     let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
     let templateDOM = new JSDOM(templates);
     await feed.populateFeed(req, homeDOM, templateDOM, con)
-    .then((result)=>{
-      homeDOM = result;
-    })
-    .catch((reject) =>{
-      console.log(reject);
-    });
+      .then((result) => {
+        homeDOM = result;
+      })
+      .catch((reject) => {
+        console.log(reject);
+      });
     homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
     homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
     homePage = homeDOM.serialize();
@@ -455,8 +455,48 @@ app.post('/search-user', (req, res) => {
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
-app.get('/other-profile', function (req, res){
-  
-  
-  
-})
+// const userRouter = require('./routes/other-users');
+// app.use('/user', userRouter);
+
+app.get('user/:username', (req, res) => {
+  let otherUser = req.params.username;
+  let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
+  if (req.session.loggedIn) {
+    res.send(otherProfile);
+  } else {
+    res.redirect('/');
+  }
+});
+
+// app.param("id", (req, res, next, id) => {
+//   this.apply.use(popProfile);//not sure
+//   next();
+// });
+
+app.post('/post-other', (req, res) => {
+  if (otherUser) {
+    con.query('SELECT * FROM BBY_12_users WHERE cName = ?', [otherUser],
+      function (error, results) {
+        if (error) throw error;
+        res.setHeader('content-type', 'application/json');
+        res.send({
+          status: 'success',
+          rows: results
+        });
+      });
+  } else {
+    res.send({
+      status: "fail",
+      msg: "cannot retrieve business information."
+    });
+  }
+});
+
+
+// app.get('/get-other-user', (req, res) => {
+//   con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.body.username], (error, results, fields) => {
+//     if (error) throw error;
+//     res.setHeader('content-type', 'application/json');
+//     res.send(results);
+//   });
+// });

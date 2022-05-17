@@ -455,6 +455,7 @@ app.post('/search-user', (req, res) => {
 });
 
 // QUERY: GET POST FROM ID AND USERNAME
+// WORKING: NOT USED
 app.get('/get-post/:username/:postId', (req, res) => {
   console.log(req.params);
   con.query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId],

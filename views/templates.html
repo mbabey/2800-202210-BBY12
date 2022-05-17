@@ -11,11 +11,11 @@
                 <span class="post-timestamp" id="post-timestamp"><small></small></span>
             </div>
         </div>
-        <h1 id="post-title" class="post-title"></h1>
-        <div class="post-images" id="post-images"></div>
-        <p class="post-description" id="post-description"></p>
+        <h1 id="post-title" class="post-title" contentEditable="false"></h1>
+        <div class="post-images" id="post-images" ></div>
+        <p class="post-description" id="post-description" contentEditable="false"></p>
         <div class="post-footer" id="post-footer">
-            <div class="post-tags"></div>
+            <div class="post-tags" contentEditable="false"></div>
         </div>
     </div>
 </template>
@@ -27,7 +27,17 @@
 </template>
 
 <template id="edit-template">
-    <a class="post-delete" id="post-delete">Delete</a>
+    <a class="post-delete-hide" id="post-delete">Delete</a>
     <a class="post-edit" id="post-edit">Edit</a>
-    <a class="post-save" id="post-save">Save</a>
+    <a class="post-save-hide" id="post-save">Save</a>
+</template>
+
+<template id="add-image-template">
+    <div class="add-image-hide">
+        <div id="drop-area">
+          <label>Upload Images</label>
+          <input type="file" class="edit-image-upload" id="edit-image-upload" name="image-upload" multiple
+            accept="image/*">
+        </div>
+      </div>
 </template>

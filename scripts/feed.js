@@ -1,12 +1,12 @@
 'use strict';
 
 module.exports = {
-    populateFeed: async (req, homeDOM, templateDOM, con) => {
-        return new Promise(async (resolve, reject) => {
+    populateFeed: async(req, homeDOM, templateDOM, con) => {
+        return new Promise(async(resolve, reject) => {
             console.log("Populating Feed");
             let posts;
             await con.promise().query(
-                `SELECT users.profilePic, users.cName, users.bType, users.username, post.*
+                    `SELECT users.profilePic, users.cName, users.bType, users.username, post.*
                 FROM \`BBY_12_post\` AS post
                 INNER JOIN \`BBY_12_users\` AS users ON (post.username = users.username)
                 ORDER BY post.timestamp DESC;`)
@@ -25,7 +25,7 @@ module.exports = {
 
 // build the post using all data
 //appendchild to the post block
-async function populatePosts(req, homeDOM,templateDOM, posts, con) {
+async function populatePosts(req, homeDOM, templateDOM, posts, con) {
     let doc = homeDOM.window.document;
     let postTemp = templateDOM.window.document;
     let pBody = doc.querySelector(".post-block");
@@ -33,6 +33,7 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
     let pImgTemplateContent = postTemp.getElementById("image-template").content;
     let pTagTemplateContent = postTemp.getElementById("tag-template").content;
     let pEditTemplateContent = postTemp.getElementById("edit-template").content;
+    let pAddImgTemplateContent = postTemp.getElementById("add-image-template").content;
 
     for (const post of posts) {
         let postImages = await getImages(post.username, post.postId, con);
@@ -58,6 +59,9 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
                 pImgs.appendChild(img);
             }
         }
+
+        let pAddImgs = pAddImgTemplateContent.cloneNode(true);
+        pImgs.appendChild(pAddImgs);
 
         for (const tags of postTags) {
             if (tags) {

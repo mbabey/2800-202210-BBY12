@@ -50,15 +50,6 @@
     flex-direction: column;
 }
 
-#login-block>form>.login-input {
-    border: 1px black solid;
-    padding: 1rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-    background-color: rgba(128, 128, 128, 0.3);
-}
-
 /* Styles for inputs brought to you by https://www.instagram.com/p/CdGXl-1PJZ1/?utm_source=ig_web_copy_link  */
 
 .input-container {

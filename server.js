@@ -199,6 +199,7 @@ app.route("/create-post")
           res.redirect('/home');
         })
         .catch((err) => {
+          console.log(err);
           res.redirect('back');
         });
     } else {
@@ -468,4 +469,8 @@ app.get('/get-post/:username/:postId', (req, res) => {
 
 app.post('/edit-post', upload.array('image-upload'), (req, res) => {
   console.log(req.body);
+  con.query('UPDATE BBY_12_POST SET postTitle = ?, content = ? WHERE (username = ?) AND (postId = ?)',
+    [req.body["input-title"], req.body["input-description"], req.body.username, req.body.postId], (error) => {
+      console.log(error);
+    })
 })

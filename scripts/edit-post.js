@@ -31,7 +31,6 @@ async function editPost(event) {
 }
 
 function savePost(event) {
-    console.log("saved");
     let post = event.target.parentNode.parentNode;
     disableEdit(post);
     let title = post.querySelector(".post-title").textContent;
@@ -40,6 +39,8 @@ function savePost(event) {
     let imgs = post.querySelector(".edit-image-upload");
 
     const formData = new FormData();
+    formData.append("username", post.dataset.username);
+    formData.append("postId", post.dataset.postId);
     formData.append("input-title", title);
     formData.append("input-description", desc);
     formData.append("tag-field", tags);

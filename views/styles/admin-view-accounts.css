@@ -21,12 +21,14 @@
 
 .admin-wrapper {
   display: grid;
-  grid-column: 1 / span 3;
-  grid-template-columns: 20% 50% 30%;
+  grid-column: 1 / span 2;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 40% 60%;
 }
 
 #delete-block {
   grid-column: 1 / span 1;
+  grid-row: 1 / span 2;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -125,17 +127,37 @@ h2 {
 
 #user-profiles {
   grid-column: 2 / span 1;
+  grid-row: 2 / span 1;
   margin: 0 10px;
   overflow: auto;
 }
 
 #admin-profiles {
-  grid-column: 3 / span 1;
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 1;
   margin: 0 10px;
   overflow: auto;
 }
 
-.user-card-group {
+.user-card,
+.admin-card {
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: 110px;
+  width: 340px;
+  padding: 2px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+
+.user-card-group,
+.admin-card-group { 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -145,16 +167,12 @@ h2 {
 
 .user-card {
   background-color: var(--primary-light);
-  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  height: 110px;
-  width: 340px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: center;
-  padding: 2px;
-  position: relative;
+}
+
+.user-card:hover,
+.user-card:focus {
+  background-color: var(--primary);
+  transform: scale(1.025, 1.025);
 }
 
 .user-card-header {
@@ -185,12 +203,42 @@ h2 {
   margin-left: 10px;
 }
 
-.admin-card-group {
+.admin-card {
+  background-color: var(--secondary);
+}
+
+.admin-card:hover,
+.admin-card:focus {
+  background-color: var(--secondary-dark);
+  transform: scale(1.025, 1.025);
+}
+
+.admin-card-header {
+  display: flex;
+  flex-direction: row;
+  margin-left: 50px;
+}
+
+.admin-card-avatar-background {
+  position: relative;
+  background-color: var(--secondary-text);
+  width: 100px;
+  height: auto;
+  clip-path: circle(40% at center);
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  gap: 5px;
+}
+
+.admin-card-avatar-background>img {
+  width: auto;
+  height: 90px;
+  position: relative;
+}
+
+.admin-card-info {
+  margin-bottom: 10px;
+  margin-left: 30px;
 }
 
 .close {
@@ -229,7 +277,7 @@ h2 {
 }
 
 .close .tooltip-text::after {
-  content: " ";
+  content: "";
   position: absolute;
   top: 50%;
   left: 100%; /* To the right of the tooltip */
@@ -245,55 +293,19 @@ h2 {
 
 /* End tooltip styles */
 
-.admin-card {
-  background-color: var(--secondary);
-  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  height: 110px;
-  width: 300px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: center;
-  position: relative;
-}
-
-.admin-card-header {
-  display: flex;
-  flex-direction: row;
-  margin-left: 50px;
-}
-
-.admin-card-avatar-background {
-  position: relative;
-  background-color: var(--secondary-text);
-  width: 100px;
-  height: auto;
-  clip-path: circle(40% at center);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.admin-card-avatar-background>img {
-  width: auto;
-  height: 90px;
-  position: relative;
-}
-
-.admin-card-info {
-  margin-bottom: 10px;
-  margin-left: 30px;
-}
-
 @media only screen and (max-width: 800px) {
+  .container {
+    grid-template-rows: 10% repeat(3, 30%);
+  }
+
   #content {
-    grid-template-rows: 50px 1fr 50px;
+    grid-row: 2 / span 3;
   }
 
   .admin-wrapper {
+    grid-row: 2 / span 2;
     grid-template-columns: 100%;
-    grid-template-rows: 12.5rem calc(100vh - 12.5rem - 150px);
+    grid-template-rows: 20% 1fr;
   }
 
   #delete-block {
@@ -315,14 +327,13 @@ h2 {
 
   #user-profiles {
     grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-    margin: 0 2%;
+    grid-row: 3 / span 1;
   }
 
   #admin-profiles {
     grid-column: 1 / span 1;
-    grid-row: 3 / span 1;
-    margin: 0 2%;
+    grid-row: 2 / span 1;
+    margin: 0;
   }
 
   .admin-card {

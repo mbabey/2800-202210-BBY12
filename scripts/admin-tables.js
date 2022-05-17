@@ -3,6 +3,7 @@
 docLoaded(() => {
   getUserData();
   getAdminData();
+  makeCardsClickable();
 });
 
 function docLoaded(action) {
@@ -10,6 +11,19 @@ function docLoaded(action) {
     action();
   else
     document.addEventListener('DOMContentLoaded', action);
+}
+
+function makeCardsClickable() {
+  document.querySelectorAll('.admin-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      window.redirect('#'); // redirect to profile page for user
+    });
+  });
+  document.querySelectorAll('.user-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      window.redirect('#');
+    });
+  });
 }
 
 async function getUserData() {

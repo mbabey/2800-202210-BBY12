@@ -56,7 +56,7 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
                 pImgs.appendChild(img);
             }
         }
-        
+
         for (const tags of postTags) {
             if (tags) {
                 let tag = pTagTemplateContent.cloneNode(true);
@@ -67,7 +67,9 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
         }
 
         if (req.session.username == post.username) {
-            let pEdit = pEditTemplateContent.cloneNode(true);
+            let pEdit = pEditTemplateContent.firstElementChild.cloneNode(true);
+            //console.log(clone.lastElementChild);
+            //pEdit.addEventListener("click", function(){alert("click");});
             clone.querySelector("#post-footer").appendChild(pEdit)
         };
 

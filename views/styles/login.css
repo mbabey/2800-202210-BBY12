@@ -120,6 +120,10 @@
     color: var(--primary-dark);
 }
 
+#login-block #error-message {
+  color: red;
+}
+
 #welcome {
     grid-column: 2 / span 1;
     background-color: var(--primary-light);

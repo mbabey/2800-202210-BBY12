@@ -95,8 +95,6 @@ app.get('/', (req, res) => {
 app.route('/login')
   .get((req, res) => {
     if (!req.session.loggedIn) {
-      //Check and reset token for password reset confirmation
-      //Then create some popup/overlay confirming password reset
       let loginPage = fs.readFileSync('./views/login.html', 'utf8');
       res.send(loginPage);
     } else {
@@ -104,6 +102,7 @@ app.route('/login')
     }
   })
   .post((req, res,) => {
+    res.setHeader('content-type', 'application/json');
     let user = req.body.username.trim();
     let pass = req.body.password;
     const hash = crypto.createHash('sha256').update(pass).digest('hex');
@@ -111,10 +110,12 @@ app.route('/login')
       con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], (err, results) => {
         if (results && results.length > 0) {
           login(req, user);
+          res.send({ status: 'success' });
+        } else {
+          res.send({ status: 'fail' });
         }
         if (err) throw err;
       });
-      res.redirect('/');
     } catch (err) {
       res.redirect('/');
     }

@@ -457,14 +457,23 @@ app.post('/search-user', (req, res) => {
 
 // QUERY: GET POST FROM ID AND USERNAME
 // WORKING: NOT USED
-app.get('/get-post/:username/:postId', (req, res) => {
+app.get('/get-post/:username/:postId', async (req, res) => {
   console.log(req.params);
-  con.query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId],
-    (error, results, fields) => {
-      if (error) throw error;
-      res.setHeader('content-type', 'application/json');
-      res.send(results);
-    });
+  let postContent, postImgs, postTags;
+  await con.promise().query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId])
+    .then((results) => {
+      postContent = results[0];
+    }).catch((err) => console.log(err));
+
+  await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId]) 
+  .then((results) => postImgs = results[0])
+  .catch((err) => console.log(err));
+
+  await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
+  .then((results) => postTags = results[0])
+  .catch((err) => console.log(err));
+  res.setHeader('content-type', 'application/json');
+  res.send([postContent, postImgs, postTags]);
 });
 
 // QUERY: UPDATE POST WITH GIVEN INFO
@@ -478,7 +487,7 @@ app.post('/edit-post', upload.array('image-upload'), (req, res) => {
     (error) => {
       console.log(error);
     });
-  let tags = req.body["tag-field"].split(/[\s#]/)
+  let tags = req.body["tag-field"].split(/[\s#]/);
   tags = tags.filter((item, pos) => {
     return tags.indexOf(item) == pos;
   });
@@ -503,7 +512,7 @@ app.post('/edit-post', upload.array('image-upload'), (req, res) => {
       });
     }
   });
-})
+});
 
 //QUERY: DELETE POST
 app.post('/delete-post', (req, res) => {
@@ -520,4 +529,4 @@ app.post('/delete-post', (req, res) => {
     (error) => {
       console.log(error);
     });
-})
+});

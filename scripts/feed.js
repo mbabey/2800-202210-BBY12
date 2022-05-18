@@ -74,7 +74,7 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
 
         if (req.session.username == post.username) {
             let pEdit = pEditTemplateContent.cloneNode(true);
-            clone.querySelector("#post-footer").appendChild(pEdit)
+            clone.querySelector("#post-footer").appendChild(pEdit);
         };
 
         pBody.appendChild(clone);
@@ -91,6 +91,7 @@ async function getImages(username, postId, con) {
         .catch((err) => {
             console.log(err);
         });
+
     return imgs;
 }
 

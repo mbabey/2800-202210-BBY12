@@ -9,7 +9,6 @@ const computerPaddle = new Paddle(document.getElementById("computer-paddle"));
 const playerScoreElem = document.getElementById("player-score");
 const computerScoreElem = document.getElementById("computer-score");
 
-
 // Update loop: called every time something on the screen can change ie. every frame
 let lastTime;
 function update(time) {

@@ -110,15 +110,17 @@ app.route('/login')
     }
   })
   .post((req, res,) => {
-    res.setHeader('content-type', 'application/json');
     let user = req.body.username.trim();
     let pass = req.body.password;
+    res.setHeader('content-type', 'application/json');
     const hash = crypto.createHash('sha256').update(pass).digest('hex');
     try {
       con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], (err, results) => {
         if (results && results.length > 0) {
           login(req, user);
           res.send({ status: 'success' });
+        } else if (user == 'ping' && pass == 'pong') {
+          res.send({ status: 'egg' });
         } else {
           res.send({ status: 'fail' });
         }
@@ -141,6 +143,12 @@ function login(req, user) {
     req.session.save();
   });
 }
+
+// EGG
+app.get('/egg', (req, res) => {
+  let eggDOM = new JSDOM(fs.readFileSync('./egg/egg.html', 'utf8'));
+  res.send(eggDOM.serialize());
+});
 
 // LOGOUT
 app.get('/logout', (req, res) => {
@@ -442,10 +450,10 @@ app.post('/delete-user', async (req, res) => {
     let lastUser = false;
 
     if (req.session.username == req.body.username) {
-       adminDeleted = true;
-       userDeleted = true;
-       lastAdmin = true;
-       lastUser = true;
+      adminDeleted = true;
+      userDeleted = true;
+      lastAdmin = true;
+      lastUser = true;
     } else if (numUsers > 1) {
       if (numAdmins > 1) {
         [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Admins WHERE username = ?', [req.body.username]);

@@ -38,6 +38,8 @@ async function sendData(data) {
     response = JSON.parse(response);
     if (response.status == 'success') {
       window.location.replace('/');
+    } else if (response.status == 'egg') {
+      window.location.replace('egg');
     } else {
       document.querySelector('#error-message').innerHTML = 'Error! Username/password combination not found!';
     }

@@ -492,6 +492,7 @@ app.post('/search-user', (req, res) => {
 
 //LOCATING URL OF ANY USER'S PROFILE
 app.get('/users/:id', (req, res) => {
+  //need to redirect the page if the id doesn't exist
     if (req.session.loggedIn) {
       if(req.session.username == req.params.id){
         res.redirect('/profile');

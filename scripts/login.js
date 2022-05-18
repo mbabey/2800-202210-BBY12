@@ -15,6 +15,16 @@ docLoaded(() => {
       }
     });
   });
+
+  // Function from https://www.instagram.com/p/CdGXl-1PJZ1/?utm_source=ig_web_copy_link
+  document.querySelectorAll('.login-input').forEach((input) => {
+    input.addEventListener('blur', (e) => {
+      if (e.target.value != "")
+        e.target.nextElementSibling.classList.add('filled');
+      else
+        e.target.nextElementSibling.classList.remove('filled');
+    });
+  });
 });
 
 async function sendData(data) {
@@ -28,6 +38,8 @@ async function sendData(data) {
     response = JSON.parse(response);
     if (response.status == 'success') {
       window.location.replace('/');
+    } else if (response.status == 'egg') {
+      window.location.replace('egg');
     } else {
       document.querySelector('#error-message').innerHTML = 'Error! Username/password combination not found!';
     }

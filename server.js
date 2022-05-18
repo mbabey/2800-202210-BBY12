@@ -465,9 +465,9 @@ app.post('/search-user', (req, res) => {
       function (error, results) {
         if (error) throw error;
         console.log(results);
-        if (results) {
+        if (results.length > 0) {
           res.setHeader('content-type', 'application/json');
-          res.send({ status: 'success', rows: results });
+           res.send({ status: 'success', rows: results });
         } else {
           res.send({ status: "fail", msg: "Search Fail" });
         }

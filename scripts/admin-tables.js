@@ -242,7 +242,7 @@ async function sendSearchData(searchData) {
     });
     response = await response.text();
     response = JSON.parse(response);
-    if (response.rows.length > 0) {
+    if (response.status == "success") {
       popUserCard(response);
     } else {
       document.querySelector('#user-error-message').innerHTML = 'Cannot find user.';
@@ -335,13 +335,16 @@ function toggleDropDown() {
   let searchDropDown = document.querySelector(".search-dropdown");
   let clearSearch = document.querySelector("#search-results");
   let searchButton = document.querySelector("#search-user");
+  let errMsg = document.querySelector("#user-error-message");
   if (searchDropDown.style.display === "none") {
     searchDropDown.style.display = "flex";
     clearSearch.style.display = "none";
+    errMsg.style.display = "none";
   } else {
     searchDropDown.style.display = "none";
     clearSearch.style.display = "none";
     searchButton.innerHTML = "Search"
+    errMsg.style.display = "none";
   }
 }
 
@@ -351,9 +354,11 @@ function toggleSearchButton () {
   if (searchButton.innerHTML === "Search") {
     searchButton.innerHTML = "Clear";
     clearSearch.style.display = "block";
+
   } else {
     clearSearch.style.display = "none";
-    searchButton.innerHTML = "Search"
+    searchButton.innerHTML = "Search";
+    errMsg.style.display = "block";
   }
 }
 

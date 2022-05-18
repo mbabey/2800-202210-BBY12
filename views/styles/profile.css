@@ -1,5 +1,12 @@
 .profile-header-wrapper {
-  background-color: var(--primary-light);
+  /* background-color: #67c093; */
+  background-color: var(--primary-med);
+  color: var(--light-yellow);
+}
+
+
+.business-name-block, h4 {
+  color: var(--gold);
 }
 
 .profile-header {
@@ -26,7 +33,7 @@
 .profile-header h3:after {
   content: "";
   display: block;
-  border-bottom: 3px solid var(--secondary-dark);
+  border-bottom: 3px solid var(--gold);
   width: 1rem;
 }
 
@@ -40,6 +47,7 @@
   text-align: right;
 }
 
+
 .profile-edit-buttons {
   position: absolute;
   top: 85px;
@@ -49,7 +57,7 @@
 
 .edit-profile,
 .edit-avatar {
-  background-color: var(--secondary-text);
+  background-color: var(--secondary);
   border: 1px solid var(--secondary-light);
   text-align: center;
   width: 5rem;
@@ -74,6 +82,28 @@
   position: relative;
   grid-column: 3 / span 1;
   grid-row: 1 / span 1;
+}
+
+.profile-info h3 {
+  color: var(--gold);
+} 
+
+[class*='tooltip-']{
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  top: 100%;
+  left: 50%;
+
+}
+
+.tooltip:hover [class*='tooltip-']{
+  visibility: visible;
 }
 
 .profile-description {

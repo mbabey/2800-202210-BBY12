@@ -3,11 +3,13 @@
 :root {
   /*Colours*/
   --primary: #588676;
-  --primary-med: #126749;
+  --primary-med: #0e6338;
   /* --primary-light: #86b6a5; Old colour, saved */
   --primary-light: #249c60;
   --primary-dark: #2c594a;
+  --light-yellow: rgb(246, 255, 179);
   --primary-text: #ffeb88;
+  --gold: #ffd500;
   --secondary: #5f86be;
   --secondary-light: #91b6f1;
   --secondary-dark: #2c598e;

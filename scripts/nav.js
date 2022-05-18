@@ -1,8 +1,13 @@
 'use strict';
 
 docLoaded(() => {
-  getData();
-  getIsAdmin();
+  getData('/nav-and-footer', popNavAndFooter);
+  getData('/get-user', popNavNameAndAvatar);
+  getData('/is-admin', (isAdmin) => {
+    if (isAdmin.admin) {
+      addAdminStar();
+    }
+  });
 });
 
 function docLoaded(action) {
@@ -12,37 +17,28 @@ function docLoaded(action) {
     document.addEventListener('DOMContentLoaded', action);
 }
 
-async function getData() {
+async function getData(path, callback) {
   try {
-    let response = await fetch('/get-user', {
+    let response = await fetch(path, {
       method: 'GET'
     });
     if (response.status == 200) {
-      let data = await response.text();
-      popNavNameAndAvatar(JSON.parse(data));
+      response = await response.text();
+      response = JSON.parse(response);
+      callback(response);
     }
   } catch (err) { }
+}
+
+function popNavAndFooter(navAndFooter) {
+  document.querySelector('nav').innerHTML = navAndFooter.nav;
+  document.querySelector('footer').innerHTML = navAndFooter.footer;
 }
 
 function popNavNameAndAvatar(data) {
   document.querySelector('#profile-name').innerHTML = (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
   let path = (data[0].profilePic != undefined && data[0].profilePic != null) ? data[0].profilePic : 'Logo.png';
   document.querySelector('#profile-picture').src = "./avatars/" + path;
-}
-
-async function getIsAdmin() {
-  try {
-    let response = await fetch('/is-admin', {
-      method: 'GET'
-    });
-    if (response.status == 200) {
-      let session = await response.text();
-      let isAdmin = JSON.parse(session);
-      if (isAdmin.admin) {
-        addAdminStar();
-      }
-    }
-  } catch (err) { }
 }
 
 function addAdminStar() {
@@ -55,5 +51,4 @@ function addAdminStar() {
     "</svg> <span>Admin</span>";
 
   admin_button.innerHTML = content;
-
 }

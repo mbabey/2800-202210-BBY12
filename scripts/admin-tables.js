@@ -84,19 +84,19 @@ function initUserDeletion() {
       let isSelf = response.adminX && response.userX && response.finalAdmin && response.finalUser;
 
       if (adminDeleted)
-        document.querySelector('#status-2').innerHTML = 'Administrator ' + user + ' deleted.';
+        document.querySelector('#user-error-message').innerHTML = 'Administrator ' + user + ' deleted.';
       else if (userDeleted)
-        document.querySelector('#status-2').innerHTML = 'User ' + user + ' deleted.';
+        document.querySelector('#user-error-message').innerHTML = 'User ' + user + ' deleted.';
       else if (lastAdmin)
-        document.querySelector('#error-message-2').innerHTML = 'Administrator ' + user + ' could not be deleted; ' + user + ' is the only administrator.';
+        document.querySelector('#user-error-message').innerHTML = 'Administrator ' + user + ' could not be deleted; ' + user + ' is the only administrator.';
       else if (lastUser)
-        document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' could not be deleted; ' + user + ' is the only user.';
+        document.querySelector('#user-error-message').innerHTML = 'User ' + user + ' could not be deleted; ' + user + ' is the only user.';
       else if (notExists)
-        document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' not found.';
+        document.querySelector('#user-error-message').innerHTML = 'User ' + user + ' not found.';
       else if (isSelf)
-        document.querySelector('#error-message-2').innerHTML = 'Gro-Operate does not want you to delete yourself (it will get better).';
+        document.querySelector('#user-error-message').innerHTML = 'Gro-Operate does not want you to delete yourself (it will get better).';
       else
-        document.querySelector('#error-message-2').innerHTML = 'User ' + user + ' could not be deleted.';
+        document.querySelector('#user-error-message').innerHTML = 'User ' + user + ' could not be deleted.';
     });
 
     document.getElementById("user-username").value = "";
@@ -142,15 +142,15 @@ function initAdminDeletion() {
       let isSelf = response.adminX && response.finalAdmin;
 
       if (adminDeleted)
-        document.querySelector('#status').innerHTML = 'Administrator privileges revoked for user ' + admin + '.';
+        document.querySelector('#admin-error-message').innerHTML = 'Administrator privileges revoked for user ' + admin + '.';
       else if (lastAdmin)
-        document.querySelector('#error-message').innerHTML = 'Administrator ' + admin + ' could not have their privileges revoked; ' + admin + ' is the only administrator.';
+        document.querySelector('#admin-error-message').innerHTML = 'Administrator ' + admin + ' could not have their privileges revoked; ' + admin + ' is the only administrator.';
       else if (notExists)
-        document.querySelector('#error-message').innerHTML = 'Administrator ' + admin + ' not found.';
+        document.querySelector('#admin-error-message').innerHTML = 'Administrator ' + admin + ' not found.';
       else if (isSelf)
-        document.querySelector('#error-message').innerHTML = 'Cannot remove your own administrator privileges.';
+        document.querySelector('#admin-error-message').innerHTML = 'Cannot remove your own administrator privileges.';
       else
-        document.querySelector('#error-message').innerHTML = 'Administrator ' + admin + ' could not have their privileges revoked.';
+        document.querySelector('#admin-error-message').innerHTML = 'Administrator ' + admin + ' could not have their privileges revoked.';
     });
 
     document.getElementById("admin-username").value = "";
@@ -166,6 +166,7 @@ function searchUser() {
     let userSearchInput = { username: document.querySelector('.search-input').value }
     sendData(userSearchInput, '/search-user', popUserCard);
     document.querySelector('.search-input').value = "";
+    document.querySelector('#user-username').value = userSearchInput.username;
   });
 }
 
@@ -181,6 +182,7 @@ function searchAdmin() {
     let adminSearchInput = { username: document.querySelector('.search-admin-input').value }
     sendData(adminSearchInput, '/search-admin', popAdminCard);
     document.querySelector('.search-admin-input').value = "";
+    document.querySelector('#admin-username').value = adminSearchInput.username;
   });
 }
 
@@ -192,40 +194,20 @@ function popAdminCard(searchData) {
 
 // Hide/make visible search block referenced from https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
 function toggleDropDown() {
-  let searchDropDown = document.querySelector(".search-dropdown");
-  let clearSearch = document.querySelector("#search-results");
-  let searchButton = document.querySelector("#search-user");
-  let errMsg = document.querySelector("#user-error-message");
-  let clearButton = document.querySelector('#search-refresh');
-  if (searchDropDown.style.display === "none") {
-    searchDropDown.style.display = "flex";
-    // clearSearch.style.display = "none";
-    // errMsg.style.display = "none";
-    // clearButton.style.display = "none";
-  } else {
+  let searchDropDown = document.querySelector("#user-search-dropdown");
+  if (searchDropDown.style.display === "flex") {
     searchDropDown.style.display = "none";
-    // clearSearch.style.display = "none";
-    // searchButton.innerHTML = "Search"
+  } else {
+    searchDropDown.style.display = "flex";
   }
 }
 
 function toggleAdminDropDown() {
   let searchDropDown = document.querySelector("#admin-search-dropdown");
-  let clearSearch = document.querySelector("#search-results-2");
-  let searchButton = document.querySelector("#search-admin");
-  let errMsg = document.querySelector("#admin-error-message");
-  let clearButton = document.querySelector('#search-admin-refresh');
-  if (searchDropDown.style.display === "none") {
-    searchDropDown.style.display = "flex";
-    // clearSearch.style.display = "none";
-    // errMsg.style.display = "none";
-    // clearButton.style.display = "none";
-  } else {
+  if (searchDropDown.style.display === "flex") {
     searchDropDown.style.display = "none";
-    // clearSearch.style.display = "none";
-    // searchButton.innerHTML = "Search";
-    // errMsg.style.display = "none";
-    // clearButton.style.display = "none";
+  } else {
+    searchDropDown.style.display = "flex";
   }
 }
 

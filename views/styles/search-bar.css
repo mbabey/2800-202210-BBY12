@@ -65,7 +65,7 @@
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.search-dropdown {
+#user-search-dropdown {
   display: none;
   flex-direction: column;
 }
@@ -119,6 +119,49 @@
 #search-admin:active,
 #search-refresh:active,
 #search-admin-refresh:active {
+  transform: scale(1);
+}
+
+.admin-button {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  padding: 1rem;
+  text-align: center;
+  background-color: var(--danger-red);
+  border: none;
+  cursor: pointer;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
+/ https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
+.admin-button::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.admin-button:focus,
+.admin-button:hover {
+  transform: scale(1.025, 1.025);
+}
+
+.admin-button:focus::after,
+.admin-button:hover::after {
+  opacity: 1;
+}
+
+.admin-button:active {
   transform: scale(1);
 }
 

@@ -29,13 +29,17 @@
             <div class="search-block">
               <h3 onclick="toggleDropDown()" class="search-title">Search user</h3>
               <div class="input-search-wrapper">
-                <div class="search-dropdown">
+                <div id="user-search-dropdown">
                   <input type="text" name="user-username" placeholder="Username" class="search-input">
                   <button id="search-user" type="submit" value="submit" onclick="toggleSearchButton()">Search</button>
                   <button id="search-refresh" type="submit" value="submit" onclick="refreshSearch()">Clear</button>
+                  <div id="search-results"></div>
+                  <form>
+                    <input hidden name="username" type="text" id="user-username">
+                    <button id="delete-user" class="admin-button" type="button">Delete</button>
+                  </form>
+                  <p id="user-error-message"></p>
                 </div>
-                <div id="search-results"></div>
-                <p id="user-error-message"></p>
               </div>
             </div>
           </div>
@@ -49,10 +53,15 @@
                   <input type="text" placeholder="Username" class="search-admin-input">
                   <button id="search-admin" type="submit" value="submit"
                     onclick="toggleAdminSearchButton()">Search</button>
-                    <button id="search-admin-refresh" type="submit" value="submit" onclick="refreshSearch()">Clear</button>
+                  <button id="search-admin-refresh" type="submit" value="submit"
+                    onclick="refreshSearch()">Clear</button>
+                  <div id="search-results-2"></div>
+                  <form>
+                    <input name="username" type="text" id="admin-username">
+                    <button id="delete-admin" class="admin-button" type="button">Delete</button>
+                  </form>
+                  <p id="admin-error-message"></p>
                 </div>
-                <div id="search-results-2"></div>
-                <p id="admin-error-message"></p>
               </div>
             </div>
           </div>

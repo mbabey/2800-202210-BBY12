@@ -146,7 +146,7 @@ function login(req, user) {
 
 // EGG
 app.get('/egg', (req, res) => {
-  let eggDOM = new JSDOM(fs.readFileSync('./egg/egg.html', 'utf8'));
+  let eggDOM = new JSDOM(fs.readFileSync('./views/egg.html', 'utf8'));
   res.send(eggDOM.serialize());
 });
 

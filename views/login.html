@@ -2,43 +2,49 @@
 <html lang="en">
 
 <head>
-    <title>Gro-Operate | Login</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles/login.css">
-    <link rel="stylesheet" href="./styles/global.css">
-    <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
+  <title>Gro-Operate | Login</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./styles/login.css">
+  <link rel="stylesheet" href="./styles/global.css">
+  <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
 
-    <div id="wrapper">
-        <header id="pseudonav">
-            <div id="pseudo-nav-logo-background">
-                <img id="pseudo-nav-logo" src="./images/Logo.png" alt="Gro-Operate">
-            </div>
-        </header>
+  <div id="wrapper">
+    <header id="pseudonav">
+      <div id="pseudo-nav-logo-background">
+        <img id="pseudo-nav-logo" src="./images/Logo.png" alt="Gro-Operate">
+      </div>
+    </header>
 
-        <div id="content">
-            <div id="login-block">
-                <p><b>Sign In</b></p>
-                <form>
-                    <input name="username" class="login-input" type="text" placeholder="Username">
-                    <input name="password" class="login-input" type="password" placeholder="Password">
-                    <button id="login-submit" type="button" value="submit">Sign In</button>
-                </form>
-                <p id="error-message"></p>
-                <p>Reset your password <a href="/reset-password">here.</a></p>
-                <p>Don't have an account? <a href="/create-account">Create one!</a></p>
-            </div>
-            <div id="welcome">
-                <h1>Welcome back,<br/>Partner!</h1>
-                <p>You look great. You should start a business!</p>
-            </div>
-        </div>
+    <div id="content">
+      <div id="login-block">
+        <p><b>Sign In</b></p>
+        <form>
+          <div class="input-container">
+            <input id="username" name="username" class="login-input" type="text" placeholder="Username">
+            <label class="label" for="username">Username</label>
+          </div>
+          <div class="input-container">
+            <input id="password" name="password" class="login-input" type="password" placeholder="Password">
+            <label class="label" for="password">Password</label>
+          </div>
+          <button id="login-submit" type="button" value="submit">Sign In</button>
+        </form>
+        <p id="error-message"></p>
+        <p>Reset your password <a href="/reset-password">here.</a></p>
+        <p>Don't have an account? <a href="/create-account">Create one!</a></p>
+      </div>
+      <div id="welcome">
+        <h1>Welcome back,<br />Partner!</h1>
+        <p>You look great. You should start a business!</p>
+      </div>
     </div>
-<script src="login.js"></script>
+  </div>
+  <script src="login.js"></script>
 </body>
 
 </html>

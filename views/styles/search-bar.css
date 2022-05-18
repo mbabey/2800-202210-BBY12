@@ -1,0 +1,127 @@
+/* Search Bar styles */
+#search-title, #search-title-2 {
+ cursor: pointer;
+ margin-top: 2rem;
+}
+
+#search-bar-header {
+  grid-row: 1 / span 1;
+  grid-column: 1 / span 2;
+  background-color: white;
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+#search-user-block, #search-admin-block {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+#search-user-block {
+  grid-row: 1 / span 1;
+  grid-column: 1 / span 1;
+}
+
+#search-admin-block {
+  grid-row: 1 / span 1;
+  grid-column: 2 / span 1;
+}
+
+.input-search-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  width: 250px;
+}
+
+.input-search-wrapper input {
+  border: 1px black solid;
+  font-size: 0.9rem;
+  padding: 8px 2px;
+  margin-bottom: 10px;
+  background-color: rgba(192, 192, 192, 0.3);
+}
+
+#search-user, 
+#search-admin, 
+#search-refresh, 
+#search-admin-refresh {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  padding: 1rem;
+  text-align: center;
+  background-color: var(--secondary-dark);
+  border: none;
+  cursor: pointer;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.search-dropdown {
+  display: flex;
+  flex-direction: column;
+}
+
+#admin-search-dropdown {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
+/ https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
+#search-user::after, 
+#search-admin::after, 
+#search-refresh::after,
+#search-admin-refresh::after {
+  content: '';
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+#search-user:focus,
+#search-user:hover,
+#search-admin:focus,
+#search-admin:hover,
+#search-refresh:focus,
+#search-refresh:hover,
+#search-admin-refresh:focus,
+#search-admin-refresh:hover {
+  transform: scale(1.025, 1.025);
+}
+
+#search-user:focus::after,
+#search-user:hover::after,
+#search-admin:focus::after,
+#search-admin:hover::after,
+#search-refresh:focus::after,
+#search-refresh:hover::after,
+#search-admin-refresh:focus::after,
+#search-admin-refresh:hover::after {
+  opacity: 1;
+}
+
+#search-user:active, 
+#search-admin:active,
+#search-refresh:active,
+#search-admin-refresh:active {
+  transform: scale(1);
+}
+
+#search-results {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+#search-results-2 {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}

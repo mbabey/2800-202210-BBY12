@@ -25,7 +25,7 @@ module.exports = {
 
 // build the post using all data
 //appendchild to the post block
-async function populatePosts(req, homeDOM,templateDOM, posts, con) {
+async function populatePosts(req, homeDOM, templateDOM, posts, con) {
     let doc = homeDOM.window.document;
     let postTemp = templateDOM.window.document;
     let pBody = doc.querySelector(".post-block");
@@ -33,12 +33,15 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
     let pImgTemplateContent = postTemp.getElementById("image-template").content;
     let pTagTemplateContent = postTemp.getElementById("tag-template").content;
     let pEditTemplateContent = postTemp.getElementById("edit-template").content;
+    let pAddImgTemplateContent = postTemp.getElementById("add-image-template").content;
 
     for (const post of posts) {
         let postImages = await getImages(post.username, post.postId, con);
         let postTags = await getTags(post.username, post.postId, con);
 
         let clone = pTemplateContent.cloneNode(true);
+        clone.querySelector("#post").dataset.postId = post.postId;
+        clone.querySelector("#post").dataset.username = post.username;
         clone.querySelector("#post-user-avatar").src = "./avatars/" + post.profilePic;
         clone.querySelector("#post-business-name").textContent = post.cName;
         clone.querySelector("#post-business-type").textContent = post.bType;
@@ -46,7 +49,7 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
         clone.querySelector("#post-description").textContent = post.content;
         clone.querySelector("#post-title").textContent = post.postTitle;
 
-        let pImgs = clone.querySelector(".post-images");
+        let pImgs = clone.querySelector(".gallery");
         let pTags = clone.querySelector(".post-tags");
         for (const image of postImages) {
             if (image) {
@@ -57,20 +60,21 @@ async function populatePosts(req, homeDOM,templateDOM, posts, con) {
             }
         }
 
+        let pAddImgs = pAddImgTemplateContent.cloneNode(true);
+        pImgs.parentNode.appendChild(pAddImgs);
+
         for (const tags of postTags) {
             if (tags) {
                 let tag = pTagTemplateContent.cloneNode(true);
-                tag.querySelector("a").textContent = tags["tag"];
-                tag.querySelector("a").href = tags["tag"];
+                tag.querySelector("a").textContent = '#' + tags["tag"];
+                tag.querySelector("a").href = '#' + tags["tag"];
                 pTags.appendChild(tag);
             }
         }
 
         if (req.session.username == post.username) {
-            let pEdit = pEditTemplateContent.firstElementChild.cloneNode(true);
-            //console.log(clone.lastElementChild);
-            //pEdit.addEventListener("click", function(){alert("click");});
-            clone.querySelector("#post-footer").appendChild(pEdit)
+            let pEdit = pEditTemplateContent.cloneNode(true);
+            clone.querySelector("#post-footer").appendChild(pEdit);
         };
 
         pBody.appendChild(clone);
@@ -87,6 +91,7 @@ async function getImages(username, postId, con) {
         .catch((err) => {
             console.log(err);
         });
+
     return imgs;
 }
 

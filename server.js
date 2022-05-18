@@ -231,10 +231,11 @@ app.route("/create-post")
           res.redirect('/home');
         })
         .catch((err) => {
+          console.log(err);
           res.redirect('back');
         });
     } else {
-      res.redirect('back')
+      res.redirect('back');
     }
   });
 
@@ -508,3 +509,80 @@ app.post('/search-admin', (req, res) => {
     }
   });
 });
+
+// QUERY: GET POST FROM ID AND USERNAME
+// WORKING: NOT USED
+app.get('/get-post/:username/:postId', async (req, res) => {
+  console.log(req.params);
+  let postContent, postImgs, postTags;
+  await con.promise().query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId])
+    .then((results) => {
+      postContent = results[0];
+    }).catch((err) => console.log(err));
+
+  await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId]) 
+  .then((results) => postImgs = results[0])
+  .catch((err) => console.log(err));
+
+  await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
+  .then((results) => postTags = results[0])
+  .catch((err) => console.log(err));
+  res.setHeader('content-type', 'application/json');
+  res.send([postContent, postImgs, postTags]);
+});
+
+// QUERY: UPDATE POST WITH GIVEN INFO
+app.post('/edit-post', upload.array('image-upload'), (req, res) => {
+  con.query('UPDATE BBY_12_POST SET postTitle = ?, content = ? WHERE (username = ?) AND (postId = ?)',
+    [req.body["input-title"], req.body["input-description"], req.body.username, req.body.postId],
+    (error) => {
+      //console.log(error);
+    });
+  con.query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
+    (error) => {
+      console.log(error);
+    });
+  let tags = req.body["tag-field"].split(/[\s#]/);
+  tags = tags.filter((item, pos) => {
+    return tags.indexOf(item) == pos;
+  });
+  tags.forEach(async tag => {
+    if (tag) {
+      await con.execute('INSERT INTO \`BBY_12_Post_Tag\`(username, postId, tag) values (?,?,?)', [req.body.username, req.body.postId, tag],
+        (err) => {
+          //console.log(err);
+        });
+    }
+    if (req.files.length > 0) {
+      req.files.forEach(async image => {
+        let oldPath = image.path;
+        let newPath = "./views/images/" + image.filename;
+        fs.rename(oldPath, newPath, function (err) {
+          if (err) throw err;
+        });
+        await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.body.username, req.body.postId, image.filename],
+          (err) => {
+            //console.log(err);
+          });
+      });
+    }
+  });
+});
+
+//QUERY: DELETE POST
+app.post('/delete-post', (req, res) => {
+  con.query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
+    (error) => {
+      console.log(error);
+    });
+  con.query('DELETE FROM BBY_12_POST_Img WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
+    (error) => {
+      console.log(error);
+    });
+
+  con.query('DELETE FROM BBY_12_POST WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
+    (error) => {
+      console.log(error);
+    });
+});
+

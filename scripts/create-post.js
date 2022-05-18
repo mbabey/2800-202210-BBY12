@@ -27,7 +27,6 @@ async function insertDB(req, con) {
                 console.log(req.files);
                 console.log("TIME TO UPLOAD IMAGES NERD");
                 req.files.forEach(async image => {
-                    //console.log(req.session.username, postId, image.originalname);
                     await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.session.username, postId, image.originalname],
                         (err) => {
                             console.log(err);

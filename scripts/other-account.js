@@ -16,7 +16,7 @@ docLoaded(() => {
 
     async function sendCName() {
         try {
-            let response = await fetch('/get-other-user', {
+            let response = await fetch('users/get-other-user', {
                 method: 'GET',
             });
             if (response.status == 200) {

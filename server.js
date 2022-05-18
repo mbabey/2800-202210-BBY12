@@ -456,31 +456,29 @@ app.post('/search-user', (req, res) => {
 
 //LOCATING URL OF ANY USER'S PROFILE
 
-// const userRouter = require('./routes/other-users');
-// app.use('/user', userRouter);
+const userRouter = require('./routes/other-users');
+app.use('/users', userRouter);
 
-app.get('user/:username', (req, res) => {
-  otherUser = req.params.username;
-  if (req.session.loggedIn) {
-    let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
-    res.send(otherProfile);
-  } else {
-    res.redirect('/');
-  }
-});
+// app.get('user/:username', (req, res) => {
+  // otherUser = req.params.username;
+  // if (req.session.loggedIn) {
+  //   let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
+  //   res.send(otherProfile);
+  // } else {
+  //   res.redirect('/');
+  // }
 
-app.get('/get-other-user', (req, res) => {
-  if (otherUser == req.session.username) {
-    res.redirect('/profile');
-  } else {
-    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [otherUser], (error, results, fields) => {
-      if (error) throw error;
-      res.setHeader('content-type', 'application/json');
-      res.send(results);
-    });
-  }
-});
+//   res.send(`Get User With ID ${req.params.username}`);
+// });
 
-
-
-
+// app.get('/get-other-user', (req, res) => {
+//   if (otherUser == req.session.username) {
+//     res.redirect('/profile');
+//   } else {
+//     con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [otherUser], (error, results, fields) => {
+//       if (error) throw error;
+//       res.setHeader('content-type', 'application/json');
+//       res.send(results);
+//     });
+//   }
+// });

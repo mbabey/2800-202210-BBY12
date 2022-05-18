@@ -455,48 +455,32 @@ app.post('/search-user', (req, res) => {
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
+
 // const userRouter = require('./routes/other-users');
 // app.use('/user', userRouter);
 
 app.get('user/:username', (req, res) => {
-  let otherUser = req.params.username;
-  let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
+  otherUser = req.params.username;
   if (req.session.loggedIn) {
+    let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
     res.send(otherProfile);
   } else {
     res.redirect('/');
   }
 });
 
-// app.param("id", (req, res, next, id) => {
-//   this.apply.use(popProfile);//not sure
-//   next();
-// });
-
-app.post('/post-other', (req, res) => {
-  if (otherUser) {
-    con.query('SELECT * FROM BBY_12_users WHERE cName = ?', [otherUser],
-      function (error, results) {
-        if (error) throw error;
-        res.setHeader('content-type', 'application/json');
-        res.send({
-          status: 'success',
-          rows: results
-        });
-      });
+app.get('/get-other-user', (req, res) => {
+  if (otherUser == req.session.username) {
+    res.redirect('/profile');
   } else {
-    res.send({
-      status: "fail",
-      msg: "cannot retrieve business information."
+    con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [otherUser], (error, results, fields) => {
+      if (error) throw error;
+      res.setHeader('content-type', 'application/json');
+      res.send(results);
     });
   }
 });
 
 
-// app.get('/get-other-user', (req, res) => {
-//   con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.body.username], (error, results, fields) => {
-//     if (error) throw error;
-//     res.setHeader('content-type', 'application/json');
-//     res.send(results);
-//   });
-// });
+
+

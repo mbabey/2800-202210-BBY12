@@ -14,28 +14,21 @@ docLoaded(() => {
     let biz_location = document.querySelector('.business-location-block');
     let biz_description = document.querySelector('.business-description-block');
 
-    let edit_button = document.getElementById("edit-button");
-    let save_button = document.getElementById("save-button");
-
-    sendCName({ cName: biz_name.innerHTML });
-
-    async function sendCName(data) {
+    async function sendCName() {
         try {
-            let response = await fetch('/post-other', {
-                method: 'POST',
-                headers: { 'Content-Type': "application/json" },
-                body: JSON.stringify(data)
+            let response = await fetch('/get-other-user', {
+                method: 'GET',
             });
             if (response.status == 200) {
                 let data = await response.text();
                 let dataParsed = JSON.parse(data);
-                popThaSpots(dataParsed.rows);
+                popThaSpots(dataParsed);
             }
         } catch (err) {
             console.log(err);
         }
     }
-
+    sendCName();
 
     function popThaSpots(data) {
         biz_name.innerHTML = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
@@ -48,12 +41,11 @@ docLoaded(() => {
         biz_description.innerHTML = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
     }
 
+});
 
-
-    function docLoaded(action) {
-        if (document.readyState != 'loading')
-            action();
-        else
-            document.addEventListener('DOMContentLoaded', action);
-    }
-})
+function docLoaded(action) {
+    if (document.readyState != 'loading')
+        action();
+    else
+        document.addEventListener('DOMContentLoaded', action);
+}

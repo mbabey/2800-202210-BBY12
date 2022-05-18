@@ -200,3 +200,7 @@ h2, h3 {
 #search-refresh {
   display: none;
 }
+
+#search-admin-refresh {
+  display: none;
+}

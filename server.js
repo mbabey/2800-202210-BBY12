@@ -464,7 +464,6 @@ app.post('/search-user', (req, res) => {
     con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
       function (error, results) {
         if (error) throw error;
-        console.log(results);
         if (results.length > 0) {
           res.setHeader('content-type', 'application/json');
            res.send({ status: 'success', rows: results });
@@ -476,14 +475,14 @@ app.post('/search-user', (req, res) => {
 
 //QUERY: ADMIN PROFILE SEARCH
 app.post('/search-admin', (req, res) => {
-  if (req.body.username) {
-    con.query('SELECT * FROM BBY_12_admins WHERE username = ?', [req.body.username],
-      function (error, results) {
-        if (error) throw error;
-        res.setHeader('content-type', 'application/json');
-        res.send({ status: 'success', rows: results });
-      });
-  } else {
-    res.send({ status: "fail", msg: "Search Fail" });
-  }
+  con.query('SELECT * FROM BBY_12_admins WHERE username = ?', [req.body.username],
+  function (error, results) {
+    if (error) throw error;
+    if (results.length > 0) {
+      res.setHeader('content-type', 'application/json');
+       res.send({ status: 'success', rows: results });
+    } else {
+      res.send({ status: "fail", msg: "Search Fail" });
+    }
+  });
 });

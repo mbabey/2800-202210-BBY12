@@ -511,9 +511,7 @@ app.post('/search-admin', (req, res) => {
 });
 
 // QUERY: GET POST FROM ID AND USERNAME
-// WORKING: NOT USED
 app.get('/get-post/:username/:postId', async (req, res) => {
-  console.log(req.params);
   let postContent, postImgs, postTags;
   await con.promise().query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId])
     .then((results) => {
@@ -538,30 +536,33 @@ app.post('/edit-post', upload.array('image-upload'), (req, res) => {
     (error) => {
       //console.log(error);
     });
+
+  //Delete Tags from Post
   con.query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
-    (error) => {
-      //console.log(error);
+    (err, results, fields) => {
+      console.log(err);
     });
+  //Add Updated Tags from Post
   let tags = req.body["tag-field"].split(/[\s#]/);
   tags = tags.filter((item, pos) => {
     return tags.indexOf(item) == pos;
   });
   tags.forEach(async tag => {
     if (tag) {
-      await con.execute('INSERT INTO \`BBY_12_Post_Tag\`(username, postId, tag) values (?,?,?)', [req.body.username, req.body.postId, tag],
-        (err) => {
-          //console.log(err);
+      await con.promise().query('INSERT INTO \`BBY_12_Post_Tag\`(username, postId, tag) values (?,?,?)', [req.body.username, req.body.postId, tag])
+      .catch((err) => {
+          console.log(err);
         });
     }
   });
-  console.log(req.body["image-delete"]);
-  let imgDelete = [].concat(req.body["image-delete"]);
-  if (imgDelete) {
+  //Delete Images from Post
+  if (req.body["image-delete"]) {
+    let imgDelete = [].concat(req.body["image-delete"]);
     imgDelete.forEach(async img => {
-      await con.execute('DELETE FROM BBY_12_POST_Img WHERE (username = ?) AND (postId = ?) AND (postId = ?)', [req.body.username, req.body.postId, img],
-        (error) => {
-          console.log(error);
-        });
+      await con.promise().query('DELETE FROM BBY_12_POST_Img WHERE (username = ?) AND (postId = ?) AND (imgFile = ?)', [req.body.username, req.body.postId, img])
+      .catch((err) => {
+        console.log(err);
+      });
     });
   }
 
@@ -572,10 +573,10 @@ app.post('/edit-post', upload.array('image-upload'), (req, res) => {
       fs.rename(oldPath, newPath, function (err) {
         if (err) throw err;
       });
-      await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.body.username, req.body.postId, image.filename],
-        (err) => {
-          //console.log(err);
-        });
+      await con.promise().query('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.body.username, req.body.postId, image.filename])
+      .catch((err) => {
+        console.log(err);
+      });
     });
   }
 });

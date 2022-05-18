@@ -70,7 +70,6 @@ async function cancelEdit(event) {
         });
         if (response.status == 200) {
             let data = await response.text();
-            console.log(JSON.parse(data));
             data = JSON.parse(data);
 
             let postText = data[0];
@@ -128,7 +127,7 @@ function enableEdit(post) {
     let frames = post.querySelectorAll(".frame");
     for(  let i = 0; i < frames.length; i++){
         console.log(frames[i])
-        frames[i].innerHTML += `<button class="delete-image" id="delete-image">Detlete</button>`;
+        frames[i].innerHTML += `<button class="delete-image" id="delete-image">Delete Image</button>`;
     }
 
     let deleteImgs = post.querySelectorAll("#delete-image");
@@ -145,15 +144,24 @@ function enableEdit(post) {
 
 
 }
+
 function deleteImg(event){
     event.target.parentNode.setAttribute("class", "frame-delete")
 }
+
 function disableEdit(post) {
     post.querySelector(".add-image").setAttribute("class", "add-image-hide");
     post.querySelector(".post-delete").setAttribute("class", "post-delete-hide");
     post.querySelector(".post-cancel").setAttribute("class", "post-cancel-hide");
     post.querySelector(".post-save").setAttribute("class", "post-save-hide");
     post.querySelector(".post-edit-hide").setAttribute("class", "post-edit");
+
+    post.querySelector(".edit-image-upload").value = "";
+
+    let deleteImgs = post.querySelectorAll("#delete-image");
+    deleteImgs.forEach((target) => {
+        target.remove();
+    });
 
     let fields = [post.querySelector(".post-title"), post.querySelector(".post-description"), post.querySelector(".post-tags")];
 

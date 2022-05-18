@@ -77,6 +77,8 @@
     padding: 0 6px;
     float: left;
     width: 45%;
+    position: relative;
+    height: 100%;
 }
 
 .post-images img {
@@ -85,6 +87,20 @@
     border-radius: 10px;
     margin-top: 10px;
     object-fit: contain;
+}
+
+.delete-image{
+    position: absolute;
+    margin-top: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--danger-red);
+    border: none;
+    color: white;
+    text-decoration: none;
+    padding: 10px 10px;
+    font-size: 1em;
 }
 
 .post-footer {
@@ -123,7 +139,7 @@
     visibility: visible;
     text-align: center;
     margin: 5px 0;
-    padding: 10px 25%;
+    padding: 10px 20%;
     background-color: var(--primary-light);
     color: white;
     justify-self: right;
@@ -136,6 +152,7 @@
 .post-cancel{
     grid-row: 2;
     grid-column: 2;
+    background-color: var(--secondary-light);
 }
 
 .post-save {
@@ -147,7 +164,7 @@
     grid-row: 2;
     grid-column: 1;
     justify-self: left;
-    background-color: red;
+    background-color: var(--danger-red);
 }
 
 
@@ -169,6 +186,7 @@
 
     .frame {
         width: 100%;
+        height: auto;
         margin: 6px 0;
     }
 }

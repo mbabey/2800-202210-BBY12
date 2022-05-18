@@ -1,8 +1,3 @@
-//user link to the cName (use username for now) in the url
-//pass that cName parameter into /somewhere
-//somewhere goes into the db to retrieve that data
-
-
 'use strict';
 docLoaded(() => {
     let biz_name = document.querySelector('.business-name-block');
@@ -14,21 +9,22 @@ docLoaded(() => {
     let biz_location = document.querySelector('.business-location-block');
     let biz_description = document.querySelector('.business-description-block');
 
-    async function sendCName() {
+    async function sendName() {
         try {
-            let response = await fetch('users/get-other-user', {
+            let response = await fetch(window.location.pathname +'/get-other-user', {
                 method: 'GET',
             });
             if (response.status == 200) {
                 let data = await response.text();
                 let dataParsed = JSON.parse(data);
+                console.log(dataParsed);
                 popThaSpots(dataParsed);
             }
         } catch (err) {
             console.log(err);
         }
     }
-    sendCName();
+    sendName();
 
     function popThaSpots(data) {
         biz_name.innerHTML = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';

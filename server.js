@@ -455,31 +455,23 @@ app.post('/search-user', (req, res) => {
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
+app.get('/users/:id', (req, res) => {
+    if (req.session.loggedIn) {
+      if(req.session.username == req.params.id){
+        res.redirect('/profile');
+      } else {
+        let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
+        res.send(otherProfile);
+      }
+    } else {
+        res.redirect('/');
+    }
+});
 
-const userRouter = require('./routes/other-users');
-app.use('/users', userRouter);
-
-
-// app.get('user/:username', (req, res) => {
-  // otherUser = req.params.username;
-  // if (req.session.loggedIn) {
-  //   let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
-  //   res.send(otherProfile);
-  // } else {
-  //   res.redirect('/');
-  // }
-
-//   res.send(`Get User With ID ${req.params.username}`);
-// });
-
-// app.get('/get-other-user', (req, res) => {
-//   if (otherUser == req.session.username) {
-//     res.redirect('/profile');
-//   } else {
-//     con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [otherUser], (error, results, fields) => {
-//       if (error) throw error;
-//       res.setHeader('content-type', 'application/json');
-//       res.send(results);
-//     });
-//   }
-// });
+app.get('/users/:id/get-other-user', (req, res) => {
+      con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.params.id], (error, results, fields) => {
+          if (error) throw error;
+          res.setHeader('content-type', 'application/json');
+          res.send(results);
+      });
+});

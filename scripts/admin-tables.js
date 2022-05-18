@@ -217,7 +217,7 @@ function searchUser() {
     e.preventDefault();
     let userSearchInput = { username: document.querySelector('.search-input').value }
     sendSearchData(userSearchInput);
-    document.querySelector('#search-input').value = "";
+    document.querySelector('.search-input').value = "";
   });
 }
 

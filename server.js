@@ -459,6 +459,7 @@ app.post('/search-user', (req, res) => {
 const userRouter = require('./routes/other-users');
 app.use('/users', userRouter);
 
+
 // app.get('user/:username', (req, res) => {
   // otherUser = req.params.username;
   // if (req.session.loggedIn) {

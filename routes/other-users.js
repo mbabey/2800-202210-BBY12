@@ -17,7 +17,7 @@ router.get('/:id', (req, res) => {
   }
 });
 
-router.get('/get-other-user', (req, res) => {
+router.get('/users/get-other-user', (req, res) => {
   if (otherUser == req.session.username) {
     res.redirect('/profile');
   } else {

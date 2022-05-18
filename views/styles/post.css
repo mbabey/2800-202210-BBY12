@@ -104,7 +104,8 @@
 .post-save-hide,
 .post-delete-hide,
 .post-cancel-hide,
-.add-image-hide {
+.add-image-hide,
+.frame-delete {
     visibility: hidden;
     max-height: 0px;
 

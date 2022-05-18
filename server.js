@@ -208,7 +208,7 @@ app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
     let oldPath = req.file.path;
     let newPath = "./views/avatars/" + req.file.filename;
     fs.rename(oldPath, newPath, function (err) {
-      if (err) throw err
+      if (err) throw err;
     });
   }
   res.redirect("/profile");
@@ -478,36 +478,36 @@ app.post('/delete-user', async (req, res) => {
 
 //QUERY: ADMIN EDIT USER PROFILE SEARCH
 app.post('/search-user', (req, res) => {
-    con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
-      function (error, results) {
-        if (error) throw error;
-        if (results.length > 0) {
-          res.setHeader('content-type', 'application/json');
-           res.send({ status: 'success', rows: results });
-        } else {
-          res.send({ status: "fail", msg: "Search Fail" });
-        }
-      });
+  con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
+    function (error, results) {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: 'success', rows: results });
+      } else {
+        res.send({ status: "fail", msg: "Search Fail" });
+      }
+    });
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
-app.get('/other-profile', function (req, res){
-  
-  
-  
-})
+app.get('/other-profile', function (req, res) {
+
+
+
+});
 //QUERY: ADMIN PROFILE SEARCH
 app.post('/search-admin', (req, res) => {
   con.query('SELECT * FROM BBY_12_admins WHERE username = ?', [req.body.username],
-  function (error, results) {
-    if (error) throw error;
-    if (results.length > 0) {
-      res.setHeader('content-type', 'application/json');
-       res.send({ status: 'success', rows: results });
-    } else {
-      res.send({ status: "fail", msg: "Search Fail" });
-    }
-  });
+    function (error, results) {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: 'success', rows: results });
+      } else {
+        res.send({ status: "fail", msg: "Search Fail" });
+      }
+    });
 });
 
 // QUERY: GET POST FROM ID AND USERNAME
@@ -520,13 +520,13 @@ app.get('/get-post/:username/:postId', async (req, res) => {
       postContent = results[0];
     }).catch((err) => console.log(err));
 
-  await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId]) 
-  .then((results) => postImgs = results[0])
-  .catch((err) => console.log(err));
+  await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
+    .then((results) => postImgs = results[0])
+    .catch((err) => console.log(err));
 
   await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
-  .then((results) => postTags = results[0])
-  .catch((err) => console.log(err));
+    .then((results) => postTags = results[0])
+    .catch((err) => console.log(err));
   res.setHeader('content-type', 'application/json');
   res.send([postContent, postImgs, postTags]);
 });
@@ -540,7 +540,7 @@ app.post('/edit-post', upload.array('image-upload'), (req, res) => {
     });
   con.query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
     (error) => {
-      console.log(error);
+      //console.log(error);
     });
   let tags = req.body["tag-field"].split(/[\s#]/);
   tags = tags.filter((item, pos) => {
@@ -553,20 +553,31 @@ app.post('/edit-post', upload.array('image-upload'), (req, res) => {
           //console.log(err);
         });
     }
-    if (req.files.length > 0) {
-      req.files.forEach(async image => {
-        let oldPath = image.path;
-        let newPath = "./views/images/" + image.filename;
-        fs.rename(oldPath, newPath, function (err) {
-          if (err) throw err;
-        });
-        await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.body.username, req.body.postId, image.filename],
-          (err) => {
-            //console.log(err);
-          });
-      });
-    }
   });
+  console.log(req.body["image-delete"]);
+  let imgDelete = [].concat(req.body["image-delete"]);
+  if (imgDelete) {
+    imgDelete.forEach(async img => {
+      await con.execute('DELETE FROM BBY_12_POST_Img WHERE (username = ?) AND (postId = ?) AND (postId = ?)', [req.body.username, req.body.postId, img],
+        (error) => {
+          console.log(error);
+        });
+    });
+  }
+
+  if (req.files.length > 0) {
+    req.files.forEach(async image => {
+      let oldPath = image.path;
+      let newPath = "./views/images/" + image.filename;
+      fs.rename(oldPath, newPath, function (err) {
+        if (err) throw err;
+      });
+      await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.body.username, req.body.postId, image.filename],
+        (err) => {
+          //console.log(err);
+        });
+    });
+  }
 });
 
 //QUERY: DELETE POST

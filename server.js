@@ -43,6 +43,7 @@ const updateQueries = require('./scripts/query-post');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
+const res = require('express/lib/response');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -524,3 +525,12 @@ app.post('/delete-post', upload.none(), async (req, res) => {
   await deleteQueries.deletePost(req, con);
 });
 
+// SEARCH FOR POSTS
+
+app.route("/search")
+.get((req, res)=>{
+  res.send("Pog");
+})
+.post((req, res)=>{
+  res.send(req.body["nav-search"]);
+});

@@ -15,7 +15,7 @@
   </div>
   <div id="nav-right">
     <div id="nav-search">
-      <form action="post">
+      <form method="post" action="/search">
         <input type="text" placeholder="Search" name="nav-search">
         <button type="submit" name="submit">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -3 28 28" width="20" height="20">

@@ -467,6 +467,7 @@ app.get('/get-post/:username/:postId', (req, res) => {
     });
 });
 
+// QUERY: UPDATE POST WITH GIVEN INFO
 app.post('/edit-post', upload.array('image-upload'), (req, res) => {
   con.query('UPDATE BBY_12_POST SET postTitle = ?, content = ? WHERE (username = ?) AND (postId = ?)',
     [req.body["input-title"], req.body["input-description"], req.body.username, req.body.postId],
@@ -502,4 +503,21 @@ app.post('/edit-post', upload.array('image-upload'), (req, res) => {
       });
     }
   });
+})
+
+//QUERY: DELETE POST
+app.post('/delete-post', (req, res) => {
+  con.query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
+    (error) => {
+      console.log(error);
+    });
+  con.query('DELETE FROM BBY_12_POST_Img WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
+    (error) => {
+      console.log(error);
+    });
+
+  con.query('DELETE FROM BBY_12_POST WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
+    (error) => {
+      console.log(error);
+    });
 })

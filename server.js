@@ -41,6 +41,7 @@ const createPost = require('./scripts/create-post');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
+const res = require('express/lib/response');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -598,3 +599,12 @@ app.post('/delete-post', (req, res) => {
     });
 });
 
+// SEARCH FOR POSTS
+
+app.route("/search")
+.get((req, res)=>{
+  res.send("Pog");
+})
+.post((req, res)=>{
+  res.send(req.body["nav-search"]);
+});

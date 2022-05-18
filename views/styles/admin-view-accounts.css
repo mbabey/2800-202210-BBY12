@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  grid-template-rows: 10% 1fr;
+  grid-template-rows: 10% 30% 1fr;
   grid-template-columns: 100%;
 }
 
@@ -22,6 +22,7 @@
 .admin-wrapper {
   display: grid;
   grid-column: 1 / span 2;
+  grid-row: 2 / span 2;
   grid-template-columns: 30% 70%;
   grid-template-rows: 40% 60%;
 }

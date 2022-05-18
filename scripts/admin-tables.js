@@ -215,7 +215,7 @@ async function sendData(data, path, printMessage) {
 function searchUser() {
   document.querySelector('#search-user').addEventListener("click", function (e) {
     e.preventDefault();
-    let userSearchInput = { username: document.querySelector('#search-input').value }
+    let userSearchInput = { username: document.querySelector('.search-input').value }
     sendSearchData(userSearchInput);
     document.querySelector('#search-input').value = "";
   });
@@ -271,3 +271,12 @@ function popUserCard(searchData) {
 
 }
 
+// Hide/make visible search block referenced from https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
+function toggleDropDown() {
+  let searchDropDown = document.querySelector(".search-dropdown");
+  if (searchDropDown.style.display === "none") {
+    searchDropDown.style.display = "flex";
+  } else {
+    searchDropDown.style.display = "none";
+  }
+}

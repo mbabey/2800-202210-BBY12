@@ -1,0 +1,81 @@
+/* Search Bar styles */
+#search-title {
+ cursor: pointer;
+}
+
+#search-button-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: center;
+  margin-top: 30px;
+  background-color: white;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-search-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+  position: relative;
+  margin-bottom: 4rem;
+  width: 30%;
+}
+
+.input-search-wrapper input {
+  border: 1px black solid;
+  font-size: 0.9rem;
+  padding: 8px 2px;
+  margin-bottom: 10px;
+  background-color: rgba(192, 192, 192, 0.3);
+}
+
+#search-user {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  padding: 1rem;
+  text-align: center;
+  background-color: var(--secondary-dark);
+  border: none;
+  cursor: pointer;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.search-dropdown {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
+/ https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
+#search-user::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+#search-user:focus,
+#search-user:hover {
+  transform: scale(1.025, 1.025);
+}
+
+#search-user:focus::after,
+#search-user:hover::after {
+  opacity: 1;
+}
+
+#search-user:active {
+  transform: scale(1);
+}

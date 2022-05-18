@@ -287,10 +287,10 @@ app.get('/admin-dashboard', (req, res) => {
 });
 
 // ADMIN VIEW ACCOUNTS
-app.get('/admin-view-accounts', (req, res) => {
+app.get('/admin-manage-users', (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-    res.send(adminViewAcc);
+    let adminManageAcc = fs.readFileSync('./views/admin-manage-users.html', 'utf8');
+    res.send(adminManageAcc);
   } else {
     res.redirect('/');
   }
@@ -482,15 +482,29 @@ app.post('/search-user', (req, res) => {
       function (error, results) {
         if (error) throw error;
         res.setHeader('content-type', 'application/json');
-        res.send({
-          status: 'success',
-          rows: results
-        });
+        res.send({ status: 'success', rows: results });
       });
   } else {
-    res.send({
-      status: "fail",
-      msg: "Auth Fail"
-    });
+    res.send({ status: "fail", msg: "Auth Fail" });
+  }
+});
+
+//LOCATING URL OF ANY USER'S PROFILE
+app.get('/other-profile', function (req, res){
+  
+  
+  
+})
+//QUERY: ADMIN PROFILE SEARCH
+app.post('/search-admin', (req, res) => {
+  if (req.body.username) {
+    con.query('SELECT * FROM BBY_12_admins WHERE username = ?', [req.body.username],
+      function (error, results) {
+        if (error) throw error;
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: 'success', rows: results });
+      });
+  } else {
+    res.send({ status: "fail", msg: "Search Fail" });
   }
 });

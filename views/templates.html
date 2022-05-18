@@ -1,6 +1,6 @@
 <template id="post-template">
     <div class="post" id="post">
-        <div class="post-header" id="post-header">
+        <div class="post-header" id="post-header" data-postId="" data-username="">
             <div class="post-user-avatar-background">
                 <img id="post-user-avatar" src="#" alt="Profile Picture">
             </div>
@@ -11,17 +11,22 @@
                 <span class="post-timestamp" id="post-timestamp"><small></small></span>
             </div>
         </div>
-        <h1 id="post-title" class="post-title"></h1>
-        <div class="post-images" id="post-images"></div>
-        <p class="post-description" id="post-description"></p>
+        <h1 id="post-title" class="post-title" contentEditable="false"></h1>
+        <div class="post-images" id="post-images">
+            <div class="gallery" id="gallery"></div>
+            <div class="preview-gallery" id="preview-gallery"></div>
+        </div>
+        <p class="post-description" id="post-description" contentEditable="false"></p>
         <div class="post-footer" id="post-footer">
-            <div class="post-tags"></div>
+            <div class="post-tags" contentEditable="false"></div>
         </div>
     </div>
 </template>
 
 <template id="image-template">
-    <img src="#" alt="">
+    <div class="frame">
+        <img src="#" alt="">
+    </div>
 </template>
 
 <template id="tag-template">
@@ -29,5 +34,18 @@
 </template>
 
 <template id="edit-template">
+    <a class="post-delete-hide" id="post-delete">Delete</a>
+    <a class="post-cancel-hide" id="post-cancel">Cancel</a>
     <a class="post-edit" id="post-edit">Edit</a>
+    <a class="post-save-hide" id="post-save">Save</a>
+</template>
+
+<template id="add-image-template">
+    <div class="add-image-hide">
+        <div id="drop-area">
+            <label>Upload Images</label>
+            <input type="file" class="edit-image-upload" id="edit-image-upload" name="image-upload" autocomplete="off"
+                multiple accept="image/*">
+        </div>
+    </div>
 </template>

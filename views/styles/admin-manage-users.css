@@ -3,7 +3,8 @@
   grid-template-rows: 10% 1fr;
 }
 
-h2, h3 {
+h2,
+h3 {
   text-align: center;
 }
 
@@ -43,7 +44,7 @@ h2, h3 {
 }
 
 .user-card-group,
-.admin-card-group { 
+.admin-card-group {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -166,7 +167,8 @@ h2, h3 {
   content: "";
   position: absolute;
   top: 50%;
-  left: 100%; /* To the right of the tooltip */
+  left: 100%;
+  /* To the right of the tooltip */
   margin-top: -5px;
   border-width: 5px;
   border-style: solid;
@@ -229,4 +231,12 @@ h2, h3 {
 #popup-negate-delete {
   background-color: var(--secondary-text);
   border: 1px solid var(--secondary-dark);
+}
+
+#search-refresh {
+  display: none;
+}
+
+#search-admin-refresh {
+  display: none;
 }

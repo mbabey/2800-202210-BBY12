@@ -21,33 +21,39 @@
     <div class="dashboard-header">
       <h3 id="dashboard-title">Administration Board</h3>
     </div>
-    <div class="admin-wrapper">
-      <div id="search-bar-header">
-        <!--SEARCH USER BAR-->
-        <div id="search-user-block">
-          <div class="search-block">
-            <div class="input-search-wrapper">
-              <h3 onclick="toggleDropDown()" id="search-title">Search user</h3>
-              <div class="search-dropdown">
-                <input type="text" placeholder="Username" class="search-input">
-                <button id="search-user" type="submit" value="submit" onclick="toggleSearchButton()">Search</button>
+    <div id="content">
+      <div class="admin-wrapper">
+        <div id="search-bar-header">
+          <!--SEARCH USER BAR-->
+          <div id="search-user-block">
+            <div class="search-block">
+              <div class="input-search-wrapper">
+                <h3 onclick="toggleDropDown()" id="search-title">Search user</h3>
+                <div class="search-dropdown">
+                  <input type="text" name="user-username" placeholder="Username" class="search-input">
+                  <button id="search-user" type="submit" value="submit" onclick="toggleSearchButton()">Search</button>
+                  <button id="search-refresh" type="submit" value="submit" onclick="refreshSearch()">Clear</button>
+                </div>
+                <div id="search-results"></div>
+                <p id="user-error-message"></p>
               </div>
-              <div id="search-results"></div>
             </div>
           </div>
-        </div>
-        <!--END-->
-        <!--SEARCH ADMIN BAR-->
-        <div id="search-admin-block">
-          <div class="search-block">
-            <div class="input-search-wrapper">
-              <h3 onclick="toggleAdminDropDown()" id="search-title-2">Search Admin</h3>
-              <div id="admin-search-dropdown">
-                <input type="text" placeholder="Username" class="search-admin-input">
-                <button id="search-admin" type="submit" value="submit"
-                  onclick="toggleAdminSearchButton()">Search</button>
+          <!--END-->
+          <!--SEARCH ADMIN BAR-->
+          <div id="search-admin-block">
+            <div class="search-block">
+              <div class="input-search-wrapper">
+                <h3 onclick="toggleAdminDropDown()" id="search-title-2">Search Admin</h3>
+                <div id="admin-search-dropdown">
+                  <input type="text" placeholder="Username" class="search-admin-input">
+                  <button id="search-admin" type="submit" value="submit"
+                    onclick="toggleAdminSearchButton()">Search</button>
+                    <button id="search-admin-refresh" type="submit" value="submit" onclick="refreshSearch()">Clear</button>
+                </div>
+                <div id="search-results-2"></div>
+                <p id="admin-error-message"></p>
               </div>
-              <div id="search-results-2"></div>
             </div>
           </div>
         </div>

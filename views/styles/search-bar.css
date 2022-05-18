@@ -43,7 +43,10 @@
   background-color: rgba(192, 192, 192, 0.3);
 }
 
-#search-user, #search-admin {
+#search-user, 
+#search-admin, 
+#search-refresh, 
+#search-admin-refresh {
   text-decoration: none;
   color: white;
   font-size: 1rem;
@@ -68,7 +71,10 @@
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
 / https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#search-user::after {
+#search-user::after, 
+#search-admin::after, 
+#search-refresh::after,
+#search-admin-refresh::after {
   content: '';
   z-index: -1;
   top: 0;
@@ -82,16 +88,31 @@
 }
 
 #search-user:focus,
-#search-user:hover {
+#search-user:hover,
+#search-admin:focus,
+#search-admin:hover,
+#search-refresh:focus,
+#search-refresh:hover,
+#search-admin-refresh:focus,
+#search-admin-refresh:hover {
   transform: scale(1.025, 1.025);
 }
 
 #search-user:focus::after,
-#search-user:hover::after {
+#search-user:hover::after,
+#search-admin:focus::after,
+#search-admin:hover::after,
+#search-refresh:focus::after,
+#search-refresh:hover::after,
+#search-admin-refresh:focus::after,
+#search-admin-refresh:hover::after {
   opacity: 1;
 }
 
-#search-user:active {
+#search-user:active, 
+#search-admin:active,
+#search-refresh:active,
+#search-admin-refresh:active {
   transform: scale(1);
 }
 

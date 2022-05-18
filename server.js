@@ -273,8 +273,8 @@ app.get('/admin-dashboard', (req, res) => {
 // ADMIN VIEW ACCOUNTS
 app.get('/admin-manage-users', (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let adminViewAcc = fs.readFileSync('./views/admin-manage-users.html', 'utf8');
-    res.send(adminViewAcc);
+    let adminManageAcc = fs.readFileSync('./views/admin-manage-users.html', 'utf8');
+    res.send(adminManageAcc);
   } else {
     res.redirect('/');
   }

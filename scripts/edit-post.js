@@ -61,14 +61,13 @@ function savePost(event) {
 }
 
 function addImage(event) {
-
-    let post = event.target.parentNode.parentNode.parentNode.parentNode.parentNode;
-    let imgs = post.querySelector(".edit-image-upload");
-    console.log(post);
-    const image = document.createElement('img');
-    image.src = URL.createObjectURL(imgs.files[imgs.files.length - 1]);
-    console.log(Array.from(post.getElementsByClassName("gallery")).pop().parentNode.insertBefore(image, imgs.parentNode.parentNode))//.append(image);
-
+    let gallery = event.target.parentNode.parentNode.previousElementSibling;
+    let imageHolder = gallery.parentNode;
+    let imgs = imageHolder.querySelector(".edit-image-upload");
+    gallery.innerHTML += `<div class="frame">
+                                <img src="#" alt="">
+                            </div>`;
+    gallery.querySelectorAll("img")[gallery.querySelectorAll("img").length - 1].src = URL.createObjectURL(imgs.files[imgs.files.length - 1]);
 }
 
 function enableEdit(post) {

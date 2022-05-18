@@ -49,7 +49,7 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
         clone.querySelector("#post-description").textContent = post.content;
         clone.querySelector("#post-title").textContent = post.postTitle;
 
-        let pImgs = clone.querySelector(".post-images");
+        let pImgs = clone.querySelector(".gallery");
         let pTags = clone.querySelector(".post-tags");
         for (const image of postImages) {
             if (image) {
@@ -61,7 +61,7 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
         }
 
         let pAddImgs = pAddImgTemplateContent.cloneNode(true);
-        pImgs.appendChild(pAddImgs);
+        pImgs.parentNode.appendChild(pAddImgs);
 
         for (const tags of postTags) {
             if (tags) {

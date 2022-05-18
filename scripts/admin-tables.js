@@ -341,7 +341,7 @@ function toggleDropDown() {
   }
 }
 
-function toggleSearchButton () {
+function toggleSearchButton() {
   let searchButton = document.querySelector("#search-user");
   let clearSearch = document.querySelector("#search-results");
   if (searchButton.innerHTML === "Search") {

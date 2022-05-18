@@ -68,7 +68,7 @@
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
 / https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#search-user::after {
+#search-user::after, #search-admin::after {
   content: '';
   z-index: -1;
   top: 0;
@@ -82,16 +82,20 @@
 }
 
 #search-user:focus,
-#search-user:hover {
+#search-user:hover,
+#search-admin:focus,
+#search-admin:hover {
   transform: scale(1.025, 1.025);
 }
 
 #search-user:focus::after,
-#search-user:hover::after {
+#search-user:hover::after,
+#search-admin:focus::after,
+#search-admin:hover::after {
   opacity: 1;
 }
 
-#search-user:active {
+#search-user:active, #search-admin:active {
   transform: scale(1);
 }
 

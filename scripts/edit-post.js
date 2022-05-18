@@ -74,9 +74,7 @@ async function cancelEdit(event) {
             //post.querySelector(".post-tags").textContent = data[0].postTitle;
             let gallery = post.querySelector(".gallery");
             gallery.innerHTML = "";
-            console.log(postImgs);
             for (let i = 0; i < postImgs.length; i++) {
-                console.log(postImgs[i].imgFile);
                 gallery.innerHTML += `<div class="frame"><img src="#" alt=""></div>`;
                 gallery.querySelectorAll(".frame > img")[i].src = "./images/" + postImgs[i].imgFile;
                 gallery.querySelectorAll(".frame > img")[i].alt = postImgs[i].imgFile;

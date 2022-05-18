@@ -89,13 +89,14 @@
 
 .post-footer {
     display: grid;
-    grid-template-columns: 70% 15% 15%;
-    min-height: 2em;
+    grid-template-columns: 50% 25% 25%;
+    min-height: 3em;
 }
 
 .post-tags {
     margin: auto 0;
     grid-row: 1;
+    grid-column: 1 / span 3;
     vertical-align: middle;
 }
 
@@ -120,31 +121,32 @@
 .post-delete {
     visibility: visible;
     text-align: center;
-    margin: auto 0;
+    margin: 5px 0;
+    padding: 10px 25%;
+    background-color: var(--primary-light);
+    color: white;
+    justify-self: right;
 }
 
 .post-edit {
-    grid-row: 1;
+    grid-row: 2;
     grid-column: 3;
 }
 .post-cancel{
     grid-row: 2;
     grid-column: 2;
-    background-color: var(--secondary);
-    color: white;
 }
+
 .post-save {
     grid-row: 2;
     grid-column: 3;
-    background-color: var(--secondary);
-    color: white;
 }
 
 .post-delete {
     grid-row: 2;
     grid-column: 1;
-    background-color: var(--secondary);
-    color: white;
+    justify-self: left;
+    background-color: red;
 }
 
 

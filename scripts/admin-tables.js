@@ -216,7 +216,7 @@ async function sendData(data, path, printMessage) {
 function searchUser() {
   document.querySelector('#search-user').addEventListener("click", function (e) {
     e.preventDefault();
-    let userSearchInput = { username: document.querySelector('.search-input').value }
+    let userSearchInput = { username: document.querySelector('.search-input').value, }
     sendSearchData(userSearchInput);
     document.querySelector('.search-input').value = "";
   });
@@ -242,9 +242,13 @@ async function sendSearchData(searchData) {
     });
     response = await response.text();
     response = JSON.parse(response);
-    popUserCard(response);
+    if (response.rows.length > 0) {
+      popUserCard(response);
+    } else {
+      document.querySelector('#user-error-message').innerHTML = 'Cannot find user.';
+    }
   } catch (err) {
-    if (err) throw err;
+    throw err;
   }
 }
 
@@ -347,7 +351,7 @@ function toggleSearchButton () {
   if (searchButton.innerHTML === "Search") {
     searchButton.innerHTML = "Clear";
     clearSearch.style.display = "block";
-  } else  if (searchButton.innerHTML === "Clear") {
+  } else {
     clearSearch.style.display = "none";
     searchButton.innerHTML = "Search"
   }
@@ -373,7 +377,7 @@ function toggleAdminSearchButton () {
   if (searchButton.innerHTML === "Search") {
     searchButton.innerHTML = "Clear";
     clearSearch.style.display = "block";
-  } else  if (searchButton.innerHTML === "Clear") {
+  } else {
     clearSearch.style.display = "none";
     searchButton.innerHTML = "Search"
   }

@@ -461,16 +461,17 @@ app.post('/delete-user', async (req, res) => {
 
 //QUERY: ADMIN EDIT USER PROFILE SEARCH
 app.post('/search-user', (req, res) => {
-  if (req.body.username) {
     con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
       function (error, results) {
         if (error) throw error;
-        res.setHeader('content-type', 'application/json');
-        res.send({ status: 'success', rows: results });
+        console.log(results);
+        if (results) {
+          res.setHeader('content-type', 'application/json');
+          res.send({ status: 'success', rows: results });
+        } else {
+          res.send({ status: "fail", msg: "Search Fail" });
+        }
       });
-  } else {
-    res.send({ status: "fail", msg: "Auth Fail" });
-  }
 });
 
 //QUERY: ADMIN PROFILE SEARCH

@@ -83,22 +83,38 @@
     </div>
     <div id="content">
       <div class="admin-wrapper">
-         <!--SEARCH USER BAR-->
-      <div id="search-user-block">
-        <div class="search-block">
-          <div class="input-search-wrapper">
-            <h3 onclick="toggleDropDown()" id="search-title">Search user</h3>
-            <div class="search-dropdown">
-              <input type="text" placeholder="Username" class="search-input">
-              <button id="search-user" type="submit" value="submit" onclick="toggleSearchButton()">Search</button>
+        <div id="search-bar-header">
+          <!--SEARCH USER BAR-->
+          <div id="search-user-block">
+            <div class="search-block">
+              <div class="input-search-wrapper">
+                <h3 onclick="toggleDropDown()" id="search-title">Search user</h3>
+                <div class="search-dropdown">
+                  <input type="text" placeholder="Username" class="search-input">
+                  <button id="search-user" type="submit" value="submit" onclick="toggleSearchButton()">Search</button>
+                </div>
+                <div id="search-results"></div>
+              </div>
             </div>
-            <div id="search-results"></div>
           </div>
+          <!--END-->
+          <!--SEARCH ADMIN BAR-->
+          <div id="search-admin-block">
+            <div class="search-block">
+              <div class="input-search-wrapper">
+                <h3 onclick="toggleAdminDropDown()" id="search-title-2">Search Admin</h3>
+                <div id="admin-search-dropdown">
+                  <input type="text" placeholder="Username" class="search-admin-input">
+                  <button id="search-admin" type="submit" value="submit"
+                    onclick="toggleAdminSearchButton()">Search</button>
+                </div>
+                <div id="search-results-2"></div>
+              </div>
+            </div>
+          </div>
+          <!--END-->
         </div>
-      </div>
 
-      
-      <!--END-->
         <div id="user-profiles">
           <h2>User Accounts</h2>
           <div id="user-list">
@@ -106,7 +122,7 @@
           </div>
         </div>
         <div id="admin-profiles">
-          <h2>Admin Privileges</h2>
+          <h2>Admin Accounts</h2>
           <div id="admin-list">
             <!-- admin cards populates -->
           </div>

@@ -472,3 +472,17 @@ app.post('/search-user', (req, res) => {
     res.send({ status: "fail", msg: "Auth Fail" });
   }
 });
+
+//QUERY: ADMIN PROFILE SEARCH
+app.post('/search-admin', (req, res) => {
+  if (req.body.username) {
+    con.query('SELECT * FROM BBY_12_admins WHERE username = ?', [req.body.username],
+      function (error, results) {
+        if (error) throw error;
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: 'success', rows: results });
+      });
+  } else {
+    res.send({ status: "fail", msg: "Search Fail" });
+  }
+});

@@ -173,13 +173,13 @@ function popUserCard(searchData) {
   // USER CARD CREATED HERE FOR SEARCH RESULT
   let userCard = makeUserCard(searchData);
   document.getElementById("search-results").innerHTML = userCard;
- } 
+}
 
 function searchAdmin() {
   document.querySelector('#search-admin').addEventListener("click", function (e) {
     e.preventDefault();
     let adminSearchInput = { username: document.querySelector('.search-admin-input').value }
-    sendData(adminSearchInput, '.search-admin', popAdminCard);
+    sendData(adminSearchInput, '/search-admin', popAdminCard);
     document.querySelector('.search-admin-input').value = "";
   });
 }
@@ -188,7 +188,7 @@ function popAdminCard(searchData) {
   // ADMIN CARD CREATED HERE FOR SEARCH RESULT
   let adminCard = makeAdminCard(searchData);
   document.getElementById("search-results-2").innerHTML = adminCard;
- }
+}
 
 // Hide/make visible search block referenced from https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
 function toggleDropDown() {
@@ -199,25 +199,13 @@ function toggleDropDown() {
   let clearButton = document.querySelector('#search-refresh');
   if (searchDropDown.style.display === "none") {
     searchDropDown.style.display = "flex";
-    clearSearch.style.display = "none";
-    errMsg.style.display = "none";
-    clearButton.style.display = "none";
+    // clearSearch.style.display = "none";
+    // errMsg.style.display = "none";
+    // clearButton.style.display = "none";
   } else {
     searchDropDown.style.display = "none";
-    clearSearch.style.display = "none";
-    searchButton.innerHTML = "Search"
-  }
-}
-
-function toggleSearchButton() {
-  let searchButton = document.querySelector("#search-user");
-  let clearSearch = document.querySelector("#search-results");
-  if (searchButton.innerHTML === "Search") {
-    searchButton.innerHTML = "Clear";
-    clearSearch.style.display = "block";
-  } else  if (searchButton.innerHTML === "Clear") {
-    clearSearch.style.display = "none";
-    searchButton.innerHTML = "Search"
+    // clearSearch.style.display = "none";
+    // searchButton.innerHTML = "Search"
   }
 }
 
@@ -229,19 +217,19 @@ function toggleAdminDropDown() {
   let clearButton = document.querySelector('#search-admin-refresh');
   if (searchDropDown.style.display === "none") {
     searchDropDown.style.display = "flex";
-    clearSearch.style.display = "none";
-    errMsg.style.display = "none";
-    clearButton.style.display = "none";
+    // clearSearch.style.display = "none";
+    // errMsg.style.display = "none";
+    // clearButton.style.display = "none";
   } else {
     searchDropDown.style.display = "none";
-    clearSearch.style.display = "none";
-    searchButton.innerHTML = "Search";
-    errMsg.style.display = "none";
-    clearButton.style.display = "none";
+    // clearSearch.style.display = "none";
+    // searchButton.innerHTML = "Search";
+    // errMsg.style.display = "none";
+    // clearButton.style.display = "none";
   }
 }
 
-function toggleSearchButton () {
+function toggleSearchButton() {
   let searchButton = document.querySelector("#search-user");
   let clearSearch = document.querySelector("#search-results");
   let clearButton = document.querySelector('#search-refresh');
@@ -249,7 +237,6 @@ function toggleSearchButton () {
     searchButton.style.display = "none";
     clearSearch.style.display = "block";
     clearButton.style.display = "block";
-
   } else {
     clearSearch.style.display = "none";
     searchButton.innerHTML = "Search";
@@ -274,10 +261,9 @@ function toggleAdminSearchButton() {
 
 function makeUserCard(userData) {
   let userCard = "<div class='user-card-group'>";
- for (let i = 0; i < userData.rows.length; i++) {
-   userCard += (`
+  for (let i = 0; i < userData.rows.length; i++) {
+    userCard += (`
    <div class='user-card'>
-
      <div class='user-card-header'>
        <div class='user-card-avatar-background'>
          <img class='user-card-avatar' src='./avatars/${userData.rows[i].profilePic}' alt='Profile Picture'>
@@ -298,9 +284,9 @@ function makeUserCard(userData) {
    </a>
    </div>
    `);
- }
- userCard += "</div>";
- return userCard;
+  }
+  userCard += "</div>";
+  return userCard;
 }
 
 function makeAdminCard(adminData) {

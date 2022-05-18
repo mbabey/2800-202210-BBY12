@@ -1,7 +1,9 @@
 /* Search Bar styles */
-#search-title, #search-title-2 {
+.search-title {
  cursor: pointer;
- margin-top: 2rem;
+ margin: 0;
+ height: 3rem;
+ padding-top: 1.5rem;
 }
 
 #search-bar-header {
@@ -28,11 +30,15 @@
   grid-column: 2 / span 1;
 }
 
+.search-block {
+  width: 100%;
+}
+
 .input-search-wrapper {
   display: flex;
   flex-direction: column;
-  margin-bottom: 2rem;
   width: 250px;
+  margin: 0 auto;
 }
 
 .input-search-wrapper input {
@@ -60,12 +66,12 @@
 }
 
 .search-dropdown {
-  display: flex;
+  display: none;
   flex-direction: column;
 }
 
 #admin-search-dropdown {
-  display: flex;
+  display: none;
   flex-direction: column;
 }
 

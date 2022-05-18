@@ -336,24 +336,29 @@ function toggleDropDown() {
   let clearSearch = document.querySelector("#search-results");
   let searchButton = document.querySelector("#search-user");
   let errMsg = document.querySelector("#user-error-message");
+  let clearButton = document.querySelector('#search-refresh');
   if (searchDropDown.style.display === "none") {
     searchDropDown.style.display = "flex";
     clearSearch.style.display = "none";
     errMsg.style.display = "none";
+    clearButton.style.display = "none";
   } else {
     searchDropDown.style.display = "none";
     clearSearch.style.display = "none";
     searchButton.innerHTML = "Search"
     errMsg.style.display = "none";
+    clearButton.style.display = "none";
   }
 }
 
 function toggleSearchButton () {
   let searchButton = document.querySelector("#search-user");
   let clearSearch = document.querySelector("#search-results");
+  let clearButton = document.querySelector('#search-refresh');
   if (searchButton.innerHTML === "Search") {
-    searchButton.innerHTML = "Clear";
+    searchButton.style.display = "none";
     clearSearch.style.display = "block";
+    clearButton.style.display = "block";
 
   } else {
     clearSearch.style.display = "none";
@@ -376,7 +381,7 @@ function toggleAdminDropDown() {
   }
 }
 
-function toggleAdminSearchButton () {
+function toggleAdminSearchButton() {
   let searchButton = document.querySelector("#search-admin");
   let clearSearch = document.querySelector("#search-results-2");
   if (searchButton.innerHTML === "Search") {
@@ -386,4 +391,8 @@ function toggleAdminSearchButton () {
     clearSearch.style.display = "none";
     searchButton.innerHTML = "Search"
   }
+}
+
+function refreshSearch() {
+  window.location.reload();
 }

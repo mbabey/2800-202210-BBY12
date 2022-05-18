@@ -196,3 +196,7 @@ h2, h3 {
 }
 
 /* End tooltip styles */
+
+#search-refresh {
+  display: none;
+}

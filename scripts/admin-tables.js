@@ -274,9 +274,27 @@ function popUserCard(searchData) {
 // Hide/make visible search block referenced from https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
 function toggleDropDown() {
   let searchDropDown = document.querySelector(".search-dropdown");
+  let clearSearch = document.querySelector("#search-results");
+  let searchButton = document.querySelector("#search-user");
   if (searchDropDown.style.display === "none") {
     searchDropDown.style.display = "flex";
+    clearSearch.style.display = "none";
   } else {
     searchDropDown.style.display = "none";
+    clearSearch.style.display = "none";
+    searchButton.innerHTML = "Search"
   }
 }
+
+function toggleSearchButton () {
+  let searchButton = document.querySelector("#search-user");
+  let clearSearch = document.querySelector("#search-results");
+  if (searchButton.innerHTML === "Search") {
+    searchButton.innerHTML = "Clear";
+    clearSearch.style.display = "block";
+  } else  if (searchButton.innerHTML === "Clear") {
+    clearSearch.style.display = "none";
+    searchButton.innerHTML = "Search"
+  }
+}
+

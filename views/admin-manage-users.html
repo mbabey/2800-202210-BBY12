@@ -83,13 +83,29 @@
     </div>
     <div id="content">
       <div class="admin-wrapper">
+         <!--SEARCH USER BAR-->
+      <div id="search-user-block">
+        <div class="search-block">
+          <div class="input-search-wrapper">
+            <h3 onclick="toggleDropDown()" id="search-title">Search user</h3>
+            <div class="search-dropdown">
+              <input type="text" placeholder="Username" class="search-input">
+              <button id="search-user" type="submit" value="submit" onclick="toggleSearchButton()">Search</button>
+            </div>
+            <div id="search-results"></div>
+          </div>
+        </div>
+      </div>
+
+      
+      <!--END-->
         <div id="user-profiles">
           <h2>User Accounts</h2>
           <div id="user-list">
             <!-- user cards populates -->
           </div>
         </div>
-        <div class="admin-profiles">
+        <div id="admin-profiles">
           <h2>Admin Privileges</h2>
           <div id="admin-list">
             <!-- admin cards populates -->
@@ -98,5 +114,8 @@
       </div>
     </div>
   </div>
-  </body>
-  </html>
+  <script src="nav.js"></script>
+  <script src="admin-tables.js"></script>
+</body>
+
+</html>

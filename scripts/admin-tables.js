@@ -167,27 +167,29 @@ function makeUserCard(userData) {
   for (let i = 0; i < userData.rows.length; i++) {
     cardArray.push(userData.rows[i].username);
     userCard += (`
-    <input type="checkbox" class="user-card-menu-toggle"/>
-    <div class='user-card'>
-     <div class='user-card-info'>
-       <span class='user-card-username'>${userData.rows[i].username}</span>
-       <span class='user-card-cName'>${userData.rows[i].cName}</span>
-       <span class='user-card-bType'>${userData.rows[i].bType}</span>
-       <span class='user-card-fName'>${userData.rows[i].fName} </span>
-       <span class='user-card-lName'>${userData.rows[i].lName}</span>
-      </div>
-      <a class='close' id='delete-user-account' href='#'>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
-      <path fill="currentColor" d="M32.75 44 12.75 24 32.75 4 35.55 6.85 18.4 24 35.55 41.15Z"/>
-      </svg>
-      <span class="tooltip-text">More options</span>
-      </a>
+    <div class="user-card-wrapper"> 
+      <input type="checkbox" class="user-card-menu-toggle"/>
+      <div class='user-card'>
+        <div class='user-card-info'>
+          <span class='user-card-username'>${userData.rows[i].username}</span>
+          <span class='user-card-cName'>${userData.rows[i].cName}</span>
+          <span class='user-card-bType'>${userData.rows[i].bType}</span>
+          <span class='user-card-fName'>${userData.rows[i].fName} </span>
+          <span class='user-card-lName'>${userData.rows[i].lName}</span>
+        </div>
+        <a class='close' id='delete-user-account' href='#'>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="20" width="20">
+            <path fill="currentColor" d="M32.75 44 12.75 24 32.75 4 35.55 6.85 18.4 24 35.55 41.15Z"/>
+          </svg>
+          <span class="tooltip-text">More options</span>
+        </a>
       </div>
       <div class="user-card-options">
         <button class="view-profile" type="button">View profile</button>
         <button class="delete-user" type="button">Delete User</button>
         <button class="edit-user" type="button">Edit User</button>
       </div>
+    </div>
        `);
       }
       userCard += "</div>";

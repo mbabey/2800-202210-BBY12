@@ -171,6 +171,13 @@ function disableEdit(post) {
     }
 }
 
+// async function addLink(){
+//     let aTag = document.createElement("a");
+//     aTag.href = window.location.hostname + '/' + post.dataset.username;
+    
+// }
+
+
 function docLoaded(action) {
     if (document.readyState != 'loading')
         action();

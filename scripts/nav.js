@@ -67,3 +67,8 @@ function openOverlay(){
 function closeOverlay() {
   document.getElementById("overlay").style.top = "100vh";
 }
+function displayMenu() {
+  let menu = document.getElementById("edit-profile-menu");
+  menu.style.display = "block";
+  
+}

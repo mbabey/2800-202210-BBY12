@@ -52,3 +52,9 @@ function addAdminStar() {
 
   admin_button.innerHTML = content;
 }
+
+function displayMenu() {
+  let menu = document.getElementById("edit-profile-menu");
+  menu.style.display = "block";
+  
+}

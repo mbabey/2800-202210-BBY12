@@ -38,31 +38,24 @@ docLoaded(() => {
         biz_description.innerHTML = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
     }
 
+    function clickEdit(section){
+        section.contentEditable = true;
+        section.style.color = "#2c598e";
+        section.style.borderRadius = "5px";
+        section.style.padding = "10px";
+        section.style.backgroundColor = "rgb(246, 255, 179)";
+    }
+
     document.getElementById("edit-button").addEventListener("click", (event) => {
 
-        biz_name.contentEditable = true;
-        biz_name.style.color = '#3632a8';
-
-        biz_owner_fName.contentEditable = true;
-        biz_owner_fName.style.color = '#3632a8';
-
-        biz_owner_lName.contentEditable = true;
-        biz_owner_lName.style.color = '#3632a8';
-
-        biz_type.contentEditable = true;
-        biz_type.style.color = '#3632a8';
-
-        biz_email.contentEditable = true;
-        biz_email.style.color = '#3632a8';
-
-        biz_phone.contentEditable = true;
-        biz_phone.style.color = '#3632a8';
-
-        biz_location.contentEditable = true;
-        biz_location.style.color = '#3632a8';
-
-        biz_description.contentEditable = true;
-        biz_description.style.color = '#3632a8';
+        clickEdit(biz_name);
+        clickEdit(biz_owner_fName);
+        clickEdit(biz_owner_lName);
+        clickEdit(biz_type);
+        clickEdit(biz_email);
+        clickEdit(biz_phone);
+        clickEdit(biz_location);
+        clickEdit(biz_description);
 
         document.getElementById("edit-status").innerHTML = "";
         edit_button.innerHTML = "";
@@ -72,7 +65,7 @@ docLoaded(() => {
 
     function saved(data) {
         data.contentEditable = false;
-        data.style.color = '#000000';
+        data.style.color = '#ffd500';
     };
 
     function checkEmpty(data) {

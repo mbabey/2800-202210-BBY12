@@ -472,24 +472,24 @@ app.post('/search-user', (req, res) => {
 //LOCATING URL OF ANY USER'S PROFILE
 app.get('/users/:id', (req, res) => {
   //need to redirect the page if the id doesn't exist
-    if (req.session.loggedIn) {
-      if(req.session.username == req.params.id){
-        res.redirect('/profile');
-      } else {
-        let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
-        res.send(otherProfile);
-      }
+  if (req.session.loggedIn) {
+    if (req.session.username == req.params.id) {
+      res.redirect('/profile');
     } else {
-        res.redirect('/');
+      let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
+      res.send(otherProfile);
     }
+  } else {
+    res.redirect('/');
+  }
 });
 
 app.get('/users/:id/get-other-user', (req, res) => {
-      con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.params.id], (error, results, fields) => {
-          if (error) throw error;
-          res.setHeader('content-type', 'application/json');
-          res.send(results);
-      });
+  con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.params.id], (error, results, fields) => {
+    if (error) throw error;
+    res.setHeader('content-type', 'application/json');
+    res.send(results);
+  });
 });
 
 //QUERY: ADMIN PROFILE SEARCH
@@ -545,9 +545,12 @@ app.post('/delete-post', upload.none(), async (req, res) => {
 
 // SEARCH FOR POSTS
 app.get("/search", (req, res) => {
-  //res.send(req.body["nav-search"]);
-  let searchPage = fs.readFileSync('./views/search.html', 'utf8');
-  res.send(searchPage);
+  if (req.session.loggedIn) {
+    let searchPage = fs.readFileSync('./views/search.html', 'utf8');
+    res.send(searchPage);
+  } else {
+    res.redirect('/');
+  }
 });
 
 // MOBILE SEARCH OVERLAY 
@@ -568,13 +571,18 @@ app.get('/get-template', (req, res) => {
 app.get('/get-filter-users', async (req, res) => {
   let users = await searchQueries.searchUsers(req.query.search, con);
   res.setHeader('content-type', 'application/json');
-  res.send({users: users});
+  res.send({ users: users });
 });
 
 // QUERY GET POSTS BY SEARCH TERM
 app.get('/get-filter-posts', async (req, res) => {
   let posts = await searchQueries.searchPosts(req.query.search, con);
   res.setHeader('content-type', 'application/json');
-  res.send({posts: posts});
+  res.send({ posts: posts });
 });
 
+app.get('/get-session', (req, res) => {
+  let session = req.session;
+  res.setHeader('content-type', 'application/json');
+  res.send({ session: session });
+});

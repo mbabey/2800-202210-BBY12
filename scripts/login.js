@@ -1,3 +1,5 @@
+'use strict';
+
 docLoaded(() => {
   document.querySelector('#login-submit').addEventListener('click', () => {
     let data = {

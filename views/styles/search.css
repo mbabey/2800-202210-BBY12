@@ -1,7 +1,14 @@
 #content {
     margin: auto;
     max-width: 95%;
+    overflow: scroll;
 }
+
+.user-block {
+    margin: 0 auto;
+    min-width: 0;
+    width: 96%;
+  }
 
 .search-bar{
     position: relative;
@@ -19,4 +26,8 @@
 @media only screen and (min-width: 800px) {
     #content {
     }
+    .user-block {
+        
+        width: 50%;
+      }
 }

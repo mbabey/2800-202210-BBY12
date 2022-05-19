@@ -1,169 +1,272 @@
 .container {
-    margin: 50px 10px;
-    position: relative;
+  display: grid;
+  grid-template-rows: 10vh 1fr;
 }
 
-.content {
-    margin: 0 0 50px;
-    position: relative;
+.create-post-header {
+  grid-row: 1 / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--secondary-light);
+  color: white;
+}
+
+#create-post-title {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0;
 }
 
 .form-post {
-    display: flex;
-    flex-direction: column;
-    align-content: stretch;
-    padding: 5px;
-    gap: 10px;
-    background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  padding: 1rem 2rem 1rem 2rem;
+  gap: 0.5rem;
+  background-color: white;
+  border-radius: 15px;
 }
 
 #button-tag {
-    border: none;
-    padding: 1em 1em;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
+  padding: 1em 1em;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: rgba(128, 128, 128, 0);
+  color: var(--primary-light);
+  border: 1px solid var(--primary-light);
+  border-radius: 10px;
 }
 
 .buttons {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
 }
 
 .buttons>input {
-    border: none;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
 .buttons>[type="submit"] {
-    background-color: var(--primary-dark);
-    color: white;
+  background-color: var(--primary-light);
+  color: white;
+  border-radius: 10px;
+}
+
+#cancel-button {
+  margin-right: 0.5rem;
+  background-color: rgba(128, 128, 128, 0);
+  color: var(--primary-dark);
+  border: 1px solid var(--primary-dark);
+  border-radius: 10px;
+}
+
+#post-button:hover {
+  background-color: var(--primary-med);
+  color: white;
+}
+
+#post-button, 
+#cancel-button,
+#button-tag {
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  font-weight: 500;
+}
+
+/* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
+/ https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
+#post-button::after, 
+#cancel-button::after,
+#button-tag::after {
+  content: '';
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+#post-button:focus,
+#post-button:hover,
+#cancel-button:focus,
+#cancel-button:hover,
+#button-tag:focus,
+#button-tag:hover {
+  transform: scale(1.025, 1.025);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+#post-button:focus::after,
+#post-button:hover::after,
+#cancel-button:focus::after,
+#cancel-button:hover::after,
+#button-tag:focus::after,
+#button-tag:hover::after {
+  opacity: 1;
+}
+
+#post-button:active, 
+#cancel-button:active,
+#button-tag:active {
+  transform: scale(1);
 }
 
 #drop-area {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 progress {
-    min-width: 100px;
-    width: 30%;
+  min-width: 100px;
+  width: 30%;
 }
 
 #gallery {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 #gallery img {
-    width: 100px;
-    margin-bottom: 10px;
-    margin-right: 10px;
-    vertical-align: middle;
+  width: 100px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 
 #fileElem {
-    display: none;
+  display: none;
+}
+
+label {
+  font-size: 1.3em;
 }
 
 #input-title {
-    padding: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1em;
 }
 
 textarea {
-    padding: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1em;
 }
 
 .tags {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .tags>#input-tag {
-    padding: 0.5em;
+  padding: 0.5em;
+  font-size: 1em;
 }
 
 .tags>#button-tag {
-    margin-left: 5px;
-    padding: 0.5em;
-    width: 100px;
-    min-width: 100px;
+  margin-left: 5px;
+  padding: 0.5em;
+  width: 100px;
+  min-width: 100px;
+  font-size: 0.9em;
 }
 
 #drop-text {
-    margin: 0;
-    font-size: 0;
-    visibility: hidden;
+  margin: 0;
+  font-size: 0;
+  visibility: hidden;
 }
 
 h1 {
-    margin: 0;
+  margin: 0;
 }
 
 #tag-field {
-    border: none;
-    min-width: 90%;
-    font-size: 0.85rem;
+  border: none;
+  min-width: 90%;
+  font-size: 0.85rem;
 }
 
+/* Desktop view */
 @media only screen and (min-width: 800px) {
-    #drop-area {
-        display: flex;
-        flex-direction: column;
-        border: 2px dashed #ccc;
-        border-radius: 20px;
-        padding: 10px;
-        min-height: 100px;
-    }
-    #drop-area.highlight {
-        border-color: purple;
-    }
-    #gallery img {
-        width: 150px;
-    }
-    .container {
-        margin: 85px 0px 0px;
-        position: relative;
-    }
-    .content {
-        margin: 0;
-    }
-    .form-post {
-        margin: 0 10%;
-    }
-    .form-image {
-        display: flex;
-    }
-    progress {
-        align-self: flex-end;
-    }
-    #input-title {
-        font-size: 1.5em;
-        padding: 1rem;
-    }
-    textarea {
-        font-size: 1em;
-        padding: 1rem;
-    }
-    .tags>input {
-        padding: 1em;
-    }
-    label {
-        font-size: 2em;
-    }
-    h1 {
-        color: white;
-        text-align: center;
-        background-color: var(--secondary-light);
-    }
-    #drop-text {
-        padding: 1em 0;
-        font-size: 1em;
-        visibility: visible;
-    }
+  #drop-area {
+    display: flex;
+    flex-direction: column;
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    padding: 10px;
+    min-height: 100px;
+  }
+
+  #drop-area.highlight {
+    border-color: purple;
+  }
+
+  #gallery img {
+    width: 150px;
+  }
+
+  .container {
+    margin: 85px 0px 0px;
+    position: relative;
+  }
+
+  .content {
+    margin: 0;
+  }
+
+  .form-post {
+    margin: 0 10%;
+  }
+
+  .form-image {
+    display: flex;
+  }
+
+  progress {
+    align-self: flex-end;
+  }
+
+  #input-title {
+    font-size: 1.5em;
+    padding: 1rem;
+  }
+
+  textarea {
+    font-size: 1em;
+    padding: 1rem;
+  }
+
+  .tags>input {
+    padding: 1em;
+  }
+
+  label {
+    font-size: 2em;
+  }
+
+  h1 {
+    color: white;
+    text-align: center;
+    background-color: var(--secondary-light);
+  }
+
+  #drop-text {
+    padding: 1em 0;
+    font-size: 1em;
+    visibility: visible;
+  }
 }

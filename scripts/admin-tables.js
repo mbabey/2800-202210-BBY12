@@ -169,11 +169,11 @@ function makeUserCard(userData) {
     cardArray.push(userData.rows[i].username);
 
     let isAdmin = false;
-    adminArray.forEach((adminName) => { 
+    adminArray.forEach((adminName) => {
       if (userData.rows[i].username == adminName) 
         isAdmin = true; 
     });
-    
+
     if (isAdmin)
       userCard += `<div class="user-card-wrapper admin-card">`;
     else

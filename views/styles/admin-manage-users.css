@@ -119,6 +119,16 @@ h3 {
   color: var(--secondary-dark);
 }
 
+.user-card-menu-toggle {
+  width: 90%;
+  min-width:300px;
+  height: 3rem;
+  transform: translateY(60px);
+  z-index: 2;
+  cursor: pointer;
+  opacity: 0;
+}
+
 .user-card-menu-toggle:checked + .user-card .close {
   transform: rotate(-90deg);
   transition: 0.5s;

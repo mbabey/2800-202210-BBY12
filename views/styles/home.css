@@ -16,7 +16,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--primary-light);
+  background-color: var(--primary-med);
 }
 
 .profile-picture {
@@ -42,14 +42,15 @@
 .profile-name {
   text-align: center;
   width: 100%;
+  color: var(--gold);
 }
 
 .edit-profile {
-  background-color: rgb(255, 233, 215);
+  background-color: var(--light-grey);
   /* needs attention on the button colour*/
   color: black;
   /* var(--secondary); changed to black temporarily*/
-  border: 1px solid var(--secondary-light);
+  border: 1px solid var(--light-grey);
   text-align: center;
   width: 7rem;
   padding: 15px;

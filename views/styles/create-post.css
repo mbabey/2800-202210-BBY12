@@ -29,11 +29,14 @@
 }
 
 #button-tag {
-  border: none;
   padding: 1em 1em;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
+  background-color: rgba(128, 128, 128, 0);
+  color: var(--primary-light);
+  border: 1px solid var(--primary-light);
+  border-radius: 10px;
 }
 
 .buttons {
@@ -54,25 +57,32 @@
 }
 
 .buttons>[type="submit"] {
-  background-color: var(--primary-med);
+  background-color: var(--primary-light);
   color: white;
-  font-weight: bolder;
+  border-radius: 10px;
 }
 
 #cancel-button {
-  background-color: var(--secondary-text);
   margin-right: 0.5rem;
-  font-weight: bolder;
+  background-color: rgba(128, 128, 128, 0);
+  color: var(--primary-dark);
+  border: 1px solid var(--primary-dark);
+  border-radius: 10px;
+}
+
+#post-button:hover {
+  background-color: var(--primary-med);
+  color: white;
 }
 
 #post-button, 
 #cancel-button,
 #button-tag {
   text-decoration: none;
-  border: none;
   cursor: pointer;
   -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  font-weight: 500;
 }
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
@@ -144,7 +154,6 @@ progress {
 
 label {
   font-size: 1.3em;
-  font-weight: bolder;
 }
 
 #input-title {
@@ -173,7 +182,6 @@ textarea {
   width: 100px;
   min-width: 100px;
   font-size: 0.9em;
-  background-color: var(--primary-text);
 }
 
 #drop-text {
@@ -248,7 +256,6 @@ h1 {
 
   label {
     font-size: 2em;
-    font-weight: bolder;
   }
 
   h1 {

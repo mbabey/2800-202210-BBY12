@@ -14,6 +14,20 @@
   padding-top: 10px;
 }
 
+#name-block,
+#lastname-block {
+  font-size: 1.1rem;
+}
+
+#name-block-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#name-block-container #lastname-block {
+  padding-left: 7px;
+}
+
 p {
   padding-bottom: 5px;
   padding-top: 5px;
@@ -113,7 +127,7 @@ p {
   color: var(--gold);
 } 
 
-.tooltip .tooltiptext {
+.tooltiptext {
   visibility: hidden;
   width: 120px;
   background-color: black;
@@ -121,31 +135,15 @@ p {
   text-align: center;
   border-radius: 6px;
   padding: 5px 0;
-
   position: absolute;
   z-index: 1;
 }
 
-.tooltip:hover .tooltiptext {
+.tooltip:hover ~.tooltiptext {
   visibility: visible;
 }
 
-.tooltiptext-b {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
 
-  position: absolute;
-  z-index: 1;
-}
-
-.tooltip-b:hover ~ .tooltiptext-b {
-  visibility: visible;
-}
 
 .profile-description {
   width: 50%;

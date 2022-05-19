@@ -53,6 +53,13 @@ h3 {
   background-color: rgb(227, 227, 227);
 }
 
+#search-error-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .user-card-group {
   display: flex;
   justify-content: center;

@@ -24,38 +24,18 @@
     <div id="content">
       <div id="search-user">
         <form>
-          <input type="text" placeholder="Search Users" name="search-user">
+          <input id="search-user-input" type="text" placeholder="Search Users" name="search-user">
           <button id="search-user-button" type="button" name="search-user-button">
             <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -3 28 28" width="20" height="20">
               <path fill="currentColor"
-                d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
+              d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
             </svg>
           </button>
         </form>
       </div>
-
-      <!-- <div id="search-bar-header"> -->
-        <!--SEARCH USER BAR-->
-        <!-- <div id="search-user-block"> -->
-          <!-- <div class="search-block"> -->
-            <!-- <h3 onclick="toggleDropDown()" class="search-title">Search user</h3>
-            <div class="input-search-wrapper">
-              <div id="user-search-dropdown">
-                <input type="text" name="user-username" placeholder="Username" class="search-input">
-                <button id="search-user" type="submit" value="submit" onclick="toggleSearchButton()">Search</button>
-                <button id="search-refresh" type="submit" value="submit" onclick="refreshSearch()">Clear</button>
-                <div id="search-results"></div>
-                <form>
-                  <input hidden name="username" type="text" id="user-username">
-                  <button id="delete-user" class="admin-button" type="button">Delete</button>
-                </form>
-                <p id="user-error-message"></p> -->
-              <!-- </div> -->
-            <!-- </div> -->
-          <!-- </div> -->
-        <!-- </div> -->
-        <!--END-->
-      <!-- </div> -->
+      <div id="search-error-message">
+        <!-- Populated by admin-tables.js in the event a query fails -->
+      </div>
       <div id="user-profiles">
         <!-- <h2>User Accounts</h2> -->
         <div id="user-list">

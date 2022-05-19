@@ -1,11 +1,12 @@
 'use strict';
 
 docLoaded(() => {
-  getUserData();
-  // getAdminData();
+  getData('/get-all-users', (userData) => {
+    popUserData(userData);
+    initUserDeletion();
+  });
   makeCardsClickable();
   searchUser();
-  // searchAdmin();
 });
 
 function docLoaded(action) {
@@ -36,23 +37,20 @@ async function sendData(data, path, callback) {
     response = JSON.parse(response);
     callback(response);
   } catch (err) {
-    if (err) throw err;
+    console.log(err);
   }
 }
 
-async function getUserData() {
+async function getData(path, callback) {
   try {
-    let userData = await fetch('/get-all-users', {
+    let response = await fetch(path, {
       method: 'GET'
     });
-    userData = await userData.text();
-    userData = JSON.parse(userData)
-    if (userData.status == "success") {
-      popUserData(userData);
-      initUserDeletion();
-    }
-  } catch (err) {
-    if (err) throw "Cannot get users.";
+    response = await response.text();
+    response = JSON.parse(response);
+    callback(response);
+  } catch(err) {
+    console.log(err);
   }
 }
 
@@ -103,62 +101,56 @@ function initUserDeletion() {
   });
 }
 
-async function getAdminData() {
-  try {
-    let adminData = await fetch('/get-all-admins', {
-      method: 'GET'
-    });
-    adminData = await adminData.text();
-    adminData = JSON.parse(adminData);
-    if (adminData.status == "success") {
-
-    }
-  } catch (err) {
-    if (err) throw err;
-  }
-}
-
 function searchUser() {
-  document.querySelector('#search-user').addEventListener("click", function (e) {
+  document.querySelector('#search-user-button').addEventListener("click", function (e) {
     e.preventDefault();
-    let userSearchInput = { username: document.querySelector('.search-input').value }
-    sendData(userSearchInput, '/search-user', popUserCard);
-    document.querySelector('.search-input').value = "";
-    document.querySelector('#user-username').value = userSearchInput.username;
-    document.querySelector('#delete-user').style.display = 'inline';
+    document.querySelector('#search-error-message').innerHTML = '';
+    let userSearchInput = document.querySelector('#search-user-input').value;
+    if (userSearchInput != "") {
+      let userSearchInputData = { username: userSearchInput }
+      sendData(userSearchInputData, '/search-user', showSearchResults);
+    } else {
+      getData('/get-all-users', popUserData);
+    }
+    document.querySelector('#search-user-input').value = '';
   });
 }
 
-function popUserCard(searchData) {
+function showSearchResults(searchData) {
   // USER CARD CREATED HERE FOR SEARCH RESULT
-  let userCard = makeUserCard(searchData);
-  document.getElementById("search-results").innerHTML = userCard;
+  if (searchData.status == 'fail') {
+    document.getElementById("user-list").innerHTML = '';
+    document.querySelector('#search-error-message').innerHTML = 'No users found.';
+  } else {
+    let userCard = makeUserCard(searchData);
+    document.getElementById("user-list").innerHTML = userCard;
+  }
 }
 
 // Hide/make visible search block referenced from https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
-function toggleDropDown() {
-  let searchDropDown = document.querySelector("#user-search-dropdown");
-  if (searchDropDown.style.display === "flex") {
-    searchDropDown.style.display = "none";
-  } else {
-    searchDropDown.style.display = "flex";
-  }
-}
+// function toggleDropDown() {
+//   let searchDropDown = document.querySelector("#user-search-dropdown");
+//   if (searchDropDown.style.display === "flex") {
+//     searchDropDown.style.display = "none";
+//   } else {
+//     searchDropDown.style.display = "flex";
+//   }
+// }
 
-function toggleSearchButton() {
-  let searchButton = document.querySelector("#search-user");
-  let clearSearch = document.querySelector("#search-results");
-  let clearButton = document.querySelector('#search-refresh');
-  if (searchButton.innerHTML === "Search") {
-    searchButton.style.display = "none";
-    clearSearch.style.display = "block";
-    clearButton.style.display = "block";
-  } else {
-    clearSearch.style.display = "none";
-    searchButton.innerHTML = "Search";
-    errMsg.style.display = "block";
-  }
-}
+// function toggleSearchButton() {
+//   let searchButton = document.querySelector("#search-user");
+//   let clearSearch = document.querySelector("#search-results");
+//   let clearButton = document.querySelector('#search-refresh');
+//   if (searchButton.innerHTML === "Search") {
+//     searchButton.style.display = "none";
+//     clearSearch.style.display = "block";
+//     clearButton.style.display = "block";
+//   } else {
+//     clearSearch.style.display = "none";
+//     searchButton.innerHTML = "Search";
+//     errMsg.style.display = "block";
+//   }
+// }
 
 const cardArray = [];
 

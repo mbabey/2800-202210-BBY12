@@ -2,7 +2,7 @@
 
 docLoaded(() => {
   getData('/nav-and-footer', popNavAndFooter);
-  getData('/get-user', popNavNameAndAvatar);
+  getData('/get-user', popNavName);
   getData('/is-admin', (isAdmin) => {
     if (isAdmin.admin) {
       addAdminStar();
@@ -35,10 +35,8 @@ function popNavAndFooter(navAndFooter) {
   document.querySelector('footer').innerHTML = navAndFooter.footer;
 }
 
-function popNavNameAndAvatar(data) {
+function popNavName(data) {
   document.querySelector('#profile-name').innerHTML = (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
-  let path = (data[0].profilePic != undefined && data[0].profilePic != null) ? data[0].profilePic : 'Logo.png';
-  document.querySelector('#profile-picture').src = "./avatars/" + path;
 }
 
 function addAdminStar() {

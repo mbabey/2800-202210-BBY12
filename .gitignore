@@ -1,2 +1,7 @@
 .DS_Store
-data.sql
+database.sql
+.env
+server-configs.js
+uploads
+avatars
+images

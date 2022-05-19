@@ -1,45 +1,57 @@
-//----------------- DEPRECATED -------------------
-// -- If this branch is ever reused, this code is deletable. --
-// Saved on May 9, 2022 to maintain records.
+docLoaded(() => {
+  document.querySelector('#login-submit').addEventListener('click', () => {
+    let data = {
+      username: document.querySelector('input[name=\'username\']').value,
+      password: document.querySelector('input[name=\'password\']').value
+    };
+    sendData(data);
+  });
 
-// 'use strict';
+  // Add listener to each input to activate button on enter press.
+  document.querySelectorAll('.login-input').forEach((input) => {
+    input.addEventListener('keyup', (e) => {
+      if (e.keyCode === 13) { // If key pressed is enter key
+        document.querySelector('#login-submit').click();
+      }
+    });
+  });
 
-// docLoaded(() => {
-//     let loginButton = document.querySelector('#login-submit');
-//     loginButton.addEventListener('click', () => {
-//         let inputUsername = document.getElementsByName('username')[0].value;
-//         let inputPassword = document.getElementsByName('password')[0].value;
-//         hashFunction(inputPassword).then((hash) => {
-//             sendData(JSON.stringify({ username: inputUsername, password: hash }));
-//         });
-//     });
+  // Function from https://www.instagram.com/p/CdGXl-1PJZ1/?utm_source=ig_web_copy_link
+  document.querySelectorAll('.login-input').forEach((input) => {
+    input.addEventListener('blur', (e) => {
+      if (e.target.value != "")
+        e.target.nextElementSibling.classList.add('filled');
+      else
+        e.target.nextElementSibling.classList.remove('filled');
+    });
+  });
+});
 
-//     async function sendData(data) {
-//         try {
-//             await fetch('/login', {
-//                 method: 'POST',
-//                 headers: { 'Content-Type': 'application/json' },
-//                 body: data
-//             });
-//         } catch (err) {
-//             console.log(err);
-//         }
-//     }
+async function sendData(data) {
+  try {
+    let response = await fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    response = await response.text();
+    response = JSON.parse(response);
+    console.log(response.status);
+    if (response.status == 'success') {
+      window.location.replace('/');
+    } else if (response.status == 'egg') {
+      window.location.replace('egg');
+    } else {
+      document.querySelector('#error-message').innerHTML = 'Error! Username/password combination not found!';
+    }
+  } catch (err) {
+    if (err) throw err;
+  }
+}
 
-//     /* Function for hashing password using JS libraries.
-//         From: https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest */
-//     async function hashFunction(text) {
-//         const msgUint8 = new TextEncoder().encode(text);
-//         const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-//         const hashArray = Array.from(new Uint8Array(hashBuffer));
-//         const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-//         return hashHex;
-//     }
-// });
-
-// function docLoaded(action) {
-//     if (document.readyState != 'loading')
-//         action();
-//     else
-//         document.addEventListener('DOMContentLoaded', action);
-// }
+function docLoaded(action) {
+  if (document.readyState != 'loading')
+    action();
+  else
+    document.addEventListener('DOMContentLoaded', action);
+}

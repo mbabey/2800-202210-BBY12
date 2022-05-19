@@ -11,10 +11,9 @@
     grid-template-columns: 20% 1fr;
 }
 
-#nav-logo-background {
+#pseudo-nav-logo-background {
     position: relative;
     background-color: var(--secondary-text);
-    margin-left: 50px;
     width: 150px;
     height: auto;
     clip-path: circle(40% at center);
@@ -23,7 +22,7 @@
     align-items: center;
 }
 
-#nav-logo {
+#pseudo-nav-logo {
     width: auto;
     height: 90px;
     position: relative;
@@ -51,21 +50,76 @@
     flex-direction: column;
 }
 
-#login-block>form>.login-input {
-    border: 1px black solid;
-    padding: 1rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
-    background-color: rgba(128, 128, 128, 0.3);
+/* Styles for inputs brought to you by https://www.instagram.com/p/CdGXl-1PJZ1/?utm_source=ig_web_copy_link  */
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
 }
+
+.label {
+  position: absolute;
+  top: 0.9rem;
+  left: 0.5rem;
+  padding: 0 0.5rem;
+  z-index: 1;
+  transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+}
+
+.label:before {
+  content: ' ';
+  height: 3px;
+  position: absolute;
+  background:rgb(222, 222, 222);
+  top: 0.5rem;
+  left: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+.login-input {
+  width: calc(100% - 2rem);
+  padding: 0.5rem;
+  border: 2px solid var(--primary-dark);
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  background-color: rgb(222, 222, 222);
+  outline: none;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+}
+
+.login-input:focus {
+  border: 2px solid var(--primary-light);
+}
+
+.login-input:focus+.label,
+.filled {
+  top: -0.2rem;
+  font-size: 0.9rem;
+}
+
+.login-input::placeholder {
+  opacity: 0;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+
+.login-input:focus::placeholder {
+  opacity: 1;
+}
+
+/* End styles for inputs */
 
 #login-block>form>#login-submit {
     padding: .7rem;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     text-align: center;
-    background-color: rgb(55, 124, 55);
+    background-color: var(--primary-light);
     color: white;
     border: none;
     cursor: pointer;
@@ -122,6 +176,10 @@
     color: var(--primary-dark);
 }
 
+#login-block #error-message {
+  color: red;
+}
+
 #welcome {
     grid-column: 2 / span 1;
     background-color: var(--primary-light);
@@ -137,10 +195,10 @@
 }
 
 #welcome p {
-    color: rgb(55, 124, 55);
+    color: var(--primary-text);
 }
 
-@media only screen and (max-width: 690px) {
+@media only screen and (max-width: 800px) {
     #wrapper {
         min-height: 100vh;
         display: grid;

@@ -3,14 +3,20 @@
 :root {
   /*Colours*/
   --primary: #588676;
-  --primary-light: #86b6a5;
+  --primary-med: #0e6338;
+  /* --primary-light: #86b6a5; Old colour, saved */
+  --primary-light: #249c60;
   --primary-dark: #2c594a;
+  --light-grey: #efebe0;
+  --light-yellow: rgb(246, 255, 179);
   --primary-text: #ffeb88;
+  --gold: #ffd500;
   --secondary: #5f86be;
   --secondary-light: #91b6f1;
   --secondary-dark: #2c598e;
   --secondary-text: #dff7ff;
   --border: #707070;
+  --danger-red: #d32222;
 }
 
 html,
@@ -29,13 +35,34 @@ h6 {
   font-family: 'Alegreya Sans SC', sans-serif;
 }
 
+input,
+textarea {
+  font-family: 'Lato', sans-serif;
+}
+
 .container {
   min-height: calc(100vh - 85px);
   margin-top: 85px;
 }
 
+.profile-picture-background {
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  clip-path: circle(50% at center);
+}
+
+.profile-picture img {
+  max-width: 100%;
+  width: 100%;
+  max-height: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 nav {
-  z-index: 1;
+  z-index: 10;
   position: fixed;
   top: 0;
   left: 0;
@@ -50,7 +77,7 @@ footer svg {
 }
 
 #nav-wrapper {
-  margin-left: 5%;
+  margin-left: 2%;
   margin-right: 5%;
   height: 100%;
   display: flex;
@@ -58,16 +85,26 @@ footer svg {
   justify-content: space-between;
 }
 
+#nav-logo {
+  height: 100%;
+  width: auto;
+  padding-right: 10%;
+  border-right: 1px solid var(--primary-dark);
+}
+
+#nav-logo img {
+  height: 85px;
+  width: auto;
+}
+
 #nav-wrapper>div,
-#nav-wrapper>div #nav-search,
-#nav-wrapper>div .nav-button {
+#nav-wrapper>div #nav-search {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
 #nav-search {
-  /* cursor: pointer; */
   border: 1px solid var(--primary-dark);
   border-radius: 3px;
   margin-right: 20px;
@@ -88,16 +125,19 @@ footer svg {
   background-color: rgb(227, 227, 227);
 }
 
-#nav-wrapper a,
-#footer-wrapper a {
-  height: 100%;
-}
-
 .nav-button {
+  text-decoration: none;
+  color: var(--primary-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   height: 100%;
+  min-width: 45px;
   padding-left: 10px;
   padding-right: 10px;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -105,74 +145,12 @@ footer svg {
   background-color: var(--primary-light);
 }
 
-#nav-profile {
-  display: inline-block;
-  position: relative;
-}
-
-#nav-profile-dropdown {
-  display: none;
-  z-index: -1;
-  position: absolute;
-  top: 85px;
-  right: 0;
-  opacity: 0;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
-  transition: opacity 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-#nav-profile:hover #nav-profile-dropdown {
-  display: block;
-  opacity: 1;
-  z-index: 1;
-}
-
-#nav-profile-dropdown a {
-  color: white;
-  padding: 0.7rem 1rem;
-  text-decoration: none;
-  display: block;
-  text-align: center;
-  border: 1px solid var(--secondary-dark);
-  background-color: var(--secondary-dark);
-}
-
-#nav-profile-dropdown a:hover {
-  background-color: var(--secondary-light);
-}
-
 footer {
   display: none;
 }
 
-.post-block {
-  margin: 0 auto;
-  width: 50%;
-}
-
-.post {
-  margin: 15px 0;
-  background-color: white;
-  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  height: auto;
-  padding: 10px;
-}
-
-.post .post-images {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-}
-
-.post .post-images img {
-  width: 20%;
-  height: auto;
-  border-radius: 10px;
-}
 
 @media only screen and (max-width: 800px) {
-
   .container {
     min-height: calc(100vh - 100px);
     margin-top: 50px;
@@ -182,13 +160,19 @@ footer {
   #nav-home,
   #nav-search,
   #nav-post,
-  #nav-profile {
+  #nav-chat {
     display: none !important;
   }
 
   nav {
     height: 50px;
   }
+
+  #nav-logo img {
+    height: 50px;
+    width: auto;
+  }
+
 
   footer {
     display: block;
@@ -206,11 +190,7 @@ footer {
     flex-direction: row;
   }
 
-  #footer-wrapper a {
+  #footer-wrapper .nav-button {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
-
 }

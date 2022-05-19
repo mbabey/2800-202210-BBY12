@@ -1,0 +1,206 @@
+.container {
+  display: grid;
+  grid-template-rows: 10vh 30% 1fr;
+  grid-template-columns: 100%;
+}
+
+h2, h3 {
+  text-align: center;
+}
+
+.dashboard-header {
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-text);
+}
+
+#dashboard-title {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0;
+}
+
+.admin-wrapper {
+  display: grid;
+  grid-column: 1 / span 1;
+  grid-row: 1 / span 3;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 1fr 25% 1fr;
+  margin-bottom: 1rem;
+}
+
+#user-profiles {
+  grid-column: 1 / span 2;
+  grid-row: 3 / span 1;
+}
+
+#admin-profiles {
+  grid-column: 1 / span 2;
+  grid-row: 2 / span 1;
+  margin-top: 2rem;
+}
+
+.user-card,
+.admin-card {
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: 110px;
+  width: 340px;
+  padding: 2px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}
+
+.user-card-group,
+.admin-card-group { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.user-card {
+  background-color: var(--primary-light);
+}
+
+.user-card:hover,
+.user-card:focus {
+  background-color: var(--primary-med);
+  transform: scale(1.025, 1.025);
+}
+
+.user-card-header {
+  display: flex;
+  flex-direction: row;
+  margin-left: 20px;
+}
+
+.user-card-avatar-background {
+  position: relative;
+  background-color: var(--secondary-text);
+  width: 100px;
+  height: auto;
+  clip-path: circle(40% at center);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-card-avatar-background>img {
+  width: auto;
+  height: 90px;
+  position: relative;
+}
+
+.user-card-info {
+  margin-bottom: 15px;
+  margin-left: 10px;
+}
+
+.admin-card {
+  background-color: var(--secondary);
+}
+
+.admin-card:hover,
+.admin-card:focus {
+  background-color: var(--secondary-dark);
+  transform: scale(1.025, 1.025);
+}
+
+.admin-card-header {
+  display: flex;
+  flex-direction: row;
+  margin-left: 50px;
+}
+
+.admin-card-avatar-background {
+  position: relative;
+  background-color: var(--secondary-text);
+  width: 100px;
+  height: auto;
+  clip-path: circle(40% at center);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-card-avatar-background>img {
+  width: auto;
+  height: 90px;
+  position: relative;
+}
+
+.admin-card-info {
+  margin-bottom: 10px;
+  margin-left: 30px;
+}
+
+.close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.close svg {
+  color: black;
+}
+
+.close:hover svg {
+  color: var(--danger-red);
+}
+
+/* Tooltip styles courtesy of https://www.w3schools.com/css/css_tooltip.asp */
+
+.close .tooltip-text {
+  visibility: hidden;
+  width: 80px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 5px 0;
+  border-radius: 5px;
+  position: absolute;
+  top: -5px;
+  right: 150%;
+  z-index: 1;
+}
+
+.admin-card .close .tooltip-text {
+  width: 140px;
+}
+
+.close .tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%; /* To the right of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent rgba(0, 0, 0, 0.3);
+}
+
+.close:hover .tooltip-text {
+  visibility: visible;
+}
+
+/* End tooltip styles */
+
+#search-refresh {
+  display: none;
+}
+
+#search-admin-refresh {
+  display: none;
+}

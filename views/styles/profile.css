@@ -1,3 +1,8 @@
+.container {
+  background-image: url("./images/Logo.png");
+  background-position: center;
+}
+
 .profile-header-wrapper {
   /* background-color: #67c093; */
   background-color: var(--primary-med);
@@ -5,8 +10,20 @@
   padding-bottom: 3%;
 }
 
-.business-name-block, h4 {
+.profile-name > h2,
+.business-name-block > h3,
+.profile-contact > h3,
+.profile-location > h3 {
   color: var(--gold);
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+p {
+  padding-bottom: 5px;
+  padding-top: 5px;
+  font-weight: bolder;
+  font-size: 1.1rem;
 }
 
 .profile-header {
@@ -69,6 +86,7 @@
   -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   font-weight: bolder;
+  border-radius: 10px;
 }
 
 .edit-profile:hover {

@@ -40,7 +40,10 @@ docLoaded(() => {
 
     function clickEdit(section){
         section.contentEditable = true;
-        section.style.color = '#91b6f1';
+        section.style.color = "#2c598e";
+        section.style.borderRadius = "5px";
+        section.style.padding = "10px";
+        section.style.backgroundColor = "rgb(246, 255, 179)";
     }
 
     document.getElementById("edit-button").addEventListener("click", (event) => {

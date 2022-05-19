@@ -600,7 +600,6 @@ app.post('/delete-post', (req, res) => {
 });
 
 // SEARCH FOR POSTS
-
 app.route("/search")
 .get((req, res)=>{
   res.send("Pog");

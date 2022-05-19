@@ -9,63 +9,6 @@
   <link rel="stylesheet" type="text/css" href="./styles/post.css">
   <link rel="stylesheet" type="text/css" href="./styles/profile.css">
   <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
-  <style>
-    #toggle-button-menu {
-      display: block;
-      position: relative;
-      top: 50px;
-      right: 50px;
-
-      z-index: 1;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    #toggle-button-menu input {
-      display: block;
-      width: 40px;
-      height: 32px;
-      position: absolute;
-      top: -7px;
-      left: -5px;
-
-      cursor: pointer;
-
-      opacity: 0;
-      /* hide this */
-      z-index: 2;
-      /* and place it over the hamburger */
-
-      -webkit-touch-callout: none;
-    }
-
-    #toggle-button-menu span {
-      display: block;
-      width: 33px;
-      height: 4px;
-      margin-bottom: 5px;
-      position: relative;
-
-      background: #cdcdcd;
-      border-radius: 3px;
-
-      z-index: 1;
-
-      transform-origin: 4px 0px;
-
-      transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
-        background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
-        opacity 0.55s ease;
-    }
-
-    #toggle-button-menu span:first-child {
-      transform-origin: 0% 0%;
-    }
-
-    #toggle-button-menu span:nth-last-child(2) {
-      transform-origin: 0% 100%;
-    }
-  </style>
 </head>
 
 <body>
@@ -76,16 +19,33 @@
 
   <div class="container">
     <div class="profile-header-wrapper">
-      <div id="toggle-button-menu">
+      <div id="profile-buttons-toggle-menu">
+        <!--Overlay to click Hamburger Menu-->
         <input type="checkbox">
+        <!--Hamburger Menu-->
         <span></span>
         <span></span>
         <span></span>
+        <!--Buttons that appear after clicking-->
+        <ul id="edit-profile-menu">
+          <div class="edit-profile">
+            <a id="edit-button">Edit Profile</a>
+            <a id="save-button"></a>
+          </div>
+          <div class="edit-profile">
+            <a id="password-button" href="reset-password.html">Change Password</a>     
+          </div>    
+          <div class="edit-profile">
+          <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
+            <label for="edit-avatar">
+              Edit Profile Picture
+              <input type="file" id="edit-avatar" name="edit-avatar" accept="image/png, image/jpeg" hidden
+                onchange="form.submit()">
+            </label>
+          </form>
+          </div>
+        </ul>
       </div>
-      <!-- <div class="profile-edit-buttons">
-        <div class="edit-profile-container">
-        </div>
-      </div> -->
       <div class="profile-header">
         <div class="profile-name">
           <h2 class="business-name-block"><p class="tooltip">Business Name</p><span class="tooltiptext">Business Name</span></h2>
@@ -146,7 +106,7 @@
     <!-- Populated by nav.js -->
   </footer>
 
-  <script src="/scripts/account.js"></script>
+  <script src="account.js"></script>
   <script src="nav.js"></script>
 </body>
 

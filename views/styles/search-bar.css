@@ -122,6 +122,11 @@
   transform: scale(1);
 }
 
+#delete-user,
+#delete-button {
+ display: none; 
+}
+
 .admin-button {
   text-decoration: none;
   color: white;

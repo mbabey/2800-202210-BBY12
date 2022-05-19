@@ -21,30 +21,7 @@ h3 {
   margin: 0;
 }
 
-.admin-wrapper {
-  grid-row: 2 / span 1;
-}
-
-.user-card,
-.admin-card {
-  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  height: 110px;
-  min-width: 300px;
-  width: 60%;
-  padding: 2px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-}
-
-.user-card-group,
-.admin-card-group {
+.user-card-group {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,85 +30,85 @@ h3 {
 }
 
 .user-card {
-  background-color: var(--primary-light);
+  background-color: white;
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px solid var(--secondary-dark);
+  min-width: 300px;
+  width: 90%;
+  padding: 2px;
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
 }
 
 .user-card:hover,
 .user-card:focus {
-  background-color: var(--primary-med);
-  transform: scale(1.025, 1.025);
-}
-
-.user-card-header {
-  display: flex;
-  flex-direction: row;
-  margin-left: 20px;
-}
-
-.user-card-avatar-background {
-  position: relative;
   background-color: var(--secondary-text);
-  width: 100px;
-  height: auto;
-  clip-path: circle(40% at center);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.user-card-avatar-background>img {
-  width: auto;
-  height: 90px;
-  position: relative;
 }
 
 .user-card-info {
-  margin-bottom: 15px;
-  margin-left: 10px;
+  display: grid;
+  grid-template-columns: 10% repeat(4, 22.5%);
+  margin: 1rem;
 }
 
-.admin-card {
-  background-color: var(--secondary);
+.user-card-username {
+  font-weight: bolder;
+  font-size: 1.3rem;
+  margin: auto 0;
 }
 
-.admin-card:hover,
-.admin-card:focus {
-  background-color: var(--secondary-dark);
-  transform: scale(1.025, 1.025);
+.user-card-info span:not(.user-card-username) {
+  text-align: center;
+  margin: auto;
 }
 
-.admin-card-header {
+.user-card-options {
+  background-color: var(--secondary-text);
+  border: 1px solid var(--secondary-dark);
+  border-top: 0;
+  width: 85%;
+  min-width: 280px;
+  height: 3rem;
   display: flex;
   flex-direction: row;
-  margin-left: 50px;
-}
-
-.admin-card-avatar-background {
-  position: relative;
-  background-color: var(--secondary-text);
-  width: 100px;
-  height: auto;
-  clip-path: circle(40% at center);
-  display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
+  transform: translateY(-55px);
+  transition: 0.5s;
 }
 
-.admin-card-avatar-background>img {
-  width: auto;
-  height: 90px;
-  position: relative;
+.user-card-options button {
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  background-color: var(--secondary);
+  padding: .5rem;
+  border: none;
+  cursor: pointer;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-.admin-card-info {
-  margin-bottom: 10px;
-  margin-left: 30px;
+.user-card-options button:focus,
+.user-card-options button:hover {
+  transform: scale(1.025, 1.025);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.user-card-options button:active {
+  transform: scale(1);
 }
 
 .close {
   position: absolute;
-  top: 8px;
+  top: 1.3rem;
   right: 8px;
+  transform: rotate(0deg);
+  transition: 0.5s;
 }
 
 .close svg {
@@ -139,7 +116,17 @@ h3 {
 }
 
 .close:hover svg {
-  color: var(--danger-red);
+  color: var(--secondary-dark);
+}
+
+.user-card-menu-toggle:checked + .user-card .close {
+  transform: rotate(-90deg);
+  transition: 0.5s;
+}
+
+.user-card-menu-toggle:checked + .user-card + .user-card-options {
+  transform: translateY(-5px);
+  transition: 0.5s;
 }
 
 /* Tooltip styles courtesy of https://www.w3schools.com/css/css_tooltip.asp */
@@ -157,10 +144,6 @@ h3 {
   top: -5px;
   right: 150%;
   z-index: 1;
-}
-
-.admin-card .close .tooltip-text {
-  width: 140px;
 }
 
 .close .tooltip-text::after {
@@ -239,4 +222,15 @@ h3 {
 
 #search-admin-refresh {
   display: none;
+}
+
+@media only screen and (max-width: 800px) {
+  .user-card-info {
+    grid-template-columns: 15% repeat(2, 42.5%);
+  }
+
+  .user-card-fName,
+  .user-card-lName {
+    display: none;
+  }
 }

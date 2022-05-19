@@ -61,15 +61,6 @@
   text-decoration: none;
 }
 
-.post-block {
-  grid-column: 2 / span 1;
-  width: 100% !important;
-}
-
-.post-images img {
-  background-color: #dff7ff;
-}
-
 @media only screen and (max-width: 800px) {
   #content {
     grid-template-columns: 2% 96% 2%;
@@ -92,7 +83,4 @@
     width: 20%;
     height: auto;
   }
-
-  
-
 }

@@ -1,0 +1,22 @@
+#content {
+    margin: auto;
+    max-width: 95%;
+}
+
+.search-bar{
+    position: relative;
+    top: 25%;
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 10px;
+    display: flex;
+    background-color: rgb(247, 247, 247);
+    border-radius: var(--border-radius);
+    justify-content: center;
+    align-content: center;
+}
+
+@media only screen and (min-width: 800px) {
+    #content {
+    }
+}

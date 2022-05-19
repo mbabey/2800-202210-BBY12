@@ -1,9 +1,9 @@
 <div id="overlay" class="overlay">
   <a href="javascript:void(0)" class="closebtn" onclick="closeOverlay()">&times;</a>
   <div id="overlay-search" class="overlay-search">
-      <form id="form-search" class="form-search" method="post" action="/search">
-        <input class="input-search" type="text" placeholder="Search" name="nav-search">
-        <button class="submit-search" type="submit" name="submit">
+      <form id="form-search" class="form-search" method="get" action="/search">
+        <input class="input-search" type="text" placeholder="Search" name="search">
+        <button class="submit-search" type="submit">
           <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -3 28 28" width="20" height="20">
             <path fill="currentColor"
               d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />

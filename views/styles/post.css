@@ -89,7 +89,7 @@
     object-fit: contain;
 }
 
-.delete-image{
+.delete-image {
     position: absolute;
     margin-top: 10px;
     top: 50%;
@@ -149,7 +149,8 @@
     grid-row: 2;
     grid-column: 3;
 }
-.post-cancel{
+
+.post-cancel {
     grid-row: 2;
     grid-column: 2;
     background-color: var(--secondary-light);
@@ -165,6 +166,15 @@
     grid-column: 1;
     justify-self: left;
     background-color: var(--danger-red);
+}
+
+.post-block {
+    grid-column: 2 / span 1;
+    width: 100% !important;
+}
+
+.post-images img {
+    background-color: #dff7ff;
 }
 
 

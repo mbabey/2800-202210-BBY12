@@ -210,6 +210,7 @@
   margin: -100px 0 0 -50px;
   padding: 50px;
   padding-top: 125px;
+  transform-origin: 0% 0%;
   transform: translate(-100%, 0);
   transition: transform 1s;
 }

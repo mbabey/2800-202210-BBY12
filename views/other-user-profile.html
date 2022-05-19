@@ -83,9 +83,12 @@
     <div class="profile-header-wrapper-other-user">
       <div class="profile-header">
         <div class="profile-name">
-          <h2 class="business-name-block tooltip-b">Business Name</h2>
-          <span class="tooltiptext-b">Business Name</span>
-          <p class="business-type-block tooltip">Type of Business<span class="tooltiptext">Business Type</span></p>
+          <h2 class="business-name-block tooltip">Business Name</h2>
+          <span class="tooltiptext">Business Name</span>
+          <div>
+            <p class="business-type-block tooltip">Type of Business</p>
+            <span class="tooltiptext">Business Type</span>
+          </div>
         </div>
         <span id="edit-status"></span>
         <div class="profile-picture">
@@ -96,18 +99,33 @@
         <div class="profile-info">
           <h3>Business Owner<br>Name</h3>
           <div class="profile-owner">
-            <p><span class="business-owner-fname-block tooltip">First<span class="tooltiptext">First Name</span></span>
-              <span class="business-owner-lname-block tooltip">Last<span class="tooltiptext">Last Name</span></span>
-            </p>
+            <div id="name-block-container">
+              <div>
+                <span class="business-owner-fname-block tooltip" id="name-block">First</span>
+                <span class="tooltiptext">First Name</span>
+              </div>
+       
+            <div>
+              <span class="business-owner-lname-block tooltip" id="lastname-block">Last</span>
+              <span class="tooltiptext">Last Name</span>
+            </div>
           </div>
-          <div class="profile-contact">
-            <h3>Contact Info</h3>
-            <p class="business-email-block tooltip">Business Email<span class="tooltiptext">Email</span></p>
-            <p class="business-phone-block tooltip">Business Phone<span class="tooltiptext">Phone</span></p>
-          </div>
-          <div class="profile-location">
-            <h3>Business Address</h3>
-            <p class="business-location-block tooltip">123 Fun St. Vancouver, BC<span class="tooltiptext">Address</span></p>
+            <div class="profile-contact">
+              <h3>Contact Info</h3>
+              <div>
+                <p class="business-email-block tooltip">Business Email</p>
+                <span class="tooltiptext">Email</span>
+              </div>
+              <div>
+                <p class="business-phone-block tooltip">Business Phone</p>
+                <span class="tooltiptext">Phone</span>
+              </div>
+            </div>
+            <div class="profile-location">
+              <h3>Business Address</h3>
+              <p class="business-location-block tooltip">123 Fun St. Vancouver, BC</p>
+              <span class="tooltiptext">Address</span>
+            </div>
           </div>
         </div>
       </div>

@@ -71,39 +71,45 @@ function popUserData(userData) {
 
 function initUserDeletion() {
   const length = 12; // Length of 'delete-user '. Used for getting username from class name.
+  let user = null;
   document.querySelectorAll(".delete-user").forEach((deleteButton) => {
     deleteButton.addEventListener("click", (e) => {
-      const user = e.target.className.slice(length);
-      console.log(user);
+      user = e.target.className.slice(length);
       document.getElementById("popup-header-username").innerHTML = user;
       document.getElementById("popup-delete").style.display = 'block';
-
-      // Event listener to confirm user deletion.
-      document.getElementById("popup-confirm-delete").addEventListener('click', () => {
-        document.getElementById("popup-delete").style.display = 'none';
-        let userInput = {
-          username: user
-        };
-        sendData(userInput, '/delete-user', (response) => {
-          handleDeleteConditions(response, user);
-        });
-
-        document.getElementById("popup-okay").style.display = 'block';
-        document.getElementById("popup-okay-button").addEventListener('click', () => {
-          document.getElementById("popup-okay").style.display = 'none';
-        });
-
-        getData('/get-all-users', (userData) => {
-          popUserData(userData);
-          initUserDeletion();
+    });
+  });
+  // Event listener to confirm user deletion.
+  document.getElementById("popup-confirm-delete").addEventListener('click', () => {
+    document.getElementById("popup-delete").style.display = 'none';
+    let userInput = {
+      username: user
+    };
+    console.log('here: ', user);
+    sendData(userInput, '/delete-user', (response) => {
+      handleDeleteConditions(response, user);
+    });
+    document.getElementById("popup-okay").style.display = 'block';
+    
+    getData('/get-all-users', (userData) => {
+      popUserData(userData);
+      document.querySelectorAll(".delete-user").forEach((deleteButton) => {
+        deleteButton.addEventListener("click", (e) => {
+          user = e.target.className.slice(length);
+          document.getElementById("popup-header-username").innerHTML = user;
+          document.getElementById("popup-delete").style.display = 'block';
         });
       });
     });
-
-    // Event listener to close delete pop up
-    document.getElementById("popup-negate-delete").addEventListener('click', () => {
-      document.getElementById("popup-delete").style.display = 'none';
-    });
+  });
+  // Event listener to close delete pop up
+  document.getElementById("popup-negate-delete").addEventListener('click', () => {
+    document.getElementById("popup-delete").style.display = 'none';
+    user = null;
+  });
+  document.getElementById("popup-okay-button").addEventListener('click', () => {
+    document.getElementById("popup-okay").style.display = 'none';
+    user = null;
   });
 }
 
@@ -170,8 +176,8 @@ function makeUserCard(userData) {
 
     let isAdmin = false;
     adminArray.forEach((adminName) => {
-      if (userData.rows[i].username == adminName) 
-        isAdmin = true; 
+      if (userData.rows[i].username == adminName)
+        isAdmin = true;
     });
 
     if (isAdmin)

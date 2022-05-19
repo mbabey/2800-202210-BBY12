@@ -53,10 +53,11 @@
   padding: 1rem;
   text-align: center;
   background-color: var(--secondary-dark);
-  border: none;
   cursor: pointer;
+  border: none;
   -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 10px;
 }
 
 .search-dropdown {

@@ -39,6 +39,7 @@ const createAccount = require('./scripts/create-account');
 const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
 const deleteQueries = require('./scripts/delete-query');
+const updateQueries = require('./scripts/post-query');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
@@ -531,56 +532,14 @@ app.get('/get-post/:username/:postId', async (req, res) => {
 });
 
 // QUERY: UPDATE POST WITH GIVEN INFO
-app.post('/edit-post', upload.array('image-upload'), (req, res) => {
-  console.log(req.body);
-  con.query('UPDATE BBY_12_POST SET postTitle = ?, content = ? WHERE (username = ?) AND (postId = ?)',
-    [req.body["input-title"], req.body["input-description"], req.body.username, req.body.postId],
-    (error) => {
-      //console.log(error);
-    });
-
-  //Delete Tags from Post
-  con.query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
-    (err, results, fields) => {
-      console.log(err);
-    });
-  //Add Updated Tags from Post
-  let tags = req.body["tag-field"].split(/[\s#]/);
-  tags = tags.filter((item, pos) => {
-    return tags.indexOf(item) == pos;
-  });
-  tags.forEach(async tag => {
-    if (tag) {
-      await con.promise().query('INSERT INTO \`BBY_12_Post_Tag\`(username, postId, tag) values (?,?,?)', [req.body.username, req.body.postId, tag])
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  });
-  //Delete Images from Post
+app.post('/edit-post', upload.array('image-upload'), async (req, res) => {
+  await updateQueries.updatePost(req, con);
+  await deleteQueries.deleteTags(req, con);
+  await updateQueries.updateTags(req, con);
   if (req.body["image-delete"]) {
-    let imgDelete = [].concat(req.body["image-delete"]);
-    imgDelete.forEach(async img => {
-      await con.promise().query('DELETE FROM BBY_12_POST_Img WHERE (username = ?) AND (postId = ?) AND (imgFile = ?)', [req.body.username, req.body.postId, img])
-        .catch((err) => {
-          console.log(err);
-        });
-    });
+    await updateQueries.deleteImgs(req, con);
   }
-
-  if (req.files.length > 0) {
-    req.files.forEach(async image => {
-      let oldPath = image.path;
-      let newPath = "./views/images/" + image.filename;
-      fs.rename(oldPath, newPath, function (err) {
-        if (err) throw err;
-      });
-      await con.promise().query('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.body.username, req.body.postId, image.filename])
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-  }
+  await updateQueries.updateImgs(req, con);
 });
 
 //QUERY: DELETE POST

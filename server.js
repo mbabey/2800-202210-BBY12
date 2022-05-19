@@ -38,6 +38,7 @@ const upload = multer({
 const createAccount = require('./scripts/create-account');
 const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
+const deleteQueries = require('./scripts/delete-query');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
@@ -531,6 +532,7 @@ app.get('/get-post/:username/:postId', async (req, res) => {
 
 // QUERY: UPDATE POST WITH GIVEN INFO
 app.post('/edit-post', upload.array('image-upload'), (req, res) => {
+  console.log(req.body);
   con.query('UPDATE BBY_12_POST SET postTitle = ?, content = ? WHERE (username = ?) AND (postId = ?)',
     [req.body["input-title"], req.body["input-description"], req.body.username, req.body.postId],
     (error) => {
@@ -550,7 +552,7 @@ app.post('/edit-post', upload.array('image-upload'), (req, res) => {
   tags.forEach(async tag => {
     if (tag) {
       await con.promise().query('INSERT INTO \`BBY_12_Post_Tag\`(username, postId, tag) values (?,?,?)', [req.body.username, req.body.postId, tag])
-      .catch((err) => {
+        .catch((err) => {
           console.log(err);
         });
     }
@@ -560,9 +562,9 @@ app.post('/edit-post', upload.array('image-upload'), (req, res) => {
     let imgDelete = [].concat(req.body["image-delete"]);
     imgDelete.forEach(async img => {
       await con.promise().query('DELETE FROM BBY_12_POST_Img WHERE (username = ?) AND (postId = ?) AND (imgFile = ?)', [req.body.username, req.body.postId, img])
-      .catch((err) => {
-        console.log(err);
-      });
+        .catch((err) => {
+          console.log(err);
+        });
     });
   }
 
@@ -574,27 +576,26 @@ app.post('/edit-post', upload.array('image-upload'), (req, res) => {
         if (err) throw err;
       });
       await con.promise().query('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.body.username, req.body.postId, image.filename])
-      .catch((err) => {
-        console.log(err);
-      });
+        .catch((err) => {
+          console.log(err);
+        });
     });
   }
 });
 
 //QUERY: DELETE POST
-app.post('/delete-post', (req, res) => {
-  con.query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
-    (error) => {
-      console.log(error);
+app.post('/delete-post', upload.none(), async (req, res) => {
+  await deleteQueries.deleteTags(req, con)
+    .catch((err) => {
+      console.log(err);
     });
-  con.query('DELETE FROM BBY_12_POST_Img WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
-    (error) => {
-      console.log(error);
+  await deleteQueries.deleteImgs(req, con)
+    .catch((err) => {
+      console.log(err);
     });
-
-  con.query('DELETE FROM BBY_12_POST WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
-    (error) => {
-      console.log(error);
+  await deleteQueries.deletePost(req, con)
+    .catch((err) => {
+      console.log(err);
     });
 });
 

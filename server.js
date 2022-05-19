@@ -8,7 +8,6 @@ const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
-const crypto = require('crypto');
 const {
   JSDOM
 } = require('jsdom');
@@ -38,8 +37,9 @@ const upload = multer({
 const createAccount = require('./scripts/create-account');
 const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
-const deleteQueries = require('./scripts/delete-query');
-const updateQueries = require('./scripts/post-query');
+const deleteQueries = require('./scripts/query-delete');
+const loginQuery = require('./scripts/query-login');
+const updateQueries = require('./scripts/query-post');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
@@ -111,40 +111,15 @@ app.route('/login')
       res.redirect('/');
     }
   })
-  .post((req, res,) => {
+  .post(async (req, res,) => {
     let user = req.body.username.trim();
     let pass = req.body.password;
     res.setHeader('content-type', 'application/json');
-    const hash = crypto.createHash('sha256').update(pass).digest('hex');
-    try {
-      con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], (err, results) => {
-        if (results && results.length > 0) {
-          login(req, user);
-          res.send({ status: 'success' });
-        } else if (user == 'ping' && pass == 'pong') {
-          res.send({ status: 'egg' });
-        } else {
-          res.send({ status: 'fail' });
-        }
-        if (err) throw err;
-      });
-    } catch (err) {
-      res.redirect('/');
-    }
+ 
+    let result = await loginQuery.login(req, user, pass, con);
+    req = result.request;
+    res.send({ status: result.status});
   });
-
-function login(req, user) {
-  req.session.loggedIn = true;
-  req.session.username = user;
-  req.session.admin = false;
-  con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], (err, results) => {
-    if (err) throw err;
-    if (results.length > 0) {
-      req.session.admin = true;
-    }
-    req.session.save();
-  });
-}
 
 // EGG
 app.get('/egg', (req, res) => {

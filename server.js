@@ -115,10 +115,10 @@ app.route('/login')
     let user = req.body.username.trim();
     let pass = req.body.password;
     res.setHeader('content-type', 'application/json');
- 
+
     let result = await loginQuery.login(req, user, pass, con);
     req = result.request;
-    res.send({ status: result.status});
+    res.send({ status: result.status });
   });
 
 // EGG
@@ -519,17 +519,8 @@ app.post('/edit-post', upload.array('image-upload'), async (req, res) => {
 
 //QUERY: DELETE POST
 app.post('/delete-post', upload.none(), async (req, res) => {
-  await deleteQueries.deleteTags(req, con)
-    .catch((err) => {
-      console.log(err);
-    });
-  await deleteQueries.deleteImgs(req, con)
-    .catch((err) => {
-      console.log(err);
-    });
-  await deleteQueries.deletePost(req, con)
-    .catch((err) => {
-      console.log(err);
-    });
+  await deleteQueries.deleteTags(req, con);
+  await deleteQueries.deleteImgs(req, con);
+  await deleteQueries.deletePost(req, con);
 });
 

@@ -526,7 +526,6 @@ app.post('/delete-post', upload.none(), async (req, res) => {
 });
 
 // SEARCH FOR POSTS
-
 app.route("/search")
 .get((req, res)=>{
   res.send("Pog");

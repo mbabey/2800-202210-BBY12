@@ -84,6 +84,13 @@
   background-color: #dff7ff;
 }
 
+#link-bName{
+  text-decoration: none;
+  color: black;
+}
+
+#link-bName:hover{
+  text-decoration: none;
 .post-edit {
   cursor: pointer;
 }

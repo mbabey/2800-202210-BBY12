@@ -48,6 +48,9 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
         clone.querySelector("#post-timestamp").textContent = post.timestamp.toDateString().split(' ').slice(1).join(' ');
         clone.querySelector("#post-description").textContent = post.content;
         clone.querySelector("#post-title").textContent = post.postTitle;
+        clone.querySelector("#link-avatar").href = "/users/" + post.username;
+        clone.querySelector("#link-bName").href = "/users/" + post.username;
+
 
         let pImgs = clone.querySelector(".gallery");
         let pTags = clone.querySelector(".post-tags");
@@ -75,8 +78,7 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
         if (req.session.username == post.username) {
             let pEdit = pEditTemplateContent.cloneNode(true);
             clone.querySelector("#post-footer").appendChild(pEdit);
-        };
-
+        }
         pBody.appendChild(clone);
     }
     return homeDOM;

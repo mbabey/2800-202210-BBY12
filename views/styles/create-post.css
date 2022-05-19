@@ -41,8 +41,8 @@
 
 .buttons {
   display: flex;
-  justify-content: center;
-  padding: 2rem;
+  justify-content: flex-end;
+  padding-bottom: 1rem;
 }
 
 .buttons>input {

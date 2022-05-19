@@ -56,7 +56,10 @@
 }
 
 .edit-profile {
-  background-color: var(--secondary);
+  background-color: rgb(255, 233, 215);
+  /* needs attention on the button colour*/
+  color: black;
+  /* var(--secondary); changed to black temporarily*/
   border: 1px solid var(--secondary-light);
   text-align: center;
   width: 8rem;
@@ -95,7 +98,6 @@
   border-radius: 6px;
   padding: 5px 0;
 
-  /* Position the tooltip */
   position: absolute;
   z-index: 1;
 }
@@ -104,7 +106,7 @@
   visibility: visible;
 }
 
-.tooltip-n .tooltiptext-n {
+.tooltiptext-b {
   visibility: hidden;
   width: 120px;
   background-color: black;
@@ -113,12 +115,11 @@
   border-radius: 6px;
   padding: 5px 0;
 
-  /* Position the tooltip */
   position: absolute;
   z-index: 1;
 }
 
-.tooltip-n:hover .tooltiptext-n {
+.tooltip-b:hover ~ .tooltiptext-b {
   visibility: visible;
 }
 

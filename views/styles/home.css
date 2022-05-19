@@ -70,6 +70,15 @@
   background-color: #dff7ff;
 }
 
+#link-bName{
+  text-decoration: none;
+  color: black;
+}
+
+#link-bName:hover{
+  text-decoration: none;
+}
+
 @media only screen and (max-width: 800px) {
   #content {
     grid-template-columns: 2% 96% 2%;

@@ -1,6 +1,6 @@
 .container {
   display: grid;
-  grid-template-rows: 50px 1fr;
+  grid-template-rows: 10% 1fr;
 }
 
 h2,
@@ -19,6 +19,38 @@ h3 {
 #dashboard-title {
   text-align: center;
   margin: 0;
+}
+
+#search-user {
+  background-color: var(--secondary-dark);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 0.7rem;
+}
+
+#search-user form {
+  width: 50%;
+}
+
+#search-user input {
+  width: calc(100% - 2.6rem);
+  height: 1rem;
+  padding: 0.3rem;
+  border: none;
+  outline: none;
+}
+
+#search-user button {
+  background: none;
+  float: right;
+  height: 1.6rem;
+  border: none;
+  cursor: pointer;
+  background-color: rgb(227, 227, 227);
 }
 
 .user-card-group {
@@ -68,7 +100,6 @@ h3 {
   grid-row: 1 / span 1;
   grid-column: 1 / span 1;
   background-color: white;
-  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   border: 1px solid var(--secondary-dark);
   padding: 2px;
@@ -253,6 +284,10 @@ h3 {
 }
 
 @media only screen and (max-width: 800px) {
+  .container {
+    grid-template-columns: 50px 1fr;
+  }
+
   .user-card-info {
     grid-template-columns: 15% repeat(2, 42.5%);
   }

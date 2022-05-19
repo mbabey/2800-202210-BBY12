@@ -231,12 +231,13 @@ h3 {
   position: absolute;
   top: 50%;
   left: 50%;
+  z-index: 100;
   transform: translate(-50%, -50%);
   /* display: flex; */
   flex-direction: column;
 }
 
-#popup-button-wrapper {
+.popup-button-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -268,18 +269,28 @@ h3 {
   color: white;
 }
 
+#popup-okay-button,
 #popup-negate-delete {
   background-color: var(--secondary-text);
   border: 1px solid var(--secondary-dark);
 }
 
-#search-refresh {
+#popup-okay {
   display: none;
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border: 3px solid var(--secondary-dark);
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  transform: translate(-50%, -50%);
+  /* display: flex; */
+  flex-direction: column;
 }
 
-#search-admin-refresh {
-  display: none;
-}
 
 @media only screen and (max-width: 800px) {
   .container {

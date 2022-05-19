@@ -70,44 +70,69 @@ function popUserData(userData) {
 }
 
 function initUserDeletion() {
-  document.getElementById("delete-user").addEventListener("click", () => {
-    let user = document.getElementById("user-username").value;
-    let userInput = {
-      username: user
-    };
+  const length = 12; // Length of 'delete-user '. Used for getting username from class name.
+  document.querySelectorAll(".delete-user").forEach((deleteButton) => {
+    deleteButton.addEventListener("click", (e) => {
+      const user = e.target.className.slice(length);
+      console.log(user);
+      document.getElementById("popup-header-username").innerHTML = user;
+      document.getElementById("popup-delete").style.display = 'block';
 
-    sendData(userInput, '/delete-user', (response) => {
-      // I don't know why I need to do it this way but it doesn't work when I bare back the conditionals.
-      let adminDeleted = response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
-      let userDeleted = !response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
-      let lastAdmin = !response.adminX && !response.userX && response.finalAdmin && !response.finalUser;
-      let lastUser = !response.adminX && !response.userX && !response.finalAdmin && response.finalUser;
-      let notExists = !response.adminX && !response.userX && !response.finalAdmin && !response.finalUser;
-      let isSelf = response.adminX && response.userX && response.finalAdmin && response.finalUser;
+      // Event listener to confirm user deletion.
+      document.getElementById("popup-confirm-delete").addEventListener('click', () => {
+        document.getElementById("popup-delete").style.display = 'none';
+        let userInput = {
+          username: user
+        };
+        sendData(userInput, '/delete-user', (response) => {
+          handleDeleteConditions(response, user);
+        });
 
-      let message = document.querySelector('#user-error-message').innerHTML;
+        document.getElementById("popup-okay").style.display = 'block';
+        document.getElementById("popup-okay-button").addEventListener('click', () => {
+          document.getElementById("popup-okay").style.display = 'none';
+        });
 
-      if (adminDeleted)
-        message = 'Administrator ' + user + ' deleted.';
-      else if (userDeleted)
-        message = 'User ' + user + ' deleted.';
-      else if (lastAdmin)
-        message = 'Administrator ' + user + ' could not be deleted; ' + user + ' is the only administrator.';
-      else if (lastUser)
-        message = 'User ' + user + ' could not be deleted; ' + user + ' is the only user.';
-      else if (notExists)
-        message = 'User ' + user + ' not found.';
-      else if (isSelf)
-        message = 'Gro-Operate does not want you to delete yourself (it will get better).';
-      else
-        message = 'User ' + user + ' could not be deleted.';
+        getData('/get-all-users', (userData) => {
+          popUserData(userData);
+          initUserDeletion();
+        });
+      });
     });
 
-    document.getElementById("user-username").value = "";
-
-    // //this refresh function was referenced from https://www.codegrepper.com/code-examples/javascript/window.location.reload+after+5+seconds
-    // window.setTimeout(() => { location.reload(); }, 1000);
+    // Event listener to close delete pop up
+    document.getElementById("popup-negate-delete").addEventListener('click', () => {
+      document.getElementById("popup-delete").style.display = 'none';
+    });
   });
+}
+
+function handleDeleteConditions(response, user) {
+  console.log(response);
+  // I don't know why I need to do it this way but it doesn't work when I bare back the conditionals.
+  let adminDeleted = response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
+  let userDeleted = !response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
+  let lastAdmin = !response.adminX && !response.userX && response.finalAdmin && !response.finalUser;
+  let lastUser = !response.adminX && !response.userX && !response.finalAdmin && response.finalUser;
+  let notExists = !response.adminX && !response.userX && !response.finalAdmin && !response.finalUser;
+  let isSelf = response.adminX && response.userX && response.finalAdmin && response.finalUser;
+
+  let message = document.querySelector('#user-error-message');
+
+  if (adminDeleted)
+    message.innerHTML = 'Administrator ' + user + ' deleted.';
+  else if (userDeleted)
+    message.innerHTML = 'User ' + user + ' deleted.';
+  else if (lastAdmin)
+    message.innerHTML = 'Administrator ' + user + ' could not be deleted; ' + user + ' is the only administrator.';
+  else if (lastUser)
+    message.innerHTML = 'User ' + user + ' could not be deleted; ' + user + ' is the only user.';
+  else if (notExists)
+    message.innerHTML = 'User ' + user + ' not found.';
+  else if (isSelf)
+    message.innerHTML = 'Gro-Operate does not want you to delete yourself (it will get better).';
+  else
+    message.innerHTML = 'User ' + user + ' could not be deleted.';
 }
 
 function searchUser() {
@@ -142,13 +167,17 @@ function makeUserCard(userData) {
   let userCard = "<div class='user-card-group'>";
   for (let i = 0; i < userData.rows.length; i++) {
     cardArray.push(userData.rows[i].username);
-    adminArray.forEach((adminName) => {
-      if (userData.rows[i].username == adminName) {
-        userCard += `<div class="user-card-wrapper admin-card">`;
-      } else {
-        userCard += `<div class="user-card-wrapper">`;
-      }
+
+    let isAdmin = false;
+    adminArray.forEach((adminName) => { 
+      if (userData.rows[i].username == adminName) 
+        isAdmin = true; 
     });
+    
+    if (isAdmin)
+      userCard += `<div class="user-card-wrapper admin-card">`;
+    else
+      userCard += `<div class="user-card-wrapper">`;
     userCard += (` 
       <input type="checkbox" class="user-card-menu-toggle"/>
       <div class='user-card'>
@@ -168,7 +197,7 @@ function makeUserCard(userData) {
       </div>
       <div class="user-card-options">
         <button class="view-profile" type="button">View profile</button>
-        <button class="delete-user" type="button">Delete User</button>
+        <button class="delete-user ${userData.rows[i].username}" type="button">Delete User</button>
         <button class="edit-user" type="button">Edit User</button>
       </div>
     </div>

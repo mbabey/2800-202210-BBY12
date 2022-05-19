@@ -47,10 +47,19 @@
 
   <div id="popup-delete">
     <h2>Are you sure you want to delete <span id="popup-header-username"></span>?</h2>
-    <div id="popup-button-wrapper">
+    <div class="popup-button-wrapper">
       <button id="popup-confirm-delete" class="popup-button">Yes, I am sure</button>
       <button id="popup-negate-delete" class="popup-button">No</button>
     </div>
+  </div>
+  
+  <div id="popup-okay">
+    <div id="user-error-message">
+      <!-- Populated by admin-tables.js based on results of delete query -->
+    </div>
+    <div class="popup-button-wrapper">
+      <button id="popup-okay-button" class="popup-button">Okay</button>
+    </div>  
   </div>
 
   <footer>

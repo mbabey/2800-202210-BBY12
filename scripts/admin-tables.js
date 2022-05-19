@@ -1,6 +1,7 @@
 'use strict';
 
 docLoaded(() => {
+  getData('/get-all-admins', getAdmins);
   getData('/get-all-users', (userData) => {
     popUserData(userData);
     initUserDeletion();
@@ -14,6 +15,14 @@ function docLoaded(action) {
     action();
   else
     document.addEventListener('DOMContentLoaded', action);
+}
+
+const adminArray = [];
+
+function getAdmins(adminData) {
+  for (let i = 0; i < adminData.rows.length; i++) {
+    adminArray.push(adminData.rows[i].username);
+  }
 }
 
 function makeCardsClickable() {
@@ -49,7 +58,7 @@ async function getData(path, callback) {
     response = await response.text();
     response = JSON.parse(response);
     callback(response);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }
@@ -127,39 +136,20 @@ function showSearchResults(searchData) {
   }
 }
 
-// Hide/make visible search block referenced from https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
-// function toggleDropDown() {
-//   let searchDropDown = document.querySelector("#user-search-dropdown");
-//   if (searchDropDown.style.display === "flex") {
-//     searchDropDown.style.display = "none";
-//   } else {
-//     searchDropDown.style.display = "flex";
-//   }
-// }
-
-// function toggleSearchButton() {
-//   let searchButton = document.querySelector("#search-user");
-//   let clearSearch = document.querySelector("#search-results");
-//   let clearButton = document.querySelector('#search-refresh');
-//   if (searchButton.innerHTML === "Search") {
-//     searchButton.style.display = "none";
-//     clearSearch.style.display = "block";
-//     clearButton.style.display = "block";
-//   } else {
-//     clearSearch.style.display = "none";
-//     searchButton.innerHTML = "Search";
-//     errMsg.style.display = "block";
-//   }
-// }
-
 const cardArray = [];
 
 function makeUserCard(userData) {
   let userCard = "<div class='user-card-group'>";
   for (let i = 0; i < userData.rows.length; i++) {
     cardArray.push(userData.rows[i].username);
-    userCard += (`
-    <div class="user-card-wrapper"> 
+    adminArray.forEach((adminName) => {
+      if (userData.rows[i].username == adminName) {
+        userCard += `<div class="user-card-wrapper admin-card">`;
+      } else {
+        userCard += `<div class="user-card-wrapper">`;
+      }
+    });
+    userCard += (` 
       <input type="checkbox" class="user-card-menu-toggle"/>
       <div class='user-card'>
         <div class='user-card-info'>
@@ -183,11 +173,11 @@ function makeUserCard(userData) {
       </div>
     </div>
        `);
-      }
-      userCard += "</div>";
-      return userCard;
-    }
-    
+  }
+  userCard += "</div>";
+  return userCard;
+}
+
 function refreshSearch() {
   window.location.reload();
 }

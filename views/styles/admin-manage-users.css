@@ -68,6 +68,7 @@ h3 {
   gap: 5px;
 }
 
+
 .user-card-wrapper {
   display: grid;
   grid-template-columns: 100%;
@@ -86,11 +87,6 @@ h3 {
   z-index: 2;
   cursor: pointer;
   opacity: 0;
-}
-
-.user-card-menu-toggle:hover + .user-card,
-.user-card-menu-toggle:active + .user-card {
-  background-color: var(--secondary-text);
 }
 
 .user-card-menu-toggle:checked + .user-card .close {
@@ -117,9 +113,8 @@ h3 {
   -webkit-transition: all 0.3s;
 }
 
-.user-card:hover,
-.user-card:focus {
-  background-color: var(--secondary-text);
+.admin-card .user-card {
+  background-color: var(--primary-text);
 }
 
 .user-card-info {
@@ -189,10 +184,6 @@ h3 {
 
 .close svg {
   color: black;
-}
-
-.close:hover svg {
-  color: var(--secondary-dark);
 }
 
 /* Tooltip styles courtesy of https://www.w3schools.com/css/css_tooltip.asp */

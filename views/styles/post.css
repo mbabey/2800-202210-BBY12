@@ -81,9 +81,15 @@
 
 .frame,
 .frame-preview {
-  padding: 0 6px;
+  <<<<<<< HEAD padding: 0 6px;
   float: left;
   width: 45%;
+  =======padding: 0 6px;
+  float: left;
+  width: 45%;
+  position: relative;
+  height: 100%;
+  >>>>>>>dev
 }
 
 .post-images img {
@@ -92,6 +98,20 @@
   border-radius: 10px;
   margin-top: 10px;
   object-fit: contain;
+}
+
+.delete-image {
+  position: absolute;
+  margin-top: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--danger-red);
+  border: none;
+  color: white;
+  text-decoration: none;
+  padding: 10px 10px;
+  font-size: 1em;
 }
 
 .post-footer {
@@ -112,7 +132,8 @@
 .post-save-hide,
 .post-delete-hide,
 .post-cancel-hide,
-.add-image-hide {
+.add-image-hide,
+.frame-delete {
   visibility: hidden;
   max-height: 0px;
 
@@ -188,9 +209,7 @@
   grid-column: 2;
   background-color: rgba(128, 128, 128, 0);
   color: var(--primary-light);
-  ;
   border: 1px solid var(--primary-light);
-  ;
 }
 
 .post-save {
@@ -204,9 +223,6 @@
   justify-self: left;
   background-color: var(--danger-red);
 }
-
-
-
 
 @media only screen and (max-width: 800px) {
   .post-block {
@@ -226,6 +242,7 @@
 
   .frame {
     width: 100%;
+    height: auto;
     margin: 6px 0;
   }
 }

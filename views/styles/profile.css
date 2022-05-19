@@ -68,6 +68,7 @@
   cursor: pointer;
   -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  font-weight: bolder;
 }
 
 .edit-profile:hover {
@@ -77,6 +78,16 @@
 .edit-profile a {
   margin: auto;
   text-decoration: none;
+  color: black;
+  font-weight: bolder;
+}
+
+.edit-profile a:hover {
+  color:white;
+}
+
+.edit-profile > form > label:hover {
+  color:white;
 }
 
 .profile-info {

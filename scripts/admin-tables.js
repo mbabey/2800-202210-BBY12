@@ -92,22 +92,22 @@ function initDeletion() {
     };
     sendData(userInput, '/delete-user', (response) => {
       handleDeleteConditions(response, user);
-    });
-    document.getElementById("popup-okay").style.display = 'block';
-    getData('/get-all-users', (userData) => {
-      popUserData(userData);
-      document.querySelectorAll(".delete-user").forEach((deleteButton) => {
-        deleteButton.addEventListener("click", (e) => {
-          user = e.target.className.slice(lengthDeleteUser);
-          document.getElementById("popup-header-username").innerHTML = user;
-          document.getElementById("popup-delete").style.display = 'block';
+      document.getElementById("popup-okay").style.display = 'block';
+      getData('/get-all-users', (userData) => {
+        popUserData(userData);
+        document.querySelectorAll(".delete-user").forEach((deleteButton) => {
+          deleteButton.addEventListener("click", (e) => {
+            user = e.target.className.slice(lengthDeleteUser);
+            document.getElementById("popup-header-username").innerHTML = user;
+            document.getElementById("popup-delete").style.display = 'block';
+          });
         });
-      });
-      document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
-        removeAdminButton.addEventListener('click', (e) => {
-          user = e.target.className.slice(lengthRemoveAdmin);
-          document.getElementById('popup-admin-header-username').innerHTML = user;
-          document.getElementById('popup-admin-delete').style.display = 'block';
+        document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
+          removeAdminButton.addEventListener('click', (e) => {
+            user = e.target.className.slice(lengthRemoveAdmin);
+            document.getElementById('popup-admin-header-username').innerHTML = user;
+            document.getElementById('popup-admin-delete').style.display = 'block';
+          });
         });
       });
     });
@@ -119,28 +119,37 @@ function initDeletion() {
     let userInput = {
       username: user
     };
+    removeItemOnce(adminArray, user);
     sendData(userInput, '/delete-admin', (response) => {
       handleRemoveAdminConditions(response, user);
-    });
-    document.getElementById("popup-okay").style.display = 'block';
-    getData('/get-all-users', (userData) => {
-      popUserData(userData);
-      document.querySelectorAll(".delete-user").forEach((deleteButton) => {
-        deleteButton.addEventListener("click", (e) => {
-          user = e.target.className.slice(lengthDeleteUser);
-          document.getElementById("popup-header-username").innerHTML = user;
-          document.getElementById("popup-delete").style.display = 'block';
+      document.getElementById("popup-okay").style.display = 'block';
+      getData('/get-all-users', (userData) => {
+        popUserData(userData);
+        document.querySelectorAll(".delete-user").forEach((deleteButton) => {
+          deleteButton.addEventListener("click", (e) => {
+            user = e.target.className.slice(lengthDeleteUser);
+            document.getElementById("popup-header-username").innerHTML = user;
+            document.getElementById("popup-delete").style.display = 'block';
+          });
         });
-      });
-      document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
-        removeAdminButton.addEventListener('click', (e) => {
-          user = e.target.className.slice(lengthRemoveAdmin);
-          document.getElementById('popup-admin-header-username').innerHTML = user;
-          document.getElementById('popup-admin-delete').style.display = 'block';
+        document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
+          removeAdminButton.addEventListener('click', (e) => {
+            user = e.target.className.slice(lengthRemoveAdmin);
+            document.getElementById('popup-admin-header-username').innerHTML = user;
+            document.getElementById('popup-admin-delete').style.display = 'block';
+          });
         });
       });
     });
   });
+}
+
+function removeItemOnce(arr, value) {
+  let index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
 }
 
 function addUniversalListeners() {

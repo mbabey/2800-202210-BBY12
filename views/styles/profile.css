@@ -88,7 +88,7 @@
   color: var(--gold);
 } 
 
-[class*='tooltip-']{
+.tooltip .tooltiptext {
   visibility: hidden;
   width: 120px;
   background-color: black;
@@ -97,12 +97,30 @@
   border-radius: 6px;
   padding: 5px 0;
 
-  top: 100%;
-  left: 50%;
-
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
 }
 
-.tooltip:hover [class*='tooltip-']{
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip-n .tooltiptext-n {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip-n:hover .tooltiptext-n {
   visibility: visible;
 }
 

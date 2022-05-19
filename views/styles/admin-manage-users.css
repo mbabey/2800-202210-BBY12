@@ -221,7 +221,8 @@ h3 {
 
 /* End tooltip styles */
 
-#popup-delete {
+#popup-delete,
+#popup-admin-delete {
   display: none;
   width: 300px;
   background-color: white;
@@ -263,14 +264,16 @@ h3 {
   transform: scale(1);
 }
 
-#popup-confirm-delete {
+#popup-confirm-delete,
+#popup-admin-confirm-delete {
   background-color: var(--danger-red);
   border: 1px solid var(--danger-red);
   color: white;
 }
 
 #popup-okay-button,
-#popup-negate-delete {
+#popup-negate-delete,
+#popup-admin-negate-delete {
   background-color: var(--secondary-text);
   border: 1px solid var(--secondary-dark);
 }

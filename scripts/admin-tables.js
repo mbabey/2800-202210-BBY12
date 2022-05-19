@@ -1,12 +1,14 @@
 'use strict';
 
 docLoaded(() => {
-  getData('/get-all-admins', getAdmins);
+  getData('/get-all-admins', (adminData) => {
+    getAdmins(adminData);
+  });
   getData('/get-all-users', (userData) => {
     popUserData(userData);
-    initUserDeletion();
+    initDeletion();
   });
-  makeCardsClickable();
+  addUniversalListeners();
   searchUser();
 });
 
@@ -17,21 +19,6 @@ function docLoaded(action) {
     document.addEventListener('DOMContentLoaded', action);
 }
 
-const adminArray = [];
-
-function getAdmins(adminData) {
-  for (let i = 0; i < adminData.rows.length; i++) {
-    adminArray.push(adminData.rows[i].username);
-  }
-}
-
-function makeCardsClickable() {
-  document.querySelectorAll('.view-profile').forEach((card) => {
-    card.addEventListener('click', () => {
-      window.redirect('#');
-    });
-  });
-}
 
 async function sendData(data, path, callback) {
   try {
@@ -63,58 +50,115 @@ async function getData(path, callback) {
   }
 }
 
+const adminArray = [];
+
+function getAdmins(adminData) {
+  for (let i = 0; i < adminData.rows.length; i++) {
+    adminArray.push(adminData.rows[i].username);
+  }
+}
+
 function popUserData(userData) {
   // USER CARD CREATED HERE
   let userCard = makeUserCard(userData);
   document.getElementById("user-list").innerHTML = userCard;
 }
 
-function initUserDeletion() {
-  const length = 12; // Length of 'delete-user '. Used for getting username from class name.
-  let user = document.querySelectorAll(".delete-user").forEach((deleteButton) => {
+function initDeletion() {
+  let user = null;
+  const lengthDeleteUser = 12; // Length of 'delete-user '. Used for getting username from class name.
+  const lengthRemoveAdmin = 13; // Length of 'remove-admin '. Used for getting username from class name.
+  
+  document.querySelectorAll(".delete-user").forEach((deleteButton) => {
     deleteButton.addEventListener("click", (e) => {
-      user = e.target.className.slice(length);
+      user = e.target.className.slice(lengthDeleteUser);
       document.getElementById("popup-header-username").innerHTML = user;
       document.getElementById("popup-delete").style.display = 'block';
     });
   });
+  document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
+    removeAdminButton.addEventListener('click', (e) => {
+      user = e.target.className.slice(lengthRemoveAdmin);
+      document.getElementById('popup-admin-header-username').innerHTML = user;
+      document.getElementById('popup-admin-delete').style.display = 'block';
+    });
+  });
+  
   // Event listener to confirm user deletion.
   document.getElementById("popup-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
     let userInput = {
       username: user
     };
-    console.log('here: ', user);
     sendData(userInput, '/delete-user', (response) => {
       handleDeleteConditions(response, user);
     });
     document.getElementById("popup-okay").style.display = 'block';
-
     getData('/get-all-users', (userData) => {
       popUserData(userData);
       document.querySelectorAll(".delete-user").forEach((deleteButton) => {
         deleteButton.addEventListener("click", (e) => {
-          user = e.target.className.slice(length);
+          user = e.target.className.slice(lengthDeleteUser);
           document.getElementById("popup-header-username").innerHTML = user;
           document.getElementById("popup-delete").style.display = 'block';
         });
       });
+      document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
+        removeAdminButton.addEventListener('click', (e) => {
+          user = e.target.className.slice(lengthRemoveAdmin);
+          document.getElementById('popup-admin-header-username').innerHTML = user;
+          document.getElementById('popup-admin-delete').style.display = 'block';
+        });
+      });
     });
   });
+  
+  // Event listener to confirm admin removal.
+  document.getElementById("popup-admin-confirm-delete").addEventListener('click', () => {
+    document.getElementById("popup-admin-delete").style.display = 'none';
+    let userInput = {
+      username: user
+    };
+    sendData(userInput, '/delete-admin', (response) => {
+      handleRemoveAdminConditions(response, user);
+    });
+    document.getElementById("popup-okay").style.display = 'block';
+    getData('/get-all-users', (userData) => {
+      popUserData(userData);
+      document.querySelectorAll(".delete-user").forEach((deleteButton) => {
+        deleteButton.addEventListener("click", (e) => {
+          user = e.target.className.slice(lengthDeleteUser);
+          document.getElementById("popup-header-username").innerHTML = user;
+          document.getElementById("popup-delete").style.display = 'block';
+        });
+      });
+      document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
+        removeAdminButton.addEventListener('click', (e) => {
+          user = e.target.className.slice(lengthRemoveAdmin);
+          document.getElementById('popup-admin-header-username').innerHTML = user;
+          document.getElementById('popup-admin-delete').style.display = 'block';
+        });
+      });
+    });
+  });
+}
+
+function addUniversalListeners() {
   // Event listener to close delete pop up
   document.getElementById("popup-negate-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
-    user = null;
+  });
+  // Event listener to close admin remove pop up
+  document.getElementById("popup-admin-negate-delete").addEventListener('click', () => {
+    document.getElementById("popup-admin-delete").style.display = 'none';
   });
   // Event listener to close the okay pop up
   document.getElementById("popup-okay-button").addEventListener('click', () => {
     document.getElementById("popup-okay").style.display = 'none';
-    user = null;
   });
 }
 
 function handleDeleteConditions(response, user) {
-  console.log(response);
   // I don't know why I need to do it this way but it doesn't work when I bare back the conditionals.
   let adminDeleted = response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
   let userDeleted = !response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
@@ -139,6 +183,26 @@ function handleDeleteConditions(response, user) {
     message.innerHTML = 'Gro-Operate does not want you to delete yourself (it will get better).';
   else
     message.innerHTML = 'User ' + user + ' could not be deleted.';
+}
+
+function handleRemoveAdminConditions(response, user) {
+  let adminDeleted = response.adminX && !response.finalAdmin;
+  let lastAdmin = !response.adminX && response.finalAdmin;
+  let isSelf = response.adminX && response.finalAdmin;
+  let notExists = !response.adminX && !response.finalAdmin;
+
+  let message = document.querySelector('#user-error-message');
+
+  if (adminDeleted)
+    message.innerHTML = 'Administrator privileges revoked for ' + user + '.';
+  else if (lastAdmin)
+    message.innerHTML = 'Administrator ' + user + ' could not have their privileges revoked; ' + user + ' is the only administrator.';
+  else if (isSelf)
+    message.innerHTML = 'Cannot revoke your own admin privileges.';
+  else if (notExists)
+    message.innerHTML = 'Administrator ' + user + ' not found.';
+  else
+    message.innerHTML = 'Administrator ' + user + ' could not have their privileges revoked.';
 }
 
 function searchUser() {
@@ -184,7 +248,7 @@ function makeUserCard(userData) {
       userCard += `<div class="user-card-wrapper admin-card">`;
     else
       userCard += `<div class="user-card-wrapper">`;
-    userCard += (` 
+    userCard += ` 
       <input type="checkbox" class="user-card-menu-toggle"/>
       <div class='user-card'>
         <div class='user-card-info'>
@@ -204,10 +268,10 @@ function makeUserCard(userData) {
       <div class="user-card-options">
         <button class="view-profile" type="button">View profile</button>
         <button class="delete-user ${userData.rows[i].username}" type="button">Delete User</button>
-        <button class="edit-user" type="button">Edit User</button>
-      </div>
-    </div>
-       `);
+        <button class="edit-user" type="button">Edit User</button>`;
+    if (isAdmin)
+      userCard += `<button class="remove-admin ${userData.rows[i].username}" type="button">Remove Admin</button>`;
+    userCard += `</div></div>`;
   }
   userCard += "</div>";
   return userCard;

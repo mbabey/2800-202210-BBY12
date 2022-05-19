@@ -445,11 +445,6 @@ app.post('/delete-user', async (req, res) => {
     [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numUsers FROM BBY_12_users');
     let numUsers = rows[0].numUsers;
 
-    console.log(req.body);
-    console.log(numAdmins);
-    console.log(numUsers);
-
-
     let adminDeleted = false;
     let userDeleted = false;
     let lastAdmin = false;

@@ -71,8 +71,7 @@ function popUserData(userData) {
 
 function initUserDeletion() {
   const length = 12; // Length of 'delete-user '. Used for getting username from class name.
-  let user = null;
-  document.querySelectorAll(".delete-user").forEach((deleteButton) => {
+  let user = document.querySelectorAll(".delete-user").forEach((deleteButton) => {
     deleteButton.addEventListener("click", (e) => {
       user = e.target.className.slice(length);
       document.getElementById("popup-header-username").innerHTML = user;
@@ -90,7 +89,7 @@ function initUserDeletion() {
       handleDeleteConditions(response, user);
     });
     document.getElementById("popup-okay").style.display = 'block';
-    
+
     getData('/get-all-users', (userData) => {
       popUserData(userData);
       document.querySelectorAll(".delete-user").forEach((deleteButton) => {
@@ -107,6 +106,7 @@ function initUserDeletion() {
     document.getElementById("popup-delete").style.display = 'none';
     user = null;
   });
+  // Event listener to close the okay pop up
   document.getElementById("popup-okay-button").addEventListener('click', () => {
     document.getElementById("popup-okay").style.display = 'none';
     user = null;
@@ -150,7 +150,10 @@ function searchUser() {
       let userSearchInputData = { username: userSearchInput }
       sendData(userSearchInputData, '/search-user', showSearchResults);
     } else {
-      getData('/get-all-users', popUserData);
+      getData('/get-all-users', (userData) => {
+        popUserData(userData);
+        addEventListeners();
+      });
     }
     document.querySelector('#search-user-input').value = '';
   });
@@ -167,12 +170,9 @@ function showSearchResults(searchData) {
   }
 }
 
-const cardArray = [];
-
 function makeUserCard(userData) {
   let userCard = "<div class='user-card-group'>";
   for (let i = 0; i < userData.rows.length; i++) {
-    cardArray.push(userData.rows[i].username);
 
     let isAdmin = false;
     adminArray.forEach((adminName) => {

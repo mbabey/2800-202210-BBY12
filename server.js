@@ -532,4 +532,21 @@ app.route("/search")
 })
 .post((req, res)=>{
   res.send(req.body["nav-search"]);
+  con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
+    function (error, results) {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: 'success', rows: results });
+      } else {
+        res.send({ status: "fail", msg: "Search Fail" });
+      }
+    });
+});
+
+// MOBILE SEARCH OVERLAY 
+app.get('/search-overlay', (req, res) => {
+  let searchOverlayHTML = fs.readFileSync('./views/chunks/search-overlay.xml', 'utf8');
+  res.setHeader('content-type', 'application/json');
+  res.send({ overlay: searchOverlayHTML });
 });

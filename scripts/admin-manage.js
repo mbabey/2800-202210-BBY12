@@ -120,7 +120,7 @@ function initCardEventListeners() {
   document.querySelectorAll(".view-profile").forEach((deleteButton) => {
     deleteButton.addEventListener("click", (e) => {
       user = e.target.className.slice(lengthViewProfile); // Get username out of class name
-      window.location.replace('/users/' + user);
+      window.location.replace('/users?user=' + user);
     });
   });
   document.querySelectorAll(".delete-user").forEach((deleteButton) => {
@@ -187,7 +187,6 @@ function initUpdateListeners() {
     let userInput = {
       username: user
     };
-    console.log(user);
     sendData(userInput, '/make-admin', (response) => {
       handleMakeAdminConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';

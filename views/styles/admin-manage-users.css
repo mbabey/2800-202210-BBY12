@@ -32,53 +32,57 @@ h3 {
   height: 32px;
   width: 32px;
   cursor: pointer;
-  opacity: 0; /* hide this */
+  opacity: 0;
+  /* hide this */
   -webkit-touch-callout: none;
 }
 
 #hamborger {
   position: absolute;
-  top: 65px;
-  right: calc(2% - 9px);
-  width: 40px;
+  top: 100px;
+  right: calc(2% + 3px);
+  width: 33px;
   height: 33px;
   z-index: 68;
 }
 
-#dashboard-drop-menu-trigger + #hamborger span {
+#dashboard-drop-menu-trigger+#hamborger span {
   display: block;
   width: 33px;
   height: 4px;
   margin-bottom: 5px;
   position: relative;
-  background-color: black; /* Hamburger button color */
+  background-color: black;
+  /* Hamburger button color */
   border-radius: 5px;
-  transform-origin: 4px 0px; /* Animation of the close button */
-  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              opacity 0.55s ease;
+  transform-origin: 4px 0px;
+  /* Animation of the close button */
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+    opacity 0.55s ease;
 }
 
-#dashboard-drop-menu-trigger + #hamborger span:first-child {
+#dashboard-drop-menu-trigger+#hamborger span:first-child {
   transform-origin: 0% 0%;
 }
 
-#dashboard-drop-menu-trigger + #hamborger span:nth-last-child(2) {
+#dashboard-drop-menu-trigger+#hamborger span:nth-last-child(2) {
   transform-origin: 0% 100%;
 }
 
-#dashboard-drop-menu-trigger:checked + #hamborger span {
+#dashboard-drop-menu-trigger:checked+#hamborger span {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
-  background-color: black; /* Close button color */
+  background-color: black;
+  /* Close button color */
 }
 
-#dashboard-drop-menu-trigger:checked + #hamborger span:nth-last-child(2) {
+#dashboard-drop-menu-trigger:checked+#hamborger span:nth-last-child(2) {
   opacity: 0;
   transform: rotate(0deg) scale(0.2, 0.2);
 }
 
-#dashboard-drop-menu-trigger:checked + #hamborger span:nth-last-child(1) {
+#dashboard-drop-menu-trigger:checked+#hamborger span:nth-last-child(1) {
   transform: rotate(-45deg) translate(0, -1px);
 }
 
@@ -140,7 +144,7 @@ h3 {
   transform: scale(1);
 }
 
-#dashboard-drop-menu-trigger:checked ~ #admin-button-group-container {
+#dashboard-drop-menu-trigger:checked~#admin-button-group-container {
   display: block;
 }
 
@@ -211,12 +215,12 @@ h3 {
   opacity: 0;
 }
 
-.user-card-menu-toggle:checked + .user-card .arrow {
+.user-card-menu-toggle:checked+.user-card .arrow {
   transform: rotate(-90deg);
   transition: 0.5s;
 }
 
-.user-card-menu-toggle:checked + .user-card + .user-card-options {
+.user-card-menu-toggle:checked+.user-card+.user-card-options {
   transform: translateY(100%);
   transition: 0.5s;
 }
@@ -437,7 +441,7 @@ h3 {
 
 #popup-edit-block form {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -452,7 +456,8 @@ h3 {
   font-size: 0.9rem;
   margin: 5px 2px;
   background-color: rgba(128, 128, 128, 0.3);
-  width: calc(100% - 1rem - 4px - 2px); /* Full width minus padding minus margin minus border. */
+  width: calc(100% - 1rem - 4px - 2px);
+  /* Full width minus padding minus margin minus border. */
 }
 
 #popup-edit-block a {
@@ -475,15 +480,21 @@ h3 {
 }
 
 @media only screen and (max-width: 800px) {
+
   #dashboard-drop-menu-trigger,
-  #dashboard-drop-menu-trigger + label {
+  #dashboard-drop-menu-trigger+label {
     top: 56px;
+  }
+
+  #hamborger {
+    top: 65px;
+    right: 2%;
   }
 
   #admin-button-group {
     min-width: 300px;
   }
-  
+
   .user-card-info {
     grid-template-columns: 15% repeat(2, 42.5%);
   }

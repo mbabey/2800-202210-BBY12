@@ -466,11 +466,12 @@ app.post('/search-user', (req, res) => {
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
+// Other user URL in the form './profile?user=[username]'
 app.get('/users', (req, res) => {
   //need to redirect the page if the id doesn't exist
   if (req.session.loggedIn) {
     if (req.session.username == req.query.user) {
-      res.redirect('/profile?user=' +req.session.username);
+      res.redirect('/profile?user=' + req.session.username);
     } else {
       let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
       res.send(otherProfile);

@@ -19,6 +19,17 @@
   <div class="container">
     <div class="dashboard-header">
       <h3 id="dashboard-title">Administration Board</h3>
+      <input id="dashboard-drop-menu-trigger" type="checkbox">
+      <label for="dashboard-drop-menu-trigger">some shit
+        <!-- svg -->
+      </label>
+      <div id="admin-button-group-container">
+        <div id="admin-button-group">
+          <a href="#" class="admin-button here">Manage Users</a>
+          <a href="/admin-add-account" class="admin-button">Add User</a>
+          <a href="/reset-password" class="admin-button">Edit A Password</a>
+        </div>
+      </div>
     </div>
     <div id="content">
       <div id="search-user">
@@ -27,7 +38,7 @@
           <button id="search-user-button" type="button" name="search-user-button">
             <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -3 28 28" width="20" height="20">
               <path fill="currentColor"
-              d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
+                d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
             </svg>
           </button>
         </form>
@@ -36,9 +47,8 @@
         <!-- Populated by admin-tables.js in the event a query fails -->
       </div>
       <div id="user-profiles">
-        <!-- <h2>User Accounts</h2> -->
         <div id="user-list">
-          <!-- user cards populates -->
+          <!-- Populated by admin-tables.js -->
         </div>
       </div>
     </div>
@@ -51,7 +61,7 @@
       <button id="popup-negate-delete" class="popup-button neutral">No</button>
     </div>
   </div>
-  
+
   <div id="popup-admin-delete" class="popup-confirm">
     <h2>Are you sure you want to remove admin privileges for <span id="popup-admin-header-username"></span>?</h2>
     <div class="popup-button-wrapper">
@@ -59,7 +69,7 @@
       <button id="popup-admin-negate-delete" class="popup-button neutral">No</button>
     </div>
   </div>
-  
+
   <div id="popup-make-admin" class="popup-confirm">
     <h2>Are you sure you want to give admin privileges to <span id="popup-make-admin-header-username"></span>?</h2>
     <div class="popup-button-wrapper">
@@ -67,14 +77,14 @@
       <button id="popup-make-admin-negate" class="popup-button neutral">No</button>
     </div>
   </div>
-  
+
   <div id="popup-okay">
     <div id="query-response-message">
-      <!-- Populated by admin-tables.js based on results of delete query -->
+      <!-- Populated by admin-tables.js based on results of query -->
     </div>
     <div class="popup-button-wrapper">
       <button id="popup-okay-button" class="popup-button neutral">Okay</button>
-    </div>  
+    </div>
   </div>
 
   <footer>

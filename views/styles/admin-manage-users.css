@@ -434,6 +434,15 @@ h3 {
   flex-direction: column; 
 }
 
+.edit-input {
+  border: 1px black solid;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  margin: 2px;
+  text-align: center;
+  background-color: rgba(128, 128, 128, 0.3);
+}
+
 @media only screen and (max-width: 800px) {
   .container {
     grid-template-rows: 50px 1fr;

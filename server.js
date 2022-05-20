@@ -87,7 +87,7 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
   if (req.session.loggedIn) {
     if (req.session.admin)
-      res.redirect('/admin-dashboard');
+      res.redirect('/admin-manage-users');
     else
       res.redirect('/home');
   } else {
@@ -242,31 +242,25 @@ app.route('/create-account')
 // RESET PASSWORD
 app.route("/reset-password")
   .get((req, res) => {
-    let resetPasswordPage = fs.readFileSync('./views/reset-password.html', 'utf8');
-    res.send(resetPasswordPage);
+    if (req.session.loggedIn) {
+      let resetPasswordPage = fs.readFileSync('./views/reset-password.html', 'utf8');
+      res.send(resetPasswordPage);
+    }
   })
   .post((req, res) => {
-    resetPassword.resetPassword(req, res, con)
-      .then(() => {
-        res.redirect("/");
-      })
-      .catch((err) => {
-        res.redirect("/reset-password");
-      });
-    //Add some token for reset confirmation
+    if (req.session.loggedIn) {
+      resetPassword.resetPassword(req, res, con)
+        .then(() => {
+          res.redirect("/");
+        })
+        .catch((err) => {
+          res.redirect("/reset-password");
+        });
+      //Add some token for reset confirmation
+    }
   });
 
-// ADMIN DASHBOARD
-app.get('/admin-dashboard', (req, res) => {
-  if (req.session.loggedIn && req.session.admin) {
-    let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
-    res.send(adminDashPage);
-  } else {
-    res.redirect('/');
-  }
-});
-
-// ADMIN VIEW ACCOUNTS
+// ADMIN MANAGE USERS
 app.get('/admin-manage-users', (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
     let adminManageAcc = fs.readFileSync('./views/admin-manage-users.html', 'utf8');
@@ -306,32 +300,6 @@ app.route('/admin-add-account')
     }
   });
 
-// ADMIN EDIT USER PAGE
-app.route('/admin-edit-user')
-  .get((req, res) => {
-    if (req.session.loggedIn && req.session.admin) {
-      let profilePage = fs.readFileSync('./views/admin-edit-user.html', 'utf8');
-      res.send(profilePage);
-    } else {
-      res.redirect('/');
-    }
-  })
-  .post((req, res) => {
-    if (req.session.loggedIn && req.session.admin) {
-      console.log('Update user query: ', req.body)
-      con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-        [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
-        (error, results) => {
-          console.log(results);
-          res.setHeader('Content-Type', 'application/json');
-          if (error) {
-            console.log(error);
-            res.send({ status: 'fail' });
-          } else
-            res.send({ status: "success" });
-        });
-    }
-  });
 
 // QUERY: GET ALL USERS' INFORMATION
 app.get('/get-all-users', (req, res) => {
@@ -360,6 +328,24 @@ app.post('/update-user', (req, res) => {
       (error, results) => {
         res.setHeader('Content-Type', 'application/json');
         if (error) {
+          res.send({ status: 'fail' });
+        } else
+          res.send({ status: "success" });
+      });
+  }
+});
+
+// QUERY: UPDATE USER INFORMATION AS ADMIN
+app.post('/admin-edit-user', (req, res) => {
+  if (req.session.loggedIn && req.session.admin) {
+    console.log('Update user query: ', req.body)
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
+      [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
+      (error, results) => {
+        console.log(results);
+        res.setHeader('Content-Type', 'application/json');
+        if (error) {
+          console.log(error);
           res.send({ status: 'fail' });
         } else
           res.send({ status: "success" });

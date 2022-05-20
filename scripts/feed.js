@@ -3,7 +3,6 @@
 module.exports = {
     populateFeed: async (req, homeDOM, templateDOM, con) => {
         return new Promise(async (resolve, reject) => {
-            console.log("Populating Feed");
             let posts;
             await con.promise().query(
                 `SELECT users.profilePic, users.cName, users.bType, users.username, post.*

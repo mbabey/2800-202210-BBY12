@@ -42,6 +42,7 @@ function popSearchOverlay(searchOverlay){
 }
 
 function popNavName(data) {
+  document.querySelector('#nav-profile').href += (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
   document.querySelector('#profile-name').innerHTML = (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
 }
 

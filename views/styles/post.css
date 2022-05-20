@@ -1,6 +1,8 @@
 .post-block {
   margin: 0 auto;
   width: 50%;
+  grid-column: 2 / span 1;
+  width: 100% !important;
 }
 
 .post {
@@ -217,6 +219,15 @@
   justify-self: left;
   background-color: var(--danger-red);
 }
+
+.post-description{
+  font-weight: normal;
+}
+
+.post-images img {
+  background-color: #dff7ff;
+}
+
 
 @media only screen and (max-width: 800px) {
   .post-block {

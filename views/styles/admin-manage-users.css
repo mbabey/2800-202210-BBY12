@@ -21,6 +21,8 @@ h3 {
   height: 100%;
 }
 
+/* Styles for hamburger menu button courtesy of https://codepen.io/erikterwan/pen/EVzeRP */
+
 #dashboard-drop-menu-trigger {
   display: block;
   z-index: 69;
@@ -79,6 +81,8 @@ h3 {
 #dashboard-drop-menu-trigger:checked + #hamborger span:nth-last-child(1) {
   transform: rotate(-45deg) translate(0, -1px);
 }
+
+/* End styles for hamburger menu button */
 
 #admin-button-group-container {
   background: rgba(0, 0, 0, 0.3);

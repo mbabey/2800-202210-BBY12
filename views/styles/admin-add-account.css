@@ -21,15 +21,68 @@
   height: 100%;
 }
 
-#dashboard-drop-menu-trigger,
-#dashboard-drop-menu-trigger + label {
+/* Styles for hamburger menu button courtesy of https://codepen.io/erikterwan/pen/EVzeRP */
+
+#dashboard-drop-menu-trigger {
+  display: block;
   z-index: 69;
   position: absolute;
   top: 92px;
   right: 2%;
   height: 32px;
   width: 32px;
+  cursor: pointer;
+  opacity: 0; /* hide this */
+  -webkit-touch-callout: none;
 }
+
+#hamborger {
+  position: absolute;
+  top: 65px;
+  right: calc(2% - 9px);
+  width: 40px;
+  height: 33px;
+  z-index: 68;
+}
+
+#dashboard-drop-menu-trigger + #hamborger span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+  background-color: black; /* Hamburger button color */
+  border-radius: 5px;
+  transform-origin: 4px 0px; /* Animation of the close button */
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
+
+#dashboard-drop-menu-trigger + #hamborger span:first-child {
+  transform-origin: 0% 0%;
+}
+
+#dashboard-drop-menu-trigger + #hamborger span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+#dashboard-drop-menu-trigger:checked + #hamborger span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background-color: black; /* Close button color */
+}
+
+#dashboard-drop-menu-trigger:checked + #hamborger span:nth-last-child(2) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+#dashboard-drop-menu-trigger:checked + #hamborger span:nth-last-child(1) {
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+/* End styles for hamburger menu button */
 
 #admin-button-group-container {
   background: rgba(0, 0, 0, 0.3);
@@ -335,7 +388,6 @@ div>.create-input{
   #admin-button-group {
     min-width: 300px;
   }
-  
 
   #welcome {
     display: none;
@@ -346,6 +398,13 @@ div>.create-input{
     grid-row: 2 / span 1;
   }
 
+  #create-block {
+    min-width: 300px;
+  }
+
+  #admin-checkbox-container {
+    font-size: 1.2rem;
+  }
 
   #biz-name-block:before {
     width: 100%;

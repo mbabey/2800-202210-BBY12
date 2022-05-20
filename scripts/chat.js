@@ -10,7 +10,7 @@ socket.on('chat-message', data => {
   appendMessage(data);
 });
 
-messageForm.addEventListener('submit', e => {
+messageForm.addEventListener('click', e => {
   e.preventDefault();
   let message = messageInput.value;
   socket.emit('send-message', message);
@@ -19,6 +19,6 @@ messageForm.addEventListener('submit', e => {
 
 function appendMessage(message) {
   let messageElement = document.createElement('div');
-  messageElement.innerText = message;
+  messageElement.innerHTML += message;
   messageContainer.append(messageElement);
 }

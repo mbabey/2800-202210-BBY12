@@ -38,7 +38,7 @@ io.on('connect', socket => {
   socket.emit('chat-message', 'Chat up a collab!');
   socket.on('send-message', message => {
     console.log(message);
-    socket.broadcast.emit('chat-message', message);
+    socket.emit('chat-message', message);
   });
 });
 

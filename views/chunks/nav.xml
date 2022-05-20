@@ -42,7 +42,7 @@
       </svg>
       <span>Inbox</span>
     </a>
-    <a href="/profile" id="nav-profile" class="nav-button">
+    <a href="/profile?user=" id="nav-profile" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 28 28" width="32" height="32">
         <path fill="currentColor"
           d="M12,12A6,6,0,1,0,6,6,6.006,6.006,0,0,0,12,12ZM12,2A4,4,0,1,1,8,6,4,4,0,0,1,12,2Z" />

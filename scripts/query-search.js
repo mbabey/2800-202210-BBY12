@@ -42,6 +42,26 @@ module.exports = {
             users.push(user);
         }
         return users;
+    },
+
+    userPosts: async (search, con) => {
+        let posts = [], postIds;
+        await con.promise().query('SELECT username, postId FROM BBY_12_POST WHERE (username LIKE ?)',
+            [search])
+            .then((results) => {
+                postIds = results[0];
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        for (let i = 0; i < postIds.length; i++) {
+            let user = await getData(queryUser, con, postIds[i]['username']);
+            let post = await getData(queryPost, con, postIds[i]['username'], postIds[i]['postId']);
+            let imgs = await getData(queryImgs, con, postIds[i]['username'], postIds[i]['postId']);
+            let tags = await getData(queryTags, con, postIds[i]['username'], postIds[i]['postId']);
+            posts.push({ "user": user, "post": post, "imgs": imgs, "tags": tags });
+        }
+        return posts;
     }
 
 };

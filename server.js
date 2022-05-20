@@ -5,6 +5,7 @@
 
 const express = require('express');
 const session = require('express-session');
+const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
@@ -17,7 +18,7 @@ const storage = multer.diskStorage({
     cb(null, './uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+    cb(null, uuidv4() + "." + file.originalname.split('.')[file.originalname.split('.').length - 1]);
   }
 });
 const upload = multer({
@@ -207,6 +208,15 @@ app.route("/create-post")
     if (req.session.loggedIn && !req.fileValidtionError) {
       createPost.createPost(req, res, storage, con)
         .then((resolve) => {
+          if (req.files.length > 0) {
+            req.files.forEach(async image => {
+              let oldPath = image.path;
+              let newPath = "./views/images/" + image.filename;
+              fs.rename(oldPath, newPath, function (err) {
+                if (err) throw err;
+              });
+            });
+          }
           res.redirect('/home');
         })
         .catch((err) => {
@@ -478,11 +488,11 @@ app.post('/search-user', (req, res) => {
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
-app.get('/users/:id', (req, res) => {
+app.get('/users', (req, res) => {
   //need to redirect the page if the id doesn't exist
   if (req.session.loggedIn) {
-    if (req.session.username == req.params.id) {
-      res.redirect('/profile');
+    if (req.session.username == req.query.user) {
+      res.redirect('/profile?user=' + req.session.username);
     } else {
       let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
       res.send(otherProfile);
@@ -492,10 +502,12 @@ app.get('/users/:id', (req, res) => {
   }
 });
 
-app.get('/users/:id/get-other-user', (req, res) => {
+// USER GET USER
+app.get('/get-other-user', (req, res) => {
+  //req.query.user
   con.query(`SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic 
               FROM \`BBY_12_users\` 
-              WHERE (\`username\` = ?);`, [req.params.id], (error, results, fields) => {
+              WHERE (\`username\` = ?);`, [req.query.user], (error, results, fields) => {
     if (error) throw error;
     res.setHeader('content-type', 'application/json');
     res.send(results);
@@ -595,4 +607,10 @@ app.get('/get-session', (req, res) => {
   let session = req.session;
   res.setHeader('content-type', 'application/json');
   res.send({ session: session });
+});
+
+app.get('/get-user-posts', async (req, res) => {
+  let posts = await searchQueries.userPosts(req.query.user, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ posts: posts });
 });

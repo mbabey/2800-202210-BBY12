@@ -195,6 +195,7 @@ p {
   left: 25px;
   z-index: 1;
   width: 10px;
+  z-index: 1000;
 }
 
 #profile-buttons-toggle-menu input {
@@ -255,6 +256,7 @@ p {
   transform: translate(-100%, 0);
   transition: transform 1s;
   display: none;
+  z-index: 1000;
 }
 
 #profile-buttons-toggle-menu input:checked ~ ul {

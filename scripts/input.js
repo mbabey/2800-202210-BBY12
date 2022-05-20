@@ -28,7 +28,3 @@ function docLoaded(action) {
   
 // });
 
-// let visi_p_span = document.querySelector('#visibility-p');
-// visi_p_span.addEventListener("click", function() {
-//   console.log("123");
-// });

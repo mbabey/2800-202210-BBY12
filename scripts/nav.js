@@ -2,6 +2,7 @@
 
 docLoaded(() => {
   getData('/nav-and-footer', popNavAndFooter);
+  getData('/search-overlay', popSearchOverlay);
   getData('/get-user', popNavName);
   getData('/is-admin', (isAdmin) => {
     if (isAdmin.admin) {
@@ -35,6 +36,11 @@ function popNavAndFooter(navAndFooter) {
   document.querySelector('footer').innerHTML = navAndFooter.footer;
 }
 
+function popSearchOverlay(searchOverlay){
+  document.querySelector('footer').innerHTML += searchOverlay.overlay;
+  document.querySelector('footer #footer-search').addEventListener("click", openOverlay, false);
+}
+
 function popNavName(data) {
   document.querySelector('#profile-name').innerHTML = (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
 }
@@ -49,4 +55,17 @@ function addAdminStar() {
     "</svg> <span>Admin</span>";
 
   admin_button.innerHTML = content;
+}
+
+function openOverlay(){
+  document.getElementById("overlay").style.top = "0vh";
+}
+
+function closeOverlay() {
+  document.getElementById("overlay").style.top = "100vh";
+}
+function displayMenu() {
+  let menu = document.getElementById("edit-profile-menu");
+  menu.style.display = "block";
+  
 }

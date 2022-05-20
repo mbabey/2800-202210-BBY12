@@ -27,12 +27,14 @@ async function editPost(event) {
     enableEdit(post);
 }
 
+// SAVE EDIT POST AND SAVE CHANGES
 function savePost(event) {
     let post = event.target.parentNode.parentNode;
     disableEdit(post);
     let title = post.querySelector(".post-title").textContent;
     let desc = post.querySelector(".post-description").textContent;
     let tags = post.querySelector(".post-tags").textContent;
+    let gallery = post.querySelectorAll(".gallery .frame-delete img");
     let imgs = post.querySelector(".edit-image-upload");
 
     const formData = new FormData();
@@ -41,6 +43,11 @@ function savePost(event) {
     formData.append("input-title", title);
     formData.append("input-description", desc);
     formData.append("tag-field", tags);
+
+    for (let i = 0; i < gallery.length; i++) {
+        let img = gallery[i].src.toString().split('/')[gallery[i].src.toString().split('/').length -1]
+        formData.append("image-delete", img);
+    }
     for (let i = 0; i < imgs.files.length; i++) {
         formData.append("image-upload", imgs.files[i]);
     }
@@ -53,6 +60,7 @@ function savePost(event) {
     });
 }
 
+// CANCEL EDIT POST AND REVERT CHANGES
 async function cancelEdit(event) {
     let post = event.target.parentNode.parentNode;
     disableEdit(post);
@@ -62,7 +70,6 @@ async function cancelEdit(event) {
         });
         if (response.status == 200) {
             let data = await response.text();
-            console.log(JSON.parse(data));
             data = JSON.parse(data);
 
             let postText = data[0];
@@ -117,12 +124,29 @@ function enableEdit(post) {
     post.querySelector(".post-save-hide").setAttribute("class", "post-save");
     post.querySelector(".post-edit").setAttribute("class", "post-edit-hide");
 
+    let frames = post.querySelectorAll(".frame");
+    for(  let i = 0; i < frames.length; i++){
+        console.log(frames[i])
+        frames[i].innerHTML += `<button class="delete-image" id="delete-image">Delete Image</button>`;
+    }
+
+    let deleteImgs = post.querySelectorAll("#delete-image");
+    deleteImgs.forEach((target) => {
+        target.addEventListener("click", deleteImg, false);
+    });
+
     let fields = [post.querySelector(".post-title"), post.querySelector(".post-description"), post.querySelector(".post-tags")];
 
     for (let i = 0; i < fields.length; i++) {
         fields[i].setAttribute("contentEditable", "true");
         fields[i].style.border = "1px solid black";
     }
+
+
+}
+
+function deleteImg(event){
+    event.target.parentNode.setAttribute("class", "frame-delete")
 }
 
 function disableEdit(post) {
@@ -132,6 +156,13 @@ function disableEdit(post) {
     post.querySelector(".post-save").setAttribute("class", "post-save-hide");
     post.querySelector(".post-edit-hide").setAttribute("class", "post-edit");
 
+    post.querySelector(".edit-image-upload").value = "";
+
+    let deleteImgs = post.querySelectorAll("#delete-image");
+    deleteImgs.forEach((target) => {
+        target.remove();
+    });
+
     let fields = [post.querySelector(".post-title"), post.querySelector(".post-description"), post.querySelector(".post-tags")];
 
     for (let i = 0; i < fields.length; i++) {
@@ -139,6 +170,13 @@ function disableEdit(post) {
         fields[i].style.border = "none";
     }
 }
+
+// async function addLink(){
+//     let aTag = document.createElement("a");
+//     aTag.href = window.location.hostname + '/' + post.dataset.username;
+    
+// }
+
 
 function docLoaded(action) {
     if (document.readyState != 'loading')

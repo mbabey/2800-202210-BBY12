@@ -1,5 +1,38 @@
 .profile-header-wrapper {
-  background-color: var(--primary-light);
+  /* background-color: #67c093; */
+  background-color: var(--primary-med);
+  color: var(--light-yellow);
+  padding-bottom: 3%;
+}
+
+.profile-name > h2,
+.business-name-block > h3,
+.profile-contact > h3,
+.profile-location > h3 {
+  color: var(--gold);
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+#name-block,
+#lastname-block {
+  font-size: 1.1rem;
+}
+
+#name-block-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#name-block-container #lastname-block {
+  padding-left: 7px;
+}
+
+p {
+  padding-bottom: 5px;
+  padding-top: 5px;
+  font-weight: bolder;
+  font-size: 1.1rem;
 }
 
 .profile-header {
@@ -26,7 +59,7 @@
 .profile-header h3:after {
   content: "";
   display: block;
-  border-bottom: 3px solid var(--secondary-dark);
+  border-bottom: 3px solid var(--gold);
   width: 1rem;
 }
 
@@ -40,6 +73,7 @@
   text-align: right;
 }
 
+
 .profile-edit-buttons {
   position: absolute;
   top: 85px;
@@ -47,27 +81,40 @@
   z-index: 1;
 }
 
-.edit-profile,
-.edit-avatar {
-  background-color: var(--secondary-text);
-  border: 1px solid var(--secondary-light);
+.edit-profile {
+  background-color: var(--light-grey);
+  /* needs attention on the button colour*/
+  color: black;
+  /* var(--secondary); changed to black temporarily*/
+  border: 1px solid var(--light-grey);
   text-align: center;
-  width: 5rem;
-  padding: 10px 5px;
+  width: 8rem;
+  padding: 5%;
   margin: 5px;
   cursor: pointer;
   -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  font-weight: bolder;
+  border-radius: 10px;
 }
 
-.edit-profile:hover,
-.edit-avatar:hover {
+.edit-profile:hover {
   background-color: var(--secondary-dark);
 }
 
 .edit-profile a {
   margin: auto;
   text-decoration: none;
+  color: black;
+  font-weight: bolder;
+}
+
+.edit-profile a:hover {
+  color:white;
+}
+
+.edit-profile > form > label:hover {
+  color:white;
 }
 
 .profile-info {
@@ -75,6 +122,28 @@
   grid-column: 3 / span 1;
   grid-row: 1 / span 1;
 }
+
+.profile-info h3 {
+  color: var(--gold);
+} 
+
+/* Tooltips referenced from https://www.w3schools.com/css/css_tooltip.asp */
+.tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgba(0, 0, 0, 0.512);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover ~.tooltiptext {
+  visibility: visible;
+}
+/* End of tooltips */
 
 .profile-description {
   width: 50%;
@@ -118,7 +187,87 @@
   max-width: 700px;
 }
 
+/* Hamburger Menu referenced from https://codepen.io/erikterwan/pen/EVzeRP */
+#profile-buttons-toggle-menu {
+  display: block;
+  position: relative;
+  top: 25px;
+  left: 25px;
+  z-index: 1;
+  width: 10px;
+  z-index: 1000;
+}
+
+#profile-buttons-toggle-menu input {
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+  cursor: pointer;
+  opacity: 0; /* hide this */
+  z-index: 2; /* and place it over the hamburger */
+  -webkit-touch-callout: none;
+}
+
+#profile-buttons-toggle-menu span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+  background-color: var(--light-grey); /* Hamburger button color */
+  border-radius: 5px;
+  z-index: 1;
+  transform-origin: 4px 0px; /* Animation of the close button */
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
+
+#profile-buttons-toggle-menu span:first-child {
+  transform-origin: 0% 0%;
+}
+
+#profile-buttons-toggle-menu span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+#profile-buttons-toggle-menu input:checked ~ span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background-color: var(--light-grey); /* Close button color */
+}
+
+#profile-buttons-toggle-menu input:checked ~ span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+#profile-buttons-toggle-menu input:checked ~ span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+#edit-profile-menu {
+  position: absolute;
+  width: 300px;
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+  transition: transform 1s;
+  display: none;
+  z-index: 1000;
+}
+
+#profile-buttons-toggle-menu input:checked ~ ul {
+  transform: none;
+}
+/* End of hamburger menu */
+
 @media only screen and (min-width: 601px) and (max-width: 800px) {
+  .profile-header-wrapper {
+    padding: 20px;
+  }
 
   .edit-profile-container {
     display: flex;
@@ -149,11 +298,10 @@
     left: 0;
   }
 
-  .edit-profile,
-  .edit-avatar {
-    font-size: 0.8rem;
-    padding: 3px 2px;
-    margin: 3px;
+  .edit-profile {
+    font-size: 1rem;
+    padding: 15px 12px;
+    margin: 5px;
   }
 
   .profile-info {
@@ -186,6 +334,12 @@
 
   .post-block {
     width: 96%;
+  }
+  /* Hamburger Menu Styles */
+  #profile-buttons-toggle-menu {
+    top: 0;
+    left: 0;
+    width: 10px;
   }
 }
 
@@ -227,11 +381,10 @@
     right: 0;
   }
 
-  .edit-profile,
-  .edit-avatar {
-    padding: 2px 1px;
-    margin: 2px;
-    font-size: 0.7rem;
+  .edit-profile {
+    padding: 20px 15px;
+    margin: 5px;
+    font-size: 1rem;
   }
 
   .profile-info {
@@ -259,11 +412,19 @@
   .post-block {
     width: 96%;
   }
+
+  #profile-buttons-toggle-menu {
+    width: 10px;
+  }
 }
 
 @media only screen and (max-width: 330px) {
   .profile-picture-background {
     height: 180px;
     width: 180px;
+  }
+
+  #profile-buttons-toggle-menu {
+    width: 10px;
   }
 }

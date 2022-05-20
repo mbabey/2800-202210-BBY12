@@ -1,3 +1,5 @@
+'use strict';
+
 docLoaded(() => {
   document.querySelector('#login-submit').addEventListener('click', () => {
     let data = {
@@ -36,6 +38,7 @@ async function sendData(data) {
     });
     response = await response.text();
     response = JSON.parse(response);
+    console.log(response.status);
     if (response.status == 'success') {
       window.location.replace('/');
     } else if (response.status == 'egg') {

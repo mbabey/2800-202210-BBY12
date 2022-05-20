@@ -17,8 +17,10 @@
   </nav>
 
   <div class="container">
+    <header class="create-post-header">
+      <h3 id="create-post-title">Create Post</h3>
+    </header>
     <div class="content">
-      <h1>Create Post</h1>
       <form id="form-post" class="form-post" action="/create-post" method="post" enctype="multipart/form-data">
         <label>Post Title</label>
         <input id="input-title" name="input-title" placeholder="Add Title" required><br>
@@ -34,16 +36,17 @@
           <div id="gallery"></div>
         </div>
         <label>Description</label>
-        <textarea rows="10" name="input-description" placeholder="Add description" required></textarea><br>
+        <textarea rows="10" name="input-description"
+          placeholder="Add description for your business and promote to others for collaboration!"
+          required></textarea><br>
         <div class="tags">
           <input id="input-tag" name="input-tag" type="text" placeholder="Add tag">
           <button id="button-tag" type="button" onclick="writeTag()">Add tag</button>
           <textarea id="tag-field" name="tag-field" rows="4" readonly></textarea>
-
         </div>
         <div class="buttons">
-          <input type="button" value="Cancel">
-          <input type="submit" value="Publish Post">
+          <input type="button" value="Cancel" id="cancel-button">
+          <input type="submit" value="Publish Post" id="post-button">
         </div>
       </form>
     </div>

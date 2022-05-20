@@ -8,7 +8,6 @@ const session = require('express-session');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
-const crypto = require('crypto');
 const {
   JSDOM
 } = require('jsdom');
@@ -38,9 +37,14 @@ const upload = multer({
 const createAccount = require('./scripts/create-account');
 const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
+const deleteQueries = require('./scripts/query-delete');
+const loginQuery = require('./scripts/query-login');
+const updateQueries = require('./scripts/query-post');
+const searchQueries = require('./scripts/query-search');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
+const res = require('express/lib/response');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -109,40 +113,15 @@ app.route('/login')
       res.redirect('/');
     }
   })
-  .post((req, res,) => {
+  .post(async (req, res,) => {
     let user = req.body.username.trim();
     let pass = req.body.password;
     res.setHeader('content-type', 'application/json');
-    const hash = crypto.createHash('sha256').update(pass).digest('hex');
-    try {
-      con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], (err, results) => {
-        if (results && results.length > 0) {
-          login(req, user);
-          res.send({ status: 'success' });
-        } else if (user == 'ping' && pass == 'pong') {
-          res.send({ status: 'egg' });
-        } else {
-          res.send({ status: 'fail' });
-        }
-        if (err) throw err;
-      });
-    } catch (err) {
-      res.redirect('/');
-    }
-  });
 
-function login(req, user) {
-  req.session.loggedIn = true;
-  req.session.username = user;
-  req.session.admin = false;
-  con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], (err, results) => {
-    if (err) throw err;
-    if (results.length > 0) {
-      req.session.admin = true;
-    }
-    req.session.save();
+    let result = await loginQuery.login(req, user, pass, con);
+    req = result.request;
+    res.send({ status: result.status });
   });
-}
 
 // EGG
 app.get('/egg', (req, res) => {
@@ -208,7 +187,7 @@ app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
     let oldPath = req.file.path;
     let newPath = "./views/avatars/" + req.file.filename;
     fs.rename(oldPath, newPath, function (err) {
-      if (err) throw err
+      if (err) throw err;
     });
   }
   res.redirect("/profile");
@@ -499,11 +478,28 @@ app.post('/search-user', (req, res) => {
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
-app.get('/other-profile', function (req, res) {
+app.get('/users/:id', (req, res) => {
+  //need to redirect the page if the id doesn't exist
+  if (req.session.loggedIn) {
+    if (req.session.username == req.params.id) {
+      res.redirect('/profile');
+    } else {
+      let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
+      res.send(otherProfile);
+    }
+  } else {
+    res.redirect('/');
+  }
+});
 
+app.get('/users/:id/get-other-user', (req, res) => {
+  con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.params.id], (error, results, fields) => {
+    if (error) throw error;
+    res.setHeader('content-type', 'application/json');
+    res.send(results);
+  });
+});
 
-
-})
 //QUERY: ADMIN PROFILE SEARCH
 app.post('/search-admin', (req, res) => {
   con.query('SELECT * FROM BBY_12_admins WHERE username = ?', [req.body.username],
@@ -519,9 +515,7 @@ app.post('/search-admin', (req, res) => {
 });
 
 // QUERY: GET POST FROM ID AND USERNAME
-// WORKING: NOT USED
 app.get('/get-post/:username/:postId', async (req, res) => {
-  console.log(req.params);
   let postContent, postImgs, postTags;
   await con.promise().query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId])
     .then((results) => {
@@ -540,57 +534,63 @@ app.get('/get-post/:username/:postId', async (req, res) => {
 });
 
 // QUERY: UPDATE POST WITH GIVEN INFO
-app.post('/edit-post', upload.array('image-upload'), (req, res) => {
-  con.query('UPDATE BBY_12_POST SET postTitle = ?, content = ? WHERE (username = ?) AND (postId = ?)',
-    [req.body["input-title"], req.body["input-description"], req.body.username, req.body.postId],
-    (error) => {
-      //console.log(error);
-    });
-  con.query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
-    (error) => {
-      console.log(error);
-    });
-  let tags = req.body["tag-field"].split(/[\s#]/);
-  tags = tags.filter((item, pos) => {
-    return tags.indexOf(item) == pos;
-  });
-  tags.forEach(async tag => {
-    if (tag) {
-      await con.execute('INSERT INTO \`BBY_12_Post_Tag\`(username, postId, tag) values (?,?,?)', [req.body.username, req.body.postId, tag],
-        (err) => {
-          //console.log(err);
-        });
-    }
-    if (req.files.length > 0) {
-      req.files.forEach(async image => {
-        let oldPath = image.path;
-        let newPath = "./views/images/" + image.filename;
-        fs.rename(oldPath, newPath, function (err) {
-          if (err) throw err;
-        });
-        await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.body.username, req.body.postId, image.filename],
-          (err) => {
-            //console.log(err);
-          });
-      });
-    }
-  });
+app.post('/edit-post', upload.array('image-upload'), async (req, res) => {
+  await updateQueries.updatePost(req, con);
+  await deleteQueries.deleteTags(req, con);
+  await updateQueries.updateTags(req, con);
+  if (req.body["image-delete"]) {
+    await updateQueries.deleteImgs(req, con);
+  }
+  await updateQueries.updateImgs(req, con);
 });
 
 //QUERY: DELETE POST
-app.post('/delete-post', (req, res) => {
-  con.query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
-    (error) => {
-      console.log(error);
-    });
-  con.query('DELETE FROM BBY_12_POST_Img WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
-    (error) => {
-      console.log(error);
-    });
-
-  con.query('DELETE FROM BBY_12_POST WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId],
-    (error) => {
-      console.log(error);
-    });
+app.post('/delete-post', upload.none(), async (req, res) => {
+  await deleteQueries.deleteTags(req, con);
+  await deleteQueries.deleteImgs(req, con);
+  await deleteQueries.deletePost(req, con);
 });
 
+// SEARCH FOR POSTS
+app.get("/search", (req, res) => {
+  if (req.session.loggedIn) {
+    let searchPage = fs.readFileSync('./views/search.html', 'utf8');
+    res.send(searchPage);
+  } else {
+    res.redirect('/');
+  }
+});
+
+// MOBILE SEARCH OVERLAY 
+app.get('/search-overlay', (req, res) => {
+  let searchOverlayHTML = fs.readFileSync('./views/chunks/search-overlay.xml', 'utf8');
+  res.setHeader('content-type', 'application/json');
+  res.send({ overlay: searchOverlayHTML });
+});
+
+app.get('/get-template', (req, res) => {
+  let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
+  res.setHeader('content-type', 'application/json');
+  res.send({ dom: templates });
+});
+
+// QUERY GET USERS BY SEARCH TERM
+// TODO: COMBINE WITH GET-USER
+app.get('/get-filter-users', async (req, res) => {
+  let users = await searchQueries.searchUsers(req.query.search, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ users: users });
+});
+
+// QUERY GET POSTS BY SEARCH TERM
+app.get('/get-filter-posts', async (req, res) => {
+  let posts = await searchQueries.searchPosts(req.query.search, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ posts: posts });
+});
+
+app.get('/get-session', (req, res) => {
+  let session = req.session;
+  res.setHeader('content-type', 'application/json');
+  res.send({ session: session });
+});

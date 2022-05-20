@@ -17,6 +17,7 @@
   --secondary-text: #dff7ff;
   --border: #707070;
   --danger-red: #d32222;
+  --border-radius: 5px;
 }
 
 html,
@@ -166,11 +167,82 @@ footer {
 
   nav {
     height: 50px;
+    z-index: 100;
   }
 
   #nav-logo img {
     height: 50px;
     width: auto;
+  }
+
+  .overlay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 100vh;
+    left: 0;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow-y: hidden;
+    transition: 0.5s;
+  }
+
+  .overlay-search {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #bbb;
+    display: block;
+    transition: 0.3s;
+  }
+
+  .overlay a:hover,
+  .overlay a:focus {
+    color: #f1f1f1;
+  }
+
+  .overlay .closebtn {
+    position: absolute;
+    font-size: 40px;
+    top: 60px;
+    right: 35px;
+  }
+
+  .header-search,
+  .form-search {
+    position: relative;
+    top: 25%;
+    width: 80%;
+    padding: 0 0px 0 10px;
+    display: flex;
+    background-color: rgb(247, 247, 247);
+    border-radius: var(--border-radius);
+  }
+
+  .input-search{
+    width: 100%;
+    font-size: 1em;
+    border: none;
+    background-color: rgb(247, 247, 247);
+    outline: none;
+  }
+
+  .submit-search{
+    padding: 10px 5%;
+    border: none;
+    border-left: 2px solid rgb(240, 240, 240);
+    border-radius: var(--border-radius);
+    background-color: rgb(247, 247, 247);
   }
 
 
@@ -182,12 +254,14 @@ footer {
     height: 50px;
     bottom: 0;
     left: 0;
+    
   }
 
   #footer-wrapper {
     height: 100%;
     display: flex;
     flex-direction: row;
+    z-index: 100;
   }
 
   #footer-wrapper .nav-button {

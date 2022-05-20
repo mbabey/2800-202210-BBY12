@@ -91,6 +91,8 @@
 
 #link-bName:hover{
   text-decoration: none;
+}
+
 .post-edit {
   cursor: pointer;
 }
@@ -117,7 +119,4 @@
     width: 20%;
     height: auto;
   }
-
-  
-
 }

@@ -478,10 +478,10 @@ app.post('/search-user', (req, res) => {
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
-app.get('/users/:id', (req, res) => {
+app.get('/users', (req, res) => {
   //need to redirect the page if the id doesn't exist
   if (req.session.loggedIn) {
-    if (req.session.username == req.params.id) {
+    if (req.session.username == req.query.user) {
       res.redirect('/profile');
     } else {
       let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
@@ -492,10 +492,12 @@ app.get('/users/:id', (req, res) => {
   }
 });
 
-app.get('/users/:id/get-other-user', (req, res) => {
+// USER GET USER
+app.get('/get-other-user', (req, res) => {
+  //req.query.user
   con.query(`SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic 
               FROM \`BBY_12_users\` 
-              WHERE (\`username\` = ?);`, [req.params.id], (error, results, fields) => {
+              WHERE (\`username\` = ?);`, [req.query.user], (error, results, fields) => {
     if (error) throw error;
     res.setHeader('content-type', 'application/json');
     res.send(results);

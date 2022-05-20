@@ -1,8 +1,8 @@
 .profile-header-wrapper-other-user {
   background-color: var(--secondary-dark);
   color: var(--light-yellow);
-  padding-bottom: 3%;
   padding-top: 3%;
+  padding-bottom: 3%;
   cursor: default;
 }
 
@@ -51,6 +51,10 @@
     text-align: center;
     cursor: default;
   }
+  
+  .profile-header-wrapper-other-user {
+    padding-bottom: 0;
+  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -65,5 +69,9 @@
     color: var(--gold);
     text-align: center;
     cursor: default;
+  }
+
+  .profile-header-wrapper-other-user {
+    padding-bottom: 0;
   }
 }

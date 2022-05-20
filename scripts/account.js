@@ -28,6 +28,7 @@ docLoaded(() => {
     getData();
 
     function popThaSpots(data) {
+        document.querySelector("#profile-picture").src = "./avatars/" + data[0].profilePic;
         biz_name.innerHTML = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
         biz_owner_fName.innerHTML = (data[0].fName != undefined && data[0].fName != null) ? data[0].fName : '';
         biz_owner_lName.innerHTML = (data[0].lName != undefined && data[0].lName != null) ? data[0].lName : '';

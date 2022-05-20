@@ -32,6 +32,16 @@ const upload = multer({
     callback(null, true);
   }
 });
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+io.on('connect', socket => {
+  console.log('New user joined chat.');
+  socket.emit('chat-message', 'Chat up a collab!');
+  socket.on('send-message', message => {
+    console.log(message);
+    socket.emit('chat-message', message);
+  });
+});
 
 // ---------------- Custom Dependencies ----------------- \\
 
@@ -45,6 +55,8 @@ const searchQueries = require('./scripts/query-search');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
+const res = require('express/lib/response');
+const { Socket } = require('socket.io');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -67,7 +79,7 @@ app.use(session({
 let con;
 const isHeroku = process.env.IS_HEROKU || false;
 const port = process.env.PORT || 8000;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log('Gro-Operate running on ' + port);
   dbInitialize.dbInitialize(isHeroku)
     .then(() => {
@@ -308,6 +320,15 @@ app.route('/admin-add-account')
     }
   });
 
+// CHAT PAGE
+app.get('/chat', (req, res) => {
+  if (req.session.loggedIn) {
+    let chatPage = fs.readFileSync('./views/chat.html', 'utf8');
+    res.send(chatPage);
+  } else {
+    res.redirect('/');
+  }
+});
 
 // QUERY: GET ALL USERS' INFORMATION
 app.get('/get-all-users', (req, res) => {

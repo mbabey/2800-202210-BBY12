@@ -28,7 +28,7 @@ module.exports = {
 
 async function initLocalDB() {
     const con = await mysql.createConnection({
-        host: '127.0.0.1',
+        host: 'localhost',
         user: 'root',
         password: '',
         multipleStatements: true

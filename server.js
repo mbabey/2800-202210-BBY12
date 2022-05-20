@@ -482,7 +482,7 @@ app.get('/users', (req, res) => {
   //need to redirect the page if the id doesn't exist
   if (req.session.loggedIn) {
     if (req.session.username == req.query.user) {
-      res.redirect('/profile');
+      res.redirect('/profile?user=' +req.session.username);
     } else {
       let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
       res.send(otherProfile);
@@ -597,4 +597,10 @@ app.get('/get-session', (req, res) => {
   let session = req.session;
   res.setHeader('content-type', 'application/json');
   res.send({ session: session });
+});
+
+app.get('/get-user-posts', async (req, res) => {
+  let posts = await searchQueries.userPosts(req.query.user, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ posts: posts });
 });

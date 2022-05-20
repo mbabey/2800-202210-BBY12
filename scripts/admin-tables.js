@@ -6,7 +6,7 @@ docLoaded(() => {
   });
   getData('/get-all-users', (userData) => {
     populateUserCardData(userData);
-    initManipulation();
+    initUpdateListeners();
   });
   addUniversalListeners();
   searchUser();
@@ -97,12 +97,20 @@ function showSearchResults(searchData) {
 }
 
 let user = null; // Global variable to store name of user being manipulated by DOM.
+
+const lengthViewProfile = 13; // Length of 'view-profile '. Used for getting username from class name.
 const lengthDeleteUser = 12; // Length of 'delete-user '. Used for getting username from class name.
 const lengthRemoveAdmin = 13; // Length of 'remove-admin '. Used for getting username from class name.
 const lengthMakeAdmin = 11; // Length of 'make-admin '. Used for getting username from class name.
 
 function initCardEventListeners() {
   // Initialize event listeners for buttons in card options menu.
+  document.querySelectorAll(".view-profile").forEach((deleteButton) => {
+    deleteButton.addEventListener("click", (e) => {
+      user = e.target.className.slice(lengthViewProfile); // Get username out of class name
+      window.location.replace('/users/' + user);
+    });
+  });
   document.querySelectorAll(".delete-user").forEach((deleteButton) => {
     deleteButton.addEventListener("click", (e) => {
       user = e.target.className.slice(lengthDeleteUser); // Get username out of class name
@@ -126,7 +134,7 @@ function initCardEventListeners() {
   });
 }
 
-function initManipulation() {
+function initUpdateListeners() {
   initCardEventListeners();
   // Event listener to confirm user deletion.
   document.getElementById("popup-confirm-delete").addEventListener('click', () => {
@@ -298,7 +306,7 @@ function makeUserCard(userData) {
         </div>
       </div>
       <div class="user-card-options">
-        <button class="view-profile" type="button">View profile</button>
+        <button class="view-profile ${userData.rows[i].username}" type="button">View profile</button>
         <button class="delete-user ${userData.rows[i].username}" type="button">Delete User</button>
         <button class="edit-user" type="button">Edit User</button>`;
     if (isAdmin) // Add a 'Remove admin' button if the card belongs to an admin.

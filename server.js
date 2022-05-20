@@ -493,7 +493,9 @@ app.get('/users/:id', (req, res) => {
 });
 
 app.get('/users/:id/get-other-user', (req, res) => {
-  con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.params.id], (error, results, fields) => {
+  con.query(`SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic 
+              FROM \`BBY_12_users\` 
+              WHERE (\`username\` = ?);`, [req.params.id], (error, results, fields) => {
     if (error) throw error;
     res.setHeader('content-type', 'application/json');
     res.send(results);

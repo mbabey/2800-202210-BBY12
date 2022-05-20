@@ -5,6 +5,7 @@
 
 const express = require('express');
 const session = require('express-session');
+const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
@@ -17,7 +18,7 @@ const storage = multer.diskStorage({
     cb(null, './uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+    cb(null, uuidv4() + "." + file.originalname.split('.')[file.originalname.split('.').length - 1]);
   }
 });
 const upload = multer({
@@ -206,6 +207,15 @@ app.route("/create-post")
     if (req.session.loggedIn && !req.fileValidtionError) {
       createPost.createPost(req, res, storage, con)
         .then((resolve) => {
+          if (req.files.length > 0) {
+            req.files.forEach(async image => {
+              let oldPath = image.path;
+              let newPath = "./views/images/" + image.filename;
+              fs.rename(oldPath, newPath, function (err) {
+                if (err) throw err;
+              });
+            });
+          }
           res.redirect('/home');
         })
         .catch((err) => {

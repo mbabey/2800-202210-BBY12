@@ -7,8 +7,9 @@ docLoaded(() => {
 });
 
 function deletePost(event) {
-    let post = event.target.parentNode.parentNode;
+    let post = event.target.parentNode.parentNode.parentNode;
     const formData = new FormData();
+    console.log(post);
     formData.append("username", post.dataset.username);
     formData.append("postId", post.dataset.postId);
     fetch('/delete-post', {

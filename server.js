@@ -55,9 +55,6 @@ const searchQueries = require('./scripts/query-search');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
-const res = require('express/lib/response');
-const { Socket } = require('socket.io');
-const { profile } = require('console');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\

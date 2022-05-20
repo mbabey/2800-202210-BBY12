@@ -127,6 +127,7 @@ p {
   color: var(--gold);
 } 
 
+/* Tooltips referenced from https://www.w3schools.com/css/css_tooltip.asp */
 .tooltiptext {
   visibility: hidden;
   width: 120px;
@@ -142,8 +143,7 @@ p {
 .tooltip:hover ~.tooltiptext {
   visibility: visible;
 }
-
-
+/* End of tooltips */
 
 .profile-description {
   width: 50%;
@@ -260,6 +260,7 @@ p {
 #profile-buttons-toggle-menu input:checked ~ ul {
   transform: none;
 }
+/* End of hamburger menu */
 
 @media only screen and (min-width: 601px) and (max-width: 800px) {
   .profile-header-wrapper {

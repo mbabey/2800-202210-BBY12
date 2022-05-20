@@ -68,8 +68,8 @@ function renderPosts(posts) {
         clone.querySelector("#post-timestamp").textContent = post.timestamp.split(' ').slice(1).join(' ');
         clone.querySelector("#post-description").textContent = post.content;
         clone.querySelector("#post-title").textContent = post.postTitle;
-        clone.querySelector("#link-avatar").href = "/users/" + user.username;
-        clone.querySelector("#link-bName").href = "/users/" + user.username;
+        clone.querySelector("#link-avatar").href = "/users?user=" + user.username;
+        clone.querySelector("#link-bName").href = "/users?user=" + user.username;
 
 
         let pImgs = clone.querySelector(".gallery");

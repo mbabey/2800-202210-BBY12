@@ -317,15 +317,17 @@ app.route('/admin-edit-user')
     }
   })
   .post((req, res) => {
-    if (req.body.username) {
-      con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-        [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
-        function (error) {
-          if (error) throw error;
-          res.redirect('/admin-edit-user');
-        });
-    } else {
-      res.redirect('/admin-edit-user');
+    if (req.session.loggedIn && req.session.admin) {
+      if (req.body.username) {
+        con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
+          [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
+          function (error) {
+            if (error);
+            res.redirect('/admin-edit-user');
+          });
+      } else {
+        res.redirect('/admin-edit-user');
+      }
     }
   });
 

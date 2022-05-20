@@ -118,6 +118,12 @@ function initCardEventListeners() {
       document.getElementById("popup-delete").style.display = 'block';
     });
   });
+  document.querySelectorAll('.edit-user').forEach((editButton) => {
+    editButton.addEventListener('click', () => {
+      user = e.target.className.slice(lengthEditUser); // Get username out of class name
+      
+    });
+  });
   document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
     removeAdminButton.addEventListener('click', (e) => {
       user = e.target.className.slice(lengthRemoveAdmin); // Get username out of class name
@@ -308,7 +314,7 @@ function makeUserCard(userData) {
       <div class="user-card-options">
         <button class="view-profile ${userData.rows[i].username}" type="button">View profile</button>
         <button class="delete-user ${userData.rows[i].username}" type="button">Delete User</button>
-        <button class="edit-user" type="button">Edit User</button>`;
+        <button class="edit-user ${userData.rows[i].username}" type="button">Edit User</button>`;
     if (isAdmin) // Add a 'Remove admin' button if the card belongs to an admin.
       userCard += `<button class="remove-admin ${userData.rows[i].username}" type="button">Remove Admin</button>`;
     else // Otherwise, add a 'Make admin' button.

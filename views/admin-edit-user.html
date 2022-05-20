@@ -26,61 +26,52 @@
       <p>Edit a user account</p>
     </div>
     <div class="right-side">
-        <div id="edit-block">
-          <div id="search-user-block">
-            <p><b>Search user</b></p>
-            <input type="text" placeholder="Username" id="search-input" class="edit-input">
-            <button id="search-user" type="submit" value="submit">Search</button>
-            <p id="status"></p>
-            <p id="error-message"></p>
-          </div>
-          <p><b>Edit Account</b></p>
-          <form method="post">
-            <div id="admin-block" class="input-wrapper">
-              <!-- <label id="admin-checkbox-container">Make this user an administrator
-              <input name="isAdmin" type="checkbox">
-              <span id="admin-checkmark"></span>
-            </label> -->
-            </div>
-            <div id="username-block" class="input-wrapper">
-              <input name="username" type="text" placeholder="Username" class="edit-input" required>
-            </div>
-            <div id="email-block">
-              <input name="email" type="text" placeholder="Email" class="edit-input" required>
-            </div>
-            <div id="email-verify-block">
-              <input name="emailVerify" type="text" placeholder="Verify Email" class="edit-input">
-            </div>
-            <!-- <div id="password-block" class="input-wrapper">
-            <input id="password-input" name="password" type="password" placeholder="Change Password" class="edit-input">
-            <a id="password-a-tag" href="#password-pop-up">
-            </a>
-          </div> -->
-            <div id="biz-name-block" class="input-wrapper">
-              <input name="cName" type="text" placeholder="Business Name" class="edit-input">
-            </div>
-            <div id="biz-type-block" class="input-wrapper">
-              <input name="bType" type="text" placeholder="Business Type" class="edit-input">
-            </div>
-            <div id="phone-num-block" class="input-wrapper">
-              <input name="phoneNo" type="text" placeholder="Phone Number" class="edit-input">
-            </div>
-            <div id="first-name-block" class="input-wrapper">
-              <input name="fName" type="text" placeholder="First Name" class="edit-input">
-            </div>
-            <div id="last-name-block" class="input-wrapper">
-              <input name="lName" type="text" placeholder="Last Name" class="edit-input">
-            </div>
-            <div id="location-block" class="input-wrapper">
-              <input name="location" type="text" placeholder="Address" class="edit-input">
-            </div>
-            <textarea id="description-block" name="description" placeholder="Business description"></textarea>
-            <button class="edit-submit" id="edit-submit" type="submit" value="submit">Edit Account</button>
-          </form>
+      <div id="edit-block">
+        <div id="search-user-block">
+          <p><b>Search user</b></p>
+          <input type="text" placeholder="Username" id="search-input" class="edit-input">
+          <button id="search-user" type="submit" value="submit">Search</button>
+          <p id="status"></p>
+          <p id="error-message"></p>
         </div>
+        <p><b>Edit Account</b></p>
+        <form method="post">
+          <div id="admin-block" class="input-wrapper">
+          </div>
+          <div id="username-block" class="input-wrapper">
+            <input name="username" type="text" placeholder="Username" class="edit-input" required>
+          </div>
+          <div id="email-block">
+            <input name="email" type="text" placeholder="Email" class="edit-input" required>
+          </div>
+          <div id="email-verify-block">
+            <input name="emailVerify" type="text" placeholder="Verify Email" class="edit-input">
+          </div>
+          <div id="biz-name-block" class="input-wrapper">
+            <input name="cName" type="text" placeholder="Business Name" class="edit-input">
+          </div>
+          <div id="biz-type-block" class="input-wrapper">
+            <input name="bType" type="text" placeholder="Business Type" class="edit-input">
+          </div>
+          <div id="phone-num-block" class="input-wrapper">
+            <input name="phoneNo" type="text" placeholder="Phone Number" class="edit-input">
+          </div>
+          <div id="first-name-block" class="input-wrapper">
+            <input name="fName" type="text" placeholder="First Name" class="edit-input">
+          </div>
+          <div id="last-name-block" class="input-wrapper">
+            <input name="lName" type="text" placeholder="Last Name" class="edit-input">
+          </div>
+          <div id="location-block" class="input-wrapper">
+            <input name="location" type="text" placeholder="Address" class="edit-input">
+          </div>
+          <textarea id="description-block" name="description" placeholder="Business description"></textarea>
+          <button class="edit-submit" id="edit-submit" type="submit" value="submit">Edit Account</button>
+        </form>
       </div>
+    </div>
   </div>
-  
+
   <footer>
     <!-- Populated by nav.js -->
   </footer>

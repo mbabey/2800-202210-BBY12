@@ -3,10 +3,10 @@
 docLoaded(() => {
   getData('/get-all-admins', (adminData) => {
     createAdminArray(adminData);
-  });
-  getData('/get-all-users', (userData) => {
-    populateUserCardData(userData);
-    initUpdateListeners();
+    getData('/get-all-users', (userData) => {
+      populateUserCardData(userData);
+      initUpdateListeners();
+    });
   });
   addUniversalListeners();
   searchUser();

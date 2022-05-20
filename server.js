@@ -282,7 +282,7 @@ app.route('/admin-add-account')
     if (req.body.isAdmin) {
       createAccount.createAdmin(req, res, con)
         .then(() => {
-          res.redirect('/admin-dashboard');
+          res.redirect('/admin-manage-users');
         })
         .catch(() => {
           res.redirect('/admin-add-account');
@@ -290,7 +290,7 @@ app.route('/admin-add-account')
     } else {
       createAccount.createAccount(req, res, con)
         .then(() => {
-          res.redirect('/admin-dashboard');
+          res.redirect('/admin-manage-users');
         })
         .catch(() => {
           res.redirect('/admin-add-account');

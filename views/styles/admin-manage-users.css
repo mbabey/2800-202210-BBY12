@@ -225,7 +225,7 @@ h3 {
   grid-row: 1 / span 1;
   grid-column: 1 / span 1;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 5px;
   border: 1px solid var(--secondary-dark);
   padding: 2px;
   position: relative;
@@ -247,7 +247,7 @@ h3 {
 
 .user-card-username {
   font-weight: bolder;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   margin: auto 0;
 }
 

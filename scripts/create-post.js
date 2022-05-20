@@ -16,7 +16,6 @@ async function insertDB(req, con) {
         }).catch((err) => {
             console.log(err);
         });
-    console.log(postId);
     return new Promise(async (resolve, reject) => {
         if (req.body["input-title"] && (req.body["input-description"])) {
             await con.execute('INSERT INTO \`BBY_12_Post\` (username, postId, postTitle, timestamp, content) values (?,?,?,?,?)', [req.session.username, postId, req.body["input-title"], new Date().toISOString().slice(0, 19).replace('T', ' '), req.body["input-description"]],
@@ -35,7 +34,6 @@ async function insertDB(req, con) {
             tags = tags.filter((item, pos) => {
                 return tags.indexOf(item) == pos;
             });
-            console.log(tags);
             tags.forEach(async tag => {
                 if (tag) {
                     await con.execute('INSERT INTO \`BBY_12_Post_Tag\`(username, postId, tag) values (?,?,?)', [req.session.username, postId, tag],

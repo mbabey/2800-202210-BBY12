@@ -30,13 +30,11 @@ async function editPost(event) {
 // SAVE EDIT POST AND SAVE CHANGES
 function savePost(event) {
   let post = event.target.parentNode.parentNode.parentNode;
-  disableEdit(post);
   let title = post.querySelector(".post-title").textContent;
   let desc = post.querySelector(".post-description").textContent;
   let tags = post.querySelector(".post-tags").textContent;
   let gallery = post.querySelectorAll(".gallery .frame-delete img");
   let imgs = post.querySelector(".edit-image-upload");
-  console.log(imgs.files);
 
   const formData = new FormData();
   formData.append("username", post.dataset.username);
@@ -56,6 +54,8 @@ function savePost(event) {
   fetch('/edit-post', {
     method: 'POST',
     body: formData,
+  }).then(() => {
+    disableEdit(post);
   }).catch(error => {
     console.error('Error:', error);
   });
@@ -111,7 +111,6 @@ function addImage(event) {
   let imageHolder = event.target.parentNode.parentNode.parentNode;
   let preview = imageHolder.querySelector(".preview-gallery");
   let imgs = imageHolder.querySelector(".edit-image-upload");
-  console.log(imgs.files);
   preview.innerHTML = "";
   for (let i = 0; i < imgs.files.length; i++) {
     preview.innerHTML += `<div class="frame-preview"><img src="#" alt=""></div>`;
@@ -128,7 +127,6 @@ function enableEdit(post) {
 
   let frames = post.querySelectorAll(".frame");
   for (let i = 0; i < frames.length; i++) {
-    console.log(frames[i])
     frames[i].innerHTML += `<button class="delete-image" id="delete-image">Delete Image</button>`;
   }
 

@@ -44,11 +44,6 @@ module.exports = {
         //return new Promise(async (resolve, reject) => {
         if (req.files.length > 0) {
             req.files.forEach(async image => {
-                let oldPath = image.path;
-                let newPath = "./views/images/" + image.filename;
-                fs.rename(oldPath, newPath, function (err) {
-                    if (err) throw err;
-                });
                 await con.promise().query('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.body.username, req.body.postId, image.filename])
                     .catch((err) => {
                         console.log(err);

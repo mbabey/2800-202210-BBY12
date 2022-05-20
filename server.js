@@ -559,14 +559,24 @@ app.get('/get-post/:username/:postId', async (req, res) => {
 
 // QUERY: UPDATE POST WITH GIVEN INFO
 app.post('/edit-post', upload.array('image-upload'), async (req, res) => {
-  console.log(req.files);
   await updateQueries.updatePost(req, con);
   await deleteQueries.deleteTags(req, con);
   await updateQueries.updateTags(req, con);
   if (req.body["image-delete"]) {
     await updateQueries.deleteImgs(req, con);
   }
+  if (req.files.length > 0) {
+    req.files.forEach(async image => {
+      let oldPath = image.path;
+      let newPath = "./views/images/" + image.filename;
+      fs.rename(oldPath, newPath, function (err) {
+        if (err) throw err;
+      });
+    });
+  }
   await updateQueries.updateImgs(req, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ ayy: 'lmao' });
 });
 
 //QUERY: DELETE POST

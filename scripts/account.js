@@ -143,8 +143,6 @@ docLoaded(() => {
             location: biz_location_value,
             description: biz_description_value
         };
-
-        console.log(dataToSend);
         sendData(JSON.stringify(dataToSend));
         location.reload();
 

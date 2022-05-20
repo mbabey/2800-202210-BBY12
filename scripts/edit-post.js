@@ -111,6 +111,7 @@ function addImage(event) {
   let imageHolder = event.target.parentNode.parentNode.parentNode;
   let preview = imageHolder.querySelector(".preview-gallery");
   let imgs = imageHolder.querySelector(".edit-image-upload");
+  console.log(imgs.files);
   preview.innerHTML = "";
   for (let i = 0; i < imgs.files.length; i++) {
     preview.innerHTML += `<div class="frame-preview"><img src="#" alt=""></div>`;

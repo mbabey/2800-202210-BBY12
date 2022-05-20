@@ -538,6 +538,7 @@ app.get('/get-post/:username/:postId', async (req, res) => {
 
 // QUERY: UPDATE POST WITH GIVEN INFO
 app.post('/edit-post', upload.array('image-upload'), async (req, res) => {
+  console.log(req.files);
   await updateQueries.updatePost(req, con);
   await deleteQueries.deleteTags(req, con);
   await updateQueries.updateTags(req, con);

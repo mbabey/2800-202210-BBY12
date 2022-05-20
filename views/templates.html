@@ -1,57 +1,57 @@
 <template id="post-template">
-    <div class="post" id="post" data-postId="" data-username="">
-        <div class="post-header" id="post-header" >
-            <div class="post-user-avatar-background">
-                <a id="link-avatar">
-                    <img id="post-user-avatar" src="#" alt="Profile Picture">
-                </a>
-            </div>
-            <div class="post-info" id="post-info">
-                <a id="link-bName">
-                    <h3 class="post-business-name" id="post-business-name"></h3>
-                </a>
+  <div class="post" id="post" data-postId="" data-username="">
+    <div class="post-header" id="post-header">
+      <div class="post-user-avatar-background">
+        <a id="link-avatar">
+          <img id="post-user-avatar" src="#" alt="Profile Picture">
+        </a>
+      </div>
+      <div class="post-info" id="post-info">
+        <a id="link-bName">
+          <h3 class="post-business-name" id="post-business-name"></h3>
+        </a>
 
-                <span class="post-business-type" id="post-business-type"><small></small></span>
-                <span class="post-timestamp" id="post-timestamp"><small></small></span>
-            </div>
-        </div>
-        <div class="post-body" id="post-body">
-            <h1 id="post-title" class="post-title" contentEditable="false"></h1>
-            <div class="post-images" id="post-images">
-                <div class="gallery" id="gallery"></div>
-                <div class="preview-gallery" id="preview-gallery"></div>
-            </div>
-            <p class="post-description" id="post-description" contentEditable="false"></p>
-            <div class="post-footer" id="post-footer">
-                <div class="post-tags" contentEditable="false"></div>
-            </div>
-        </div>
+        <span class="post-business-type" id="post-business-type"><small></small></span>
+        <span class="post-timestamp" id="post-timestamp"><small></small></span>
+      </div>
     </div>
+    <div class="post-body" id="post-body">
+      <h1 id="post-title" class="post-title" contentEditable="false"></h1>
+      <div class="post-images" id="post-images">
+        <div class="gallery" id="gallery"></div>
+        <div class="preview-gallery" id="preview-gallery"></div>
+      </div>
+      <p class="post-description" id="post-description" contentEditable="false"></p>
+      <div class="post-footer" id="post-footer">
+        <div class="post-tags" contentEditable="false"></div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template id="image-template">
-    <div class="frame">
-        <img src="#" alt="">
-    </div>
+  <div class="frame">
+    <img src="#" alt="">
+  </div>
 </template>
 
 <template id="tag-template">
-    <a href="#"></a>
+  <a href="#"></a>
 </template>
 
 <template id="edit-template">
-    <a class="post-delete-hide" id="post-delete">Delete Post</a>
-    <a class="post-cancel-hide" id="post-cancel">Cancel</a>
-    <a class="post-edit" id="post-edit">Edit</a>
-    <a class="post-save-hide" id="post-save">Save</a>
+  <a class="post-delete-hide" id="post-delete">Delete Post</a>
+  <a class="post-cancel-hide" id="post-cancel">Cancel</a>
+  <a class="post-edit" id="post-edit">Edit</a>
+  <a class="post-save-hide" id="post-save">Save</a>
 </template>
 
 <template id="add-image-template">
-    <div class="add-image-hide">
-        <div id="drop-area">
-            <label>Upload Images</label>
-            <input type="file" class="edit-image-upload" id="edit-image-upload" name="image-upload" autocomplete="off"
-                multiple accept="image/*" autocomplete="off">
-        </div>
+  <div class="add-image-hide">
+    <div id="drop-area">
+      <label>Upload Images</label>
+      <input type="file" class="edit-image-upload" id="edit-image-upload" name="image-upload"
+        multiple accept="image/*">
     </div>
+  </div>
 </template>

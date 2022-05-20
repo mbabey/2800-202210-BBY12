@@ -9,7 +9,7 @@
   <link rel="stylesheet" type="text/css" href="./styles/profile.css">
   <link rel="stylesheet" type="text/css" href="./styles/post.css">
   <link rel="stylesheet" type="text/css" href="./styles/animation.css">
-  <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="./assets/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
@@ -29,14 +29,14 @@
         <span></span>
         <!--Buttons that appear after clicking-->
         <ul id="edit-profile-menu">
-          <div class="edit-profile">
+          <li class="edit-profile">
             <a id="edit-button">Edit Profile</a>
             <a id="save-button"></a>
-          </div>
-          <div class="edit-profile">
+          </li>
+          <li class="edit-profile">
             <a id="password-button" href="reset-password.html">Change Password</a>
-          </div>
-          <div class="edit-profile">
+          </li>
+          <li class="edit-profile">
             <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
               <label for="edit-avatar">
                 Edit Profile Picture
@@ -44,7 +44,7 @@
                   onchange="form.submit()">
               </label>
             </form>
-          </div>
+          </li>
         </ul>
       </div>
       <div class="profile-header">

@@ -63,27 +63,39 @@ function popUserData(userData) {
   let userCard = makeUserCard(userData);
   document.getElementById("user-list").innerHTML = userCard;
 }
+let user = null;
+const lengthDeleteUser = 12; // Length of 'delete-user '. Used for getting username from class name.
+const lengthRemoveAdmin = 13; // Length of 'remove-admin '. Used for getting username from class name.
+const lengthMakeAdmin = 11; // Length of 'make-admin '. Used for getting username from class name.
 
-function initDeletion() {
-  let user = null;
-  const lengthDeleteUser = 12; // Length of 'delete-user '. Used for getting username from class name.
-  const lengthRemoveAdmin = 13; // Length of 'remove-admin '. Used for getting username from class name.
-  
+function initEventListeners() {
+  // Initialize event listeners.
   document.querySelectorAll(".delete-user").forEach((deleteButton) => {
     deleteButton.addEventListener("click", (e) => {
-      user = e.target.className.slice(lengthDeleteUser);
+      user = e.target.className.slice(lengthDeleteUser); // Get username out of class name
       document.getElementById("popup-header-username").innerHTML = user;
       document.getElementById("popup-delete").style.display = 'block';
     });
   });
   document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
     removeAdminButton.addEventListener('click', (e) => {
-      user = e.target.className.slice(lengthRemoveAdmin);
+      user = e.target.className.slice(lengthRemoveAdmin); // Get username out of class name
       document.getElementById('popup-admin-header-username').innerHTML = user;
       document.getElementById('popup-admin-delete').style.display = 'block';
     });
   });
-  
+  document.querySelectorAll('.make-admin').forEach((makeAdminButton) => {
+    makeAdminButton.addEventListener('click', (e) => {
+      user = e.target.className.slice(lengthMakeAdmin); // Get username out of class name
+      document.getElementById('popup-make-admin-header-username').innerHTML = user;
+      document.getElementById('popup-make-admin').style.display = 'block';
+    });
+  });
+}
+
+function initDeletion() {
+
+  initEventListeners();
   // Event listener to confirm user deletion.
   document.getElementById("popup-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
@@ -95,71 +107,67 @@ function initDeletion() {
       document.getElementById("popup-okay").style.display = 'block';
       getData('/get-all-users', (userData) => {
         popUserData(userData);
-        document.querySelectorAll(".delete-user").forEach((deleteButton) => {
-          deleteButton.addEventListener("click", (e) => {
-            user = e.target.className.slice(lengthDeleteUser);
-            document.getElementById("popup-header-username").innerHTML = user;
-            document.getElementById("popup-delete").style.display = 'block';
-          });
-        });
-        document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
-          removeAdminButton.addEventListener('click', (e) => {
-            user = e.target.className.slice(lengthRemoveAdmin);
-            document.getElementById('popup-admin-header-username').innerHTML = user;
-            document.getElementById('popup-admin-delete').style.display = 'block';
-          });
-        });
+        initEventListeners();
       });
     });
   });
-  
+
   // Event listener to confirm admin removal.
   document.getElementById("popup-admin-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-admin-delete").style.display = 'none';
     let userInput = {
       username: user
     };
-    removeItemOnce(adminArray, user);
+    removeItemOnce(adminArray, user); // Remove user name from local list of admins.
     sendData(userInput, '/delete-admin', (response) => {
       handleRemoveAdminConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
       getData('/get-all-users', (userData) => {
         popUserData(userData);
-        document.querySelectorAll(".delete-user").forEach((deleteButton) => {
-          deleteButton.addEventListener("click", (e) => {
-            user = e.target.className.slice(lengthDeleteUser);
-            document.getElementById("popup-header-username").innerHTML = user;
-            document.getElementById("popup-delete").style.display = 'block';
-          });
-        });
-        document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
-          removeAdminButton.addEventListener('click', (e) => {
-            user = e.target.className.slice(lengthRemoveAdmin);
-            document.getElementById('popup-admin-header-username').innerHTML = user;
-            document.getElementById('popup-admin-delete').style.display = 'block';
-          });
-        });
+        initEventListeners();
+      });
+    });
+  });
+
+  // Event listener to confirm admin addition.
+  document.getElementById("popup-make-admin-confirm").addEventListener('click', () => {
+    document.getElementById("popup-make-admin").style.display = 'none';
+    let userInput = {
+      username: user
+    };
+    console.log(user);
+    sendData(userInput, '/make-admin', (response) => {
+      handleRemoveAdminConditions(response, user);
+      document.getElementById("popup-okay").style.display = 'block';
+      getData('/get-all-users', (userData) => {
+        popUserData(userData);
+        adminArray.push(user);
+        initEventListeners();
       });
     });
   });
 }
 
+// Function from https://stackoverflow.com/a/5767357
 function removeItemOnce(arr, value) {
   let index = arr.indexOf(value);
   if (index > -1) {
     arr.splice(index, 1);
   }
-  return arr;
 }
 
 function addUniversalListeners() {
-  // Event listener to close delete pop up
+  // Event listener to close delete user pop up
   document.getElementById("popup-negate-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
   });
   // Event listener to close admin remove pop up
   document.getElementById("popup-admin-negate-delete").addEventListener('click', () => {
     document.getElementById("popup-admin-delete").style.display = 'none';
+  });
+  // Event listener to close the make admin pop up
+  document.getElementById('popup-make-admin-negate').addEventListener('click', () => {
+    document.getElementById('popup-make-admin').style.display = 'none';
   });
   // Event listener to close the okay pop up
   document.getElementById("popup-okay-button").addEventListener('click', () => {
@@ -280,12 +288,10 @@ function makeUserCard(userData) {
         <button class="edit-user" type="button">Edit User</button>`;
     if (isAdmin)
       userCard += `<button class="remove-admin ${userData.rows[i].username}" type="button">Remove Admin</button>`;
+    else
+      userCard += `<button class="make-admin ${userData.rows[i].username}" type="button">Make Admin</button>`
     userCard += `</div></div>`;
   }
   userCard += "</div>";
   return userCard;
-}
-
-function refreshSearch() {
-  window.location.reload();
 }

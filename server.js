@@ -413,6 +413,16 @@ app.get('/get-admin', (req, res) => {
   }
 });
 
+// QUERY: UPGRADE USER ACCOUNT TO ADMIN ACCOUNT
+app.post('/make-admin', async (req, res) => {
+  if (req.session.loggedIn && req.session.admin) {
+    let [rows, fields] = await con.promise().query('INSERT INTO BBY_12_admins (username) VALUES (?);', [req.body.username]);
+    let newAdmin = (rows.affectedRows) ? true : false;
+    res.setHeader('Content-Type', 'application/json');
+    res.send({ adminCreated: newAdmin });
+  }
+});
+
 // QUERY: DELETE ADMIN
 app.post('/delete-admin', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {

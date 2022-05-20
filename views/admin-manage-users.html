@@ -45,28 +45,36 @@
     </div>
   </div>
 
-  <div id="popup-delete">
+  <div id="popup-delete" class="popup-confirm">
     <h2>Are you sure you want to delete <span id="popup-header-username"></span>?</h2>
     <div class="popup-button-wrapper">
-      <button id="popup-confirm-delete" class="popup-button">Yes, I am sure</button>
-      <button id="popup-negate-delete" class="popup-button">No</button>
+      <button id="popup-confirm-delete" class="popup-button warning">Yes, I am sure</button>
+      <button id="popup-negate-delete" class="popup-button neutral">No</button>
     </div>
   </div>
   
-  <div id="popup-admin-delete">
+  <div id="popup-admin-delete" class="popup-confirm">
     <h2>Are you sure you want to remove admin privileges for <span id="popup-admin-header-username"></span>?</h2>
     <div class="popup-button-wrapper">
-      <button id="popup-admin-confirm-delete" class="popup-button">Yes, I am sure</button>
-      <button id="popup-admin-negate-delete" class="popup-button">No</button>
+      <button id="popup-admin-confirm-delete" class="popup-button warning">Yes, I am sure</button>
+      <button id="popup-admin-negate-delete" class="popup-button neutral">No</button>
     </div>
   </div>
-
+  
+  <div id="popup-make-admin" class="popup-confirm">
+    <h2>Are you sure you want to give admin privileges to <span id="popup-make-admin-header-username"></span>?</h2>
+    <div class="popup-button-wrapper">
+      <button id="popup-make-admin-confirm" class="popup-button warning">Yes, I am sure</button>
+      <button id="popup-make-admin-negate" class="popup-button neutral">No</button>
+    </div>
+  </div>
+  
   <div id="popup-okay">
     <div id="user-error-message">
       <!-- Populated by admin-tables.js based on results of delete query -->
     </div>
     <div class="popup-button-wrapper">
-      <button id="popup-okay-button" class="popup-button">Okay</button>
+      <button id="popup-okay-button" class="popup-button neutral">Okay</button>
     </div>  
   </div>
 

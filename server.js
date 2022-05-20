@@ -57,6 +57,7 @@ const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
 const res = require('express/lib/response');
 const { Socket } = require('socket.io');
+const { profile } = require('console');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -170,6 +171,8 @@ app.get('/home', async (req, res) => {
       .catch((reject) => {
         console.log(reject);
       });
+    let [results] = await con.promise().query(`SELECT profilePic FROM BBY_12_users WHERE username = ?`, [req.session.username]);
+    homeDOM.window.document.querySelector('#profile-picture').src = './avatars/' + results[0].profilePic;
     homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
     homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
     homePage = homeDOM.serialize();

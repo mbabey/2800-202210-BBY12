@@ -35,7 +35,6 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
     let pAddImgTemplateContent = postTemp.getElementById("add-image-template").content;
 
     for (const post of posts) {
-        doc.querySelector("#profile-picture").src = "./avatars/" + post.profilePic;
         let postImages = await getImages(post.username, post.postId, con);
         let postTags = await getTags(post.username, post.postId, con);
 

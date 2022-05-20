@@ -1,18 +1,77 @@
 .profile-header-wrapper-other-user {
   background-color: var(--secondary-dark);
   color: var(--light-yellow);
-  padding-bottom: 3%;
   padding-top: 3%;
+  padding-bottom: 3%;
+  cursor: default;
 }
 
 .chat-button {
   position: fixed;
-  width: 60px;
-  height: 60px;
+  clip-path: circle(30% at center);
+  height: 80px;
   bottom: 40px;
-  right: 40px;
+  right: 10px;
   background-color: #6a8fb9;
   color: #FFF;
-  border-radius: 50px;
   text-align: center;
+  overflow: hidden;
+  width: 130px;
+}
+
+/* Color filter code generated thanks to https://codepen.io/sosuke/pen/Pjoqqp */
+.chat-button img {
+  width: 35%;
+  padding-top: 10%;
+  /* filter: invert(16%) sepia(37%) saturate(658%) hue-rotate(108deg) brightness(95%) contrast(92%); */
+  filter: invert(18%) sepia(31%) saturate(585%) hue-rotate(109deg) brightness(93%) contrast(96%);
+}  
+
+.chat-label {
+  position: fixed;
+  bottom: 25px;
+  right: 55px;
+  color: var(--secondary-dark);
+  text-align: center;
+  cursor: default;
+}
+
+@media only screen and (max-width: 800px) {
+  .chat-button {
+    bottom: 85px;
+    right: 10px;
+    background-color: #ddba0e;
+  }
+  
+  .chat-label {
+    position: fixed;
+    bottom: 65px;
+    right: 55px;
+    color: var(--gold);
+    text-align: center;
+    cursor: default;
+  }
+  
+  .profile-header-wrapper-other-user {
+    padding-bottom: 0;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .chat-button {
+    background-color: #ddba0e;
+  }
+
+  .chat-label {
+    position: fixed;
+    bottom: 65px;
+    right: 55px;
+    color: var(--gold);
+    text-align: center;
+    cursor: default;
+  }
+
+  .profile-header-wrapper-other-user {
+    padding-bottom: 0;
+  }
 }

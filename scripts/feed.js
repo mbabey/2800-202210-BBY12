@@ -3,10 +3,9 @@
 module.exports = {
     populateFeed: async (req, homeDOM, templateDOM, con) => {
         return new Promise(async (resolve, reject) => {
-            console.log("Populating Feed");
             let posts;
             await con.promise().query(
-                `SELECT users.profilePic, users.cName, users.bType, users.username, post.*
+                `SELECT users.profilePic, users.cName, users.bType, post.*
                 FROM \`BBY_12_post\` AS post
                 INNER JOIN \`BBY_12_users\` AS users ON (post.username = users.username)
                 ORDER BY post.timestamp DESC;`)
@@ -36,6 +35,7 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
     let pAddImgTemplateContent = postTemp.getElementById("add-image-template").content;
 
     for (const post of posts) {
+        doc.querySelector("#profile-picture").src = "./avatars/" + post.profilePic;
         let postImages = await getImages(post.username, post.postId, con);
         let postTags = await getTags(post.username, post.postId, con);
 
@@ -48,8 +48,8 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
         clone.querySelector("#post-timestamp").textContent = post.timestamp.toDateString().split(' ').slice(1).join(' ');
         clone.querySelector("#post-description").textContent = post.content;
         clone.querySelector("#post-title").textContent = post.postTitle;
-        clone.querySelector("#link-avatar").href = "/users/" + post.username;
-        clone.querySelector("#link-bName").href = "/users/" + post.username;
+        clone.querySelector("#link-avatar").href = "/users?" + new URLSearchParams({"user": post.username});
+        clone.querySelector("#link-bName").href = "/users?" + new URLSearchParams({"user": post.username});
 
 
         let pImgs = clone.querySelector(".gallery");

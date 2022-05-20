@@ -62,7 +62,7 @@ function savePost(event) {
 
 // CANCEL EDIT POST AND REVERT CHANGES
 async function cancelEdit(event) {
-    let post = event.target.parentNode.parentNode;
+    let post = event.target.parentNode.parentNode.parentNode;
     disableEdit(post);
     try {
         let response = await fetch('/get-post/' + post.dataset.username + '/' + post.dataset.postId, {

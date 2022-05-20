@@ -1,6 +1,6 @@
 <template id="post-template">
-    <div class="post" id="post">
-        <div class="post-header" id="post-header" data-postId="" data-username="">
+    <div class="post" id="post" data-postId="" data-username="">
+        <div class="post-header" id="post-header" >
             <div class="post-user-avatar-background">
                 <a id="link-avatar">
                     <img id="post-user-avatar" src="#" alt="Profile Picture">
@@ -15,14 +15,16 @@
                 <span class="post-timestamp" id="post-timestamp"><small></small></span>
             </div>
         </div>
-        <h1 id="post-title" class="post-title" contentEditable="false"></h1>
-        <div class="post-images" id="post-images">
-            <div class="gallery" id="gallery"></div>
-            <div class="preview-gallery" id="preview-gallery"></div>
-        </div>
-        <p class="post-description" id="post-description" contentEditable="false"></p>
-        <div class="post-footer" id="post-footer">
-            <div class="post-tags" contentEditable="false"></div>
+        <div class="post-body" id="post-body">
+            <h1 id="post-title" class="post-title" contentEditable="false"></h1>
+            <div class="post-images" id="post-images">
+                <div class="gallery" id="gallery"></div>
+                <div class="preview-gallery" id="preview-gallery"></div>
+            </div>
+            <p class="post-description" id="post-description" contentEditable="false"></p>
+            <div class="post-footer" id="post-footer">
+                <div class="post-tags" contentEditable="false"></div>
+            </div>
         </div>
     </div>
 </template>

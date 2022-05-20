@@ -24,16 +24,14 @@ async function insertDB(req, con) {
                     console.log(err);
                 });
             if (req.files.length > 0) {
-                console.log(req.files);
-                console.log("TIME TO UPLOAD IMAGES NERD");
                 req.files.forEach(async image => {
-                    await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.session.username, postId, image.originalname],
+                    await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.session.username, postId, image.filename],
                         (err) => {
                             console.log(err);
                         });
                 });
             }
-            let tags = req.body["tag-field"].split(/[\s#]/)
+            let tags = req.body["tag-field"].split(/[\s#]/);
             tags = tags.filter((item, pos) => {
                 return tags.indexOf(item) == pos;
             });

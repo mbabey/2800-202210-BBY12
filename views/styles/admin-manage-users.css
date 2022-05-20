@@ -418,6 +418,22 @@ h3 {
   text-align: center;
 }
 
+#popup-edit-block {
+  display: none;
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
+  border: 3px solid var(--secondary-dark);
+  border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  transform: translate(-50%, -50%);
+  /* display: flex; */
+  flex-direction: column; 
+}
+
 @media only screen and (max-width: 800px) {
   .container {
     grid-template-rows: 50px 1fr;

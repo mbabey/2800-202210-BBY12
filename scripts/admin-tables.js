@@ -202,7 +202,7 @@ function initUpdateListeners() {
     document.getElementById('popup-edit-block').style.display = 'none';
     let userInput = getEditUserFormInput();
     console.log('Form input stored prior to sending to server: ', userInput);
-    sendData(userInput, '/update-user', (response) => {
+    sendData(userInput, '/admin-edit-user', (response) => {
       console.log('Response from server after sending form input', response);
       handleEditUserConditions(response, user);
       document.getElementById('popup-okay').style.display = 'block';
@@ -215,7 +215,7 @@ function initUpdateListeners() {
 }
 
 function fillEditUserFormInputs() {
-  getData('/search-user', (response) => {
+  sendData({ username: user }, '/search-user', (response) => {
     console.log('Search user pop form response: '. response);
     if (response.status = 'success') {
       emailInput.value = response.rows[0].email;
@@ -237,11 +237,11 @@ function fillEditUserFormInputs() {
 
 function getEditUserFormInput() {
   let userInput = {
-    username: user, email: emailInput,
-    cName: companyNameInput, bType: bizTypeInput,
-    fName: firstNameInput, lName: lastNameInput,
-    phoneNo: phoneNumInput, location: locationInput,
-    description: descriptionInput
+    username: user, email: emailInput.value,
+    cName: companyNameInput.value, bType: bizTypeInput.value,
+    fName: firstNameInput.value, lName: lastNameInput.value,
+    phoneNo: phoneNumInput.value, location: locationInput.value,
+    description: descriptionInput.value
   }
   return userInput;
 }

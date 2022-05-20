@@ -351,15 +351,18 @@ app.get('/get-user', (req, res) => {
 
 // QUERY: UPDATE USER INFORMATION
 app.post('/update-user', (req, res) => {
-  con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
-    (error) => {
-      if (error) throw error;
-      res.setHeader('Content-Type', 'application/json');
-      res.send({
-        status: "Success",
-        msg: "User information updated."
+  if (req.session.loggedIn) {
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
+      [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
+      (error, results) => {
+        console.log(results);
+        res.setHeader('Content-Type', 'application/json');
+        if (error)
+          res.send({ status: 'fail' });
+        else
+          res.send({ status: "success" });
       });
-    });
+  }
 });
 
 // QUERY: GET ALL ADMINS
@@ -467,7 +470,7 @@ app.post('/delete-user', async (req, res) => {
 
 //QUERY: ADMIN EDIT USER PROFILE SEARCH
 app.post('/search-user', (req, res) => {
-  con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
+  con.query('SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePics FROM BBY_12_users WHERE username = ?', [req.body.username],
     function (error, results) {
       if (error) throw error;
       if (results.length > 0) {

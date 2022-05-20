@@ -98,10 +98,22 @@ function showSearchResults(searchData) {
 
 let user = null; // Global variable to store name of user being manipulated by DOM.
 
+let emailInput = document.querySelector('input[name=\'email\']');
+let emailVerifyInput = document.querySelector('input[name=\'emailVerify\']');
+let companyNameInput = document.querySelector('input[name=\'cName\']');
+let bizTypeInput = document.querySelector('input[name=\'bType\']');
+let firstNameInput = document.querySelector('input[name=\'fName\']');
+let lastNameInput = document.querySelector('input[name=\'lName\']');
+let phoneNumInput = document.querySelector('input[name=\'phoneNo\']');
+let locationInput = document.querySelector('input[name=\'location\']');
+let descriptionInput = document.querySelector('textarea[name=\'description\']');
+
 const lengthViewProfile = 13; // Length of 'view-profile '. Used for getting username from class name.
 const lengthDeleteUser = 12; // Length of 'delete-user '. Used for getting username from class name.
+const lengthEditUser = 10; // Length of 'edit-user '. Used for getting username from class name.
 const lengthRemoveAdmin = 13; // Length of 'remove-admin '. Used for getting username from class name.
 const lengthMakeAdmin = 11; // Length of 'make-admin '. Used for getting username from class name.
+
 
 function initCardEventListeners() {
   // Initialize event listeners for buttons in card options menu.
@@ -119,9 +131,10 @@ function initCardEventListeners() {
     });
   });
   document.querySelectorAll('.edit-user').forEach((editButton) => {
-    editButton.addEventListener('click', () => {
+    editButton.addEventListener('click', (e) => {
       user = e.target.className.slice(lengthEditUser); // Get username out of class name
-      
+      document.getElementById('popup-edit-block').style.display = 'block';
+      fillEditUserFormInputs();
     });
   });
   document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
@@ -185,6 +198,52 @@ function initUpdateListeners() {
       });
     });
   });
+  document.getElementById('edit-submit').addEventListener('click', () => {
+    document.getElementById('popup-edit-block').style.display = 'none';
+    let userInput = getEditUserFormInput();
+    console.log('Form input stored prior to sending to server: ', userInput);
+    sendData(userInput, '/update-user', (response) => {
+      console.log('Response from server after sending form input', response);
+      handleEditUserConditions(response, user);
+      document.getElementById('popup-okay').style.display = 'block';
+      getData('/get-all-users', (userData) => {
+        populateUserCardData(userData);
+        initCardEventListeners();
+      });
+    });
+  });
+}
+
+function fillEditUserFormInputs() {
+  getData('/search-user', (response) => {
+    console.log('Search user pop form response: '. response);
+    if (response.status = 'success') {
+      emailInput.value = response.rows[0].email;
+      emailVerifyInput.value = response.rows[0].email;
+      companyNameInput.value = response.rows[0].cName;
+      bizTypeInput.value = response.rows[0].bType;
+      firstNameInput.value = response.rows[0].fName;
+      lastNameInput.value = response.rows[0].lName;
+      phoneNumInput.value = response.rows[0].phoneNo;
+      locationInput.value = response.rows[0].location;
+      descriptionInput.value = response.rows[0].description;
+    } else {
+      document.getElementById('popup-edit-block').style.display = 'none';
+      document.querySelector('#query-response-message').innerHTML = 'Could not get information for ' + user +'.';
+      document.getElementById('popup-okay').style.display = 'block';
+    }   
+  });
+}
+
+function getEditUserFormInput() {
+  let userInput = {
+    username: user, email: emailInput,
+    cName: companyNameInput, bType: bizTypeInput,
+    fName: firstNameInput, lName: lastNameInput,
+    phoneNo: phoneNumInput, location: locationInput,
+    description: descriptionInput
+  }
+  return userInput;
 }
 
 function addUniversalListeners() {
@@ -273,6 +332,25 @@ function handleMakeAdminConditions(response, user) {
     message.innerHTML = user + ' was promoted to an administrator.';
   else
     message.innerHTML = user + ' could not be promoted to an administrator';
+}
+
+function handleEditUserConditions(response, user) {
+  emailInput.value = "";
+  emailVerifyInput.value = "";
+  companyNameInput.value = "";
+  bizTypeInput.value = "";
+  firstNameInput.value = "";
+  lastNameInput.value = "";
+  phoneNumInput.value = "";
+  locationInput.value = "";
+  descriptionInput.value = "";
+
+  let message = document.querySelector('#query-response-message');
+
+  if (response.status == 'success')
+    message.innerHTML = user + ' was successfully updated.';
+  else
+    message.innerHTML = user + ' could not be updated.';
 }
 
 function makeUserCard(userData) {

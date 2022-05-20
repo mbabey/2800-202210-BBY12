@@ -31,7 +31,6 @@
         <div id="admin-button-group">
           <a href="#" class="admin-button here">Manage Users</a>
           <a href="/admin-add-account" class="admin-button">Add User</a>
-          <a href="/reset-password" class="admin-button">Edit A Password</a>
         </div>
       </div>
     </div>
@@ -93,17 +92,19 @@
 
   <div id="popup-edit-block">
     <p><b>Edit Account</b></p>
-    <form method="post">
+    <form>
       <div id="admin-block" class="input-wrapper">
       </div>
       <div id="username-block" class="input-wrapper">
         <input name="username" type="text" placeholder="Username" class="edit-input" required>
       </div>
       <div id="email-block">
-        <input name="email" type="text" placeholder="Email" class="edit-input" required>
+        <input id="email-input" name="email" type="text" placeholder="Email" class="edit-input" required>
+        <label for="email-input">*<small>Required</small></label>
       </div>
       <div id="email-verify-block">
-        <input name="emailVerify" type="text" placeholder="Verify Email" class="edit-input">
+        <input id="email-verify-input" name="emailVerify" type="text" placeholder="Verify Email" class="edit-input">
+        <label for="email-verify-input">*<small>Required</small></label>
       </div>
       <div id="biz-name-block" class="input-wrapper">
         <input name="cName" type="text" placeholder="Business Name" class="edit-input">
@@ -124,7 +125,8 @@
         <input name="location" type="text" placeholder="Address" class="edit-input">
       </div>
       <textarea id="description-block" name="description" placeholder="Business description"></textarea>
-      <button class="edit-submit" id="edit-submit" type="submit" value="submit">Edit Account</button>
+      <a href="/reset-password" class="admin-button">Edit Password</a>
+      <button class="edit-submit" id="edit-submit" type="button">Save Changes</button>
     </form>
   </div>
 

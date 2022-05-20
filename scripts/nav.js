@@ -67,5 +67,4 @@ function closeOverlay() {
 function displayMenu() {
   let menu = document.getElementById("edit-profile-menu");
   menu.style.display = "block";
-  
 }

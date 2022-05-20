@@ -489,36 +489,36 @@ app.post('/delete-user', async (req, res) => {
 
 //QUERY: ADMIN EDIT USER PROFILE SEARCH
 app.post('/search-user', (req, res) => {
-    con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
-      function (error, results) {
-        if (error) throw error;
-        if (results.length > 0) {
-          res.setHeader('content-type', 'application/json');
-           res.send({ status: 'success', rows: results });
-        } else {
-          res.send({ status: "fail", msg: "Search Fail" });
-        }
-      });
+  con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
+    function (error, results) {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: 'success', rows: results });
+      } else {
+        res.send({ status: "fail", msg: "Search Fail" });
+      }
+    });
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
-app.get('/other-profile', function (req, res){
-  
-  
-  
+app.get('/other-profile', function (req, res) {
+
+
+
 })
 //QUERY: ADMIN PROFILE SEARCH
 app.post('/search-admin', (req, res) => {
   con.query('SELECT * FROM BBY_12_admins WHERE username = ?', [req.body.username],
-  function (error, results) {
-    if (error) throw error;
-    if (results.length > 0) {
-      res.setHeader('content-type', 'application/json');
-       res.send({ status: 'success', rows: results });
-    } else {
-      res.send({ status: "fail", msg: "Search Fail" });
-    }
-  });
+    function (error, results) {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: 'success', rows: results });
+      } else {
+        res.send({ status: "fail", msg: "Search Fail" });
+      }
+    });
 });
 
 // QUERY: GET POST FROM ID AND USERNAME
@@ -531,13 +531,13 @@ app.get('/get-post/:username/:postId', async (req, res) => {
       postContent = results[0];
     }).catch((err) => console.log(err));
 
-  await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId]) 
-  .then((results) => postImgs = results[0])
-  .catch((err) => console.log(err));
+  await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
+    .then((results) => postImgs = results[0])
+    .catch((err) => console.log(err));
 
   await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
-  .then((results) => postTags = results[0])
-  .catch((err) => console.log(err));
+    .then((results) => postTags = results[0])
+    .catch((err) => console.log(err));
   res.setHeader('content-type', 'application/json');
   res.send([postContent, postImgs, postTags]);
 });

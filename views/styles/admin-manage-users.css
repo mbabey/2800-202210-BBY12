@@ -237,11 +237,15 @@ h3 {
   flex-direction: column;
 }
 
+.popup-confirm h2 {
+  margin: 1rem;
+}
+
 .popup-button-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  margin-bottom: 19.920px;
+  margin-bottom: 1rem;
 }
 
 .popup-button {
@@ -290,8 +294,8 @@ h3 {
   flex-direction: column;
 }
 
-#user-error-message {
-  margin-top: 19.920px;
+#query-response-message {
+  margin: 1rem 0;
   text-align: center;
 }
 

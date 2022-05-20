@@ -2,10 +2,10 @@
 
 docLoaded(() => {
   getData('/get-all-admins', (adminData) => {
-    getAdmins(adminData);
+    createAdminArray(adminData);
   });
   getData('/get-all-users', (userData) => {
-    popUserData(userData);
+    populateUserCardData(userData);
     initDeletion();
   });
   addUniversalListeners();
@@ -52,23 +52,24 @@ async function getData(path, callback) {
 
 const adminArray = [];
 
-function getAdmins(adminData) {
+function createAdminArray(adminData) {
   for (let i = 0; i < adminData.rows.length; i++) {
     adminArray.push(adminData.rows[i].username);
   }
 }
 
-function popUserData(userData) {
+function populateUserCardData(userData) {
   // USER CARD CREATED HERE
   let userCard = makeUserCard(userData);
   document.getElementById("user-list").innerHTML = userCard;
 }
-let user = null;
+
+let user = null; // Global variable to store name of user being manipulated by DOM.
 const lengthDeleteUser = 12; // Length of 'delete-user '. Used for getting username from class name.
 const lengthRemoveAdmin = 13; // Length of 'remove-admin '. Used for getting username from class name.
 const lengthMakeAdmin = 11; // Length of 'make-admin '. Used for getting username from class name.
 
-function initEventListeners() {
+function initCardEventListeners() {
   // Initialize event listeners.
   document.querySelectorAll(".delete-user").forEach((deleteButton) => {
     deleteButton.addEventListener("click", (e) => {
@@ -95,7 +96,7 @@ function initEventListeners() {
 
 function initDeletion() {
 
-  initEventListeners();
+  initCardEventListeners();
   // Event listener to confirm user deletion.
   document.getElementById("popup-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
@@ -106,8 +107,8 @@ function initDeletion() {
       handleDeleteConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
       getData('/get-all-users', (userData) => {
-        popUserData(userData);
-        initEventListeners();
+        populateUserCardData(userData);
+        initCardEventListeners();
       });
     });
   });
@@ -118,13 +119,12 @@ function initDeletion() {
     let userInput = {
       username: user
     };
-    removeItemOnce(adminArray, user); // Remove user name from local list of admins.
     sendData(userInput, '/delete-admin', (response) => {
       handleRemoveAdminConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
       getData('/get-all-users', (userData) => {
-        popUserData(userData);
-        initEventListeners();
+        populateUserCardData(userData);
+        initCardEventListeners();
       });
     });
   });
@@ -137,45 +137,42 @@ function initDeletion() {
     };
     console.log(user);
     sendData(userInput, '/make-admin', (response) => {
-      handleRemoveAdminConditions(response, user);
+      handleMakeAdminConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
       getData('/get-all-users', (userData) => {
-        popUserData(userData);
         adminArray.push(user);
-        initEventListeners();
+        populateUserCardData(userData);
+        initCardEventListeners();
       });
     });
   });
-}
-
-// Function from https://stackoverflow.com/a/5767357
-function removeItemOnce(arr, value) {
-  let index = arr.indexOf(value);
-  if (index > -1) {
-    arr.splice(index, 1);
-  }
 }
 
 function addUniversalListeners() {
   // Event listener to close delete user pop up
   document.getElementById("popup-negate-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
+    user = null;
   });
   // Event listener to close admin remove pop up
   document.getElementById("popup-admin-negate-delete").addEventListener('click', () => {
     document.getElementById("popup-admin-delete").style.display = 'none';
+    user = null;
   });
   // Event listener to close the make admin pop up
   document.getElementById('popup-make-admin-negate').addEventListener('click', () => {
     document.getElementById('popup-make-admin').style.display = 'none';
+    user = null;
   });
   // Event listener to close the okay pop up
   document.getElementById("popup-okay-button").addEventListener('click', () => {
     document.getElementById("popup-okay").style.display = 'none';
+    user = null;
   });
 }
 
 function handleDeleteConditions(response, user) {
+  console.log('Delete user response: ', response);
   // I don't know why I need to do it this way but it doesn't work when I bare back the conditionals.
   let adminDeleted = response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
   let userDeleted = !response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
@@ -184,7 +181,7 @@ function handleDeleteConditions(response, user) {
   let notExists = !response.adminX && !response.userX && !response.finalAdmin && !response.finalUser;
   let isSelf = response.adminX && response.userX && response.finalAdmin && response.finalUser;
 
-  let message = document.querySelector('#user-error-message');
+  let message = document.querySelector('#query-response-message');
 
   if (adminDeleted)
     message.innerHTML = 'Administrator ' + user + ' deleted.';
@@ -203,16 +200,18 @@ function handleDeleteConditions(response, user) {
 }
 
 function handleRemoveAdminConditions(response, user) {
+  console.log('Remove admin response: ', response);
   let adminDeleted = response.adminX && !response.finalAdmin;
   let lastAdmin = !response.adminX && response.finalAdmin;
   let isSelf = response.adminX && response.finalAdmin;
   let notExists = !response.adminX && !response.finalAdmin;
 
-  let message = document.querySelector('#user-error-message');
+  let message = document.querySelector('#query-response-message');
 
-  if (adminDeleted)
+  if (adminDeleted) {
+    removeItemOnce(adminArray, user); // Remove user name from local list of admins.
     message.innerHTML = 'Administrator privileges revoked for ' + user + '.';
-  else if (lastAdmin)
+  } else if (lastAdmin)
     message.innerHTML = 'Administrator ' + user + ' could not have their privileges revoked; ' + user + ' is the only administrator.';
   else if (isSelf)
     message.innerHTML = 'Cannot revoke your own admin privileges.';
@@ -220,6 +219,25 @@ function handleRemoveAdminConditions(response, user) {
     message.innerHTML = 'Administrator ' + user + ' not found.';
   else
     message.innerHTML = 'Administrator ' + user + ' could not have their privileges revoked.';
+}
+
+// Function from https://stackoverflow.com/a/5767357
+function removeItemOnce(arr, value) {
+  let index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+}
+
+function handleMakeAdminConditions(response, user) {
+  console.log('Make admin response: ', response);
+
+  let message = document.querySelector('#query-response-message');
+
+  if (response.adminCreated)
+    message.innerHTML = user + ' was promoted to an administrator.';
+  else
+    message.innerHTML = user + ' could not be promoted to an administrator'; 
 }
 
 function searchUser() {
@@ -232,7 +250,7 @@ function searchUser() {
       sendData(userSearchInputData, '/search-user', showSearchResults);
     } else {
       getData('/get-all-users', (userData) => {
-        popUserData(userData);
+        populateUserCardData(userData);
         addEventListeners();
       });
     }

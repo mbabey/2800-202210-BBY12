@@ -2,6 +2,7 @@
 
 module.exports = {
     deleteTags: async (req, con) => {
+        console.log(req.body.username, req.body.postId);
         await con.promise().query('DELETE FROM BBY_12_POST_Tag WHERE (username = ?) AND (postId = ?)', [req.body.username, req.body.postId])
             .catch((err) => console.log(err));
     },

@@ -11,7 +11,7 @@ docLoaded(() => {
 
     async function sendName() {
         try {
-            let response = await fetch(window.location.pathname +'/get-other-user', {
+            let response = await fetch('/get-other-user?' + new URLSearchParams(window.location.search), {
                 method: 'GET',
             });
             if (response.status == 200) {

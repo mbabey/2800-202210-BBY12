@@ -5,6 +5,7 @@
 
 const express = require('express');
 const session = require('express-session');
+const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
@@ -17,7 +18,7 @@ const storage = multer.diskStorage({
     cb(null, './uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+    cb(null, uuidv4() + "." + file.originalname.split('.')[file.originalname.split('.').length - 1]);
   }
 });
 const upload = multer({
@@ -98,7 +99,7 @@ server.listen(port, () => {
 app.get('/', (req, res) => {
   if (req.session.loggedIn) {
     if (req.session.admin)
-      res.redirect('/admin-dashboard');
+      res.redirect('/admin-manage-users');
     else
       res.redirect('/home');
   } else {
@@ -218,10 +219,18 @@ app.route("/create-post")
     if (req.session.loggedIn && !req.fileValidtionError) {
       createPost.createPost(req, res, storage, con)
         .then((resolve) => {
+          if (req.files.length > 0) {
+            req.files.forEach(async image => {
+              let oldPath = image.path;
+              let newPath = "./views/images/" + image.filename;
+              fs.rename(oldPath, newPath, function (err) {
+                if (err) throw err;
+              });
+            });
+          }
           res.redirect('/home');
         })
         .catch((err) => {
-          console.log(err);
           res.redirect('back');
         });
     } else {
@@ -253,31 +262,25 @@ app.route('/create-account')
 // RESET PASSWORD
 app.route("/reset-password")
   .get((req, res) => {
-    let resetPasswordPage = fs.readFileSync('./views/reset-password.html', 'utf8');
-    res.send(resetPasswordPage);
+    if (req.session.loggedIn) {
+      let resetPasswordPage = fs.readFileSync('./views/reset-password.html', 'utf8');
+      res.send(resetPasswordPage);
+    }
   })
   .post((req, res) => {
-    resetPassword.resetPassword(req, res, con)
-      .then(() => {
-        res.redirect("/");
-      })
-      .catch((err) => {
-        res.redirect("/reset-password");
-      });
-    //Add some token for reset confirmation
+    if (req.session.loggedIn) {
+      resetPassword.resetPassword(req, res, con)
+        .then(() => {
+          res.redirect("/");
+        })
+        .catch((err) => {
+          res.redirect("/reset-password");
+        });
+      //Add some token for reset confirmation
+    }
   });
 
-// ADMIN DASHBOARD
-app.get('/admin-dashboard', (req, res) => {
-  if (req.session.loggedIn && req.session.admin) {
-    let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
-    res.send(adminDashPage);
-  } else {
-    res.redirect('/');
-  }
-});
-
-// ADMIN VIEW ACCOUNTS
+// ADMIN MANAGE USERS
 app.get('/admin-manage-users', (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
     let adminManageAcc = fs.readFileSync('./views/admin-manage-users.html', 'utf8');
@@ -301,7 +304,7 @@ app.route('/admin-add-account')
     if (req.body.isAdmin) {
       createAccount.createAdmin(req, res, con)
         .then(() => {
-          res.redirect('/admin-dashboard');
+          res.redirect('/admin-manage-users');
         })
         .catch(() => {
           res.redirect('/admin-add-account');
@@ -309,34 +312,11 @@ app.route('/admin-add-account')
     } else {
       createAccount.createAccount(req, res, con)
         .then(() => {
-          res.redirect('/admin-dashboard');
+          res.redirect('/admin-manage-users');
         })
         .catch(() => {
           res.redirect('/admin-add-account');
         });
-    }
-  });
-
-// ADMIN EDIT USER PAGE
-app.route('/admin-edit-user')
-  .get((req, res) => {
-    if (req.session.loggedIn && req.session.admin) {
-      let profilePage = fs.readFileSync('./views/admin-edit-user.html', 'utf8');
-      res.send(profilePage);
-    } else {
-      res.redirect('/');
-    }
-  })
-  .post((req, res) => {
-    if (req.body.username) {
-      con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-        [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
-        function (error) {
-          if (error) throw error;
-          res.redirect('/admin-edit-user');
-        });
-    } else {
-      res.redirect('/admin-edit-user');
     }
   });
 
@@ -370,15 +350,32 @@ app.get('/get-user', (req, res) => {
 
 // QUERY: UPDATE USER INFORMATION
 app.post('/update-user', (req, res) => {
-  con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
-    (error) => {
-      if (error) throw error;
-      res.setHeader('Content-Type', 'application/json');
-      res.send({
-        status: "Success",
-        msg: "User information updated."
+  if (req.session.loggedIn) {
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
+      [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
+      (error, results) => {
+        res.setHeader('Content-Type', 'application/json');
+        if (error) {
+          res.send({ status: 'fail' });
+        } else
+          res.send({ status: "success" });
       });
-    });
+  }
+});
+
+// QUERY: UPDATE USER INFORMATION AS ADMIN
+app.post('/admin-edit-user', (req, res) => {
+  if (req.session.loggedIn && req.session.admin) {
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
+      [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
+      (error, results) => {
+        res.setHeader('Content-Type', 'application/json');
+        if (error) {
+          res.send({ status: 'fail' });
+        } else
+          res.send({ status: "success" });
+      });
+  }
 });
 
 // QUERY: GET ALL ADMINS
@@ -486,9 +483,10 @@ app.post('/delete-user', async (req, res) => {
 
 //QUERY: ADMIN EDIT USER PROFILE SEARCH
 app.post('/search-user', (req, res) => {
-  con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
+  con.query('SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic FROM BBY_12_users WHERE username = ?', [req.body.username],
     function (error, results) {
-      if (error) throw error;
+      if (error)
+        console.log(error);
       if (results.length > 0) {
         res.setHeader('content-type', 'application/json');
         res.send({ status: 'success', rows: results });
@@ -499,11 +497,12 @@ app.post('/search-user', (req, res) => {
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
-app.get('/users/:id', (req, res) => {
+// Other user URL in the form './profile?user=[username]'
+app.get('/users', (req, res) => {
   //need to redirect the page if the id doesn't exist
   if (req.session.loggedIn) {
-    if (req.session.username == req.params.id) {
-      res.redirect('/profile');
+    if (req.session.username == req.query.user) {
+      res.redirect('/profile?user=' + req.session.username);
     } else {
       let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
       res.send(otherProfile);
@@ -513,10 +512,12 @@ app.get('/users/:id', (req, res) => {
   }
 });
 
-app.get('/users/:id/get-other-user', (req, res) => {
+// USER GET USER
+app.get('/get-other-user', (req, res) => {
+  //req.query.user
   con.query(`SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic 
               FROM \`BBY_12_users\` 
-              WHERE (\`username\` = ?);`, [req.params.id], (error, results, fields) => {
+              WHERE (\`username\` = ?);`, [req.query.user], (error, results, fields) => {
     if (error) throw error;
     res.setHeader('content-type', 'application/json');
     res.send(results);
@@ -618,3 +619,8 @@ app.get('/get-session', (req, res) => {
   res.send({ session: session });
 });
 
+app.get('/get-user-posts', async (req, res) => {
+  let posts = await searchQueries.userPosts(req.query.user, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ posts: posts });
+});

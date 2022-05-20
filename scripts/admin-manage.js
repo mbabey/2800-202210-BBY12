@@ -3,10 +3,10 @@
 docLoaded(() => {
   getData('/get-all-admins', (adminData) => {
     createAdminArray(adminData);
-  });
-  getData('/get-all-users', (userData) => {
-    populateUserCardData(userData);
-    initUpdateListeners();
+    getData('/get-all-users', (userData) => {
+      populateUserCardData(userData);
+      initUpdateListeners();
+    });
   });
   addUniversalListeners();
   searchUser();
@@ -98,17 +98,29 @@ function showSearchResults(searchData) {
 
 let user = null; // Global variable to store name of user being manipulated by DOM.
 
+const emailInput = document.querySelector('input[name=\'email\']');
+const emailVerifyInput = document.querySelector('input[name=\'emailVerify\']');
+const companyNameInput = document.querySelector('input[name=\'cName\']');
+const bizTypeInput = document.querySelector('input[name=\'bType\']');
+const firstNameInput = document.querySelector('input[name=\'fName\']');
+const lastNameInput = document.querySelector('input[name=\'lName\']');
+const phoneNumInput = document.querySelector('input[name=\'phoneNo\']');
+const locationInput = document.querySelector('input[name=\'location\']');
+const descriptionInput = document.querySelector('textarea[name=\'description\']');
+
 const lengthViewProfile = 13; // Length of 'view-profile '. Used for getting username from class name.
 const lengthDeleteUser = 12; // Length of 'delete-user '. Used for getting username from class name.
+const lengthEditUser = 10; // Length of 'edit-user '. Used for getting username from class name.
 const lengthRemoveAdmin = 13; // Length of 'remove-admin '. Used for getting username from class name.
 const lengthMakeAdmin = 11; // Length of 'make-admin '. Used for getting username from class name.
+
 
 function initCardEventListeners() {
   // Initialize event listeners for buttons in card options menu.
   document.querySelectorAll(".view-profile").forEach((deleteButton) => {
     deleteButton.addEventListener("click", (e) => {
       user = e.target.className.slice(lengthViewProfile); // Get username out of class name
-      window.location.replace('/users/' + user);
+      window.location.replace('/users?user=' + user);
     });
   });
   document.querySelectorAll(".delete-user").forEach((deleteButton) => {
@@ -116,6 +128,13 @@ function initCardEventListeners() {
       user = e.target.className.slice(lengthDeleteUser); // Get username out of class name
       document.getElementById("popup-header-username").innerHTML = user;
       document.getElementById("popup-delete").style.display = 'block';
+    });
+  });
+  document.querySelectorAll('.edit-user').forEach((editButton) => {
+    editButton.addEventListener('click', (e) => {
+      user = e.target.className.slice(lengthEditUser); // Get username out of class name
+      document.getElementById('popup-edit-block').style.display = 'block';
+      fillEditUserFormInputs();
     });
   });
   document.querySelectorAll('.remove-admin').forEach((removeAdminButton) => {
@@ -168,12 +187,25 @@ function initUpdateListeners() {
     let userInput = {
       username: user
     };
-    console.log(user);
     sendData(userInput, '/make-admin', (response) => {
       handleMakeAdminConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
       getData('/get-all-users', (userData) => {
         adminArray.push(user);
+        populateUserCardData(userData);
+        initCardEventListeners();
+      });
+    });
+  });
+
+  // Event listener to confirm edit account information.
+  document.getElementById('edit-submit').addEventListener('click', () => {
+    document.getElementById('popup-edit-block').style.display = 'none';
+    let userInput = getEditUserFormInput();
+    sendData(userInput, '/admin-edit-user', (response) => {
+      handleEditUserConditions(response, user);
+      document.getElementById('popup-okay').style.display = 'block';
+      getData('/get-all-users', (userData) => {
         populateUserCardData(userData);
         initCardEventListeners();
       });
@@ -185,6 +217,11 @@ function addUniversalListeners() {
   // Event listener to close delete user pop up
   document.getElementById("popup-negate-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
+    user = null;
+  });
+  document.getElementById('edit-negate').addEventListener('click', () => {
+    document.getElementById('popup-edit-block').style.display = 'none';
+    clearEditUserFormInputs();
     user = null;
   });
   // Event listener to close admin remove pop up
@@ -269,6 +306,60 @@ function handleMakeAdminConditions(response, user) {
     message.innerHTML = user + ' could not be promoted to an administrator';
 }
 
+function handleEditUserConditions(response, user) {
+  clearEditUserFormInputs();
+
+  let message = document.querySelector('#query-response-message');
+
+  if (response.status == 'success')
+    message.innerHTML = user + ' was successfully updated.';
+  else
+    message.innerHTML = user + ' could not be updated.';
+}
+
+function fillEditUserFormInputs() {
+  sendData({ username: user }, '/search-user', (response) => {
+    if (response.status = 'success') {
+      emailInput.value = response.rows[0].email;
+      emailVerifyInput.value = response.rows[0].email;
+      companyNameInput.value = response.rows[0].cName;
+      bizTypeInput.value = response.rows[0].bType;
+      firstNameInput.value = response.rows[0].fName;
+      lastNameInput.value = response.rows[0].lName;
+      phoneNumInput.value = response.rows[0].phoneNo;
+      locationInput.value = response.rows[0].location;
+      descriptionInput.value = response.rows[0].description;
+    } else {
+      document.getElementById('popup-edit-block').style.display = 'none';
+      document.querySelector('#query-response-message').innerHTML = 'Could not get information for ' + user + '.';
+      document.getElementById('popup-okay').style.display = 'block';
+    }
+  });
+}
+
+function getEditUserFormInput() {
+  let userInput = {
+    username: user, email: emailInput.value,
+    cName: companyNameInput.value, bType: bizTypeInput.value,
+    fName: firstNameInput.value, lName: lastNameInput.value,
+    phoneNo: phoneNumInput.value, location: locationInput.value,
+    description: descriptionInput.value
+  }
+  return userInput;
+}
+
+function clearEditUserFormInputs() {
+  emailInput.value = "";
+  emailVerifyInput.value = "";
+  companyNameInput.value = "";
+  bizTypeInput.value = "";
+  firstNameInput.value = "";
+  lastNameInput.value = "";
+  phoneNumInput.value = "";
+  locationInput.value = "";
+  descriptionInput.value = "";
+}
+
 function makeUserCard(userData) {
   let userCard = "<div class='user-card-group'>";
   for (let i = 0; i < userData.rows.length; i++) {
@@ -308,7 +399,7 @@ function makeUserCard(userData) {
       <div class="user-card-options">
         <button class="view-profile ${userData.rows[i].username}" type="button">View profile</button>
         <button class="delete-user ${userData.rows[i].username}" type="button">Delete User</button>
-        <button class="edit-user" type="button">Edit User</button>`;
+        <button class="edit-user ${userData.rows[i].username}" type="button">Edit User</button>`;
     if (isAdmin) // Add a 'Remove admin' button if the card belongs to an admin.
       userCard += `<button class="remove-admin ${userData.rows[i].username}" type="button">Remove Admin</button>`;
     else // Otherwise, add a 'Make admin' button.

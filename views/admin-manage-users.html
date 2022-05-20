@@ -19,6 +19,20 @@
   <div class="container">
     <div class="dashboard-header">
       <h3 id="dashboard-title">Administration Board</h3>
+      <!-- Hamburger to X -->
+      <input id="dashboard-drop-menu-trigger" type="checkbox">
+      <div id="hamborger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <!-- End hamburger to X -->
+      <div id="admin-button-group-container">
+        <div id="admin-button-group">
+          <a href="#" class="admin-button here">Manage Users</a>
+          <a href="/admin-add-account" class="admin-button">Add User</a>
+        </div>
+      </div>
     </div>
     <div id="content">
       <div id="search-user">
@@ -27,7 +41,7 @@
           <button id="search-user-button" type="button" name="search-user-button">
             <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -3 28 28" width="20" height="20">
               <path fill="currentColor"
-              d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
+                d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
             </svg>
           </button>
         </form>
@@ -36,9 +50,8 @@
         <!-- Populated by admin-tables.js in the event a query fails -->
       </div>
       <div id="user-profiles">
-        <!-- <h2>User Accounts</h2> -->
         <div id="user-list">
-          <!-- user cards populates -->
+          <!-- Populated by admin-tables.js -->
         </div>
       </div>
     </div>
@@ -51,7 +64,7 @@
       <button id="popup-negate-delete" class="popup-button neutral">No</button>
     </div>
   </div>
-  
+
   <div id="popup-admin-delete" class="popup-confirm">
     <h2>Are you sure you want to remove admin privileges for <span id="popup-admin-header-username"></span>?</h2>
     <div class="popup-button-wrapper">
@@ -59,7 +72,7 @@
       <button id="popup-admin-negate-delete" class="popup-button neutral">No</button>
     </div>
   </div>
-  
+
   <div id="popup-make-admin" class="popup-confirm">
     <h2>Are you sure you want to give admin privileges to <span id="popup-make-admin-header-username"></span>?</h2>
     <div class="popup-button-wrapper">
@@ -67,14 +80,46 @@
       <button id="popup-make-admin-negate" class="popup-button neutral">No</button>
     </div>
   </div>
-  
+
   <div id="popup-okay">
     <div id="query-response-message">
-      <!-- Populated by admin-tables.js based on results of delete query -->
+      <!-- Populated by admin-tables.js based on results of query -->
     </div>
     <div class="popup-button-wrapper">
       <button id="popup-okay-button" class="popup-button neutral">Okay</button>
-    </div>  
+    </div>
+  </div>
+
+  <div id="popup-edit-block">
+    <p><b>Edit Account</b></p>
+    <form>
+      <div id="email-block" class="input-wrapper">
+        <label for="email-input">*<small>Required</small></label>
+        <input id="email-input" name="email" type="text" placeholder="Email" class="edit-input" required>
+        <label for="email-verify-input">*<small>Required</small></label>
+        <input id="email-verify-input" name="emailVerify" type="text" placeholder="Verify Email" class="edit-input">
+      </div>
+      <div id="biz-block" class="input-wrapper">
+        <input name="cName" type="text" placeholder="Business Name" class="edit-input">
+        <input name="bType" type="text" placeholder="Business Type" class="edit-input">
+      </div>
+      <div id="phone-num-block" class="input-wrapper">
+        <input name="phoneNo" type="text" placeholder="Phone Number" class="edit-input">
+      </div>
+      <div id="name-block" class="input-wrapper">
+        <input name="fName" type="text" placeholder="First Name" class="edit-input">
+        <input name="lName" type="text" placeholder="Last Name" class="edit-input">
+      </div>
+      <div id="location-block" class="input-wrapper">
+        <input name="location" type="text" placeholder="Address" class="edit-input">
+      </div>
+      <textarea id="description-block" name="description" placeholder="Business description" class="edit-input textarea"></textarea>
+      <a href="/reset-password">Change Password</a>
+      <div class="popup-button-wrapper">
+        <button id="edit-submit" class="popup-button warning edit-popup-button" type="button">Save Changes</button>
+        <button id="edit-negate" class="popup-button neutral edit-popup-button" type="button">Cancel</button>
+      </div>
+    </form>
   </div>
 
   <footer>
@@ -82,7 +127,7 @@
   </footer>
 
   <script src="nav.js"></script>
-  <script src="admin-tables.js"></script>
+  <script src="admin-manage.js"></script>
 </body>
 
 </html>

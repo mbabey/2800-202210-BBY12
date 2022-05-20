@@ -75,15 +75,6 @@
   color:white;
 }
 
-.post-block {
-  grid-column: 2 / span 1;
-  width: 100% !important;
-}
-
-.post-images img {
-  background-color: #dff7ff;
-}
-
 #link-bName{
   text-decoration: none;
   color: black;

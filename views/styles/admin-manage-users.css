@@ -187,7 +187,6 @@ h3 {
   gap: 5px;
 }
 
-
 .user-card-wrapper {
   display: grid;
   grid-template-columns: 100%;
@@ -352,8 +351,6 @@ h3 {
   left: 50%;
   z-index: 100;
   transform: translate(-50%, -50%);
-  /* display: flex; */
-  flex-direction: column;
 }
 
 .popup-confirm h2 {
@@ -409,8 +406,6 @@ h3 {
   left: 50%;
   z-index: 100;
   transform: translate(-50%, -50%);
-  /* display: flex; */
-  flex-direction: column;
 }
 
 #query-response-message {
@@ -430,24 +425,52 @@ h3 {
   left: 50%;
   z-index: 100;
   transform: translate(-50%, -50%);
-  /* display: flex; */
+}
+
+#popup-edit-block p {
+  text-align: center;
+}
+
+#popup-edit-block form {
+  display: flex;
   flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+}
+
+.input-wrapper {
+  width: 100%;
 }
 
 .edit-input {
   border: 1px black solid;
   padding: 0.5rem;
   font-size: 0.9rem;
-  margin: 2px;
-  text-align: center;
+  margin: 5px 2px;
   background-color: rgba(128, 128, 128, 0.3);
+  width: calc(100% - 1rem - 4px - 2px); /* Full width minus padding minus margin minus border. */
+}
+
+#popup-edit-block a {
+  padding: 0.5rem 0.5rem;
+  margin: 5px 0;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+  background-color: var(--primary-light);
+  color: white;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.popup-button.edit-popup-button {
+  width: 4.5rem;
 }
 
 @media only screen and (max-width: 800px) {
-  .container {
-    grid-template-rows: 50px 1fr;
-  }
-
   #dashboard-drop-menu-trigger,
   #dashboard-drop-menu-trigger + label {
     top: 56px;

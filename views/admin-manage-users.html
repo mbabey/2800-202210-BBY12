@@ -93,11 +93,11 @@
   <div id="popup-edit-block">
     <p><b>Edit Account</b></p>
     <form>
-      <div id="email-block">
-        <input id="email-input" name="email" type="text" placeholder="Email" class="edit-input" required>
+      <div id="email-block" class="input-wrapper">
         <label for="email-input">*<small>Required</small></label>
-        <input id="email-verify-input" name="emailVerify" type="text" placeholder="Verify Email" class="edit-input">
+        <input id="email-input" name="email" type="text" placeholder="Email" class="edit-input" required>
         <label for="email-verify-input">*<small>Required</small></label>
+        <input id="email-verify-input" name="emailVerify" type="text" placeholder="Verify Email" class="edit-input">
       </div>
       <div id="biz-block" class="input-wrapper">
         <input name="cName" type="text" placeholder="Business Name" class="edit-input">
@@ -114,9 +114,11 @@
         <input name="location" type="text" placeholder="Address" class="edit-input">
       </div>
       <textarea id="description-block" name="description" placeholder="Business description" class="edit-input textarea"></textarea>
-      <a href="/reset-password" class="admin-button">Change Password</a>
-      <button id="edit-submit" class="popup-button warning" type="button">Save Changes</button>
-      <button class="popup-button neutral" type="button">Cancel</button>
+      <a href="/reset-password">Change Password</a>
+      <div class="popup-button-wrapper">
+        <button id="edit-submit" class="popup-button warning edit-popup-button" type="button">Save Changes</button>
+        <button id="edit-negate" class="popup-button neutral edit-popup-button" type="button">Cancel</button>
+      </div>
     </form>
   </div>
 

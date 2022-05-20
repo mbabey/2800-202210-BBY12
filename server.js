@@ -44,7 +44,6 @@ const searchQueries = require('./scripts/query-search');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
-const res = require('express/lib/response');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -210,7 +209,6 @@ app.route("/create-post")
           res.redirect('/home');
         })
         .catch((err) => {
-          console.log(err);
           res.redirect('back');
         });
     } else {
@@ -322,7 +320,6 @@ app.get('/get-user', (req, res) => {
 // QUERY: UPDATE USER INFORMATION
 app.post('/update-user', (req, res) => {
   if (req.session.loggedIn) {
-    console.log(req.body);
     con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
       [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
       (error, results) => {
@@ -338,14 +335,11 @@ app.post('/update-user', (req, res) => {
 // QUERY: UPDATE USER INFORMATION AS ADMIN
 app.post('/admin-edit-user', (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    console.log('Update user query: ', req.body)
     con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
       [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
       (error, results) => {
-        console.log(results);
         res.setHeader('Content-Type', 'application/json');
         if (error) {
-          console.log(error);
           res.send({ status: 'fail' });
         } else
           res.send({ status: "success" });
@@ -458,7 +452,6 @@ app.post('/delete-user', async (req, res) => {
 
 //QUERY: ADMIN EDIT USER PROFILE SEARCH
 app.post('/search-user', (req, res) => {
-  console.log(req.body);
   con.query('SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic FROM BBY_12_users WHERE username = ?', [req.body.username],
     function (error, results) {
       if (error)

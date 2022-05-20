@@ -47,7 +47,7 @@ function popNavName(data) {
 
 function addAdminStar() {
   let admin_button = document.querySelector('#nav-admin');
-  admin_button.setAttribute('href', "/admin-dashboard");
+  admin_button.setAttribute('href', "/admin-manage-users");
   admin_button.setAttribute('class', "nav-button");
 
   let content = "<svg xmlns='http://www.w3.org/2000/svg' viewbox='0 0 48 48' height='32' width='32'>" +

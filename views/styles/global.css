@@ -245,7 +245,6 @@ footer {
     background-color: rgb(247, 247, 247);
   }
 
-
   footer {
     display: block;
     position: fixed;
@@ -253,8 +252,7 @@ footer {
     width: 100vw;
     height: 50px;
     bottom: 0;
-    left: 0;
-    
+    left: 0; 
   }
 
   #footer-wrapper {

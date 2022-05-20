@@ -258,6 +258,7 @@ p {
 
 #edit-profile-menu {
   position: absolute;
+  list-style-type: none;
   width: 300px;
   transform-origin: 0% 0%;
   transform: translate(-100%, 0);

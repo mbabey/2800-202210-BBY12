@@ -1,0 +1,30 @@
+#content {
+  margin: auto;
+  max-width: 95%;
+  overflow: scroll;
+}
+
+.user-block {
+  margin: 0 auto;
+  min-width: 0;
+  width: 96%;
+}
+
+.search-bar {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  margin-top: 30px;
+  padding-top: 10px;
+  display: flex;
+  background-color: rgb(247, 247, 247);
+  border-radius: var(--border-radius);
+  justify-content: center;
+  align-content: center;
+}
+
+@media only screen and (min-width: 800px) {
+  .user-block {
+    width: 50%;
+  }
+}

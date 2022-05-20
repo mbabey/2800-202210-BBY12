@@ -5,10 +5,10 @@
 
 const express = require('express');
 const session = require('express-session');
+const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
-const crypto = require('crypto');
 const {
   JSDOM
 } = require('jsdom');
@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     cb(null, './uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+    cb(null, uuidv4() + "." + file.originalname.split('.')[file.originalname.split('.').length - 1]);
   }
 });
 const upload = multer({
@@ -32,15 +32,31 @@ const upload = multer({
     callback(null, true);
   }
 });
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+io.on('connect', socket => {
+  console.log('New user joined chat.');
+  socket.emit('chat-message', 'Chat up a collab!');
+  socket.on('send-message', message => {
+    console.log(message);
+    socket.emit('chat-message', message);
+  });
+});
 
 // ---------------- Custom Dependencies ----------------- \\
 
 const createAccount = require('./scripts/create-account');
 const resetPassword = require('./scripts/reset-password');
 const createPost = require('./scripts/create-post');
+const deleteQueries = require('./scripts/query-delete');
+const loginQuery = require('./scripts/query-login');
+const updateQueries = require('./scripts/query-post');
+const searchQueries = require('./scripts/query-search');
 const dbInitialize = require('./db-init');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
 const feed = require('./scripts/feed');
+const res = require('express/lib/response');
+const { Socket } = require('socket.io');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -63,7 +79,7 @@ app.use(session({
 let con;
 const isHeroku = process.env.IS_HEROKU || false;
 const port = process.env.PORT || 8000;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log('Gro-Operate running on ' + port);
   dbInitialize.dbInitialize(isHeroku)
     .then(() => {
@@ -83,7 +99,7 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
   if (req.session.loggedIn) {
     if (req.session.admin)
-      res.redirect('/admin-dashboard');
+      res.redirect('/admin-manage-users');
     else
       res.redirect('/home');
   } else {
@@ -91,47 +107,39 @@ app.get('/', (req, res) => {
   }
 });
 
+// NAVBAR AND FOOTER
+app.get('/nav-and-footer', (req, res) => {
+  let navbarHTML = fs.readFileSync('./views/chunks/nav.xml', 'utf8');
+  let footerHTML = fs.readFileSync('./views/chunks/footer.xml', 'utf8');
+  res.setHeader('content-type', 'application/json');
+  res.send({ nav: navbarHTML, footer: footerHTML });
+});
+
 // LOGIN
 app.route('/login')
   .get((req, res) => {
     if (!req.session.loggedIn) {
-      //Check and reset token for password reset confirmation
-      //Then create some popup/overlay confirming password reset
       let loginPage = fs.readFileSync('./views/login.html', 'utf8');
       res.send(loginPage);
     } else {
       res.redirect('/');
     }
   })
-  .post((req, res,) => {
+  .post(async (req, res,) => {
     let user = req.body.username.trim();
     let pass = req.body.password;
-    const hash = crypto.createHash('sha256').update(pass).digest('hex');
-    try {
-      con.query('SELECT * FROM BBY_12_users WHERE (`username` = ?) AND (`password` = ?);', [user, hash], (err, results) => {
-        if (results && results.length > 0) {
-          login(req, user);
-        }
-        if (err) throw err;
-      });
-      res.redirect('/');
-    } catch (err) {
-      res.redirect('/');
-    }
+    res.setHeader('content-type', 'application/json');
+
+    let result = await loginQuery.login(req, user, pass, con);
+    req = result.request;
+    res.send({ status: result.status });
   });
 
-function login(req, user) {
-  req.session.loggedIn = true;
-  req.session.username = user;
-  req.session.admin = false;
-  con.query('Select * from (`BBY_12_admins`) Where (`username` = ?)', [user], (err, results) => {
-    if (err) throw err;
-    if (results.length > 0) {
-      req.session.admin = true;
-    }
-    req.session.save();
-  });
-}
+// EGG
+app.get('/egg', (req, res) => {
+  let eggDOM = new JSDOM(fs.readFileSync('./views/egg.html', 'utf8'));
+  res.send(eggDOM.serialize());
+});
 
 // LOGOUT
 app.get('/logout', (req, res) => {
@@ -153,7 +161,15 @@ app.get('/home', async (req, res) => {
   if (req.session.loggedIn) {
     let homePage = fs.readFileSync('./views/home.html', 'utf8').toString();
     let homeDOM = new JSDOM(homePage);
-    homeDOM = await feed.populateFeed(homeDOM, con);
+    let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
+    let templateDOM = new JSDOM(templates);
+    await feed.populateFeed(req, homeDOM, templateDOM, con)
+      .then((result) => {
+        homeDOM = result;
+      })
+      .catch((reject) => {
+        console.log(reject);
+      });
     homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
     homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
     homePage = homeDOM.serialize();
@@ -173,6 +189,22 @@ app.get('/profile', (req, res) => {
   }
 });
 
+// UPLOAD PROFILE AVATAR
+app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
+  if (req.session.loggedIn && !req.fileValidtionError) {
+    con.query('UPDATE BBY_12_users SET profilePic = ? WHERE username = ?', [req.file.filename, req.session.username],
+      function (err) {
+        if (err) throw err;
+      });
+    let oldPath = req.file.path;
+    let newPath = "./views/avatars/" + req.file.filename;
+    fs.rename(oldPath, newPath, function (err) {
+      if (err) throw err;
+    });
+  }
+  res.redirect("/profile");
+});
+
 // CREATE POST
 app.route("/create-post")
   .get((req, res) => {
@@ -187,13 +219,22 @@ app.route("/create-post")
     if (req.session.loggedIn && !req.fileValidtionError) {
       createPost.createPost(req, res, storage, con)
         .then((resolve) => {
+          if (req.files.length > 0) {
+            req.files.forEach(async image => {
+              let oldPath = image.path;
+              let newPath = "./views/images/" + image.filename;
+              fs.rename(oldPath, newPath, function (err) {
+                if (err) throw err;
+              });
+            });
+          }
           res.redirect('/home');
         })
         .catch((err) => {
           res.redirect('back');
         });
     } else {
-      res.redirect('back')
+      res.redirect('back');
     }
   });
 
@@ -218,21 +259,32 @@ app.route('/create-account')
       });
   });
 
-// ADMIN DASHBOARD
-app.get('/admin-dashboard', (req, res) => {
-  if (req.session.loggedIn && req.session.admin) {
-    let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
-    res.send(adminDashPage);
-  } else {
-    res.redirect('/');
-  }
-});
+// RESET PASSWORD
+app.route("/reset-password")
+  .get((req, res) => {
+    if (req.session.loggedIn) {
+      let resetPasswordPage = fs.readFileSync('./views/reset-password.html', 'utf8');
+      res.send(resetPasswordPage);
+    }
+  })
+  .post((req, res) => {
+    if (req.session.loggedIn) {
+      resetPassword.resetPassword(req, res, con)
+        .then(() => {
+          res.redirect("/");
+        })
+        .catch((err) => {
+          res.redirect("/reset-password");
+        });
+      //Add some token for reset confirmation
+    }
+  });
 
-// ADMIN VIEW ACCOUNTS
-app.get('/admin-view-accounts', (req, res) => {
+// ADMIN MANAGE USERS
+app.get('/admin-manage-users', (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let adminViewAcc = fs.readFileSync('./views/admin-view-accounts.html', 'utf8');
-    res.send(adminViewAcc);
+    let adminManageAcc = fs.readFileSync('./views/admin-manage-users.html', 'utf8');
+    res.send(adminManageAcc);
   } else {
     res.redirect('/');
   }
@@ -252,7 +304,7 @@ app.route('/admin-add-account')
     if (req.body.isAdmin) {
       createAccount.createAdmin(req, res, con)
         .then(() => {
-          res.redirect('/admin-dashboard');
+          res.redirect('/admin-manage-users');
         })
         .catch(() => {
           res.redirect('/admin-add-account');
@@ -260,7 +312,7 @@ app.route('/admin-add-account')
     } else {
       createAccount.createAccount(req, res, con)
         .then(() => {
-          res.redirect('/admin-dashboard');
+          res.redirect('/admin-manage-users');
         })
         .catch(() => {
           res.redirect('/admin-add-account');
@@ -268,19 +320,26 @@ app.route('/admin-add-account')
     }
   });
 
-// QUERY: GET ALL USERS
+// CHAT PAGE
+app.get('/chat', (req, res) => {
+  if (req.session.loggedIn) {
+    let chatPage = fs.readFileSync('./views/chat.html', 'utf8');
+    res.send(chatPage);
+  } else {
+    res.redirect('/');
+  }
+});
+
+// QUERY: GET ALL USERS' INFORMATION
 app.get('/get-all-users', (req, res) => {
   con.query('SELECT * FROM BBY_12_users', (err, results) => {
     if (err) throw "Query to database failed.";
     res.setHeader('content-type', 'application/json');
-    res.send({
-      status: "success",
-      rows: results
-    });
+    res.send({ status: "success", rows: results, thisUser: req.session.username });
   });
 });
 
-// QUERY: GET CURRENT USER
+// QUERY: GET LOGGED IN USER'S INFORMATION
 app.get('/get-user', (req, res) => {
   con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], (error, results, fields) => {
     if (error) throw error;
@@ -289,17 +348,34 @@ app.get('/get-user', (req, res) => {
   });
 });
 
-// QUERY: UPDATE USER
+// QUERY: UPDATE USER INFORMATION
 app.post('/update-user', (req, res) => {
-  con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
-    (error) => {
-      if (error) throw error;
-      res.setHeader('Content-Type', 'application/json');
-      res.send({
-        status: "Success",
-        msg: "User information updated."
+  if (req.session.loggedIn) {
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
+      [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
+      (error, results) => {
+        res.setHeader('Content-Type', 'application/json');
+        if (error) {
+          res.send({ status: 'fail' });
+        } else
+          res.send({ status: "success" });
       });
-    });
+  }
+});
+
+// QUERY: UPDATE USER INFORMATION AS ADMIN
+app.post('/admin-edit-user', (req, res) => {
+  if (req.session.loggedIn && req.session.admin) {
+    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
+      [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
+      (error, results) => {
+        res.setHeader('Content-Type', 'application/json');
+        if (error) {
+          res.send({ status: 'fail' });
+        } else
+          res.send({ status: "success" });
+      });
+  }
 });
 
 // QUERY: GET ALL ADMINS
@@ -317,7 +393,7 @@ app.get('/get-all-admins', (req, res) => {
 
 // QUERY: GET CURRENT USER INFO IF USER IS ADMIN
 app.get('/get-admin', (req, res) => {
-  if (req.session.loggedIn && req.session.admin == true) {
+  if (req.session.loggedIn && req.session.admin) {
     let session_username = req.session.username;
     let admins = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
     con.query(admins, [session_username], (err, results) => {
@@ -331,116 +407,231 @@ app.get('/get-admin', (req, res) => {
   }
 });
 
-// QUERY: DELETE ADMIN
-app.post('/delete-admin', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  con.query('SELECT * FROM BBY_12_admins',
-    (err, results) => {
-      if (results.length != 1) {
-        con.query('DELETE FROM BBY_12_admins WHERE BBY_12_admins.username = ?', [req.body.username],
-          (err, results) => {
-            if (err) throw "Cannot delete admin if there is only one admin left.";
-          })
+// QUERY: UPGRADE USER ACCOUNT TO ADMIN ACCOUNT
+app.post('/make-admin', async (req, res) => {
+  if (req.session.loggedIn && req.session.admin) {
+    let [rows, fields] = await con.promise().query('INSERT INTO BBY_12_admins (username) VALUES (?);', [req.body.username]);
+    let newAdmin = (rows.affectedRows) ? true : false;
+    res.setHeader('Content-Type', 'application/json');
+    res.send({ adminCreated: newAdmin });
+  }
+});
+
+// QUERY: DOWNGRADE ADMIN ACCOUNT TO USER ACCOUNT
+app.post('/delete-admin', async (req, res) => {
+  if (req.session.loggedIn && req.session.admin) {
+    let [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numAdmins FROM BBY_12_admins');
+    let numAdmins = rows[0].numAdmins;
+
+    let adminDeleted = false;
+    let lastAdmin = false;
+
+    if (req.session.username == req.body.username) {
+      adminDeleted = true;
+      lastAdmin = true;
+    } else if (numAdmins > 1) {
+      [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Admins WHERE username = ?', [req.body.username]);
+      if (rows.affectedRows)
+        adminDeleted = true;
+    } else {
+      lastAdmin = true;
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.send({ adminX: adminDeleted, finalAdmin: lastAdmin });
+  }
+});
+
+// QUERY: DELETE USER
+app.post('/delete-user', async (req, res) => {
+  if (req.session.loggedIn && req.session.admin) {
+    let [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numAdmins FROM BBY_12_admins');
+    let numAdmins = rows[0].numAdmins;
+    [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numUsers FROM BBY_12_users');
+    let numUsers = rows[0].numUsers;
+
+    let adminDeleted = false;
+    let userDeleted = false;
+    let lastAdmin = false;
+    let lastUser = false;
+
+    if (req.session.username == req.body.username) {
+      adminDeleted = true;
+      userDeleted = true;
+      lastAdmin = true;
+      lastUser = true;
+    } else if (numUsers > 1) {
+      if (numAdmins > 1) {
+        [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Admins WHERE username = ?', [req.body.username]);
+        if (rows.affectedRows)
+          adminDeleted = true;
+      }
+      try {
+        [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Users WHERE username = ?', [req.body.username]);
+        if (rows.affectedRows)
+          userDeleted = true;
+      } catch (err) {
+        console.log(err);
+        lastAdmin = true;
+      }
+    } else {
+      lastUser = true;
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.send({ adminX: adminDeleted, userX: userDeleted, finalAdmin: lastAdmin, finalUser: lastUser });
+  }
+});
+
+//QUERY: ADMIN EDIT USER PROFILE SEARCH
+app.post('/search-user', (req, res) => {
+  con.query('SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic FROM BBY_12_users WHERE username = ?', [req.body.username],
+    function (error, results) {
+      if (error)
+        console.log(error);
+      if (results.length > 0) {
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: 'success', rows: results });
       } else {
-        if (err) throw err;
+        res.send({ status: "fail", msg: "Search Fail" });
       }
     });
 });
 
-// QUERY: DELETE USER
-app.post('/delete-user', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  try {
-    con.query('SELECT * FROM BBY_12_users',
-      (err, results) => {
-        if (results.length != 1) {
-          try {
-            con.query('DELETE FROM BBY_12_users WHERE BBY_12_users.username = ?', [req.body.username],
-              (err, results) => {
-              })
-          } catch (err) { }
-        } else {
-          if (err) throw "Cannot delete user if there is only one user left.";
-        }
-      });
-  } catch (err) {
-    console.log(err);
+//LOCATING URL OF ANY USER'S PROFILE
+// Other user URL in the form './profile?user=[username]'
+app.get('/users', (req, res) => {
+  //need to redirect the page if the id doesn't exist
+  if (req.session.loggedIn) {
+    if (req.session.username == req.query.user) {
+      res.redirect('/profile?user=' + req.session.username);
+    } else {
+      let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
+      res.send(otherProfile);
+    }
+  } else {
+    res.redirect('/');
   }
 });
 
-//Upload profile avatar
-//TODO: Move code to different file
-app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
-  if (req.session.loggedIn && !req.fileValidtionError) {
-    con.query('UPDATE BBY_12_users SET profilePic = ? WHERE username = ?', [req.file.filename, req.session.username],
-      function (err) {
+// USER GET USER
+app.get('/get-other-user', (req, res) => {
+  //req.query.user
+  con.query(`SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic 
+              FROM \`BBY_12_users\` 
+              WHERE (\`username\` = ?);`, [req.query.user], (error, results, fields) => {
+    if (error) throw error;
+    res.setHeader('content-type', 'application/json');
+    res.send(results);
+  });
+});
+
+//QUERY: ADMIN PROFILE SEARCH
+app.post('/search-admin', (req, res) => {
+  con.query('SELECT * FROM BBY_12_admins WHERE username = ?', [req.body.username],
+    function (error, results) {
+      if (error) throw error;
+      if (results.length > 0) {
+        res.setHeader('content-type', 'application/json');
+        res.send({ status: 'success', rows: results });
+      } else {
+        res.send({ status: "fail", msg: "Search Fail" });
+      }
+    });
+});
+
+// QUERY: GET POST FROM ID AND USERNAME
+app.get('/get-post/:username/:postId', async (req, res) => {
+  let postContent, postImgs, postTags;
+  await con.promise().query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId])
+    .then((results) => {
+      postContent = results[0];
+    }).catch((err) => console.log(err));
+
+  await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
+    .then((results) => postImgs = results[0])
+    .catch((err) => console.log(err));
+
+  await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
+    .then((results) => postTags = results[0])
+    .catch((err) => console.log(err));
+  res.setHeader('content-type', 'application/json');
+  res.send([postContent, postImgs, postTags]);
+});
+
+// QUERY: UPDATE POST WITH GIVEN INFO
+app.post('/edit-post', upload.array('image-upload'), async (req, res) => {
+  await updateQueries.updatePost(req, con);
+  await deleteQueries.deleteTags(req, con);
+  await updateQueries.updateTags(req, con);
+  if (req.body["image-delete"]) {
+    await updateQueries.deleteImgs(req, con);
+  }
+  if (req.files.length > 0) {
+    req.files.forEach(async image => {
+      let oldPath = image.path;
+      let newPath = "./views/images/" + image.filename;
+      fs.rename(oldPath, newPath, function (err) {
         if (err) throw err;
       });
-    let oldPath = req.file.path;
-    let newPath = "./views/avatars/" + req.file.filename;
-    fs.rename(oldPath, newPath, function (err) {
-      if (err) throw err
     });
   }
-  res.redirect("/profile");
+  await updateQueries.updateImgs(req, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ ayy: 'lmao' });
 });
 
-// RESET PASSWORD
-app.route("/reset-password")
-  .get((req, res) => {
-    let resetPasswordPage = fs.readFileSync('./views/reset-password.html', 'utf8');
-    res.send(resetPasswordPage);
-  })
-  .post((req, res) => {
-    resetPassword.resetPassword(req, res, con)
-      .then(() => {
-        res.redirect("/");
-      })
-      .catch((err) => {
-        res.redirect("/reset-password");
-      });
-    //Add some token for reset confirmation
-  });
+//QUERY: DELETE POST
+app.post('/delete-post', upload.none(), async (req, res) => {
+  await deleteQueries.deleteTags(req, con);
+  await deleteQueries.deleteImgs(req, con);
+  await deleteQueries.deletePost(req, con);
+});
 
-//ADMIN EDIT USER PAGE
-app.route('/admin-edit-user')
-  .get((req, res) => {
-    if (req.session.loggedIn && req.session.admin) {
-      let profilePage = fs.readFileSync('./views/admin-edit-user.html', 'utf8');
-      res.send(profilePage);
-    } else {
-      res.redirect('/');
-    }
-  })
-  .post((req, res) => {
-    if (req.body.username) {
-      con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-        [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
-        function (error) {
-          if (error) throw error;
-          res.redirect('/admin-edit-user');
-        });
-    } else {
-      res.redirect('/admin-edit-user');
-    }
-  });
-
-//QUERY: ADMIN EDIT USER PROFILE SEARCH
-app.post('/search-user', (req, res) => {
-  if (req.body.username) {
-    con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
-      function (error, results) {
-        if (error) throw error;
-        res.setHeader('content-type', 'application/json');
-        res.send({
-          status: 'success',
-          rows: results
-        });
-      });
+// SEARCH FOR POSTS
+app.get("/search", (req, res) => {
+  if (req.session.loggedIn) {
+    let searchPage = fs.readFileSync('./views/search.html', 'utf8');
+    res.send(searchPage);
   } else {
-    res.send({
-      status: "fail",
-      msg: "Auth Fail"
-    });
+    res.redirect('/');
   }
+});
+
+// MOBILE SEARCH OVERLAY 
+app.get('/search-overlay', (req, res) => {
+  let searchOverlayHTML = fs.readFileSync('./views/chunks/search-overlay.xml', 'utf8');
+  res.setHeader('content-type', 'application/json');
+  res.send({ overlay: searchOverlayHTML });
+});
+
+app.get('/get-template', (req, res) => {
+  let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
+  res.setHeader('content-type', 'application/json');
+  res.send({ dom: templates });
+});
+
+// QUERY GET USERS BY SEARCH TERM
+// TODO: COMBINE WITH GET-USER
+app.get('/get-filter-users', async (req, res) => {
+  let users = await searchQueries.searchUsers(req.query.search, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ users: users });
+});
+
+// QUERY GET POSTS BY SEARCH TERM
+app.get('/get-filter-posts', async (req, res) => {
+  let posts = await searchQueries.searchPosts(req.query.search, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ posts: posts });
+});
+
+app.get('/get-session', (req, res) => {
+  let session = req.session;
+  res.setHeader('content-type', 'application/json');
+  res.send({ session: session });
+});
+
+app.get('/get-user-posts', async (req, res) => {
+  let posts = await searchQueries.userPosts(req.query.user, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ posts: posts });
 });

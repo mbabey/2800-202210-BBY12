@@ -1,7 +1,7 @@
 .container {
   display: grid;
   grid-template-columns: 40% 60%;
-  grid-template-rows: 10% 1fr;
+  grid-template-rows: 50px 1fr;
 }
 
 .dashboard-header {
@@ -14,11 +14,135 @@
 }
 
 #dashboard-title {
-  font-size: 2rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
+  height: 100%;
 }
 
+/* Styles for hamburger menu button courtesy of https://codepen.io/erikterwan/pen/EVzeRP */
+
+#dashboard-drop-menu-trigger {
+  display: block;
+  z-index: 69;
+  position: absolute;
+  top: 92px;
+  right: 2%;
+  height: 32px;
+  width: 32px;
+  cursor: pointer;
+  opacity: 0; /* hide this */
+  -webkit-touch-callout: none;
+}
+
+#hamborger {
+  position: absolute;
+  top: 65px;
+  right: calc(2% - 9px);
+  width: 40px;
+  height: 33px;
+  z-index: 68;
+}
+
+#dashboard-drop-menu-trigger + #hamborger span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+  background-color: black; /* Hamburger button color */
+  border-radius: 5px;
+  transform-origin: 4px 0px; /* Animation of the close button */
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
+
+#dashboard-drop-menu-trigger + #hamborger span:first-child {
+  transform-origin: 0% 0%;
+}
+
+#dashboard-drop-menu-trigger + #hamborger span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+#dashboard-drop-menu-trigger:checked + #hamborger span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background-color: black; /* Close button color */
+}
+
+#dashboard-drop-menu-trigger:checked + #hamborger span:nth-last-child(2) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+#dashboard-drop-menu-trigger:checked + #hamborger span:nth-last-child(1) {
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+/* End styles for hamburger menu button */
+
+#admin-button-group-container {
+  background: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+#admin-button-group {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  min-width: 380px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+#admin-button-group>.admin-button {
+  padding: 1rem 0.7rem;
+  margin: 10px 0;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.2rem;
+  background-color: var(--primary-light);
+  color: white;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+#admin-button-group>.admin-button.here {
+  background-color: grey;
+}
+
+#admin-button-group>.admin-button:focus,
+#admin-button-group>.admin-button:hover {
+  transform: scale(1.025, 1.025);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+#admin-button-group>.admin-button:active {
+  transform: scale(1);
+}
+
+#dashboard-drop-menu-trigger:checked ~ #admin-button-group-container {
+  display: block;
+}
 #welcome {
   grid-row: 2 / span 1;
   grid-column: 1 / span 1;
@@ -55,6 +179,7 @@
 
 #create-block p {
     text-align: center;
+    font-size: 1.3rem;
 }
 
 #create-block>form {
@@ -207,13 +332,15 @@ div>.create-input{
   margin-top: 10px;
   margin-bottom: 10px;
   text-align: center;
-  background-color: rgb(55, 124, 55);
+  background-color: var(--primary-light);
   color: white;
   border: none;
   cursor: pointer;
   width: 50%;
   -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 10px;
+  font-size: 1rem;
 }
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. */
@@ -226,7 +353,6 @@ div>.create-input{
   left: 0;
   width: 100%;
   height: 100%;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
   opacity: 0;
   -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -235,6 +361,7 @@ div>.create-input{
 #create-submit:focus,
 #create-submit:hover {
   transform: scale(1.025, 1.025);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
 }
 
 #create-submit:focus::after,
@@ -253,6 +380,15 @@ div>.create-input{
     grid-template-columns: 100%;
   }
   
+  #dashboard-drop-menu-trigger,
+  #dashboard-drop-menu-trigger + label {
+    top: 56px;
+  }
+
+  #admin-button-group {
+    min-width: 300px;
+  }
+
   #welcome {
     display: none;
   }
@@ -262,6 +398,13 @@ div>.create-input{
     grid-row: 2 / span 1;
   }
 
+  #create-block {
+    min-width: 300px;
+  }
+
+  #admin-checkbox-container {
+    font-size: 1.2rem;
+  }
 
   #biz-name-block:before {
     width: 100%;

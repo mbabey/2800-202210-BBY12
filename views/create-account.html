@@ -8,15 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./styles/create-account.css">
   <link rel="stylesheet" href="./styles/global.css">
-  <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="./assets/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
 
   <div id="wrapper">
     <header id="pseudonav">
-      <div id="nav-logo-background">
-        <img id="nav-logo" src="./images/Logo.png" alt="Gro-Operate">
+      <div id="pseudo-nav-logo-background">
+        <img id="pseudo-nav-logo" src="./assets/Logo.png" alt="Gro-Operate">
       </div>
     </header>
 
@@ -29,39 +29,48 @@
       <div id="create-block">
         <p><b>Create Account</b></p>
         <form method="post">
-          <div id="username-block" class="input-wrapper">
-            <input name="username" type="text" placeholder="Username" class="create-input" required>
+          <div id="username-block" class="input-container">
+            <input id="username" name="username" type="text" placeholder="Username" class="create-input" required>
+            <label class="label" for="username">Username</label>
           </div>
           <div id="email-block">
-            <input name="email" type="text" placeholder="Email" class="create-input" required>
-            <input name="email-verify" type="text" placeholder="Verify Email" class="create-input" required>
+            <div class="input-container">
+              <input id="email" name="email" type="text" placeholder="Email" class="create-input" required>
+              <label class="label" for="email">Email</label>
+            </div>
+            <div class="input-container">
+              <input id="email-verify" name="email-verify" type="text" placeholder="Verify Email" class="create-input"
+                required>
+              <label class="label" for="email-verify">Verify Email</label>
+            </div>
           </div>
-          <div id="password-block" class="input-wrapper">
-            <input name="password" type="password" placeholder="Password" class="create-input" required>
-            <input name="password-verify" type="password" placeholder="Verify Password" class="create-input" required>
+          <div id="password-block">
+            <div class="input-container">
+              <input id="password" name="password" type="password" placeholder="Password" class="create-input" required>
+              <label class="label" for="password">Password</label>
+              <!-- <span id="visibility-p"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -30 100 100" height="48" width="48">
+                <path id="svg_p"
+                  d="M31.45 27.05 29.25 24.85Q30.55 21.3 27.9 18.95Q25.25 16.6 22.15 17.75L19.95 15.55Q20.8 15 21.85 14.75Q22.9 14.5 24 14.5Q27.55 14.5 30.025 16.975Q32.5 19.45 32.5 23Q32.5 24.1 32.225 25.175Q31.95 26.25 31.45 27.05ZM37.9 33.5 35.9 31.5Q38.35 29.7 40.175 27.475Q42 25.25 42.85 23Q40.35 17.45 35.35 14.225Q30.35 11 24.5 11Q22.4 11 20.2 11.4Q18 11.8 16.75 12.35L14.45 10Q16.2 9.2 18.925 8.6Q21.65 8 24.25 8Q31.4 8 37.325 12.075Q43.25 16.15 46 23Q44.7 26.2 42.65 28.85Q40.6 31.5 37.9 33.5ZM40.8 44.8 32.4 36.55Q30.65 37.25 28.45 37.625Q26.25 38 24 38Q16.7 38 10.75 33.925Q4.8 29.85 2 23Q3 20.4 4.775 17.925Q6.55 15.45 9.1 13.2L2.8 6.9L4.9 4.75L42.75 42.6ZM11.15 15.3Q9.3 16.65 7.575 18.85Q5.85 21.05 5.1 23Q7.65 28.55 12.775 31.775Q17.9 35 24.4 35Q26.05 35 27.65 34.8Q29.25 34.6 30.05 34.2L26.85 31Q26.3 31.25 25.5 31.375Q24.7 31.5 24 31.5Q20.5 31.5 18 29.05Q15.5 26.6 15.5 23Q15.5 22.25 15.625 21.5Q15.75 20.75 16 20.15ZM26.4 22.4Q26.4 22.4 26.4 22.4Q26.4 22.4 26.4 22.4Q26.4 22.4 26.4 22.4Q26.4 22.4 26.4 22.4Q26.4 22.4 26.4 22.4Q26.4 22.4 26.4 22.4ZM20.6 25.3Q20.6 25.3 20.6 25.3Q20.6 25.3 20.6 25.3Q20.6 25.3 20.6 25.3Q20.6 25.3 20.6 25.3Q20.6 25.3 20.6 25.3Q20.6 25.3 20.6 25.3Z" />
+                </svg></span> -->
+            </div>
+            <div class="input-container">
+              <input id="password-verify" name="password-verify" type="password" placeholder="Verify Password"
+                class="create-input" required>
+              <label class="label" for="password-verify">Verify Password</label>
+              <!-- <span id="visibility-pv"><svg id="visi-off-pv" xmlns="http://www.w3.org/2000/svg" viewBox="-10 -30 100 100" height="48" width="48">
+                  <path
+                    d="M31.45 27.05 29.25 24.85Q30.55 21.3 27.9 18.95Q25.25 16.6 22.15 17.75L19.95 15.55Q20.8 15 21.85 14.75Q22.9 14.5 24 14.5Q27.55 14.5 30.025 16.975Q32.5 19.45 32.5 23Q32.5 24.1 32.225 25.175Q31.95 26.25 31.45 27.05ZM37.9 33.5 35.9 31.5Q38.35 29.7 40.175 27.475Q42 25.25 42.85 23Q40.35 17.45 35.35 14.225Q30.35 11 24.5 11Q22.4 11 20.2 11.4Q18 11.8 16.75 12.35L14.45 10Q16.2 9.2 18.925 8.6Q21.65 8 24.25 8Q31.4 8 37.325 12.075Q43.25 16.15 46 23Q44.7 26.2 42.65 28.85Q40.6 31.5 37.9 33.5ZM40.8 44.8 32.4 36.55Q30.65 37.25 28.45 37.625Q26.25 38 24 38Q16.7 38 10.75 33.925Q4.8 29.85 2 23Q3 20.4 4.775 17.925Q6.55 15.45 9.1 13.2L2.8 6.9L4.9 4.75L42.75 42.6ZM11.15 15.3Q9.3 16.65 7.575 18.85Q5.85 21.05 5.1 23Q7.65 28.55 12.775 31.775Q17.9 35 24.4 35Q26.05 35 27.65 34.8Q29.25 34.6 30.05 34.2L26.85 31Q26.3 31.25 25.5 31.375Q24.7 31.5 24 31.5Q20.5 31.5 18 29.05Q15.5 26.6 15.5 23Q15.5 22.25 15.625 21.5Q15.75 20.75 16 20.15ZM26.4 22.4Q26.4 22.4 26.4 22.4Q26.4 22.4 26.4 22.4Q26.4 22.4 26.4 22.4Q26.4 22.4 26.4 22.4Q26.4 22.4 26.4 22.4Q26.4 22.4 26.4 22.4ZM20.6 25.3Q20.6 25.3 20.6 25.3Q20.6 25.3 20.6 25.3Q20.6 25.3 20.6 25.3Q20.6 25.3 20.6 25.3Q20.6 25.3 20.6 25.3Q20.6 25.3 20.6 25.3Z" />
+                  </svg></span> -->
+            </div>
           </div>
-          <div id="biz-name-block">
-            <input name="company-name" type="text" placeholder="Business Name" class="create-input">
-            <!-- <input name="business-type" type="text" placeholder="Type of Business" class="create-input"> -->
-          </div>
-          <div id="name-block" class="input-wrapper">
-            <input name="first-name" type="text" placeholder="First Name" class="create-input">
-            <input name="last-name" type="text" placeholder="Last Name" class="create-input">
-            <input name="phone-num" type="text" placeholder="Phone Number" class="create-input">
-          </div>
-          <div id="location-block" class="input-wrapper">
-            <input name="location-country" type="text" placeholder="Country" class="create-input">
-            <input name="location-city" type="text" placeholder="City" class="create-input">
-            <input name="location-street" type="text" placeholder="Street Address" class="create-input">
-          </div>
-          <textarea id="description-block" name="description" placeholder="Business Description"
-            class="create-input"></textarea>
           <button id="create-submit" type="submit" value="submit">Create Account</button>
         </form>
         <p>Already have an account? <a href="/">Sign in!</a></p>
       </div>
     </div>
   </div>
+  <script src="input.js"></script>
+
 </body>
 
 </html>

@@ -327,7 +327,7 @@ app.route('/admin-add-account')
     }
   });
 
-//ADMIN EDIT USER PAGE
+// ADMIN EDIT USER PAGE
 app.route('/admin-edit-user')
   .get((req, res) => {
     if (req.session.loggedIn && req.session.admin) {
@@ -350,19 +350,16 @@ app.route('/admin-edit-user')
     }
   });
 
-// QUERY: GET ALL USERS
+// QUERY: GET ALL USERS' INFORMATION
 app.get('/get-all-users', (req, res) => {
   con.query('SELECT * FROM BBY_12_users', (err, results) => {
     if (err) throw "Query to database failed.";
     res.setHeader('content-type', 'application/json');
-    res.send({
-      status: "success",
-      rows: results
-    });
+    res.send({ status: "success", rows: results, thisUser: req.session.username });
   });
 });
 
-// QUERY: GET CURRENT USER
+// QUERY: GET LOGGED IN USER'S INFORMATION
 app.get('/get-user', (req, res) => {
   con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], (error, results, fields) => {
     if (error) throw error;
@@ -371,7 +368,7 @@ app.get('/get-user', (req, res) => {
   });
 });
 
-// QUERY: UPDATE USER
+// QUERY: UPDATE USER INFORMATION
 app.post('/update-user', (req, res) => {
   con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
     (error) => {
@@ -423,7 +420,7 @@ app.post('/make-admin', async (req, res) => {
   }
 });
 
-// QUERY: DELETE ADMIN
+// QUERY: DOWNGRADE ADMIN ACCOUNT TO USER ACCOUNT
 app.post('/delete-admin', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
     let [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numAdmins FROM BBY_12_admins');

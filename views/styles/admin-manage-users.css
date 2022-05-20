@@ -89,7 +89,7 @@ h3 {
   opacity: 0;
 }
 
-.user-card-menu-toggle:checked + .user-card .close {
+.user-card-menu-toggle:checked + .user-card .arrow {
   transform: rotate(-90deg);
   transition: 0.5s;
 }
@@ -174,7 +174,7 @@ h3 {
   transform: scale(1);
 }
 
-.close {
+.arrow {
   position: absolute;
   top: 1.3rem;
   right: 8px;
@@ -182,13 +182,13 @@ h3 {
   transition: 0.5s;
 }
 
-.close svg {
+.arrow svg {
   color: black;
 }
 
 /* Tooltip styles courtesy of https://www.w3schools.com/css/css_tooltip.asp */
 
-.close .tooltip-text {
+.arrow .tooltip-text {
   visibility: hidden;
   width: 80px;
   background-color: rgba(0, 0, 0, 0.3);
@@ -203,7 +203,7 @@ h3 {
   z-index: 1;
 }
 
-.close .tooltip-text::after {
+.arrow .tooltip-text::after {
   content: "";
   position: absolute;
   top: 50%;
@@ -215,7 +215,7 @@ h3 {
   border-color: transparent transparent transparent rgba(0, 0, 0, 0.3);
 }
 
-.close:hover .tooltip-text {
+.arrow:hover .tooltip-text {
   visibility: visible;
 }
 

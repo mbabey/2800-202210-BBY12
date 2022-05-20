@@ -218,6 +218,7 @@ footer {
     right: 35px;
   }
 
+  .header-search,
   .form-search {
     position: relative;
     top: 25%;

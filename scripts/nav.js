@@ -60,7 +60,6 @@ function addAdminStar() {
 }
 
 function openOverlay(){
-  console.log("Poggie");
   document.getElementById("overlay").style.top = "0vh";
 }
 

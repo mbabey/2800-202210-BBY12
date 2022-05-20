@@ -7,6 +7,8 @@ docLoaded(async () => {
     await getSearchData('/get-template?', getTemplate);
     getSearchData('/get-filter-posts?', renderPosts);
     getSearchData('/get-filter-users?', renderUsers);
+    
+    document.getElementById("header-search").addEventListener("submit", search);
 });
 
 function docLoaded(action) {
@@ -16,9 +18,14 @@ function docLoaded(action) {
         document.addEventListener('DOMContentLoaded', action);
 }
 
-function search() {
-    //getSearchData('/get-filter-users', renderUsers);
-    getSearchData('/get-filter-posts', renderPosts);
+function search(e) {
+    e.preventDefault();
+    const url = new URL(window.location);
+    url.searchParams.set(e.target.search.name , e.target.search.value);
+    window.history.pushState('','',url);
+    getSearchData('/get-filter-users?', renderUsers);
+    getSearchData('/get-filter-posts?', renderPosts);
+    return false;
 }
 
 async function getSearchData(path, callback) {
@@ -27,6 +34,7 @@ async function getSearchData(path, callback) {
             method: 'GET'
         });
         if (response.status == 200) {
+
             response = await response.text();
             response = JSON.parse(response);
             callback(response);
@@ -44,6 +52,9 @@ function getTemplate(response) {
 
 function renderUsers(users) {
     let uBody = document.querySelector(".user-block");
+    while(uBody.firstChild){
+        uBody.removeChild(uBody.firstChild);
+    }
     let pTemplateContent = template.content.getElementById("post-template").content;
 
     for (let i = 0; i < users.users.length; i++) {
@@ -61,6 +72,10 @@ function renderUsers(users) {
 
 function renderPosts(posts) {
     let pBody = document.querySelector(".post-block");
+    while(pBody.firstChild){
+        pBody.removeChild(pBody.firstChild);
+    }
+
     let pTemplateContent = template.content.getElementById("post-template").content;
     let pImgTemplateContent = template.content.getElementById("image-template").content;
     let pTagTemplateContent = template.content.getElementById("tag-template").content;

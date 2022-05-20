@@ -131,7 +131,7 @@ p {
 .tooltiptext {
   visibility: hidden;
   width: 120px;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.512);
   color: #fff;
   text-align: center;
   border-radius: 6px;

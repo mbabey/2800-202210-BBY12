@@ -45,16 +45,16 @@ io.on('connect', socket => {
 
 // ---------------- Custom Dependencies ----------------- \\
 
-const createAccount = require('./scripts/create-account');
-const resetPassword = require('./scripts/reset-password');
-const createPost = require('./scripts/create-post');
-const deleteQueries = require('./scripts/query-delete');
-const loginQuery = require('./scripts/query-login');
-const updateQueries = require('./scripts/query-post');
-const searchQueries = require('./scripts/query-search');
-const dbInitialize = require('./db-init');
-const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
-const feed = require('./scripts/feed');
+const createAccount = require('./server_modules/create-account');
+const createPost = require('./server_modules/create-post');
+const dbInitialize = require('./server_modules/db-init');
+const feed = require('./server_modules/feed');
+const deleteQueries = require('./server_modules/query-delete');
+const loginQuery = require('./server_modules/query-login');
+const updateQueries = require('./server_modules/query-post');
+const searchQueries = require('./server_modules/query-search');
+const resetPassword = require('./server_modules/reset-password');
+const { H_CONFIG, LOCAL_CONFIG } = require('./server_modules/server-configs');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\

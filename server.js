@@ -51,7 +51,7 @@ const dbInitialize = require('./server_modules/db-init');
 const feed = require('./server_modules/feed');
 const deleteQueries = require('./server_modules/query-delete');
 const loginQuery = require('./server_modules/query-login');
-const updateQueries = require('./server_modules/query-post');
+const postQueries = require('./server_modules/query-post');
 const searchQueries = require('./server_modules/query-search');
 const resetPassword = require('./server_modules/reset-password');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server_modules/server-configs');
@@ -540,30 +540,20 @@ app.post('/search-admin', (req, res) => {
 
 // QUERY: GET POST FROM ID AND USERNAME
 app.get('/get-post/:username/:postId', async (req, res) => {
-  let postContent, postImgs, postTags;
-  await con.promise().query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId])
-    .then((results) => {
-      postContent = results[0];
-    }).catch((err) => console.log(err));
-
-  await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
-    .then((results) => postImgs = results[0])
-    .catch((err) => console.log(err));
-
-  await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
-    .then((results) => postTags = results[0])
-    .catch((err) => console.log(err));
+  let postContent = await postQueries.getPost(req, con);
+  let postImgs = await postQueries.getImgs(req, con);
+  let postTags = await postQueries.getTags(req, con);
   res.setHeader('content-type', 'application/json');
   res.send([postContent, postImgs, postTags]);
 });
 
 // QUERY: UPDATE POST WITH GIVEN INFO
 app.post('/edit-post', upload.array('image-upload'), async (req, res) => {
-  await updateQueries.updatePost(req, con);
+  await postQueries.updatePost(req, con);
   await deleteQueries.deleteTags(req, con);
-  await updateQueries.updateTags(req, con);
+  await postQueries.updateTags(req, con);
   if (req.body["image-delete"]) {
-    await updateQueries.deleteImgs(req, con);
+    await postQueries.deleteImgs(req, con);
   }
   if (req.files.length > 0) {
     req.files.forEach(async image => {
@@ -574,7 +564,7 @@ app.post('/edit-post', upload.array('image-upload'), async (req, res) => {
       });
     });
   }
-  await updateQueries.updateImgs(req, con);
+  await postQueries.updateImgs(req, con);
   res.setHeader('content-type', 'application/json');
   res.send({ ayy: 'lmao' });
 });

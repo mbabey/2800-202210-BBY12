@@ -106,20 +106,17 @@ app.get('/', (req, res) => {
   }
 });
 
-// NAVBAR AND FOOTER
-app.get('/nav-and-footer', (req, res) => {
-  let navbarHTML = fs.readFileSync('./views/chunks/nav.xml', 'utf8');
-  let footerHTML = fs.readFileSync('./views/chunks/footer.xml', 'utf8');
-  res.setHeader('content-type', 'application/json');
-  res.send({ nav: navbarHTML, footer: footerHTML });
-});
+// TEMPLATES: NAV, FOOTER, SEARCH OVERLAY
+const navbarHTML = fs.readFileSync('./views/chunks/nav.xml', 'utf8');
+const footerHTML = fs.readFileSync('./views/chunks/footer.xml', 'utf8');
+const searchOverlayHTML = fs.readFileSync('./views/chunks/search-overlay.xml', 'utf8');
 
 // LOGIN
 app.route('/login')
   .get((req, res) => {
     if (!req.session.loggedIn) {
-      let loginPage = fs.readFileSync('./views/login.html', 'utf8');
-      res.send(loginPage);
+      let loginPage = new JSDOM(fs.readFileSync('./views/login.html', 'utf8').toString());
+      res.send(loginPage.serialize());
     } else {
       res.redirect('/');
     }
@@ -133,12 +130,6 @@ app.route('/login')
     req = result.request;
     res.send({ status: result.status });
   });
-
-// EGG
-app.get('/egg', (req, res) => {
-  let eggDOM = new JSDOM(fs.readFileSync('./views/egg.html', 'utf8'));
-  res.send(eggDOM.serialize());
-});
 
 // LOGOUT
 app.get('/logout', (req, res) => {
@@ -158,10 +149,8 @@ app.get('/is-admin', (req, res) => {
 // HOME PAGE
 app.get('/home', async (req, res) => {
   if (req.session.loggedIn) {
-    let homePage = fs.readFileSync('./views/home.html', 'utf8').toString();
-    let homeDOM = new JSDOM(homePage);
-    let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
-    let templateDOM = new JSDOM(templates);
+    let homeDOM = new JSDOM(fs.readFileSync('./views/home.html', 'utf8').toString());
+    let templateDOM = new JSDOM(fs.readFileSync('./views/templates.html', 'utf8').toString());
     await feed.populateFeed(req, homeDOM, templateDOM, con)
       .then((result) => {
         homeDOM = result;
@@ -173,8 +162,9 @@ app.get('/home', async (req, res) => {
     homeDOM.window.document.querySelector('#profile-picture').src = './avatars/' + results[0].profilePic;
     homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
     homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
-    homePage = homeDOM.serialize();
-    res.send(homePage);
+    homeDOM.window.document.querySelector('nav').innerHTML = navbarHTML;
+    homeDOM.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+    res.send(homeDOM.serialize());
   } else {
     res.redirect("/");
   }
@@ -183,35 +173,60 @@ app.get('/home', async (req, res) => {
 // PROFILE
 app.get('/profile', (req, res) => {
   if (req.session.loggedIn) {
-    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
-    res.send(profilePage);
+    let profileDOM = new JSDOM(fs.readFileSync('./views/profile.html', 'utf8').toString());
+    profileDOM.window.document.querySelector('nav').innerHTML = navbarHTML;
+    profileDOM.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+    res.send(profileDOM.serialize());
   } else {
     res.redirect('/');
   }
 });
 
-// UPLOAD PROFILE AVATAR
-app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
-  if (req.session.loggedIn && !req.fileValidtionError) {
-    con.query('UPDATE BBY_12_users SET profilePic = ? WHERE username = ?', [req.file.filename, req.session.username],
-      function (err) {
-        if (err) throw err;
-      });
-    let oldPath = req.file.path;
-    let newPath = "./views/avatars/" + req.file.filename;
-    fs.rename(oldPath, newPath, function (err) {
-      if (err) throw err;
-    });
+// OTHER USER'S PROFILE
+// Other user URL in the form './profile?user=[username]'
+app.get('/users', (req, res) => {
+  //need to redirect the page if the id doesn't exist
+  if (req.session.loggedIn) {
+    if (req.session.username == req.query.user) {
+      res.redirect('/profile?user=' + req.session.username);
+    } else {
+      let otherProfilePage = new JSDOM(fs.readFileSync('./views/other-user-profile.html', 'utf8').toString());
+      otherProfilePage.window.document.querySelector('nav').innerHTML = navbarHTML;
+      otherProfilePage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+      res.send(otherProfilePage.serialize());
+    }
+  } else {
+    res.redirect('/');
   }
-  res.redirect("/profile");
+});
+
+// SEARCH FOR POSTS
+app.get("/search", (req, res) => {
+  if (req.session.loggedIn) {
+    let searchPage = new JSDOM(fs.readFileSync('./views/search.html', 'utf8').toString());
+    searchPage.window.document.querySelector('nav').innerHTML = navbarHTML;
+    searchPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+    res.send(searchPage.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+// GET TEMPLATE FOR POSTS 
+app.get('/get-template', (req, res) => {
+  let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
+  res.setHeader('content-type', 'application/json');
+  res.send({ dom: templates });
 });
 
 // CREATE POST
 app.route("/create-post")
   .get((req, res) => {
     if (req.session.loggedIn) {
-      let createPostPage = fs.readFileSync('./views/create-post.html', 'utf8');
-      res.send(createPostPage);
+      let createPostPage = new JSDOM(fs.readFileSync('./views/create-post.html', 'utf8').toString());
+      createPostPage.window.document.querySelector('nav').innerHTML = navbarHTML;
+      createPostPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+      res.send(createPostPage.serialize());
     } else {
       res.redirect('/');
     }
@@ -243,8 +258,8 @@ app.route("/create-post")
 app.route('/create-account')
   .get((req, res) => {
     if (!req.session.loggedIn) {
-      let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
-      res.send(createAccountPage);
+      let createAccountPage = new JSDOM(fs.readFileSync('./views/create-account.html', 'utf8').toString());
+      res.send(createAccountPage.serialize());
     } else {
       res.redirect('/');
     }
@@ -264,8 +279,10 @@ app.route('/create-account')
 app.route("/reset-password")
   .get((req, res) => {
     if (req.session.loggedIn) {
-      let resetPasswordPage = fs.readFileSync('./views/reset-password.html', 'utf8');
-      res.send(resetPasswordPage);
+      let resetPasswordPage = new JSDOM(fs.readFileSync('./views/reset-password.html', 'utf8').toString());
+      resetPasswordPage.window.document.querySelector('nav').innerHTML = navbarHTML;
+      resetPasswordPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+      res.send(resetPasswordPage.serialize());
     }
   })
   .post((req, res) => {
@@ -284,8 +301,10 @@ app.route("/reset-password")
 // ADMIN MANAGE USERS
 app.get('/admin-manage-users', (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let adminManageAcc = fs.readFileSync('./views/admin-manage-users.html', 'utf8');
-    res.send(adminManageAcc);
+    let adminManageAcc = new JSDOM(fs.readFileSync('./views/admin-manage-users.html', 'utf8').toString());
+    adminManageAcc.window.document.querySelector('nav').innerHTML = navbarHTML;
+    adminManageAcc.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+    res.send(adminManageAcc.serialize());
   } else {
     res.redirect('/');
   }
@@ -295,8 +314,10 @@ app.get('/admin-manage-users', (req, res) => {
 app.route('/admin-add-account')
   .get((req, res) => {
     if (req.session.loggedIn && req.session.admin) {
-      let accountAddPage = fs.readFileSync('./views/admin-add-account.html', 'utf8');
-      res.send(accountAddPage);
+      let accountAddPage = new JSDOM(fs.readFileSync('./views/admin-add-account.html', 'utf8').toString());
+      accountAddPage.window.document.querySelector('nav').innerHTML = navbarHTML;
+      accountAddPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+      res.send(accountAddPage.serialize());
     } else {
       res.redirect('/');
     }
@@ -324,11 +345,19 @@ app.route('/admin-add-account')
 // CHAT PAGE
 app.get('/chat', (req, res) => {
   if (req.session.loggedIn) {
-    let chatPage = fs.readFileSync('./views/chat.html', 'utf8');
-    res.send(chatPage);
+    let chatPage = new JSDOM(fs.readFileSync('./views/chat.html', 'utf8').toString());
+    chatPage.window.document.querySelector('nav').innerHTML = navbarHTML;
+    chatPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+    res.send(chatPage.serialize());
   } else {
     res.redirect('/');
   }
+});
+
+// EGG
+app.get('/egg', (req, res) => {
+  let eggDOM = new JSDOM(fs.readFileSync('./views/egg.html', 'utf8'));
+  res.send(eggDOM.serialize());
 });
 
 // QUERY: GET ALL USERS' INFORMATION
@@ -354,6 +383,22 @@ app.post('/update-user', async (req, res) => {
   }
 });
 
+// QUERY: UPLOAD PROFILE AVATAR
+app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
+  if (req.session.loggedIn && !req.fileValidtionError) {
+    con.query('UPDATE BBY_12_users SET profilePic = ? WHERE username = ?', [req.file.filename, req.session.username],
+      function (err) {
+        if (err) throw err;
+      });
+    let oldPath = req.file.path;
+    let newPath = "./views/avatars/" + req.file.filename;
+    fs.rename(oldPath, newPath, function (err) {
+      if (err) throw err;
+    });
+  }
+  res.redirect("/profile");
+});
+
 // QUERY: UPDATE USER INFORMATION AS ADMIN
 app.post('/admin-edit-user', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
@@ -373,23 +418,6 @@ app.get('/get-all-admins', async (req, res) => {
     throw "Query to database failed.";
   }
 });
-
-// QUERY: GET CURRENT USER INFO IF USER IS ADMIN
-// NOT USED?
-// app.get('/get-admin', (req, res) => {
-//   if (req.session.loggedIn && req.session.admin) {
-//     let session_username = req.session.username;
-//     let admins = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
-//     con.query(admins, [session_username], (err, results) => {
-//       if (err) throw "Query to database failed.";
-//       res.setHeader('content-type', 'application/json');
-//       res.send({
-//         status: "success",
-//         rows: results
-//       });
-//     });
-//   }
-// });
 
 // QUERY: UPGRADE USER ACCOUNT TO ADMIN ACCOUNT
 app.post('/make-admin', async (req, res) => {
@@ -469,43 +497,12 @@ app.post('/search-user', async (req, res) => {
   res.send({ status: status, rows: user, msg: msg });
 });
 
-//LOCATING URL OF ANY USER'S PROFILE
-// Other user URL in the form './profile?user=[username]'
-app.get('/users', (req, res) => {
-  //need to redirect the page if the id doesn't exist
-  if (req.session.loggedIn) {
-    if (req.session.username == req.query.user) {
-      res.redirect('/profile?user=' + req.session.username);
-    } else {
-      let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
-      res.send(otherProfile);
-    }
-  } else {
-    res.redirect('/');
-  }
-});
-
 // USER GET USER
 app.get('/get-other-user', async (req, res) => {
   let user = await userQueries.getUser(req.query.user, con);
   res.setHeader('content-type', 'application/json');
   res.send(user);
 });
-
-//QUERY: ADMIN PROFILE SEARCH
-//NOT USED?
-// app.post('/search-admin', async (req, res) => {
-//   let admin = await userQueries.getAdmin(req, con);
-//   let status, msg;
-//   if (admin.length > 0) {
-//     status = 'success';
-//   } else {
-//     status = "fail";
-//     msg = "Search Fail";
-//   }
-//   res.setHeader('content-type', 'application/json');
-//   res.send({ status: status, rows: admin, msg: msg });
-// });
 
 // QUERY: GET POST FROM ID AND USERNAME
 app.get('/get-post/:username/:postId', async (req, res) => {
@@ -543,29 +540,6 @@ app.post('/delete-post', upload.none(), async (req, res) => {
   await deleteQueries.deleteTags(req, con);
   await deleteQueries.deleteImgs(req, con);
   await deleteQueries.deletePost(req, con);
-});
-
-// SEARCH FOR POSTS
-app.get("/search", (req, res) => {
-  if (req.session.loggedIn) {
-    let searchPage = fs.readFileSync('./views/search.html', 'utf8');
-    res.send(searchPage);
-  } else {
-    res.redirect('/');
-  }
-});
-
-// MOBILE SEARCH OVERLAY 
-app.get('/search-overlay', (req, res) => {
-  let searchOverlayHTML = fs.readFileSync('./views/chunks/search-overlay.xml', 'utf8');
-  res.setHeader('content-type', 'application/json');
-  res.send({ overlay: searchOverlayHTML });
-});
-
-app.get('/get-template', (req, res) => {
-  let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
-  res.setHeader('content-type', 'application/json');
-  res.send({ dom: templates });
 });
 
 // QUERY GET USERS BY SEARCH TERM

@@ -1,8 +1,8 @@
 'use strict';
 
 docLoaded(() => {
-  getData('/nav-and-footer', popNavAndFooter);
-  getData('/search-overlay', popSearchOverlay);
+  // getData('/nav-and-footer', popNavAndFooter);
+  document.querySelector('footer #footer-search').addEventListener("click", openOverlay, false);
   getData('/get-user', popNavName);
   getData('/is-admin', (isAdmin) => {
     if (isAdmin.admin) {
@@ -38,7 +38,6 @@ function popNavAndFooter(navAndFooter) {
 
 function popSearchOverlay(searchOverlay){
   document.querySelector('footer').innerHTML += searchOverlay.overlay;
-  document.querySelector('footer #footer-search').addEventListener("click", openOverlay, false);
 }
 
 function popNavName(data) {

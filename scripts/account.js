@@ -1,13 +1,27 @@
 'use strict';
 docLoaded(() => {
-  let biz_name = document.querySelector('.business-name-block');
-  let biz_owner_fName = document.querySelector('.business-owner-fname-block');
-  let biz_owner_lName = document.querySelector('.business-owner-lname-block');
-  let biz_type = document.querySelector('.business-type-block');
-  let biz_email = document.querySelector('.business-email-block');
-  let biz_phone = document.querySelector('.business-phone-block');
-  let biz_location = document.querySelector('.business-location-block');
-  let biz_description = document.querySelector('.business-description-block');
+
+  const bizInfo = {
+    cName: document.querySelectorAll('.business-name-block'),
+    fName: document.querySelectorAll('.business-owner-fname-block'),
+    lName: document.querySelectorAll('.business-owner-lname-block'),
+    bType: document.querySelectorAll('.business-type-block'),
+    email: document.querySelectorAll('.business-email-block'),
+    phoneNo: document.querySelectorAll('.business-phone-block'),
+    location: document.querySelectorAll('.business-location-block'),
+    description: document.querySelectorAll('.business-description-block')
+  };
+
+  const bizInfoDefaults = {
+    cName: "Enter business name here",
+    fName: "first name",
+    lName: "last name",
+    bType: "Enter business type",
+    email: "Enter email",
+    phoneNo: "Enter phone number",
+    location: "Enter location",
+    description: "Enter description"
+  };
 
   let edit_button = document.getElementById("edit-button");
   let save_button = document.getElementById("save-button");
@@ -22,42 +36,18 @@ docLoaded(() => {
         popThaSpots(JSON.parse(data));
       }
     } catch (err) {
-
     }
   }
   getData();
 
-
-
-  function clickEdit(section) {
-    section.contentEditable = true;
-    section.style.color = "#2c598e";
-    section.style.borderRadius = "5px";
-    section.style.padding = "10px";
-    section.style.backgroundColor = "rgb(246, 255, 179)";
+  function popThaSpots(data) {
+    document.querySelector("#profile-picture").src = "./avatars/" + data[0].profilePic;
+    for (const [key, value] of Object.entries(bizInfo)) {
+      value.forEach((element) => {
+        element.innerHTML = (data[0][key] != undefined && data[0][key] != null) ? data[0][key] : '';
+      });
+    }
   }
-
-  document.getElementById("edit-button").addEventListener("click", (event) => {
-
-    clickEdit(biz_name);
-    clickEdit(biz_owner_fName);
-    clickEdit(biz_owner_lName);
-    clickEdit(biz_type);
-    clickEdit(biz_email);
-    clickEdit(biz_phone);
-    clickEdit(biz_location);
-    clickEdit(biz_description);
-
-    document.getElementById("edit-status").innerHTML = "";
-    edit_button.innerHTML = "";
-    save_button.innerHTML = "Save";
-    event.preventDefault();
-  });
-
-  function saved(data) {
-    data.contentEditable = false;
-    data.style.color = '#ffd500';
-  };
 
   function checkEmpty(data) {
     let checkEmpty = data.trim();
@@ -71,77 +61,54 @@ docLoaded(() => {
     }
   };
 
-  document.getElementById("save-button").addEventListener("click", (event) => {
-    saved(biz_name);
-    let biz_name_value = biz_name.innerHTML;
-    if (!checkEmpty(biz_name_value)) {
-      biz_name_value = biz_name_value = "Enter business name here";
-    };
+  function clickEdit(section) {
+    section.contentEditable = true;
+    section.style.color = "#2c598e";
+    section.style.borderRadius = "5px";
+    section.style.padding = "10px";
+    section.style.backgroundColor = "rgb(246, 255, 179)";
+  }
 
-    saved(biz_owner_fName);
-    let biz_owner_fName_value = biz_owner_fName.innerHTML;
-    if (!checkEmpty(biz_owner_fName_value)) {
-      biz_owner_fName_value = "first name";
-    };
+  document.getElementById("edit-button").addEventListener("click", (event) => {
+    for (const [key, value] of Object.entries(bizInfo)) {
+      clickEdit(value);
+    }
 
-    saved(biz_owner_lName);
-    let biz_owner_lName_value = biz_owner_lName.innerHTML;
-    if (!checkEmpty(biz_owner_lName_value)) {
-      biz_owner_lName_value = "last name";
-    };
+    document.getElementById("edit-status").innerHTML = "";
+    edit_button.innerHTML = "";
+    save_button.innerHTML = "Save";
+    event.preventDefault();
+  });
 
-    saved(biz_type);
-    let biz_type_value = biz_type.innerHTML;
-    if (!checkEmpty(biz_type_value)) {
-      biz_type_value = "Enter business type";
-    };
+  function saved(data) {
+    data.contentEditable = false;
+    data.style.color = '#ffd500';
+  };
 
-    saved(biz_email);
-    let biz_email_value = biz_email.innerHTML;
-    if (!checkEmpty(biz_email_value)) {
-      biz_email_value = "Enter email";
-    };
-
-    saved(biz_owner_fName);
-    let biz_phone_value = biz_phone.innerHTML;
-    if (!checkEmpty(biz_phone_value)) {
-      biz_phone_value = "Enter phone number";
-    };
-
-    saved(biz_location);
-    let biz_location_value = biz_location.innerHTML;
-    if (!checkEmpty(biz_location_value)) {
-      biz_location_value = "Enter location";
-    };
-
-    saved(biz_description);
-    let biz_description_value = biz_description.innerHTML;
-    if (!checkEmpty(biz_description_value)) {
-      biz_description_value = "Enter description";
-    };
+  document.getElementById("save-button").addEventListener("click", async (event) => {
+    let dataToSend = {};
+    for (const [key, value] of Object.entries(bizInfo)) {
+      saved(value);
+      if (!checkEmpty(value.innerHTML)) {
+        value.innerHTML = bizInfoDefaults[key];
+      }
+      dataToSend[key] = value.innerHTML;
+    }
+    dataToSend["username"] = new URLSearchParams(document.location.search).get("user");
 
     document.getElementById("edit-status").innerHTML = "";
     edit_button.innerHTML = "Edit Profile";
     save_button.innerHTML = "";
 
-    let dataToSend = {
-      fName: biz_owner_fName_value,
-      lName: biz_owner_lName_value,
-      cName: biz_name_value,
-      bType: biz_type_value,
-      email: biz_email_value,
-      phoneNo: biz_phone_value,
-      location: biz_location_value,
-      description: biz_description_value
-    };
+    console.log(dataToSend);
     sendData(JSON.stringify(dataToSend));
     location.reload();
-
   });
 });
 
 async function sendData(data) {
   try {
+    console.log(data);
     await fetch('/update-user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

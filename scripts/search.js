@@ -63,8 +63,8 @@ function renderUsers(users) {
         clone.querySelector("#post-user-avatar").src = "./avatars/" + user.profilePic;
         clone.querySelector("#post-business-name").textContent = user.cName;
         clone.querySelector("#post-business-type").textContent = user.bType;
-        clone.querySelector("#link-avatar").href = "/users/" + user.username;
-        clone.querySelector("#link-bName").href = "/users/" + user.username;
+        clone.querySelector("#link-avatar").href = "/users?user=" + user.username;
+        clone.querySelector("#link-bName").href = "/users?user=" + user.username;
         clone.querySelector(".post-body").remove();
         uBody.appendChild(clone);
     }
@@ -98,8 +98,8 @@ function renderPosts(posts) {
         clone.querySelector("#post-timestamp").textContent = post.timestamp.split(' ').slice(1).join(' ');
         clone.querySelector("#post-description").textContent = post.content;
         clone.querySelector("#post-title").textContent = post.postTitle;
-        clone.querySelector("#link-avatar").href = "/users/" + user.username;
-        clone.querySelector("#link-bName").href = "/users/" + user.username;
+        clone.querySelector("#link-avatar").href = "/users?user=" + user.username;
+        clone.querySelector("#link-bName").href = "/users?user=" + user.username;
 
 
         let pImgs = clone.querySelector(".gallery");

@@ -374,6 +374,23 @@ app.get('/get-user', async (req, res) => {
   res.send(user);
 });
 
+// QUERY: GET USER OTHER USER'S INFO
+app.get('/get-other-user', async (req, res) => {
+  let user = await userQueries.getUser(req.query.user, con);
+  res.setHeader('content-type', 'application/json');
+  res.send(user);
+});
+
+// QUERY: GET POST FROM ID AND USERNAME
+app.get('/get-post/:username/:postId', async (req, res) => {
+  let postContent = await postQueries.getPost(req, con);
+  let postImgs = await postQueries.getImgs(req, con);
+  let postTags = await postQueries.getTags(req, con);
+  res.setHeader('content-type', 'application/json');
+  res.send([postContent, postImgs, postTags]);
+});
+
+
 // QUERY: UPDATE USER INFORMATION
 app.post('/update-user', async (req, res) => {
   if (req.session.loggedIn) {
@@ -495,22 +512,6 @@ app.post('/search-user', async (req, res) => {
   (user.length > 0) ? status = 'success' : (status = "fail", msg = "Search Fail");
   res.setHeader('content-type', 'application/json');
   res.send({ status: status, rows: user, msg: msg });
-});
-
-// USER GET USER
-app.get('/get-other-user', async (req, res) => {
-  let user = await userQueries.getUser(req.query.user, con);
-  res.setHeader('content-type', 'application/json');
-  res.send(user);
-});
-
-// QUERY: GET POST FROM ID AND USERNAME
-app.get('/get-post/:username/:postId', async (req, res) => {
-  let postContent = await postQueries.getPost(req, con);
-  let postImgs = await postQueries.getImgs(req, con);
-  let postTags = await postQueries.getTags(req, con);
-  res.setHeader('content-type', 'application/json');
-  res.send([postContent, postImgs, postTags]);
 });
 
 // QUERY: UPDATE POST WITH GIVEN INFO

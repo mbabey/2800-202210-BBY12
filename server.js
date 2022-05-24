@@ -471,25 +471,45 @@ app.post('/search-user', async (req, res) => {
 
 //LOCATING URL OF ANY USER'S PROFILE
 // Other user URL in the form './profile?user=[username]'
-app.get('/users', (req, res) => {
-  //need to redirect the page if the id doesn't exist
+// app.get('/users', (req, res) => {
+//   //need to redirect the page if the id doesn't exist
+//   if (req.session.loggedIn) {
+//     if (req.session.username == req.query.user) {
+//       res.redirect('/profile?user=' + req.session.username);
+//     } else {
+//       let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
+//       res.send(otherProfile);
+//     }
+//   } else {
+//     res.redirect('/');
+//   }
+// });
+
+app.get('/users/:id', (req, res) => {
   if (req.session.loggedIn) {
-    if (req.session.username == req.query.user) {
-      res.redirect('/profile?user=' + req.session.username);
+    if(req.session.username == req.params.id){
+      res.redirect('/profile');
     } else {
       let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
       res.send(otherProfile);
     }
   } else {
-    res.redirect('/');
+      res.redirect('/');
   }
 });
 
 // USER GET USER
-app.get('/get-other-user', async (req, res) => {
-  let user = await userQueries.getUser(req.query.user, con);
-  res.setHeader('content-type', 'application/json');
-  res.send(user);
+// app.get('/get-other-user', async (req, res) => {
+//   let user = await userQueries.getUser(req.query.user, con);
+//   res.setHeader('content-type', 'application/json');
+//   res.send(user);
+// });
+app.get('/users/:id/get-other-user', (req, res) => {
+  con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.params.id], (error, results, fields) => {
+      if (error) throw error;
+      res.setHeader('content-type', 'application/json');
+      res.send(results);
+  });
 });
 
 //QUERY: ADMIN PROFILE SEARCH

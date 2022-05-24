@@ -9,9 +9,13 @@ docLoaded(() => {
     let biz_location = document.querySelector('.business-location-block');
     let biz_description = document.querySelector('.business-description-block');
 
+
+
+    // let response = await fetch('/get-other-user' + new URLSearchParams(window.location.search), {
+
     async function sendName() {
         try {
-            let response = await fetch('/get-other-user?' + new URLSearchParams(window.location.search), {
+            let response = await fetch(window.location.pathname + '/get-other-user', {
                 method: 'GET',
             });
             if (response.status == 200) {

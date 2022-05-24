@@ -1,7 +1,8 @@
 .DS_Store
 database.sql
 .env
-server-configs.js
 uploads
 avatars
 images
+server-configs.js
+db-init.js

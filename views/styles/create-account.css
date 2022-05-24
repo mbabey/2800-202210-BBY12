@@ -221,6 +221,10 @@
   color: var(--primary-dark);
 }
 
+span > svg{
+  cursor:pointer;
+}
+
 @media only screen and (max-width: 800px) {
   #wrapper {
     min-height: 100vh;

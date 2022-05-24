@@ -14,20 +14,19 @@ async function insertDB(req, con) {
         .then((result) => {
             postId = result[0][0].maxId + 1;
         }).catch((err) => {
-            console.log(err);
+            
         });
-    console.log(postId);
     return new Promise(async (resolve, reject) => {
         if (req.body["input-title"] && (req.body["input-description"])) {
             await con.execute('INSERT INTO \`BBY_12_Post\` (username, postId, postTitle, timestamp, content) values (?,?,?,?,?)', [req.session.username, postId, req.body["input-title"], new Date().toISOString().slice(0, 19).replace('T', ' '), req.body["input-description"]],
                 (err) => {
-                    console.log(err);
+                    
                 });
             if (req.files.length > 0) {
                 req.files.forEach(async image => {
                     await con.execute('INSERT INTO \`BBY_12_Post_Img\` (username, postId, imgFile) values (?,?,?)', [req.session.username, postId, image.filename],
                         (err) => {
-                            console.log(err);
+                            
                         });
                 });
             }
@@ -35,12 +34,11 @@ async function insertDB(req, con) {
             tags = tags.filter((item, pos) => {
                 return tags.indexOf(item) == pos;
             });
-            console.log(tags);
             tags.forEach(async tag => {
                 if (tag) {
                     await con.execute('INSERT INTO \`BBY_12_Post_Tag\`(username, postId, tag) values (?,?,?)', [req.session.username, postId, tag],
                         (err) => {
-                            console.log(err);
+                            
                         });
                 }
             });

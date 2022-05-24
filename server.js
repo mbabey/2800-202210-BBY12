@@ -589,6 +589,7 @@ app.get('/get-session', (req, res) => {
   res.send({ session: session });
 });
 
+// QUERY GET POSTS BY USERNAME
 app.get('/get-user-posts', async (req, res) => {
   let posts = await searchQueries.userPosts(req.query.user, con);
   res.setHeader('content-type', 'application/json');

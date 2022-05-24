@@ -43,14 +43,9 @@ docLoaded(() => {
 
     function popThaSpots(data) {
         document.querySelector("#profile-picture").src = "./avatars/" + data[0].profilePic;
-        bizInfo.cName.innerHTML = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
-        bizInfo.fName.innerHTML = (data[0].fName != undefined && data[0].fName != null) ? data[0].fName : '';
-        bizInfo.lName.innerHTML = (data[0].lName != undefined && data[0].lName != null) ? data[0].lName : '';
-        bizInfo.bType.innerHTML = (data[0].bType != undefined && data[0].bType != null) ? data[0].bType : '';
-        bizInfo.email.innerHTML = (data[0].email != undefined && data[0].email != null) ? data[0].email : '';
-        bizInfo.phoneNo.innerHTML = (data[0].phoneNo != undefined && data[0].phoneNo != null) ? data[0].phoneNo : '';
-        bizInfo.location.innerHTML = (data[0].location != undefined && data[0].location != null) ? data[0].location : '';
-        bizInfo.description.innerHTML = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
+        for (const [key, value] of Object.entries(bizInfo)) {
+            value.innerHTML = (data[0][key] != undefined && data[0][key] != null) ? data[0][key] : '';
+        }
     }
 
     function clickEdit(section) {
@@ -65,15 +60,6 @@ docLoaded(() => {
         for (const [key, value] of Object.entries(bizInfo)) {
             clickEdit(value);
         }
-
-        // clickEdit(bizInfo.biz_name);
-        // clickEdit(bizInfo.biz_owner_fName);
-        // clickEdit(bizInfo.biz_owner_lName);
-        // clickEdit(bizInfo.biz_type);
-        // clickEdit(bizInfo.biz_email);
-        // clickEdit(bizInfo.biz_phone);
-        // clickEdit(bizInfo.biz_location);
-        // clickEdit(bizInfo.biz_description);
 
         document.getElementById("edit-status").innerHTML = "";
         edit_button.innerHTML = "";

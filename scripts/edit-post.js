@@ -23,7 +23,6 @@ docLoaded(() => {
 
 async function editPost(event) {
   let post = event.target.parentNode.parentNode.parentNode;
-  // console.log('/get-post/' + post.dataset.username + '/' + post.dataset.postId);
   enableEdit(post);
 }
 
@@ -141,8 +140,6 @@ function enableEdit(post) {
     fields[i].setAttribute("contentEditable", "true");
     fields[i].style.border = "1px solid black";
   }
-
-
 }
 
 function deleteImg(event) {
@@ -170,13 +167,6 @@ function disableEdit(post) {
     fields[i].style.border = "none";
   }
 }
-
-// async function addLink(){
-//     let aTag = document.createElement("a");
-//     aTag.href = window.location.hostname + '/' + post.dataset.username;
-
-// }
-
 
 function docLoaded(action) {
   if (document.readyState != 'loading')

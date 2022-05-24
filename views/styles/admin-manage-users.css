@@ -72,7 +72,7 @@ h3 {
 
 #dashboard-drop-menu-trigger:checked+#hamborger span {
   opacity: 1;
-  transform: rotate(45deg) translate(-2px, -1px);
+  transform: rotate(45deg) translate(-1.5px, -3px);
   background-color: black;
   /* Close button color */
 }
@@ -83,7 +83,7 @@ h3 {
 }
 
 #dashboard-drop-menu-trigger:checked+#hamborger span:nth-last-child(1) {
-  transform: rotate(-45deg) translate(0, -1px);
+  transform: rotate(-45deg) translate(-1.5px, -3px);
 }
 
 /* End styles for hamburger menu button */

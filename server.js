@@ -53,6 +53,7 @@ const deleteQueries = require('./server_modules/query-delete');
 const loginQuery = require('./server_modules/query-login');
 const postQueries = require('./server_modules/query-post');
 const searchQueries = require('./server_modules/query-search');
+const userQueries = require('./server_modules/query-user');
 const resetPassword = require('./server_modules/reset-password');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server_modules/server-configs');
 
@@ -364,53 +365,46 @@ app.post('/update-user', (req, res) => {
 });
 
 // QUERY: UPDATE USER INFORMATION AS ADMIN
-app.post('/admin-edit-user', (req, res) => {
+app.post('/admin-edit-user', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-      [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
-      (error, results) => {
-        res.setHeader('Content-Type', 'application/json');
-        if (error) {
-          res.send({ status: 'fail' });
-        } else
-          res.send({ status: "success" });
-      });
+    let status = await userQueries.updateUser(req, con);
+    res.setHeader('Content-Type', 'application/json');
+    res.send({ status: status });
   }
 });
 
 // QUERY: GET ALL ADMINS
-app.get('/get-all-admins', (req, res) => {
-  let admins = 'SELECT * FROM BBY_12_admins';
-  con.query(admins, (err, results) => {
-    if (err) throw "Query to database failed.";
+app.get('/get-all-admins', async (req, res) => {
+  try {
+    let admins = await userQueries.getAllAdmin(con);
     res.setHeader('content-type', 'application/json');
-    res.send({
-      status: "success",
-      rows: results
-    });
-  });
+    res.send({ status: "success", rows: admins });
+  } catch (err) {
+    throw "Query to database failed.";
+  }
 });
 
 // QUERY: GET CURRENT USER INFO IF USER IS ADMIN
-app.get('/get-admin', (req, res) => {
-  if (req.session.loggedIn && req.session.admin) {
-    let session_username = req.session.username;
-    let admins = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
-    con.query(admins, [session_username], (err, results) => {
-      if (err) throw "Query to database failed.";
-      res.setHeader('content-type', 'application/json');
-      res.send({
-        status: "success",
-        rows: results
-      });
-    });
-  }
-});
+// NOT USED?
+// app.get('/get-admin', (req, res) => {
+//   if (req.session.loggedIn && req.session.admin) {
+//     let session_username = req.session.username;
+//     let admins = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
+//     con.query(admins, [session_username], (err, results) => {
+//       if (err) throw "Query to database failed.";
+//       res.setHeader('content-type', 'application/json');
+//       res.send({
+//         status: "success",
+//         rows: results
+//       });
+//     });
+//   }
+// });
 
 // QUERY: UPGRADE USER ACCOUNT TO ADMIN ACCOUNT
 app.post('/make-admin', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let [rows, fields] = await con.promise().query('INSERT INTO BBY_12_admins (username) VALUES (?);', [req.body.username]);
+    let [rows, fields] = await userQueries.insertAdmin(req, con);
     let newAdmin = (rows.affectedRows) ? true : false;
     res.setHeader('Content-Type', 'application/json');
     res.send({ adminCreated: newAdmin });
@@ -420,80 +414,70 @@ app.post('/make-admin', async (req, res) => {
 // QUERY: DOWNGRADE ADMIN ACCOUNT TO USER ACCOUNT
 app.post('/delete-admin', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numAdmins FROM BBY_12_admins');
-    let numAdmins = rows[0].numAdmins;
-
-    let adminDeleted = false;
-    let lastAdmin = false;
+    let adminCount = await userQueries.countAdmin(con);
+    let results = { adminX: false, finalAdmin: false };
 
     if (req.session.username == req.body.username) {
-      adminDeleted = true;
-      lastAdmin = true;
-    } else if (numAdmins > 1) {
-      [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Admins WHERE username = ?', [req.body.username]);
+      results.adminX = true;
+      results.finalAdmin = true;
+    } else if (adminCount[0].numAdmins > 1) {
+      let [rows, fields] = await userQueries.deleteAdmin(req, con);
       if (rows.affectedRows)
-        adminDeleted = true;
+        results.adminX = true;
     } else {
-      lastAdmin = true;
+      results.finalAdmin = true;
     }
     res.setHeader('Content-Type', 'application/json');
-    res.send({ adminX: adminDeleted, finalAdmin: lastAdmin });
+    res.send(results);
   }
 });
 
 // QUERY: DELETE USER
 app.post('/delete-user', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numAdmins FROM BBY_12_admins');
-    let numAdmins = rows[0].numAdmins;
-    [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numUsers FROM BBY_12_users');
-    let numUsers = rows[0].numUsers;
-
-    let adminDeleted = false;
-    let userDeleted = false;
-    let lastAdmin = false;
-    let lastUser = false;
+    let results = { adminX: false, userX: false, finalAdmin: false, finalUser: false };
 
     if (req.session.username == req.body.username) {
-      adminDeleted = true;
-      userDeleted = true;
-      lastAdmin = true;
-      lastUser = true;
-    } else if (numUsers > 1) {
-      if (numAdmins > 1) {
-        [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Admins WHERE username = ?', [req.body.username]);
-        if (rows.affectedRows)
-          adminDeleted = true;
-      }
-      try {
-        [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Users WHERE username = ?', [req.body.username]);
-        if (rows.affectedRows)
-          userDeleted = true;
-      } catch (err) {
-        console.log(err);
-        lastAdmin = true;
-      }
+      results.adminX = true;
+      results.userX = true;
+      results.finalAdmin = true;
+      results.finalUser = true;
     } else {
-      lastUser = true;
+      let adminCount = await userQueries.countAdmin(con);
+      let userCount = await userQueries.countUser(con);
+
+      if (userCount[0].numUsers > 1) {
+        if (adminCount[0].numAdmins > 1) {
+          let [rows, fields] = await userQueries.deleteAdmin(req, con);
+          if (rows.affectedRows)
+            results.adminX = true;
+        }
+        try {
+          let [rows, fields] = await userQueries.deleteUser(req, con);
+          if (rows.affectedRows)
+            results.userX = true;
+        } catch (err) {
+          console.log(err);
+          results.finalAdmin = true;
+        }
+      } else {
+        results.finalUser = true;
+      }
     }
     res.setHeader('Content-Type', 'application/json');
-    res.send({ adminX: adminDeleted, userX: userDeleted, finalAdmin: lastAdmin, finalUser: lastUser });
+    console.log(results);
+    res.send(results);
   }
 });
 
 //QUERY: ADMIN EDIT USER PROFILE SEARCH
-app.post('/search-user', (req, res) => {
-  con.query('SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic FROM BBY_12_users WHERE username = ?', [req.body.username],
-    function (error, results) {
-      if (error)
-        console.log(error);
-      if (results.length > 0) {
-        res.setHeader('content-type', 'application/json');
-        res.send({ status: 'success', rows: results });
-      } else {
-        res.send({ status: "fail", msg: "Search Fail" });
-      }
-    });
+app.post('/search-user', async (req, res) => {
+  let status, msg;
+  let user = await userQueries.getUser(req, con);
+  (user.length > 0) ? status = 'success' : (status = "fail", msg = "Search Fail");
+  console.log(user);
+  res.setHeader('content-type', 'application/json');
+  res.send({ status: status, rows: user, msg: msg });
 });
 
 //LOCATING URL OF ANY USER'S PROFILE
@@ -513,30 +497,26 @@ app.get('/users', (req, res) => {
 });
 
 // USER GET USER
-app.get('/get-other-user', (req, res) => {
-  //req.query.user
-  con.query(`SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic 
-              FROM \`BBY_12_users\` 
-              WHERE (\`username\` = ?);`, [req.query.user], (error, results, fields) => {
-    if (error) throw error;
-    res.setHeader('content-type', 'application/json');
-    res.send(results);
-  });
+app.get('/get-other-user', async (req, res) => {
+  let user = await userQueries.getUser(req, con);
+  res.setHeader('content-type', 'application/json');
+  res.send(user);
 });
 
 //QUERY: ADMIN PROFILE SEARCH
-app.post('/search-admin', (req, res) => {
-  con.query('SELECT * FROM BBY_12_admins WHERE username = ?', [req.body.username],
-    function (error, results) {
-      if (error) throw error;
-      if (results.length > 0) {
-        res.setHeader('content-type', 'application/json');
-        res.send({ status: 'success', rows: results });
-      } else {
-        res.send({ status: "fail", msg: "Search Fail" });
-      }
-    });
-});
+//NOT USED?
+// app.post('/search-admin', async (req, res) => {
+//   let admin = await userQueries.getAdmin(req, con);
+//   let status, msg;
+//   if (admin.length > 0) {
+//     status = 'success';
+//   } else {
+//     status = "fail";
+//     msg = "Search Fail";
+//   }
+//   res.setHeader('content-type', 'application/json');
+//   res.send({ status: status, rows: admin, msg: msg });
+// });
 
 // QUERY: GET POST FROM ID AND USERNAME
 app.get('/get-post/:username/:postId', async (req, res) => {

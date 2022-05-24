@@ -332,15 +332,15 @@ app.get('/chat', (req, res) => {
 });
 
 // QUERY: GET ALL USERS' INFORMATION
-app.get('/get-all-users', (req, res) => {
+app.get('/get-all-users', async (req, res) => {
   let users = await userQueries.getAllUser(con);
   res.setHeader('content-type', 'application/json');
   res.send({ status: "success", rows: users, thisUser: req.session.username });
 });
 
 // QUERY: GET LOGGED IN USER'S INFORMATION
-app.get('/get-user', (req, res) => {
-  let user = await userQueries.getUser(req.body.username, con);
+app.get('/get-user', async (req, res) => {
+  let user = await userQueries.getUser(req.session.username, con);
   res.setHeader('content-type', 'application/json');
   res.send(user);
 });

@@ -1,16 +1,11 @@
 'use strict';
 
 module.exports = {
-    getUser: async (req, con) => {
+    getUser: async (user, con) => {
         let userInfo;
-        let user;
-        (req.body.username) ? (user = req.body.username) : (user = req.query.user);
-        
-        console.log(req.query.user, req.body.user);
         await con.promise().query('SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic FROM BBY_12_users WHERE (username = ?);',
             [user]).then((results) => userInfo = results[0])
             .catch((err) => console.log(err));
-        console.log(userInfo);
         return userInfo;
     },
 
@@ -57,6 +52,14 @@ module.exports = {
                 admins = results[0];
             });
         return admins;
+    },
+    getAllUser: async (con) => {
+        let users;
+        await con.promise().query('SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic FROM BBY_12_users')
+            .then((results) => {
+                users = results[0];
+            });
+        return users;
     },
 
     updateUser: async (req, con) => {

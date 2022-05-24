@@ -333,34 +333,24 @@ app.get('/chat', (req, res) => {
 
 // QUERY: GET ALL USERS' INFORMATION
 app.get('/get-all-users', (req, res) => {
-  con.query('SELECT * FROM BBY_12_users', (err, results) => {
-    if (err) throw "Query to database failed.";
-    res.setHeader('content-type', 'application/json');
-    res.send({ status: "success", rows: results, thisUser: req.session.username });
-  });
+  let users = await userQueries.getAllUser(con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ status: "success", rows: users, thisUser: req.session.username });
 });
 
 // QUERY: GET LOGGED IN USER'S INFORMATION
 app.get('/get-user', (req, res) => {
-  con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], (error, results, fields) => {
-    if (error) throw error;
-    res.setHeader('content-type', 'application/json');
-    res.send(results);
-  });
+  let user = await userQueries.getUser(req.body.username, con);
+  res.setHeader('content-type', 'application/json');
+  res.send(user);
 });
 
 // QUERY: UPDATE USER INFORMATION
-app.post('/update-user', (req, res) => {
+app.post('/update-user', async (req, res) => {
   if (req.session.loggedIn) {
-    con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-      [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
-      (error, results) => {
-        res.setHeader('Content-Type', 'application/json');
-        if (error) {
-          res.send({ status: 'fail' });
-        } else
-          res.send({ status: "success" });
-      });
+    let status = await userQueries.updateUser(req, con);
+    res.setHeader('Content-Type', 'application/json');
+    res.send({ status: status });
   }
 });
 
@@ -473,9 +463,8 @@ app.post('/delete-user', async (req, res) => {
 //QUERY: ADMIN EDIT USER PROFILE SEARCH
 app.post('/search-user', async (req, res) => {
   let status, msg;
-  let user = await userQueries.getUser(req, con);
+  let user = await userQueries.getUser(req.body.username, con);
   (user.length > 0) ? status = 'success' : (status = "fail", msg = "Search Fail");
-  console.log(user);
   res.setHeader('content-type', 'application/json');
   res.send({ status: status, rows: user, msg: msg });
 });
@@ -498,7 +487,7 @@ app.get('/users', (req, res) => {
 
 // USER GET USER
 app.get('/get-other-user', async (req, res) => {
-  let user = await userQueries.getUser(req, con);
+  let user = await userQueries.getUser(req.query.user, con);
   res.setHeader('content-type', 'application/json');
   res.send(user);
 });

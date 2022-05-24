@@ -34,17 +34,10 @@ const upload = multer({
 });
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-io.on('connect', socket => {
-  console.log('New user joined chat.');
-  socket.emit('chat-message', 'Chat up a collab!');
-  socket.on('send-message', message => {
-    console.log(message);
-    socket.emit('chat-message', message);
-  });
-});
 
 // ---------------- Custom Dependencies ----------------- \\
 
+const chatServer = require('./server_modules/chat-server');
 const createAccount = require('./server_modules/create-account');
 const createPost = require('./server_modules/create-post');
 const dbInitialize = require('./server_modules/db-init');
@@ -98,7 +91,8 @@ server.listen(port, () => {
 app.get('/', (req, res) => {
   if (req.session.loggedIn) {
     if (req.session.admin)
-      res.redirect('/admin-manage-users');
+      // res.redirect('/admin-manage-users');
+      res.redirect('/chat'); // TEMP FOR TESTING CHAT
     else
       res.redirect('/home');
   } else {
@@ -326,6 +320,7 @@ app.get('/chat', (req, res) => {
   if (req.session.loggedIn) {
     let chatPage = fs.readFileSync('./views/chat.html', 'utf8');
     res.send(chatPage);
+    chatServer.runChatServer(io);
   } else {
     res.redirect('/');
   }

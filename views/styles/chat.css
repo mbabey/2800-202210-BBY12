@@ -11,6 +11,22 @@
   grid-row: 2 / span 1;
 }
 
+.message {
+  border-radius: 3px;
+}
+
+.self-message {
+  background-color: var(--secondary-light);
+  text-align: right;
+  float: right;
+}
+
+.other-message {
+  background-color: #fff;
+  text-align: left;
+  float: left;
+}
+
 .message-footer {
   grid-row: 3 / span 1;
   justify-items: center;

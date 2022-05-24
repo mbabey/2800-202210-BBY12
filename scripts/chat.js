@@ -1,7 +1,7 @@
 'use strict';
 let socket = io.connect('/');
 
-let messageContainer = document.querySelector('.message-container');
+let messageContainer = document.querySelector('.message-content');
 let messageSend = document.querySelector('.message-send-block');
 let messageInput = document.querySelector('#message-input');
 

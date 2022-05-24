@@ -500,7 +500,6 @@ app.post('/delete-user', async (req, res) => {
       }
     }
     res.setHeader('Content-Type', 'application/json');
-    console.log(results);
     res.send(results);
   }
 });

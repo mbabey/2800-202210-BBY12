@@ -22,7 +22,7 @@
 }
 
 /* Styles for hamburger menu button courtesy of https://codepen.io/erikterwan/pen/EVzeRP */
-
+/* IF CHANGING STYLES HERE, CHANGE THEM IN ADMIN-MANAGE-USERS.CSS AS WELL */
 #dashboard-drop-menu-trigger {
   display: block;
   z-index: 69;
@@ -32,54 +32,57 @@
   height: 32px;
   width: 32px;
   cursor: pointer;
-  opacity: 0; /* hide this */
+  opacity: 0;
   -webkit-touch-callout: none;
 }
 
 #hamborger {
   position: absolute;
-  top: 65px;
-  right: calc(2% - 9px);
-  width: 40px;
+  top: 100px;
+  right: calc(2% + 3px);
+  width: 33px;
   height: 33px;
   z-index: 68;
 }
 
-#dashboard-drop-menu-trigger + #hamborger span {
+#dashboard-drop-menu-trigger+#hamborger span {
   display: block;
   width: 33px;
   height: 4px;
   margin-bottom: 5px;
   position: relative;
-  background-color: black; /* Hamburger button color */
+  background-color: black;
+  /* Hamburger button color */
   border-radius: 5px;
-  transform-origin: 4px 0px; /* Animation of the close button */
-  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              opacity 0.55s ease;
+  transform-origin: 4px 0px;
+  /* Animation of the close button */
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+    opacity 0.55s ease;
 }
 
-#dashboard-drop-menu-trigger + #hamborger span:first-child {
+#dashboard-drop-menu-trigger+#hamborger span:first-child {
   transform-origin: 0% 0%;
 }
 
-#dashboard-drop-menu-trigger + #hamborger span:nth-last-child(2) {
+#dashboard-drop-menu-trigger+#hamborger span:nth-last-child(2) {
   transform-origin: 0% 100%;
 }
 
-#dashboard-drop-menu-trigger:checked + #hamborger span {
+#dashboard-drop-menu-trigger:checked+#hamborger span {
   opacity: 1;
-  transform: rotate(45deg) translate(-2px, -1px);
-  background-color: black; /* Close button color */
+  transform: rotate(45deg) translate(-1.5px, -3px);
+  background-color: black;
+  /* Close button color */
 }
 
-#dashboard-drop-menu-trigger:checked + #hamborger span:nth-last-child(2) {
+#dashboard-drop-menu-trigger:checked+#hamborger span:nth-last-child(2) {
   opacity: 0;
   transform: rotate(0deg) scale(0.2, 0.2);
 }
 
-#dashboard-drop-menu-trigger:checked + #hamborger span:nth-last-child(1) {
-  transform: rotate(-45deg) translate(0, -1px);
+#dashboard-drop-menu-trigger:checked+#hamborger span:nth-last-child(1) {
+  transform: rotate(-45deg) translate(-1.5px, -3px);
 }
 
 /* End styles for hamburger menu button */
@@ -140,9 +143,10 @@
   transform: scale(1);
 }
 
-#dashboard-drop-menu-trigger:checked ~ #admin-button-group-container {
+#dashboard-drop-menu-trigger:checked~#admin-button-group-container {
   display: block;
 }
+
 #welcome {
   grid-row: 2 / span 1;
   grid-column: 1 / span 1;
@@ -178,8 +182,8 @@
 }
 
 #create-block p {
-    text-align: center;
-    font-size: 1.3rem;
+  text-align: center;
+  font-size: 1.3rem;
 }
 
 #create-block>form {
@@ -244,15 +248,15 @@
 
 div>.create-input,
 #description-block {
-    border: 1px black solid;
-    font-size: 0.9rem;
-    margin: 2px;
-    background-color: rgba(128, 128, 128, 0.3);
+  border: 1px black solid;
+  font-size: 0.9rem;
+  margin: 2px;
+  background-color: rgba(128, 128, 128, 0.3);
 }
 
-div>.create-input{
-    padding: 0.5rem;
-    text-align: center;
+div>.create-input {
+  padding: 0.5rem;
+  text-align: center;
 }
 
 #admin-block {
@@ -379,9 +383,9 @@ div>.create-input{
     grid-template-rows: 50px 1fr;
     grid-template-columns: 100%;
   }
-  
+
   #dashboard-drop-menu-trigger,
-  #dashboard-drop-menu-trigger + label {
+  #dashboard-drop-menu-trigger+label {
     top: 56px;
   }
 
@@ -408,7 +412,7 @@ div>.create-input{
 
   #biz-name-block:before {
     width: 100%;
-}
+  }
 
   .create-block-container {
     grid-row: 2 / span 1;

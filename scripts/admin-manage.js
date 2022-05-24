@@ -273,7 +273,7 @@ function handleDeleteConditions(response, user) {
       message = 'User ' + user + ' could not be deleted.';
 
   }
-  document.querySelector('#query-response-message').innerHTML += message;
+  document.querySelector('#query-response-message').innerHTML = message;
 }
 
 function handleRemoveAdminConditions(response, user) {
@@ -299,7 +299,7 @@ function handleRemoveAdminConditions(response, user) {
     default: // fail
       message = 'Administrator ' + user + ' could not have their privileges revoked.';
   }
-  document.querySelector('#query-response-message').innerHTML += message;
+  document.querySelector('#query-response-message').innerHTML = message;
 }
 
 // Function from https://stackoverflow.com/a/5767357
@@ -318,7 +318,6 @@ function handleMakeAdminConditions(response, user) {
 
 function handleEditUserConditions(response, user) {
   clearEditUserFormInputs();
-
   let message = ' could not be updated.';
   if (response.status == 'success') message = ' was successfully updated.';
   document.querySelector('#query-response-message').innerHTML = user + message;

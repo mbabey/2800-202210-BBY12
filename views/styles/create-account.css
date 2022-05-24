@@ -221,6 +221,7 @@
   color: var(--primary-dark);
 }
 
+
 @media only screen and (max-width: 800px) {
   #wrapper {
     min-height: 100vh;

@@ -34,7 +34,6 @@ function getThisUser() {
 }
 
 socket.on('chat-message', data => {
-  console.log(data);
   addMessage(data);
 });
 
@@ -45,9 +44,16 @@ messageSend.addEventListener('click', e => {
   messageInput.value = "";
 });
 
-function addMessage(message) {
+function addMessage(message, isSelf = false) {
   let messageElement = document.createElement('div');
   messageElement.classList.add('message');
   messageElement.innerHTML += message;
+
+  if (isSelf) {
+    messageElement.classList.add('self-message');
+  } else {
+    messageElement.classList.add('other-message');
+  }
+
   messageContainer.append(messageElement);
 }

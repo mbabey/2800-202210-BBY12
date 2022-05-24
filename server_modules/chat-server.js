@@ -19,6 +19,8 @@ module.exports = {
       socket.on('new-connection', (user) => {
         // Store user info.
         connectedUsers.push({ username: user, userId: socket.id });
+        // socket.emit('users', connectedUsers);
+        
         // Send message about user joining.
         
         const userJoinMessage = user + ' has joined the collab!';

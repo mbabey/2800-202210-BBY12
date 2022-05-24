@@ -102,6 +102,15 @@
   height: 3rem;
 }
 
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  margin-left: 6px;
+}
+
 .label {
   position: absolute;
   top: 0.9rem;

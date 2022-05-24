@@ -36,15 +36,6 @@
           <li class="edit-profile">
             <a id="password-button" href="reset-password.html">Change Password</a>
           </li>
-          <li class="edit-profile">
-            <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
-              <label for="edit-avatar">
-                Edit Profile Picture
-                <input type="file" id="edit-avatar" name="edit-avatar" accept="image/png, image/jpeg" hidden
-                  onchange="form.submit()">
-              </label>
-            </form>
-          </li>
         </ul>
       </div>
       <div class="profile-header">
@@ -59,7 +50,15 @@
         <span id="edit-status"></span>
         <div class="profile-picture">
           <div class="profile-picture-background">
-            <img class="business-picture-block" id="profile-picture" src="./avatars/logo.png" alt="Profile Image">
+            <div class="edit-profile-image">
+              <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
+                <label for="edit-avatar">
+                  <img class="business-picture-block" id="profile-picture" src="./avatars/logo.png" alt="Profile Image">
+                  <input type="file" id="edit-avatar" name="edit-avatar" accept="image/png, image/jpeg" hidden
+                    onchange="form.submit()">
+                </label>
+              </form>
+            </div>
           </div>
         </div>
         <div class="profile-info">

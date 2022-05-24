@@ -82,6 +82,10 @@ p {
   z-index: 1;
 }
 
+.edit-profile-image > form > label:hover {
+  cursor: pointer;
+}
+
 .edit-profile {
   background-color: var(--light-grey);
   /* needs attention on the button colour*/
@@ -97,6 +101,14 @@ p {
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   font-weight: bolder;
   border-radius: 10px;
+}
+
+.edit-profile-image {
+  width: 80%;
+}
+
+.edit-profile img {
+  clip-path: circle(50% at center);
 }
 
 .edit-profile:hover {

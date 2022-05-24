@@ -36,8 +36,9 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 io.on('connect', socket => {
   console.log('New user joined chat.');
-  socket.emit('chat-message', 'Chat up a collab!');
+  socket.emit('chat-message', '');
   socket.on('send-message', message => {
+    //put message into database
     console.log(message);
     socket.emit('chat-message', message);
   });

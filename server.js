@@ -171,9 +171,17 @@ app.get('/home', async (req, res) => {
 });
 
 // PROFILE
-app.get('/profile', (req, res) => {
+app.get('/profile', async (req, res) => {
   if (req.session.loggedIn) {
     let profileDOM = new JSDOM(fs.readFileSync('./views/profile.html', 'utf8').toString());
+    let templateDOM = new JSDOM(fs.readFileSync('./views/templates.html', 'utf8').toString());
+    await feed.populateProfileFeed(req, profileDOM, templateDOM, con)
+    .then((result) => {
+      profileDOM = result;
+    })
+    .catch((reject) => {
+      console.log(reject);
+    });
     profileDOM.window.document.querySelector('nav').innerHTML = navbarHTML;
     profileDOM.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
     res.send(profileDOM.serialize());

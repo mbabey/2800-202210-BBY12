@@ -4,7 +4,6 @@ docLoaded(() => {
   editButtons.forEach((target) => {
     target.addEventListener("click", editPost, false);
   });
-
   let saveButtons = document.querySelectorAll("#post-save");
   saveButtons.forEach((target) => {
     target.addEventListener("click", savePost, false);

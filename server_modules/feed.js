@@ -18,8 +18,28 @@ module.exports = {
       homeDOM = await populatePosts(req, homeDOM, templateDOM, posts, con);
       resolve(homeDOM);
     });
+  },
 
+  populateProfileFeed: async (req, profileDOM, templateDOM, con) => {
+    return new Promise(async (resolve, reject) => {
+      let posts;
+      await con.promise().query(
+        `SELECT users.profilePic, users.cName, users.bType, post.*
+                FROM \`BBY_12_post\` AS post
+                INNER JOIN \`BBY_12_users\` AS users ON (post.username = users.username)
+                WHERE post.username = '${req.session.username}'
+                ORDER BY post.timestamp DESC;`)
+        .then((results) => {
+          posts = results[0];
+        })
+        .catch((err) => {
+          reject(err);
+        });
+      profileDOM = await populatePosts(req, profileDOM, templateDOM, posts, con);
+      resolve(profileDOM);
+    });
   }
+
 };
 
 // build the post using all data

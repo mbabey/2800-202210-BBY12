@@ -52,3 +52,10 @@
   cursor: pointer;
   border: none;
 }
+
+.message {
+  background-color: var(--primary-light);
+  border-radius: 10px;
+  display: inline-block;
+  padding: 5px;
+}

@@ -47,6 +47,7 @@ messageSend.addEventListener('click', e => {
 
 function addMessage(message) {
   let messageElement = document.createElement('div');
+  messageElement.classList.add('message');
   messageElement.innerHTML += message;
   messageContainer.append(messageElement);
 }

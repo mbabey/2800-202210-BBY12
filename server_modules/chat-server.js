@@ -1,20 +1,17 @@
 'use strict';
 
 module.exports = {
-  runChatServer: (io) => {
-
+  runChatServer: (io, currentUser) => {
     io.on('connect', socket => {
       const connectedUsers = [];
-      userCount++;
-      console.log('Connected users:', userCount);
-      // console.log('New user joined chat: \n', socket.id);
+
+      console.log('New user joined chat: ', socket.id);
       
       // socket.emit('chat-message', 'Chat up a collab!');
       
-      // socket.on('send-message', (message) => {
-      //   // console.log(message);
-      //   io.emit('chat-message', message);
-      // });
+      socket.on('send-message', (message) => {
+        socket.emit('chat-message', message);
+      });
 
       socket.on('new-connection', (user) => {
         // Store user info.

@@ -315,12 +315,28 @@ app.route('/admin-add-account')
     }
   });
 
+//LOCATING URL OF ANY USER'S PROFILE
+// Other user URL in the form './profile?user=[username]'
+app.get('/users', (req, res) => {
+  //need to redirect the page if the id doesn't exist
+  if (req.session.loggedIn) {
+    if (req.session.username == req.query.user) {
+      res.redirect('/profile?user=' + req.session.username);
+    } else {
+      let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
+      res.send(otherProfile);
+    }
+  } else {
+    res.redirect('/');
+  }
+});
+
 // CHAT PAGE
 app.get('/chat', (req, res) => {
   if (req.session.loggedIn) {
     let chatPage = fs.readFileSync('./views/chat.html', 'utf8');
     res.send(chatPage);
-    chatServer.runChatServer(io);
+    chatServer.runChatServer(io, req.session.username);
   } else {
     res.redirect('/');
   }
@@ -462,22 +478,6 @@ app.post('/search-user', async (req, res) => {
   (user.length > 0) ? status = 'success' : (status = "fail", msg = "Search Fail");
   res.setHeader('content-type', 'application/json');
   res.send({ status: status, rows: user, msg: msg });
-});
-
-//LOCATING URL OF ANY USER'S PROFILE
-// Other user URL in the form './profile?user=[username]'
-app.get('/users', (req, res) => {
-  //need to redirect the page if the id doesn't exist
-  if (req.session.loggedIn) {
-    if (req.session.username == req.query.user) {
-      res.redirect('/profile?user=' + req.session.username);
-    } else {
-      let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
-      res.send(otherProfile);
-    }
-  } else {
-    res.redirect('/');
-  }
 });
 
 // USER GET USER

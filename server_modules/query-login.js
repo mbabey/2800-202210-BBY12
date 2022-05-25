@@ -13,11 +13,9 @@ module.exports = {
                 } else if (user == 'ping' && pass == 'pong') {
                     status = 'egg';
                 } else {
-
                     status = 'fail';
                 }
             }).catch((err) => {
-                console.log(err);
                 status = 'fail';
             });
         return { status: status, request: req };

@@ -268,8 +268,8 @@ app.route('/create-account')
   })
   .post((req, res) => {
     createAccount.createAccount(req, res, con)
-      .then(() => {
-        login(req, req.body["username"]);
+      .then(async () => {
+        await loginQuery.login(req, req.body["username"], req.body['password'], con);
         res.redirect('/');
       })
       .catch((err) => {

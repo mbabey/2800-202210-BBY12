@@ -53,7 +53,12 @@
   }
   
   .profile-header-wrapper-other-user {
-    padding-bottom: 0;
+    padding-bottom: 9%;
+  }
+
+  .profile-info {
+    padding-top: 0;
+    margin-top: 0;
   }
 }
 
@@ -73,5 +78,14 @@
 
   .profile-header-wrapper-other-user {
     padding-bottom: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  .profile-info {
+    padding-bottom: 30%;
+    margin-bottom: 0;
+    padding-top: 35%;
   }
 }

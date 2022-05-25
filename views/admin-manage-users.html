@@ -5,6 +5,7 @@
   <title>Gro-Operate | Admin Manage Accounts</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="./styles/form-inputs.css">
   <link rel="stylesheet" type="text/css" href="./styles/admin-manage-users.css">
   <link rel="stylesheet" type="text/css" href="./styles/global.css">
   <link href="./assets/favicon.ico" rel="icon" type="image/x-icon">
@@ -94,26 +95,53 @@
     <p><b>Edit Account</b></p>
     <form>
       <div id="email-block" class="input-wrapper">
-        <label for="email-input">*<small>Required</small></label>
-        <input id="email-input" name="email" type="text" placeholder="Email" class="edit-input" required>
-        <label for="email-verify-input">*<small>Required</small></label>
-        <input id="email-verify-input" name="emailVerify" type="text" placeholder="Verify Email" class="edit-input">
+        <div class="input-container">
+          <input id="email-input" name="email" type="text" placeholder="Email" class="input" required>
+          <label for="email-input" class="label">Email*</label>
+        </div>
+        <div class="input-container">
+          <input id="email-verify-input" name="emailVerify" type="text" placeholder="Verify Email" class="input">
+          <label for="email-verify-input" class="label">Verify Email*</label>
+        </div>
       </div>
       <div id="biz-block" class="input-wrapper">
-        <input name="cName" type="text" placeholder="Business Name" class="edit-input">
-        <input name="bType" type="text" placeholder="Business Type" class="edit-input">
+        <div class="input-container">
+          <input id="cName" name="cName" type="text" placeholder="Business Name" class="input">
+          <label for="cName" class="label">Business Name</label>
+        </div>
+        <div class="input-container">
+          <input id="bType" name="bType" type="text" placeholder="Business Type" class="input">
+          <label for="bType" class="label">Business Type</label>
+        </div>
       </div>
       <div id="phone-num-block" class="input-wrapper">
-        <input name="phoneNo" type="text" placeholder="Phone Number" class="edit-input">
+        <div class="input-container">
+          <input id="phoneNo" name="phoneNo" type="text" placeholder="Phone Number" class="input">
+          <label for="phoneNo" class="label">Phone Number</label>
+        </div>
       </div>
       <div id="name-block" class="input-wrapper">
-        <input name="fName" type="text" placeholder="First Name" class="edit-input">
-        <input name="lName" type="text" placeholder="Last Name" class="edit-input">
+        <div class="input-container">
+          <input id="fName" name="fName" type="text" placeholder="First Name" class="input">
+          <label for="fName" class="label">First Name</label>
+        </div>
+        <div class="input-container">
+          <input id="lName" name="lName" type="text" placeholder="Last Name" class="input">
+          <label for="lName" class="label">Last Name</label>
+        </div>
       </div>
       <div id="location-block" class="input-wrapper">
-        <input name="location" type="text" placeholder="Address" class="edit-input">
+        <div class="input-container">
+          <input id="location" name="location" type="text" placeholder="Address" class="input">
+          <label for="location" class="label">Address</label>
+        </div>
       </div>
-      <textarea id="description-block" name="description" placeholder="Business description" class="edit-input textarea"></textarea>
+      <div class="input-wrapper">
+        <div class="input-container textarea">
+          <textarea id="description-block" name="description" placeholder="Business Description" class="input"></textarea>
+          <label for="description-block" class="label">Business Description</label>
+        </div>
+      </div>
       <a href="/reset-password">Change Password</a>
       <div class="popup-button-wrapper">
         <button id="edit-submit" class="popup-button warning edit-popup-button" type="button">Save Changes</button>
@@ -128,6 +156,7 @@
 
   <script src="nav.js"></script>
   <script src="admin-manage.js"></script>
+  <script src="form-inputs.js"></script>
 </body>
 
 </html>

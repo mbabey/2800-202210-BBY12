@@ -52,11 +52,6 @@ p {
   justify-content: center;
 }
 
-.profile-picture-background {
-  width: 300px;
-  height: 300px;
-}
-
 .profile-header h4:after,
 .profile-header h3:after {
   content: "";
@@ -106,12 +101,22 @@ p {
   border-radius: 10px;
 }
 
+.profile-picture-background {
+  width: 300px;
+  height: 300px;
+  clip-path: circle(50% at center);
+  justify-content: center;
+  display: flex;
+}
+
 .edit-profile-image {
-  width: 80%;
+  display: flex;
+  justify-content: center;
 }
 
 .edit-profile img {
-  clip-path: circle(50% at center);
+  width: 100%;
+  object-fit: cover;
 }
 
 .edit-profile:hover {
@@ -141,16 +146,6 @@ p {
 
 .profile-info h3 {
   color: var(--gold);
-}
-
-.profile-contact-medium-desktop {
-  display: none;
-  grid-column: 1 / span 1;
-}
-
-.profile-info-medium-desktop {
-  display: none;
-  grid-column: 1 / span 1;
 }
 
 .profile-description {

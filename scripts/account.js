@@ -70,7 +70,7 @@ docLoaded(() => {
 
   document.getElementById("edit-button").addEventListener("click", (event) => {
     for (const [key, value] of Object.entries(bizInfo)) {
-      clickEdit(value);
+      clickEdit(value[0]);
     }
 
     document.getElementById("edit-status").innerHTML = "";
@@ -87,11 +87,11 @@ docLoaded(() => {
   document.getElementById("save-button").addEventListener("click", async (event) => {
     let dataToSend = {};
     for (const [key, value] of Object.entries(bizInfo)) {
-      saved(value);
-      if (!checkEmpty(value.innerHTML)) {
-        value.innerHTML = bizInfoDefaults[key];
+      saved(value[0]);
+      if (!checkEmpty(value[0].innerHTML)) {
+        value[0].innerHTML = bizInfoDefaults[key];
       }
-      dataToSend[key] = value.innerHTML;
+      dataToSend[key] = value[0].innerHTML;
     }
     dataToSend["username"] = new URLSearchParams(document.location.search).get("user");
 

@@ -38,14 +38,14 @@ async function insertImgs(req, postId, con) {
 }
 
 async function insertTags(req, postId, con) {
-    let tags = req.body["tag-field"].split(/[\s#]/);
+    let tags = req.body["tag-field"].split(/[\s#]/).concat(req.body["input-tag"].split(/[\s#]/));
     tags = tags.filter((item, pos) => {
         return tags.indexOf(item) == pos;
     });
     tags.forEach(async tag => {
         if (tag) {
-            await con.execute('INSERT INTO BBY_12_Post_Tag username, postId, tag) values (?,?,?)', [req.session.username, postId, tag],
-                (err) => { });
+            await con.execute('INSERT INTO BBY_12_Post_Tag (username, postId, tag) values (?,?,?)', [req.session.username, postId, tag],
+                (err) => {  });
         }
     });
 }

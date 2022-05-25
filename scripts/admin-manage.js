@@ -169,9 +169,7 @@ function initUpdateListeners() {
   // Event listener to confirm user deletion.
   document.getElementById("popup-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
-    let userInput = {
-      username: user
-    };
+    let userInput = { username: user };
     sendData(userInput, '/delete-user', (response) => {
       handleDeleteConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
@@ -182,9 +180,7 @@ function initUpdateListeners() {
   // Event listener to confirm admin removal.
   document.getElementById("popup-admin-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-admin-delete").style.display = 'none';
-    let userInput = {
-      username: user
-    };
+    let userInput = { username: user };
     sendData(userInput, '/delete-admin', (response) => {
       handleRemoveAdminConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
@@ -195,9 +191,7 @@ function initUpdateListeners() {
   // Event listener to confirm admin addition.
   document.getElementById("popup-make-admin-confirm").addEventListener('click', () => {
     document.getElementById("popup-make-admin").style.display = 'none';
-    let userInput = {
-      username: user
-    };
+    let userInput = { username: user };
     sendData(userInput, '/make-admin', (response) => {
       handleMakeAdminConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
@@ -356,7 +350,7 @@ function fillEditUserFormInputs() {
 
 function getEditUserFormInput() {
   let userInput = {
-    username: user, 
+    username: user,
     email: emailInput.value,
     cName: companyNameInput.value, bType: bizTypeInput.value,
     fName: firstNameInput.value, lName: lastNameInput.value,

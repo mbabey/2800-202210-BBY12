@@ -4,6 +4,7 @@
   color: var(--light-yellow);
   padding-bottom: 3%;
   cursor: default;
+  padding-top: 3%;
 }
 
 .profile-name>h2,
@@ -81,19 +82,36 @@ p {
   z-index: 1;
 }
 
+.edit-profile-image > form > label:hover {
+  cursor: pointer;
+}
+
+.edit-profile-container {
+  margin-top: 60px;
+  padding-left: 10%;
+}
+
 .edit-profile {
   background-color: var(--light-grey);
   color: black;
   border: 1px solid var(--light-grey);
   text-align: center;
-  width: 8rem;
-  padding: 5%;
+  width: 7rem;
+  padding: 15px;
   margin: 5px;
   cursor: pointer;
   -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   font-weight: bolder;
   border-radius: 10px;
+}
+
+.edit-profile-image {
+  width: 80%;
+}
+
+.edit-profile img {
+  clip-path: circle(50% at center);
 }
 
 .edit-profile:hover {
@@ -196,101 +214,17 @@ p {
 
 /* End of tooltips */
 
-/* Hamburger Menu referenced from https://codepen.io/erikterwan/pen/EVzeRP */
-#profile-buttons-toggle-menu {
-  display: block;
-  position: relative;
-  top: 25px;
-  left: 25px;
-  z-index: 1;
-  width: 10px;
-  z-index: 1000;
-}
-
-#profile-buttons-toggle-menu input {
-  display: block;
-  width: 40px;
-  height: 32px;
-  position: absolute;
-  top: -7px;
-  left: -5px;
-  cursor: pointer;
-  opacity: 0;
-  /* hide this */
-  z-index: 2;
-  /* and place it over the hamburger */
-  -webkit-touch-callout: none;
-}
-
-#profile-buttons-toggle-menu span {
-  display: block;
-  width: 33px;
-  height: 4px;
-  margin-bottom: 5px;
-  position: relative;
-  background-color: var(--light-grey);
-  /* Hamburger button color */
-  border-radius: 5px;
-  z-index: 1;
-  transform-origin: 4px 0px;
-  /* Animation of the close button */
-  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
-    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
-    opacity 0.55s ease;
-}
-
-#profile-buttons-toggle-menu span:first-child {
-  transform-origin: 0% 0%;
-}
-
-#profile-buttons-toggle-menu span:nth-last-child(2) {
-  transform-origin: 0% 100%;
-}
-
-#profile-buttons-toggle-menu input:checked~span {
-  opacity: 1;
-  transform: rotate(45deg) translate(-2px, -1px);
-  background-color: var(--light-grey);
-  /* Close button color */
-}
-
-#profile-buttons-toggle-menu input:checked~span:nth-last-child(3) {
-  opacity: 0;
-  transform: rotate(0deg) scale(0.2, 0.2);
-}
-
-#profile-buttons-toggle-menu input:checked~span:nth-last-child(2) {
-  transform: rotate(-45deg) translate(0, -1px);
-}
-
-#edit-profile-menu {
-  position: absolute;
-  list-style-type: none;
-  width: 300px;
-  transform-origin: 0% 0%;
-  transform: translate(-100%, 0);
-  transition: transform 1s;
-  display: none;
-  z-index: 1000;
-}
-
-#profile-buttons-toggle-menu input:checked~ul {
-  transform: none;
-}
-
-/* End of hamburger menu */
-
 @media only screen and (min-width: 601px) and (max-width: 800px) {
   .profile-header {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 50% 50%;
     grid-template-rows: 220px 15% 15% 30%;
     margin: 0 2%;
   }
 
   .profile-picture {
     padding: 0;
-    grid-column: 2 / span 1;
+    grid-column: 1 / span 1;
     grid-row: 1 / span 1;
     width: auto;
     height: 100%;
@@ -303,7 +237,7 @@ p {
   }
 
   .profile-name {
-    grid-column: 2 / span 1;
+    grid-column: 1 / span 1;
     grid-row: 2 / span 1;
     text-align: center;
     position: relative;
@@ -323,38 +257,23 @@ p {
     padding: 20px 15px;
     margin: 5px;
     font-size: 1rem;
+    margin-left: 50px;
   }
 
   .profile-info {
-    display: none;
-  }
-
-  .profile-info-medium-desktop {
     display: grid;
-    grid-column: 1 / span 1;
-    grid-row: 3 / span 2;
-    margin-left: 5%;
-    margin-bottom: 10px;
-    margin-top: 50px;
+    grid-column: 2 / span 1;
+    grid-row: 1 / span 1;
+    margin-left: 15%;
+    margin-top: 23%;
   }
 
-  .profile-info-medium-desktop h3,
-  .profile-contact-medium-desktop h3 {
-    margin: 0.3rem 0;
-    color: var(--gold);
-  }
-
-  .profile-contact-medium-desktop {
+  .profile-contact {
     display: grid;
-    grid-column: 3 / span 1;
+    grid-column: 2 / span 1;
     grid-row: 3 / span 1;
-    margin-top: 50px;
   }
-
-  .profile-contact-medium-desktop>h3 {
-    margin-bottom: 12px;
-  }
-
+  
   #name-block-d,
   #lastname-block-d {
     font-size: 1.1rem;
@@ -382,30 +301,24 @@ p {
   .post-block {
     width: 96%;
   }
-
-  #profile-buttons-toggle-menu {
-    width: 10px;
-  }
-
-  /* Hamburger Menu Styles */
-  #profile-buttons-toggle-menu {
-    top: 0;
-    left: 0;
-    width: 10px;
-  }
 }
 
 @media only screen and (max-width: 600px) {
   .profile-header {
     display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 220px 15% 45%;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 38% 1fr;
     margin: 0 2%;
+    margin-bottom: 0;
+  }
+  
+  .profile-header-wrapper {
+    margin-bottom: 0;
   }
 
   .profile-picture {
     padding: 0;
-    grid-column: 1 / span 1;
+    grid-column: 1 / span 2;
     grid-row: 1 / span 1;
     width: auto;
     height: 100%;
@@ -418,7 +331,7 @@ p {
   }
 
   .profile-name {
-    grid-column: 1 / span 1;
+    grid-column: 1 / span 2;
     grid-row: 2 / span 1;
     text-align: center;
     position: relative;
@@ -434,16 +347,19 @@ p {
   }
 
   .edit-profile {
+    grid-row: 2 / span 1;
     padding: 20px 15px;
     margin: 5px;
     font-size: 1rem;
+    margin-left: 50px;
   }
 
   .profile-info {
     grid-column: 1 / span 1;
-    grid-row: 3 / span 1;
+    grid-row: 2 / span 1;
     margin-left: 5%;
-    margin-bottom: 50px;
+    margin-top: 40%;
+    padding-bottom: 20%;
   }
 
   .profile-info h3,
@@ -465,16 +381,13 @@ p {
     width: 96%;
   }
 
-  #profile-buttons-toggle-menu {
-    width: 10px;
+  .edit-profile-container {
+    margin-top: 50px;
+    margin-left: 48%;
   }
-
-  .profile-contact-medium-desktop {
-    display: none;
-  }
-
-  .profile-info-medium-desktop {
-    display: none;
+  
+  .profile-location {
+    margin-bottom: 0;
   }
 }
 
@@ -483,16 +396,13 @@ p {
     height: 180px;
     width: 180px;
   }
-
-  #profile-buttons-toggle-menu {
-    width: 10px;
+  
+  .edit-profile {
+    margin-left: 50px;
   }
 
-  .profile-contact-medium-desktop {
-    display: none;
-  }
-
-  .profile-info-medium-desktop {
-    display: none;
+  .edit-profile-container {
+    margin-top: 160px;
+    margin-left: 100px;
   }
 }

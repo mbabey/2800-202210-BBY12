@@ -21,7 +21,6 @@ module.exports = {
         let count;
         await con.promise().query('SELECT COUNT(*) AS numUsers FROM BBY_12_users')
             .then((results) => count = results[0]);
-        console.log(count);
         return count;
     },
 
@@ -29,7 +28,6 @@ module.exports = {
         let count;
         await con.promise().query('SELECT COUNT(*) AS numAdmins FROM BBY_12_admins')
             .then((results) => count = results[0]);
-        console.log(count);
         return count;
     },
 

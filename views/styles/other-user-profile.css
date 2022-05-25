@@ -51,10 +51,6 @@
     text-align: center;
     cursor: default;
   }
-  
-  .profile-header-wrapper-other-user {
-    padding-bottom: 0;
-  }
 }
 
 @media only screen and (max-width: 600px) {
@@ -69,9 +65,5 @@
     color: var(--gold);
     text-align: center;
     cursor: default;
-  }
-
-  .profile-header-wrapper-other-user {
-    padding-bottom: 0;
   }
 }

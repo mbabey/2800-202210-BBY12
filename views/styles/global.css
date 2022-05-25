@@ -254,6 +254,7 @@ footer {
     height: 50px;
     bottom: 0;
     left: 0; 
+    z-index: 100;
   }
 
   #footer-wrapper {

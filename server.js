@@ -91,8 +91,8 @@ server.listen(port, () => {
 app.get('/', (req, res) => {
   if (req.session.loggedIn) {
     if (req.session.admin)
-      // res.redirect('/admin-manage-users');
-      res.redirect('/chat'); // TEMP FOR TESTING CHAT
+      res.redirect('/admin-manage-users');
+      // res.redirect('/chat'); // TEMP FOR TESTING CHAT
     else
       res.redirect('/home');
   } else {

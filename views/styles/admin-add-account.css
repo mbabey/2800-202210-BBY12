@@ -187,10 +187,10 @@
 }
 
 #create-block>form {
-  height: 29.8rem;
+  height: calc(34rem + 6 * 3px);
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 2.4rem 5.6rem 2.4rem 7.4rem 4rem 2rem 4rem;
+  grid-template-rows: 3rem 6rem 6rem 9rem 4rem 2rem 4rem;
   /* size in rem so form scales with font size. */
   gap: 3px;
 }
@@ -226,7 +226,7 @@
   width: 130%;
   border-top: 1px solid rgba(0, 128, 0, 0.7);
   border-radius: 50%;
-  top: -0.4rem;
+  top: -1.5px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -241,28 +241,25 @@
   grid-column: 2 / span 1;
 }
 
-#description-block {
+/* description-block */
+.input-container.textarea {
   grid-row: 5 / span 1;
   grid-column: 1 / span 2;
-}
-
-div>.create-input,
-#description-block {
-  border: 1px black solid;
-  font-size: 0.9rem;
-  margin: 2px;
-  background-color: rgba(128, 128, 128, 0.3);
-}
-
-div>.create-input {
-  padding: 0.5rem;
-  text-align: center;
 }
 
 #admin-block {
   grid-row: 6 / span 1;
   grid-column: 1 / span 2;
   margin: auto;
+}
+
+.input-container.textarea {
+  height: auto;
+}
+
+.input-container.textarea .input:focus+.label,
+.input-container.textarea .filled {
+  top: -0.02rem;
 }
 
 /* Code for checkbox styles from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox */
@@ -382,6 +379,11 @@ div>.create-input {
   .container {
     grid-template-rows: 50px 1fr;
     grid-template-columns: 100%;
+  }
+
+  #hamborger {
+    top: 65px;
+    right: 2%;
   }
 
   #dashboard-drop-menu-trigger,

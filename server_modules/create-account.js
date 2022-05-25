@@ -23,14 +23,15 @@ module.exports = {
 
 function insertDB(req, connection) {
     return new Promise((resolve, reject) => {
-        let username = req.body.username;
+        let username = req.body.username.trim();
         let pass = req.body.password;
+        console.log(req.body);
         if (checkUsername(username, req) && checkPassword(pass, req)) {
             const hash = crypto.createHash('sha256').update(pass).digest('hex');
-            let location = req.body["location-street"] + ", " + req.body["location-city"] + ", " + req.body["location-country"];
+            let location = concatenateLocation(req.body["location-street"].trim(), req.body["location-city"].trim(), req.body["location-country"].trim());
             connection.query(
-                'INSERT INTO BBY_12_users (username, password, fName, lName, cName, email, phoneNo, location, description) values (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body.description],
+                'INSERT INTO BBY_12_users (username, password, fName, lName, cName, bType, email, phoneNo, location, description) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                [username, hash, req.body["first-name"].trim(), req.body["last-name"].trim(), req.body["company-name"].trim(), req.body['company-type'].trim(), req.body["email"].trim(), req.body["phone-num"].trim(), location, req.body.description.trim()],
                 (err) => {
                     if (err) {
                         reject(err);
@@ -63,4 +64,25 @@ function checkUsername(username, req) {
 
 function checkPassword(pass, req) {
     return (pass && pass === req.body["password-verify"]); // TODO: Add additional checks: ie. min length
+}
+
+function concatenateLocation(street, city, country) {
+  let location = '';
+  if (street != '') {
+    location += street;
+    if (city != '') {
+      location += ', ' + city;
+    }
+    if (country != '') {
+      location += ', ' + country;
+    }
+  } else if (city != '') {
+    location += city;
+    if (country != '') {
+      location += ', ' + country;
+    }
+  } else if (country != '') {
+    location += country;
+  }
+  return location;
 }

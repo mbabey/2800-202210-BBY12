@@ -93,7 +93,7 @@ docLoaded(() => {
       }
       dataToSend[key] = value[0].innerHTML;
     }
-    dataToSend["username"] = new URLSearchParams(document.location.search).get("user");
+    //dataToSend["username"] = new URLSearchParams(document.location.search).get("user");
 
     document.getElementById("edit-status").innerHTML = "";
     edit_button.innerHTML = "Edit Profile";

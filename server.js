@@ -412,7 +412,7 @@ app.get('/get-post/:username/:postId', async (req, res) => {
 // QUERY: UPDATE USER INFORMATION
 app.post('/update-user', async (req, res) => {
   if (req.session.loggedIn) {
-    let status = await userQueries.updateUser(req, con);
+    let status = await userQueries.updateUser(req, con, false);
     res.setHeader('Content-Type', 'application/json');
     res.send({ status: status });
   }
@@ -437,7 +437,7 @@ app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
 // QUERY: UPDATE USER INFORMATION AS ADMIN
 app.post('/admin-edit-user', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let status = await userQueries.updateUser(req, con);
+    let status = await userQueries.updateUser(req, con, true);
     res.setHeader('Content-Type', 'application/json');
     res.send({ status: status });
   }

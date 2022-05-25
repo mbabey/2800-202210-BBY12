@@ -62,14 +62,19 @@ module.exports = {
         return users;
     },
 
-    updateUser: async (req, con) => {
-        let status;
+    updateUser: async (req, con, isAdmin) => {
+        let status, username;
+        if (isAdmin)
+            username = req.body.username;
+        else
+            username = req.session.username;
         await con.promise().query('UPDATE BBY_12_Users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-            [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username])
+            [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, username])
             .then((results) => {
                 status = "success";
             })
             .catch((err) => {
+                console.log(err);
                 status = 'fail';
             });
         return status;

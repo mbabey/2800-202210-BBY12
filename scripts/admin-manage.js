@@ -151,6 +151,17 @@ function initCardEventListeners() {
       document.getElementById('popup-make-admin').style.display = 'block';
     });
   });
+  document.querySelectorAll('.user-card-menu-toggle').forEach((checkbox) => {
+    checkbox.addEventListener('change', (e) => {
+      console.log(e.target.parentNode);
+      if (checkbox.checked)
+        e.target.parentNode.classList.add('toggled');
+      else
+        setTimeout(() => {
+          e.target.parentNode.classList.remove('toggled')
+        }, 500);
+    });
+  });
 }
 
 function initUpdateListeners() {

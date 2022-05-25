@@ -201,6 +201,9 @@ h3 {
   margin: 0 auto;
   width: 90%;
   min-width: 300px;
+}
+
+.toggled {
   margin-bottom: 3rem;
 }
 
@@ -214,7 +217,7 @@ h3 {
   opacity: 0;
 }
 
-.user-card-menu-toggle:checked+.user-card .arrow {
+.user-card-menu-toggle:checked+.user-card .arrow svg {
   transform: rotate(-90deg);
   transition: 0.5s;
 }
@@ -230,7 +233,6 @@ h3 {
   background-color: white;
   border-radius: 5px;
   border: 1px solid var(--secondary-dark);
-  padding: 2px;
   position: relative;
   cursor: pointer;
   z-index: 1;
@@ -301,14 +303,15 @@ h3 {
 
 .arrow {
   position: absolute;
-  top: 1.3rem;
+  top: calc(50% + 3px);
   right: 8px;
-  transform: rotate(0deg);
-  transition: 0.5s;
+  transform: translateY(-50%);
 }
 
 .arrow svg {
   color: black;
+  transform: rotate(0deg);
+  transition: 0.5s;
 }
 
 /* Tooltip styles courtesy of https://www.w3schools.com/css/css_tooltip.asp */

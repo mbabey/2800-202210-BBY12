@@ -1,8 +1,8 @@
 'use strict';
 let socket = io.connect('/');
 
-let messageContainer = document.querySelector('.message-content');
-let messageSend = document.querySelector('.message-send-block');
+let messageContainer = document.querySelector('#message-content');
+let messageSendButton = document.querySelector('#message-submit');
 let messageInput = document.querySelector('#message-input');
 
 socket.onAny((event, ...args) => {
@@ -37,7 +37,7 @@ socket.on('chat-message', data => {
   addMessage(data);
 });
 
-messageSend.addEventListener('click', e => {
+messageSendButton.addEventListener('click', e => {
   e.preventDefault();
   let message = messageInput.value;
   socket.emit('send-message', message);
@@ -45,7 +45,7 @@ messageSend.addEventListener('click', e => {
 });
 
 function addMessage(message, isSelf = false) {
-  let messageElement = document.createElement('div');
+  let messageElement = document.createElement("span");
   messageElement.classList.add('message');
   messageElement.innerHTML += message;
 

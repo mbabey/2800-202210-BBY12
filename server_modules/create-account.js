@@ -27,10 +27,18 @@ function insertDB(req, connection) {
         let pass = req.body.password;
         if (checkUsername(username, req) && checkPassword(pass, req)) {
             const hash = crypto.createHash('sha256').update(pass).digest('hex');
-            let location = req.body["location-street"] + ", " + req.body["location-city"] + ", " + req.body["location-country"];
+            // let location = req.body["location-street"] + ", " + req.body["location-city"] + ", " + req.body["location-country"];
+            let location = "Enter Street number" + ", " + "City" + ", " + "Country";
+            let first_name = "Enter First Name";
+            let last_name = "Last Name";
+            let biz_name = "Enter Business Name Here";
+            let biz_type = "Enter Business Type Here";
+            let phone = "(###)-###-####";
+            let description = "Enter business discription here"
             connection.query(
-                'INSERT INTO BBY_12_users (username, password, fName, lName, cName, email, phoneNo, location, description) values (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body.description],
+                'INSERT INTO BBY_12_users (username, password, fName, lName, cName, bType, email, phoneNo, location, description) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                // [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["email"], req.body["phone-num"], location, req.body.description],
+                [username, hash, first_name, last_name, biz_name, biz_type, req.body["email"], phone, location, description],
                 (err) => {
                     if (err) {
                         reject(err);

@@ -457,8 +457,9 @@ h3 {
   height: auto;
 }
 
-.input-container.textarea .input:focus+.label {
-  top: -0.05rem;
+.input-container.textarea .input:focus+.label,
+.input-container.textarea .filled {
+  top: -0.02rem;
 }
 
 .input {

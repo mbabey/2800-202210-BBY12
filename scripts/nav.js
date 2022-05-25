@@ -1,8 +1,9 @@
 'use strict';
 
 docLoaded(() => {
-  getData('/nav-and-footer', popNavAndFooter);
-  getData('/get-user', popNavNameAndAvatar);
+  // getData('/nav-and-footer', popNavAndFooter);
+  document.querySelector('footer #footer-search').addEventListener("click", openOverlay, false);
+  getData('/get-user', popNavName);
   getData('/is-admin', (isAdmin) => {
     if (isAdmin.admin) {
       addAdminStar();
@@ -35,15 +36,18 @@ function popNavAndFooter(navAndFooter) {
   document.querySelector('footer').innerHTML = navAndFooter.footer;
 }
 
-function popNavNameAndAvatar(data) {
+function popSearchOverlay(searchOverlay){
+  document.querySelector('footer').innerHTML += searchOverlay.overlay;
+}
+
+function popNavName(data) {
+  document.querySelector('#nav-profile').href += (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
   document.querySelector('#profile-name').innerHTML = (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
-  let path = (data[0].profilePic != undefined && data[0].profilePic != null) ? data[0].profilePic : 'Logo.png';
-  document.querySelector('#profile-picture').src = "./avatars/" + path;
 }
 
 function addAdminStar() {
   let admin_button = document.querySelector('#nav-admin');
-  admin_button.setAttribute('href', "/admin-dashboard");
+  admin_button.setAttribute('href', "/admin-manage-users");
   admin_button.setAttribute('class', "nav-button");
 
   let content = "<svg xmlns='http://www.w3.org/2000/svg' viewbox='0 0 48 48' height='32' width='32'>" +
@@ -53,8 +57,14 @@ function addAdminStar() {
   admin_button.innerHTML = content;
 }
 
+function openOverlay(){
+  document.getElementById("overlay").style.top = "0vh";
+}
+
+function closeOverlay() {
+  document.getElementById("overlay").style.top = "100vh";
+}
 function displayMenu() {
   let menu = document.getElementById("edit-profile-menu");
   menu.style.display = "block";
-  
 }

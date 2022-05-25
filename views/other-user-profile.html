@@ -6,86 +6,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="../../styles/global.css">
-  <link rel="stylesheet" type="text/css" href="../../styles/post.css">
   <link rel="stylesheet" type="text/css" href="../../styles/profile.css">
   <link rel="stylesheet" type="text/css" href="../../styles/other-user-profile.css">
-  <link href="../../images/favicon.ico" rel="icon" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="../../styles/post.css">
+  <link rel="stylesheet" type="text/css" href="../../styles/animation.css">
+  <link href="../../assets/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
 
   <nav>
-    <div id="nav-wrapper">
-      <div id="nav-left">
-        <div id="nav-logo">
-          <img src="../../images/LogoWithTitle.png" alt="Gro-Operate">
-        </div>
-        <a href="/home" id="nav-home" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
-            <path fill="currentColor"
-              d="M8 42V18L24.1 6L40 18V42H28.3V27.75H19.65V42ZM11 39H16.65V24.75H31.3V39H37V19.5L24.1 9.75L11 19.5ZM24 24.35Z" />
-          </svg>
-          <span>Home</span>
-        </a>
-        <a id="nav-admin">
-        </a>
-      </div>
-      <div id="nav-right">
-        <div id="nav-search">
-          <form action="post">
-            <input type="text" placeholder="Search" name="nav-search">
-            <button type="submit" name="submit">
-              <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -3 28 28" width="20" height="20">
-                <path fill="currentColor"
-                  d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
-              </svg>
-            </button>
-          </form>
-        </div>
-        <a href="/create-post" id="nav-post" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="-4 -4 32 32" width="32" height="32">
-            <path fill="currentColor"
-              d="M18.656.93,6.464,13.122A4.966,4.966,0,0,0,5,16.657V18a1,1,0,0,0,1,1H7.343a4.966,4.966,0,0,0,3.535-1.464L23.07,5.344a3.125,3.125,0,0,0,0-4.414A3.194,3.194,0,0,0,18.656.93Zm3,3L9.464,16.122A3.02,3.02,0,0,1,7.343,17H7v-.343a3.02,3.02,0,0,1,.878-2.121L20.07,2.344a1.148,1.148,0,0,1,1.586,0A1.123,1.123,0,0,1,21.656,3.93Z" />
-            <path fill="currentColor"
-              d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z" />
-          </svg>
-    
-          <span>Post</span>
-        </a>
-        <a href="#" id="nav-chat" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -4 50 50" height="32" width="32">
-            <path fill="currentColor"
-              d="M4 44V7Q4 5.85 4.9 4.925Q5.8 4 7 4H41Q42.15 4 43.075 4.925Q44 5.85 44 7V33Q44 34.15 43.075 35.075Q42.15 36 41 36H12ZM7 36.75 10.75 33H41Q41 33 41 33Q41 33 41 33V7Q41 7 41 7Q41 7 41 7H7Q7 7 7 7Q7 7 7 7ZM7 7Q7 7 7 7Q7 7 7 7Q7 7 7 7Q7 7 7 7V33Q7 33 7 33Q7 33 7 33V36.75Z" />
-          </svg>
-          <span>Chat</span>
-        </a>
-        <a href="/profile" id="nav-profile" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 28 28" width="32" height="32">
-            <path fill="currentColor"
-              d="M12,12A6,6,0,1,0,6,6,6.006,6.006,0,0,0,12,12ZM12,2A4,4,0,1,1,8,6,4,4,0,0,1,12,2Z" />
-            <path fill="currentColor"
-              d="M12,14a9.01,9.01,0,0,0-9,9,1,1,0,0,0,2,0,7,7,0,0,1,14,0,1,1,0,0,0,2,0A9.01,9.01,0,0,0,12,14Z" />
-          </svg>
-          <span id="profile-name">Profile</span>
-        </a>
-        <a href="/logout" id="nav-logout" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 44 44" height="32" width="32">
-            <path fill="currentColor"
-              d="M18.75 22.5H36.15L31.05 17.4L33.2 15.25L42 24.05L33.3 32.75L31.15 30.6L36.25 25.5H18.75ZM23.55 6V9H9Q9 9 9 9Q9 9 9 9V39Q9 39 9 39Q9 39 9 39H23.55V42H9Q7.8 42 6.9 41.1Q6 40.2 6 39V9Q6 7.8 6.9 6.9Q7.8 6 9 6Z" />
-          </svg>
-          <span>Logout</span>
-        </a>
-      </div>
-    </div>
+    <!-- Populated by server -->
   </nav>
 
   <div class="container">
     <div class="profile-header-wrapper-other-user">
       <div class="profile-header">
         <div class="profile-name">
-          <h2 class="business-name-block tooltip-b">Business Name</h2>
-          <span class="tooltiptext-b">Business Name</span>
-          <p class="business-type-block tooltip">Type of Business<span class="tooltiptext">Business Type</span></p>
+          <h2 class="business-name-block tooltip underline-opening">Business Name</h2>
+          <span class="tooltiptext">Business Name</span>
+          <div>
+            <p class="business-type-block tooltip">Type of Business</p>
+            <span class="tooltiptext">Business Type</span>
+          </div>
         </div>
         <span id="edit-status"></span>
         <div class="profile-picture">
@@ -96,86 +39,91 @@
         <div class="profile-info">
           <h3>Business Owner<br>Name</h3>
           <div class="profile-owner">
-            <p><span class="business-owner-fname-block tooltip">First<span class="tooltiptext">First Name</span></span>
-              <span class="business-owner-lname-block tooltip">Last<span class="tooltiptext">Last Name</span></span>
-            </p>
+            <div id="name-block-container">
+              <div>
+                <span class="business-owner-fname-block tooltip" id="name-block">First</span>
+                <span class="tooltiptext">First Name</span>
+              </div>
+              <div>
+                <span class="business-owner-lname-block tooltip" id="lastname-block">Last</span>
+                <span class="tooltiptext">Last Name</span>
+              </div>
+            </div>
+            <div class="profile-contact">
+              <h3>Contact Info</h3>
+              <div>
+                <p class="business-email-block tooltip">Business Email</p>
+                <span class="tooltiptext">Email</span>
+              </div>
+              <div>
+                <p class="business-phone-block tooltip">Business Phone</p>
+                <span class="tooltiptext">Phone</span>
+              </div>
+            </div>
+            <div class="profile-location">
+              <h3>Business Address</h3>
+              <p class="business-location-block tooltip">123 Fun St. Vancouver, BC</p>
+              <span class="tooltiptext">Address</span>
+            </div>
           </div>
-          <div class="profile-contact">
-            <h3>Contact Info</h3>
-            <p class="business-email-block tooltip">Business Email<span class="tooltiptext">Email</span></p>
-            <p class="business-phone-block tooltip">Business Phone<span class="tooltiptext">Phone</span></p>
+        </div>
+        <!-- Contact information rearranged for medium desktop view because of spacing issues causing horizontal scrolling -->
+        <div class="profile-info-medium-desktop">
+          <h3>Business Owner<br>Name</h3>
+          <div class="profile-owner">
+            <div id="name-block-container-d">
+              <div>
+                <span class="business-owner-fname-block tooltip" id="name-block-d">First</span>
+                <span class="tooltiptext">First Name</span>
+              </div>
+              <div>
+                <span class="business-owner-lname-block tooltip" id="lastname-block-d">Last</span>
+                <span class="tooltiptext">Last Name</span>
+              </div>
+            </div>
           </div>
           <div class="profile-location">
             <h3>Business Address</h3>
-            <p class="business-location-block tooltip">123 Fun St. Vancouver, BC<span class="tooltiptext">Address</span></p>
+            <p class="business-location-block tooltip">123 Fun St. Vancouver, BC</p>
+            <span class="tooltiptext">Address</span>
           </div>
         </div>
+        <div class="profile-contact-medium-desktop">
+          <h3>Contact Info</h3>
+          <div>
+            <p class="business-email-block tooltip">Business Email</p>
+            <span class="tooltiptext">Email</span>
+          </div>
+          <div>
+            <p class="business-phone-block tooltip">Business Phone</p>
+            <span class="tooltiptext">Phone</span>
+          </div>
+        </div>
+        <!--End of medium desktop view profile info-->
       </div>
     </div>
+    <!--End of header-->
     <div class="profile-description">
       <h3>Business Description</h3>
-      <p class="business-description-block">I am an independant woman look at me go I do it all I read I write I sell
-        drugs I surf I drink I drive I box I square dance I make stone tools I dig tunnels I jump rope I dance I I I I
-        sell soap :) Also I do more because I am ambitious I play
-        guitar I sing I write poetry I lament the loss of humanity I howl at the moon I rub dirt on my cheeks I sleep in
-        a bed of thorns I ride the breeze of my whims in a bed of flowers</p>
+      <p class="business-description-block"></p>
     </div>
 
     <div class="post-block">
-      <div class="post">
-        <h1 class="post-title">This Girl's Business With an Opportunity</h1>
-        <h3 class="post-business-name">Brought to you by this girl</h3>
-        <div class="post-images">
-          <img src="../../images/Logo.png" alt="Gro-Operate">
-          <img src="../../images/Logo.png" alt="Gro-Operate">
-          <img src="../../images/Logo.png" alt="Gro-Operate">
-        </div>
-        <p class="post-description">Something to do with business here I bet everyone likes to do business especially
-          when money is on the line my father chose business over the quality of my childhood but I can't blame him its
-          just business.</p>
-        <p class="post-timestamp"><small>posted on today</small></p>
-      </div>
+      <!-- Populated by user-posts.js -->
     </div>
   </div>
-  <button>
-    <a href="#" class="chat-button"></a>
-  </button>
-  <footer>
-    <div id="footer-wrapper">
-      <a href="/home" id="footer-home" class="nav-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
-          <path fill="currentColor"
-            d="M8 42V18L24.1 6L40 18V42H28.3V27.75H19.65V42ZM11 39H16.65V24.75H31.3V39H37V19.5L24.1 9.75L11 19.5ZM24 24.35Z" />
-        </svg>
-        <span>Home</span>
-      </a>
-      <a href="#" id="footer-search" class="nav-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -4 32 32" width="32" height="32">
-          <path fill="currentColor"
-            d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
-        </svg>
-        <span>Search</span>
-      </a>
-      <a href="#" id="footer-post" class="nav-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="-4 -4 32 32" width="32" height="32">
-          <path fill="currentColor"
-            d="M18.656.93,6.464,13.122A4.966,4.966,0,0,0,5,16.657V18a1,1,0,0,0,1,1H7.343a4.966,4.966,0,0,0,3.535-1.464L23.07,5.344a3.125,3.125,0,0,0,0-4.414A3.194,3.194,0,0,0,18.656.93Zm3,3L9.464,16.122A3.02,3.02,0,0,1,7.343,17H7v-.343a3.02,3.02,0,0,1,.878-2.121L20.07,2.344a1.148,1.148,0,0,1,1.586,0A1.123,1.123,0,0,1,21.656,3.93Z" />
-          <path fill="currentColor"
-            d="M23,8.979a1,1,0,0,0-1,1V15H18a3,3,0,0,0-3,3v4H5a3,3,0,0,1-3-3V5A3,3,0,0,1,5,2h9.042a1,1,0,0,0,0-2H5A5.006,5.006,0,0,0,0,5V19a5.006,5.006,0,0,0,5,5H16.343a4.968,4.968,0,0,0,3.536-1.464l2.656-2.658A4.968,4.968,0,0,0,24,16.343V9.979A1,1,0,0,0,23,8.979ZM18.465,21.122a2.975,2.975,0,0,1-1.465.8V18a1,1,0,0,1,1-1h3.925a3.016,3.016,0,0,1-.8,1.464Z" />
-        </svg>
-        <span>Post</span>
-      </a>
-      <a href="/#" id="footer-chat" class="nav-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="-4 -5 54 54" height="32" width="32">
-          <path fill="currentColor"
-            d="M4 44V7Q4 5.85 4.9 4.925Q5.8 4 7 4H41Q42.15 4 43.075 4.925Q44 5.85 44 7V33Q44 34.15 43.075 35.075Q42.15 36 41 36H12ZM7 36.75 10.75 33H41Q41 33 41 33Q41 33 41 33V7Q41 7 41 7Q41 7 41 7H7Q7 7 7 7Q7 7 7 7ZM7 7Q7 7 7 7Q7 7 7 7Q7 7 7 7Q7 7 7 7V33Q7 33 7 33Q7 33 7 33V36.75Z" />
-        </svg>
-        <span>Chat</span>
-      </a>
-    </div>
-  </footer>
+  <a href="#" class="chat-button bounce">
+    <img src="./assets/chat.png" alt="chat button image">
+  </a>
+  <span class="chat-label">Chat</span>
 
-  <script src="../../other-account.js"></script>
+  <footer>
+    <!-- Populated by server -->
+  </footer>
+  <script src="nav.js"></script>
+  <script src="other-account.js"></script>
+  <script src="user-posts.js"></script>
+
 </body>
 
 </html>

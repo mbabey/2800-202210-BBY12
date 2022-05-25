@@ -1,24 +1,25 @@
 'use strict';
 docLoaded(() => {
-    let biz_name = document.querySelector('.business-name-block');
-    let biz_owner_fName = document.querySelector('.business-owner-fname-block');
-    let biz_owner_lName = document.querySelector('.business-owner-lname-block');
-    let biz_type = document.querySelector('.business-type-block');
-    let biz_email = document.querySelector('.business-email-block');
-    let biz_phone = document.querySelector('.business-phone-block');
-    let biz_location = document.querySelector('.business-location-block');
-    let biz_description = document.querySelector('.business-description-block');
+    const bizInfo = {
+        cName: document.querySelectorAll('.business-name-block'),
+        fName: document.querySelectorAll('.business-owner-fname-block'),
+        lName: document.querySelectorAll('.business-owner-lname-block'),
+        bType: document.querySelectorAll('.business-type-block'),
+        email: document.querySelectorAll('.business-email-block'),
+        phoneNo: document.querySelectorAll('.business-phone-block'),
+        location: document.querySelectorAll('.business-location-block'),
+        description: document.querySelectorAll('.business-description-block')
+    };
 
     async function sendName() {
         try {
-            let response = await fetch(window.location.pathname +'/get-other-user', {
+            let response = await fetch('/get-other-user?' + new URLSearchParams(window.location.search), {
                 method: 'GET',
             });
             if (response.status == 200) {
-                let data = await response.text();
-                let dataParsed = JSON.parse(data);
-                console.log(dataParsed);
-                popThaSpots(dataParsed);
+                response = await response.text();
+                response = JSON.parse(response);
+                popThaSpots(response);
             }
         } catch (err) {
             console.log(err);
@@ -27,16 +28,13 @@ docLoaded(() => {
     sendName();
 
     function popThaSpots(data) {
-        biz_name.innerHTML = (data[0].cName != undefined && data[0].cName != null) ? data[0].cName : '';
-        biz_owner_fName.innerHTML = (data[0].fName != undefined && data[0].fName != null) ? data[0].fName : '';
-        biz_owner_lName.innerHTML = (data[0].lName != undefined && data[0].lName != null) ? data[0].lName : '';
-        biz_type.innerHTML = (data[0].bType != undefined && data[0].bType != null) ? data[0].bType : '';
-        biz_email.innerHTML = (data[0].email != undefined && data[0].email != null) ? data[0].email : '';
-        biz_phone.innerHTML = (data[0].phoneNo != undefined && data[0].phoneNo != null) ? data[0].phoneNo : '';
-        biz_location.innerHTML = (data[0].location != undefined && data[0].location != null) ? data[0].location : '';
-        biz_description.innerHTML = (data[0].description != undefined && data[0].description != null) ? data[0].description : '';
+        document.querySelector("#profile-picture").src = "./avatars/" + data[0].profilePic;
+        for (const [key, value] of Object.entries(bizInfo)) {
+            value.forEach((element) => {
+                element.innerHTML = (data[0][key] != undefined && data[0][key] != null) ? data[0][key] : '';
+            });
+        }
     }
-
 });
 
 function docLoaded(action) {
@@ -45,3 +43,7 @@ function docLoaded(action) {
     else
         document.addEventListener('DOMContentLoaded', action);
 }
+
+
+
+

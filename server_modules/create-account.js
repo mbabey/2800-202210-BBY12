@@ -25,7 +25,6 @@ function insertDB(req, connection) {
     return new Promise((resolve, reject) => {
         let username = req.body.username.trim();
         let pass = req.body.password;
-        console.log(req.body);
         if (checkUsername(username, req) && checkPassword(pass, req)) {
             const hash = crypto.createHash('sha256').update(pass).digest('hex');
             let location = concatenateLocation(req.body["location-street"].trim(), req.body["location-city"].trim(), req.body["location-country"].trim());

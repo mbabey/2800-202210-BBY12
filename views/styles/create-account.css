@@ -92,7 +92,7 @@
   grid-column: 2 / span 1;
 }
 
-/* Styles for inputs brought to you by https://www.instagram.com/p/CdGXl-1PJZ1/?utm_source=ig_web_copy_link  */
+/* Styles for inputs brought to you by https://www.instagram.com/p/CdGXl-1PJZ1/?utm_source=ig_web_copy_link 
 
 .input-container {
   position: relative;
@@ -162,7 +162,7 @@
 
 .create-input:focus::placeholder {
   opacity: 1;
-}
+} */
 
 /* End styles for inputs */
 

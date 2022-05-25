@@ -64,9 +64,9 @@ module.exports = {
 
     updateUser: async (req, con) => {
         let status;
-        await con.promise().query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
+        await con.promise().query('UPDATE BBY_12_Users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
             [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username])
-            .then(() => {
+            .then((results) => {
                 status = "success";
             })
             .catch((err) => {

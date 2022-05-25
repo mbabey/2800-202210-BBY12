@@ -234,6 +234,14 @@
   background-color: #dff7ff;
 }
 
+@media only screen and (min-width: 801px) and (max-width: 1200px) {
+  .post-save,
+  .post-cancel,
+  .post-delete {
+    margin: 5px 0;
+    padding: 10px 10%;
+  }
+}
 
 @media only screen and (max-width: 800px) {
   .post-block {
@@ -255,5 +263,14 @@
     width: 100%;
     height: auto;
     margin: 6px 0;
+  }
+  .post-cancel,
+  .post-delete {
+    margin: 5px 0;
+    padding: 10px 10%;
+  }
+  .post-save {
+    margin: 5px 0;
+    padding: 10px 15%;
   }
 }

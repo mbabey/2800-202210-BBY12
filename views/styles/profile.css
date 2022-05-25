@@ -39,7 +39,7 @@ p {
 
 .profile-header {
   display: grid;
-  grid-template-columns: 24.75% 40.5% 24.75%;
+  grid-template-columns: 24.75% 50.5% 24.75%;
   grid-template-rows: 100%;
 }
 
@@ -93,9 +93,7 @@ p {
 
 .edit-profile {
   background-color: var(--light-grey);
-  /* needs attention on the button colour*/
   color: black;
-  /* var(--secondary); changed to black temporarily*/
   border: 1px solid var(--light-grey);
   text-align: center;
   width: 7rem;
@@ -145,24 +143,15 @@ p {
   color: var(--gold);
 }
 
-/* Tooltips referenced from https://www.w3schools.com/css/css_tooltip.asp */
-.tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: rgba(0, 0, 0, 0.512);
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
+.profile-contact-medium-desktop {
+  display: none;
+  grid-column: 1 / span 1;
 }
 
-.tooltip:hover~.tooltiptext {
-  visibility: visible;
+.profile-info-medium-desktop {
+  display: none;
+  grid-column: 1 / span 1;
 }
-
-/* End of tooltips */
 
 .profile-description {
   width: 50%;
@@ -205,6 +194,25 @@ p {
   width: 96%;
   max-width: 700px;
 }
+
+/* Tooltips referenced from https://www.w3schools.com/css/css_tooltip.asp */
+.tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgba(0, 0, 0, 0.512);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover~.tooltiptext {
+  visibility: visible;
+}
+
+/* End of tooltips */
 
 @media only screen and (min-width: 601px) and (max-width: 800px) {
   .profile-header {

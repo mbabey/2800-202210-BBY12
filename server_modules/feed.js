@@ -5,10 +5,7 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       let posts;
       await con.promise().query(
-        `SELECT users.profilePic, users.cName, users.bType, post.*
-                FROM \`BBY_12_post\` AS post
-                INNER JOIN \`BBY_12_users\` AS users ON (post.username = users.username)
-                ORDER BY post.timestamp DESC;`)
+        'SELECT users.profilePic, users.cName, users.bType, post.* FROM BBY_12_post AS post INNER JOIN BBY_12_users AS users ON (post.username = users.username) ORDER BY post.timestamp DESC;')
         .then((results) => {
           posts = results[0];
         })
@@ -18,8 +15,25 @@ module.exports = {
       homeDOM = await populatePosts(req, homeDOM, templateDOM, posts, con);
       resolve(homeDOM);
     });
+  },
 
+  populateProfileFeed: async (req, profileDOM, templateDOM, con) => {
+    return new Promise(async (resolve, reject) => {
+      let posts;
+      await con.promise().query(
+        'SELECT users.profilePic, users.cName, users.bType, post.* FROM BBY_12_post AS post INNER JOIN BBY_12_users AS users ON (post.username = users.username) WHERE post.username = ? ORDER BY post.timestamp DESC;',
+        [req.session.username])
+        .then((results) => {
+          posts = results[0];
+        })
+        .catch((err) => {
+          reject(err);
+        });
+      profileDOM = await populatePosts(req, profileDOM, templateDOM, posts, con);
+      resolve(profileDOM);
+    });
   }
+
 };
 
 // build the post using all data
@@ -53,26 +67,11 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
 
     let pImgs = clone.querySelector(".gallery");
     let pTags = clone.querySelector(".post-tags");
-    for (const image of postImages) {
-      if (image) {
-        let img = pImgTemplateContent.cloneNode(true);
-        img.querySelector("img").src = "./images/" + image["imgFile"];
-        img.querySelector("img").alt = image["imgFile"];
-        pImgs.appendChild(img);
-      }
-    }
+    await renderImgs(postImages, pImgs, pImgTemplateContent);
+    await renderTags(postTags, pTags, pTagTemplateContent);
 
     let pAddImgs = pAddImgTemplateContent.cloneNode(true);
     pImgs.parentNode.appendChild(pAddImgs);
-
-    for (const tags of postTags) {
-      if (tags) {
-        let tag = pTagTemplateContent.cloneNode(true);
-        tag.querySelector("a").textContent = '#' + tags["tag"];
-        tag.querySelector("a").href = '#' + tags["tag"];
-        pTags.appendChild(tag);
-      }
-    }
 
     if (req.session.username == post.username) {
       let pEdit = pEditTemplateContent.cloneNode(true);
@@ -81,6 +80,28 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
     pBody.appendChild(clone);
   }
   return homeDOM;
+}
+
+async function renderImgs(postImages, pImgs, pImgTemplateContent) {
+  for (const image of postImages) {
+    if (image) {
+      let img = pImgTemplateContent.cloneNode(true);
+      img.querySelector("img").src = "./images/" + image["imgFile"];
+      img.querySelector("img").alt = image["imgFile"];
+      pImgs.appendChild(img);
+    }
+  }
+}
+
+async function renderTags(postTags, pTags, pTagTemplateContent) {
+  for (const tags of postTags) {
+    if (tags) {
+      let tag = pTagTemplateContent.cloneNode(true);
+      tag.querySelector("a").textContent = '#' + tags["tag"];
+      tag.querySelector("a").href = '#' + tags["tag"];
+      pTags.appendChild(tag);
+    }
+  }
 }
 
 async function getImages(username, postId, con) {

@@ -15,7 +15,7 @@
 <body>
 
   <nav>
-    <!-- Populated by nav.js -->
+    <!-- Populated by server -->
   </nav>
 
   <div class="container">
@@ -84,6 +84,39 @@
             </div>
           </div>
         </div>
+        <!-- Contact information rearranged for medium desktop view because of spacing issues causing horizontal scrolling -->
+        <div class="profile-info-medium-desktop">
+          <h3>Business Owner<br>Name</h3>
+          <div class="profile-owner">
+            <div id="name-block-container-d">
+              <div>
+                <span class="business-owner-fname-block tooltip" id="name-block-d">First</span>
+                <span class="tooltiptext">First Name</span>
+              </div>
+              <div>
+                <span class="business-owner-lname-block tooltip" id="lastname-block-d">Last</span>
+                <span class="tooltiptext">Last Name</span>
+              </div>
+            </div>
+          </div>
+          <div class="profile-location">
+            <h3>Business Address</h3>
+            <p class="business-location-block tooltip">123 Fun St. Vancouver, BC</p>
+            <span class="tooltiptext">Address</span>
+          </div>
+        </div>
+        <div class="profile-contact-medium-desktop">
+          <h3>Contact Info</h3>
+          <div>
+            <p class="business-email-block tooltip">Business Email</p>
+            <span class="tooltiptext">Email</span>
+          </div>
+          <div>
+            <p class="business-phone-block tooltip">Business Phone</p>
+            <span class="tooltiptext">Phone</span>
+          </div>
+        </div>
+        <!--End of medium desktop view profile info-->
       </div>
     </div>
     <div class="profile-description">
@@ -101,13 +134,13 @@
   </div>
 
   <footer>
-    <!-- Populated by nav.js -->
+    <!-- Populated by server -->
   </footer>
 
-  <script src="nav.js"></script>
-  <script src="account.js"></script>
-  <script src="user-posts.js"></script>
-  <script src="edit-post.js"></script>
+  <script defer src="nav.js"></script>
+  <script defer src="account.js"></script>
+  <script defer src="edit-post.js"></script>
+  <script defer src="delete-post.js"></script>
 </body>
 
 </html>

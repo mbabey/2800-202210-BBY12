@@ -45,7 +45,8 @@
   padding-bottom: 1rem;
 }
 
-.buttons>input {
+.buttons>input,
+.buttons>a {
   border: none;
   padding: 15px 32px;
   text-align: center;

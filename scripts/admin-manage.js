@@ -276,7 +276,6 @@ function handleDeleteConditions(response, user) {
       break;
     default: // Fail
       message = 'User ' + user + ' could not be deleted.';
-
   }
   document.querySelector('#query-response-message').innerHTML = message;
 }

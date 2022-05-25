@@ -425,7 +425,8 @@ h3 {
 
 #popup-edit-block {
   display: none;
-  width: 300px;
+  min-width: 500px;
+  width: 50%;
   background-color: white;
   box-shadow: 0 0 15px 8px rgba(0, 0, 0, 0.1);
   border: 3px solid var(--secondary-dark);
@@ -449,15 +450,18 @@ h3 {
 }
 
 .input-wrapper {
-  width: 100%;
+  width: 70%;
 }
 
-.edit-input {
-  border: 1px black solid;
-  padding: 0.5rem;
-  font-size: 0.9rem;
-  margin: 5px 2px;
-  background-color: rgba(128, 128, 128, 0.3);
+.input-container.textarea {
+  height: auto;
+}
+
+.input-container.textarea .input:focus+.label {
+  top: -0.05rem;
+}
+
+.input {
   width: calc(100% - 1rem - 4px - 2px);
   /* Full width minus padding minus margin minus border. */
 }
@@ -504,5 +508,15 @@ h3 {
   .user-card-fName,
   .user-card-lName {
     display: none;
+  }
+
+  #popup-edit-block {
+    min-width: 300px;
+    width: 85%;
+  }
+
+  .input-wrapper {
+    width: 100%;
+    max-width: 420px;
   }
 }

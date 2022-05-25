@@ -41,17 +41,20 @@
         </div>
 
         <div class="profile-picture">
-          <div class="profile-picture-background">
             <div class="edit-profile-image">
+            
               <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
                 <label for="edit-avatar">
+                  <div class="profile-picture-background">
                   <img class="business-picture-block" id="profile-picture" src="./avatars/logo.png" alt="Profile Image">
                   <input type="file" id="edit-avatar" name="edit-avatar" accept="image/png, image/jpeg" hidden
                     onchange="form.submit()">
+                  </div>
                 </label>
+                
               </form>
             </div>
-          </div>
+   
         </div>
         <div class="profile-info">
           <h3>Business Owner<br>Name</h3>
@@ -84,39 +87,6 @@
             </div>
           </div>
         </div>
-        <!-- Contact information rearranged for medium desktop view because of spacing issues causing horizontal scrolling -->
-        <div class="profile-info-medium-desktop">
-          <h3>Business Owner<br>Name</h3>
-          <div class="profile-owner">
-            <div id="name-block-container-d">
-              <div>
-                <span class="business-owner-fname-block tooltip" id="name-block-d">First</span>
-                <span class="tooltiptext">First Name</span>
-              </div>
-              <div>
-                <span class="business-owner-lname-block tooltip" id="lastname-block-d">Last</span>
-                <span class="tooltiptext">Last Name</span>
-              </div>
-            </div>
-          </div>
-          <div class="profile-location">
-            <h3>Business Address</h3>
-            <p class="business-location-block tooltip">123 Fun St. Vancouver, BC</p>
-            <span class="tooltiptext">Address</span>
-          </div>
-        </div>
-        <div class="profile-contact-medium-desktop">
-          <h3>Contact Info</h3>
-          <div>
-            <p class="business-email-block tooltip">Business Email</p>
-            <span class="tooltiptext">Email</span>
-          </div>
-          <div>
-            <p class="business-phone-block tooltip">Business Phone</p>
-            <span class="tooltiptext">Phone</span>
-          </div>
-        </div>
-        <!--End of medium desktop view profile info-->
       </div>
     </div>
     <div class="profile-description">

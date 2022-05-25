@@ -86,7 +86,7 @@
   float: left;
   width: 45%;
   position: relative;
-  height: 100%;
+  height: auto;
 }
 
 .post-images img {

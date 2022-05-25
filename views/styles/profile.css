@@ -387,17 +387,50 @@ p {
 }
 
 @media only screen and (max-width: 330px) {
+  .profile-header {
+    display: grid;
+    grid-template-rows: 31% 1fr;
+  }
+
+  .profile-header-wrapper {
+    padding-bottom: 0;
+  }
   .profile-picture-background {
     height: 180px;
     width: 180px;
   }
+
+  .profile-picture {
+    margin: 0;
+    padding: 0;
+  }
+
+  .edit-profile-image {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  .profile-name {
+    padding: 0;
+    margin: 0;
+  }
   
-  .edit-profile {
-    margin-left: 50px;
+  .profile-info {
+    padding-top: 20%;
+    padding-left: 10px;
   }
 
   .edit-profile-container {
-    margin-top: 160px;
+    margin-top: 100px;
     margin-left: 100px;
+  }
+
+  .edit-profile {
+    margin-left: 50px;
+    width: 50%;
+    padding: 8px;
   }
 }

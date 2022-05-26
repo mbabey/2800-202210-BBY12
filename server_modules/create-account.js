@@ -48,10 +48,16 @@ function insertDBAdmin(req, connection) {
         let pass = req.body.password;
         if (checkUsername(username, req) && checkPassword(pass, req)) {
             const hash = crypto.createHash('sha256').update(pass).digest('hex');
-            let location = concatenateLocation(req.body["location-street"].trim(), req.body["location-city"].trim(), req.body["location-country"].trim());
+            let location = "Enter Street number" + ", " + "City" + ", " + "Country";
+            let first_name = "Enter First Name";
+            let last_name = "Last Name";
+            let biz_name = "Enter Business Name Here";
+            let biz_type = "Enter Business Type Here";
+            let phone = "(###)-###-####";
+            let description = "Enter business discription here"
             connection.query(
-                'INSERT INTO BBY_12_users (username, password, fName, lName, cName, bType, email, phoneNo, location, description, profilePic) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                [username, hash, req.body["first-name"].trim(), req.body["last-name"].trim(), req.body["company-name"].trim(), req.body['company-type'].trim(), req.body["email"].trim(), req.body["phone-num"].trim(), location, req.body.description.trim(), 'logo.png'],
+                'INSERT INTO BBY_12_users (username, password, fName, lName, cName, bType, email, phoneNo, location, description) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                [username, hash, first_name, last_name, biz_name, biz_type, req.body["email"], phone, location, description],
                 (err) => {
                   console.log(err);
                     if (err) {

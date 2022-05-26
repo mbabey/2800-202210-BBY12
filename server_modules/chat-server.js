@@ -29,6 +29,5 @@ module.exports = {
         delete connectedUsers[socket.id];
       });
     }); 
-    //emitter.setMaxListeners()
   }
 };

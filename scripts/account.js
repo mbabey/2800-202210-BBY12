@@ -12,77 +12,39 @@ docLoaded(() => {
   };
 
   const bizInfoDefaults = {
-    cName: "Enter business name here",
-    fName: "first name",
-    lName: "last name",
-    bType: "Enter business type",
-    email: "Enter email",
-    phoneNo: "Enter phone number",
-    location: "Enter location",
-    description: "Enter description"
+    cName: "Business Name",
+    fName: "First Name",
+    lName: "Last Name",
+    bType: "Business Type",
+    email: "email@business.gov",
+    phoneNo: "(###)-###-####",
+    location: "Location",
+    description: "Description"
   };
-
-  let edit_button = document.getElementById("edit-button");
-  let save_button = document.getElementById("save-button");
-
-  async function getData() {
-    try {
-      let response = await fetch('/get-user', {
-        method: 'GET'
-      });
-      if (response.status == 200) {
-        let data = await response.text();
-        popThaSpots(JSON.parse(data));
-      }
-    } catch (err) {
-    }
-  }
-  getData();
-
+  
+  const editButton = document.getElementById("edit-button");
+  const saveButton = document.getElementById("save-button");
+  
+  getData(popThaSpots);
+  
   function popThaSpots(data) {
     document.querySelector("#profile-picture").src = "./avatars/" + data[0].profilePic;
     for (const [key, value] of Object.entries(bizInfo)) {
       value.forEach((element) => {
-        element.innerHTML = (data[0][key] != undefined && data[0][key] != null) ? data[0][key] : '';
+        element.innerHTML = (data[0][key] != undefined && data[0][key] != null) ? data[0][key] : bizInfoDefaults[key];
       });
     }
-  }
-
-  function checkEmpty(data) {
-    let checkEmpty = data.trim();
-    let checkSpace = data.replace('/&nbsp;/g', '');
-    let checkEnter = data.replace('/<div><br></div>/g', '');
-
-    if (checkEmpty == '' || checkSpace.trim() == '' || checkEnter.trim() == '') {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  function clickEdit(section) {
-    section.contentEditable = true;
-    section.style.color = "white";
-    section.style.borderRadius = "5px";
-    section.style.padding = "10px";
-    section.style.backgroundColor = "var(--primary-dark)";
   }
 
   document.getElementById("edit-button").addEventListener("click", (event) => {
     for (const [key, value] of Object.entries(bizInfo)) {
       clickEdit(value[0]);
     }
-
     document.getElementById("edit-status").innerHTML = "";
-    edit_button.innerHTML = "";
-    save_button.innerHTML = "Save";
+    editButton.innerHTML = "";
+    saveButton.innerHTML = "Save";
     event.preventDefault();
   });
-
-  function saved(data) {
-    data.contentEditable = false;
-    data.style.color = '#ffd500';
-  };
 
   document.getElementById("save-button").addEventListener("click", async (event) => {
     let dataToSend = {};
@@ -93,30 +55,63 @@ docLoaded(() => {
       }
       dataToSend[key] = value[0].innerHTML;
     }
-    //dataToSend["username"] = new URLSearchParams(document.location.search).get("user");
-
     document.getElementById("edit-status").innerHTML = "";
-    edit_button.innerHTML = "Edit Profile";
-    save_button.innerHTML = "";
-
-    console.log(dataToSend);
-    sendData(JSON.stringify(dataToSend));
+    editButton.innerHTML = "Edit Profile";
+    saveButton.innerHTML = "";
+    sendData(dataToSend);
     location.reload();
   });
 });
 
 async function sendData(data) {
   try {
-    console.log(data);
     await fetch('/update-user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: data
+      body: JSON.stringify(data)
     });
   } catch (err) {
     console.log(err);
   }
 }
+
+async function getData(callback) {
+  try {
+    let response = await fetch('/get-user', {
+      method: 'GET'
+    });
+    if (response.status == 200) {
+      response = await response.text();
+      response = JSON.parse(response);
+      callback(response);
+    }
+  } catch (err) {
+  }
+}
+
+function saved(data) {
+  data.contentEditable = false;
+  data.style.color = '#ffd500';
+};
+
+function clickEdit(section) {
+  section.contentEditable = true;
+  section.style.color = "white";
+  section.style.borderRadius = "5px";
+  section.style.padding = "10px";
+  section.style.backgroundColor = "var(--primary-dark)";
+}
+
+function checkEmpty(data) {
+  let checkEmpty = data.trim();
+  let checkSpace = data.replace('/&nbsp;/g', '');
+  let checkEnter = data.replace('/<div><br></div>/g', '');
+  if (checkEmpty == '' || checkSpace.trim() == '' || checkEnter.trim() == '') {
+    return false;
+  } else {
+    return true;
+  }
+};
 
 function docLoaded(action) {
   if (document.readyState != 'loading')

@@ -67,7 +67,7 @@
 #create-block>form {
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 3rem 6rem 4rem;
+  grid-template-rows: 3rem 6rem 2rem 4rem;
   /* size in rem so form scales with font size. */
   gap: 3px;
 }
@@ -92,8 +92,27 @@
   grid-column: 2 / span 1;
 }
 
-#create-submit {
+.password-container {
+  position: relative;
+}
+
+.password-container .visible-password-toggle {
+  position: absolute;
+  right: 0;
+}
+
+span>svg {
+  cursor: pointer;
+}
+
+#password-message {
+  text-align: center;
   grid-row: 3 / span 1;
+  grid-column: 1 / span 2;
+}
+
+#create-submit {
+  grid-row: 4 / span 1;
   grid-column: 1 / span 2;
   padding: .7rem;
   margin: 10px auto;
@@ -156,8 +175,8 @@
   color: var(--primary-dark);
 }
 
-span > svg{
-  cursor:pointer;
+#error-message {
+  color: var(--danger-red);
 }
 
 @media only screen and (max-width: 800px) {
@@ -196,7 +215,7 @@ span > svg{
 
   #create-block>form {
     grid-template-columns: 100%;
-    grid-template-rows: 3rem repeat(2, 6rem) 4rem;
+    grid-template-rows: 3rem repeat(2, 6rem) 2rem 4rem;
     gap: 0;
   }
 
@@ -215,9 +234,14 @@ span > svg{
     grid-row: 3 / span 1;
   }
 
-  #create-submit {
+  #password-message {
     grid-column: 1 / span 1;
     grid-row: 4 / span 1;
+  }
+
+  #create-submit {
+    grid-column: 1 / span 1;
+    grid-row: 5 / span 1;
   }
 
   #welcome {

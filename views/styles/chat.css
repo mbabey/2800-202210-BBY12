@@ -1,38 +1,84 @@
-.container {
-  display: grid;
-  grid-template-rows: 10% 80% 10%;
-}
-
 .message-header {
- grid-row: 1 / span 1;
+  grid-row: 1 / span 1;
+  text-align: center;
+  width: 100%;
+  background-color: #fff;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  margin: 0;
+  height: 50px;
 }
 
-.message-content {
-  grid-row: 2 / span 1;
+#message-content {
+  display: flex;
+  height: calc(100vh - 200px);
+  padding-top: 50px;
+  flex-direction: column;
+  overflow: auto;
 }
 
 .message {
-  border-radius: 3px;
+  border-radius: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  margin: 3px;
+  min-height: 1rem;
+  max-width: 96%;
+  overflow-wrap: break-word;
 }
 
-.self-message {
-  background-color: var(--secondary-light);
-  text-align: right;
-  float: right;
-}
-
+.server-message,
+.self-message,
 .other-message {
-  background-color: #fff;
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  margin: 0 2%;
+}
+
+.server-message .message {
+  text-align: center;
+  color: grey;
+}
+
+.server-message .sender-name {
+  display: none;
+}
+
+.self-message .sender-name {
+  color: grey;
+  float: right;
+  text-align: right;
+}
+
+.other-message .sender-name {
+  color: grey;
   float: left;
 }
 
-.message-footer {
-  grid-row: 3 / span 1;
-  justify-items: center;
+.self-message .message {
+  background-color: var(--secondary-text);
+  text-align: right;
+  float: right;
+  margin-left: auto;
 }
 
-.message-send-block { 
+.other-message .message {
+  background-color: #fff;
+  text-align: left;
+  float: left;
+  margin-right: auto;
+}
+
+.message-footer {
+  position: fixed;
+  bottom: 50px;
+  left: 0;
+  background-color: #fff;
+  width: 100%;
+}
+
+.message-send-block {
   display: flex;
   justify-content: center;
   gap: 7px;
@@ -51,11 +97,4 @@
   border-radius: 10px;
   cursor: pointer;
   border: none;
-}
-
-.message {
-  background-color: var(--primary-light);
-  border-radius: 10px;
-  display: inline-block;
-  padding: 5px;
 }

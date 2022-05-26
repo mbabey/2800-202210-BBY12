@@ -17,9 +17,9 @@
 
   <div class="container">
     <div class="message-header">
-      <p>Username of person</p>
+      <h2>Community Room</h2>
     </div>
-    <div class="message-content">
+    <div id="message-content">
       <!-- Chat converstaions go here, populated by chat.js -->
     </div>
     <div class="message-footer">
@@ -28,13 +28,12 @@
         <button type="submit" id="message-submit">Send</button>
       </form>
     </div>
-
-
   </div>
 
   <footer>
     <!-- Populated by server -->
   </footer>
+  <script src="nav.js"></script>
   <script src="http://localhost:8000/socket.io/socket.io.js"></script>
   <script src="chat.js"></script>
 </body>

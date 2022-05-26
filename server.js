@@ -278,13 +278,14 @@ app.route('/create-account')
     }
   })
   .post((req, res) => {
+    res.setHeader('content-type', 'application/json');
     createAccount.createAccount(req, res, con)
       .then(async () => {
         await loginQuery.login(req, req.body["username"], req.body['password'], con);
-        res.redirect('/');
+        res.send({ status: 'success' });
       })
       .catch((err) => {
-        res.redirect('/create-account');
+        res.send({ status: 'fail' });
       });
   });
 
@@ -336,21 +337,22 @@ app.route('/admin-add-account')
     }
   })
   .post((req, res) => {
+    res.setHeader('content-type', 'application/json');
     if (req.body.isAdmin) {
-      createAccount.createAdmin(req, res, con)
+      createAccount.adminCreateAdmin(req, res, con)
         .then(() => {
-          res.redirect('/admin-manage-users');
+          res.send({ status: 'success' });
         })
         .catch(() => {
-          res.redirect('/admin-add-account');
+          res.send({ status: 'fail' });
         });
     } else {
-      createAccount.createAccount(req, res, con)
+      createAccount.adminCreateAccount(req, res, con)
         .then(() => {
-          res.redirect('/admin-manage-users');
+          res.send({ status: 'success' });
         })
         .catch(() => {
-          res.redirect('/admin-add-account');
+          res.send({ status: 'fail' });
         });
     }
   });

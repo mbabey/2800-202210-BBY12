@@ -374,6 +374,9 @@
   transform: scale(1);
 }
 
+#error-message {
+  color: var(--danger-red);
+}
 
 @media only screen and (max-width: 800px) {
   .container {

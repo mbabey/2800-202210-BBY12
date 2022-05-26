@@ -503,9 +503,10 @@ h3 {
   }
 
   .user-card-info {
-    grid-template-columns: 15% repeat(2, 42.5%);
+    grid-template-columns: 15% 1fr;
   }
 
+  .user-card-bType,
   .user-card-fName,
   .user-card-lName {
     display: none;

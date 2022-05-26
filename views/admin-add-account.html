@@ -43,7 +43,7 @@
     <div class="admin-right">
       <div id="create-block">
         <p><b>Create Account</b></p>
-        <form method="post">
+        <form>
           <div id="admin-block">
             <label id="admin-checkbox-container">Make this user an administrator
               <input name="isAdmin" type="checkbox">
@@ -62,7 +62,8 @@
               <label for="email" class="label">Email*</label>
             </div>
             <div class="input-container">
-              <input id="email-verify" name="email-verify" type="text" placeholder="Verify Email" class="input" required>
+              <input id="email-verify" name="email-verify" type="text" placeholder="Verify Email" class="input"
+                required>
               <label for="email-verify" class="label">Verify Email*</label>
             </div>
           </div>
@@ -72,55 +73,57 @@
               <label for="password" class="label">Password*</label>
             </div>
             <div class="input-container">
-              <input id="password-verify" name="password-verify" type="password" placeholder="Verify Password" class="input" required>
+              <input id="password-verify" name="password-verify" type="password" placeholder="Verify Password"
+                class="input" required>
               <label for="password-verify" class="label">Verify Password*</label>
             </div>
           </div>
           <div id="biz-name-block">
             <div class="input-container">
-              <input id="company-name" name="company-name" type="text" placeholder="Business Name" class="input">
+              <input id="company-name" name="cName" type="text" placeholder="Business Name" class="input">
               <label for="company-name" class="label">Business Name</label>
             </div>
             <div class="input-container">
-              <input id="company-type" name="company-type" type="text" placeholder="Business Type" class="input">
+              <input id="company-type" name="bType" type="text" placeholder="Business Type" class="input">
               <label for="company-type" class="label">Business Type</label>
             </div>
           </div>
           <div id="name-block">
             <div class="input-container">
-              <input id="first-name" name="first-name" type="text" placeholder="First Name" class="input">
+              <input id="first-name" name="fName" type="text" placeholder="First Name" class="input">
               <label for="first-name" class="label">First Name</label>
             </div>
             <div class="input-container">
-              <input id="last-name" name="last-name" type="text" placeholder="Last Name" class="input">
+              <input id="last-name" name="lName" type="text" placeholder="Last Name" class="input">
               <label for="last-name" class="label">Last Name</label>
             </div>
             <div class="input-container">
-              <input id="phone-num" name="phone-num" type="text" placeholder="Phone Number" class="input">
+              <input id="phone-num" name="phoneNo" type="text" placeholder="Phone Number" class="input">
               <label for="phone-num" class="label">Phone Number</label>
             </div>
           </div>
           <div id="location-block">
             <div class="input-container">
-              <input id="location-country" name="location-country" type="text" placeholder="Country" class="input">
+              <input id="location-country" name="locationCountry" type="text" placeholder="Country" class="input">
               <label for="location-country" class="label">Country</label>
             </div>
             <div class="input-container">
-              <input id="location-city" name="location-city" type="text" placeholder="City" class="input">
+              <input id="location-city" name="locationCity" type="text" placeholder="City" class="input">
               <label for="location-city" class="label">City</label>
             </div>
             <div class="input-container">
-              <input id="location-street" name="location-street" type="text" placeholder="Street Address" class="input">
+              <input id="location-street" name="locationStreet" type="text" placeholder="Street Address" class="input">
               <label for="location-street" class="label">Street Address</label>
             </div>
           </div>
           <div class="input-container textarea">
             <textarea id="description-block" name="description" placeholder="Business Description"
-            class="input"></textarea>
+              class="input"></textarea>
             <label for="description-block" class="label">Business Description</label>
           </div>
-          <button id="create-submit" type="submit" value="submit">Create Account</button>   
+          <button id="create-submit" type="button" value="submit">Create Account</button>
         </form>
+        <p id="error-message"></p>
       </div>
     </div>
   </div>
@@ -130,6 +133,7 @@
   </footer>
   <script src="nav.js"></script>
   <script src="form-inputs.js"></script>
+  <script src="admin-create-account-client.js"></script>
 </body>
 
 </html>

@@ -3,19 +3,22 @@ const crypto = require('crypto');
 
 module.exports = {
   createAccount: async function (req, res, con) {
-    res.setHeader('Content-Type', 'application/json');
     let success = await insertDBNewUser(req, con);
+    await success.catch(() => {});
     return success;
   },
 
-  createAdmin: async function (req, res, con) {
-    res.setHeader('Content-Type', 'application/json');
+  adminCreateAccount: async function (req, res, con) {
+    let success = insertDBAdmin(req, con);
+    await success.catch(() => {});
+    return success;
+  },
+
+  adminCreateAdmin: async function (req, res, con) {
     let success = insertDBAdmin(req, con);
     await success
       .then(() => {
-        insertAdmin(req.body.username, con)
-          .then()
-          .catch((err) => { });
+        insertAdmin(req.body.username, con).catch((err) => {});
       }).catch((err) => { });
     return success;
   }
@@ -43,10 +46,10 @@ function insertDBAdmin(req, connection) {
     const username = req.body.username.trim();
     const pass = req.body.password;
     const hash = crypto.createHash('sha256').update(pass).digest('hex');
-    const location = concatenateLocation(req.body["location-street"], req.body["location-city"], req.body["location-country"])
+    const location = concatenateLocation(req.body.locationStreet, req.body.locationCity, req.body.locationCountry);
     connection.query(
       'INSERT INTO BBY_12_users (username, password, fName, lName, cName, bType, email, phoneNo, location, description) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [username, hash, req.body["first-name"], req.body["last-name"], req.body["company-name"], req.body["company-type"], req.body.email, req.body["phone-num"], location, req.body.description],
+      [username, hash, req.body.fName, req.body.lName, req.body.cName, req.body.bType, req.body.email, req.body.phoneNo, location, req.body.description],
       (err) => {
         if (err) {
           reject(err);
@@ -59,7 +62,7 @@ function insertDBAdmin(req, connection) {
 
 function insertAdmin(username, connection) {
   return new Promise((resolve, reject) => {
-    connection.query('INSERT INTO BBY_12_admins values(?)', [username],
+    connection.query('INSERT INTO BBY_12_admins VALUES (?)', [username],
       function (err) {
         if (err) {
           reject(new Error("Admin Insert failed"));

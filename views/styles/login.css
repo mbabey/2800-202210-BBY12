@@ -50,6 +50,15 @@
   flex-direction: column;
 }
 
+.password-container {
+  position: relative;
+}
+
+.password-container .visible-password-toggle {
+  position: absolute;
+  right: 0;
+}
+
 #login-block>form>#login-submit {
   padding: .7rem;
   margin: 10px 0;

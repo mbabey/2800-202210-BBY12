@@ -222,6 +222,7 @@ p {
     grid-template-columns: 20% 50% 30%;
     grid-template-rows: 220px 15% 15% 1fr;
     padding-bottom: 3%;
+    padding-top: 3%;
   }
 
   .profile-picture {
@@ -310,6 +311,7 @@ p {
     margin: 0 2%;
     margin-bottom: 0;
     padding-bottom: 0;
+    padding-top: 3%;
   }
   
   .profile-header-wrapper {
@@ -400,6 +402,7 @@ p {
     margin: 0 2%;
     margin-bottom: 0;
     padding-bottom: 40px;
+    padding-top: 3%;
   }
   
   .profile-header-wrapper {

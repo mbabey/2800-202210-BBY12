@@ -1,13 +1,25 @@
 'use strict';
-let socket = io.connect('/');
 
-let messageContainer = document.querySelector('#message-content');
-let messageSendButton = document.querySelector('#message-submit');
-let messageInput = document.querySelector('#message-input');
+const messageContainer = document.querySelector('#message-content');
+const messageSendButton = document.querySelector('#message-submit');
+const messageInput = document.querySelector('#message-input');
+
+const socket = io.connect('/');
 
 socket.onAny((event, ...args) => {
   console.log(event, args);
 });
+
+let thisUser;
+
+getThisUser();
+
+async function getThisUser() {
+  await getData('/get-user', (results) => {
+    thisUser = results[0].username;
+    socket.emit('new-connection', thisUser);
+  });
+}
 
 async function getData(path, callback) {
   try {
@@ -22,18 +34,8 @@ async function getData(path, callback) {
   }
 }
 
-let thisUser;
-
-getThisUser();
-
-function getThisUser() {
-  getData('/get-user', (results) => {
-    thisUser = results[0].username;
-    socket.emit('new-connection', thisUser);
-  });
-}
-
 // Catch messages coming from the server and display it on the DOM.
+// user is the sender of the message.
 socket.on('chat-message', (data, user) => {
   addMessage(data, user);
 });
@@ -43,15 +45,17 @@ messageSendButton.addEventListener('click', e => {
   e.preventDefault();
   let message = messageInput.value;
   socket.emit('send-message', message, thisUser);
+  console.log(message, thisUser);
   messageInput.value = "";
 });
 
 // Builds the DOM for a message.
 function addMessage(message, user) {
-  let messageElement = document.createElement("span");
+  let messageElement = document.createElement("div");
   messageElement.classList.add('message');
   messageElement.innerHTML += message;
 
+  console.log(thisUser, user);
   if (thisUser === user) {
     messageElement.classList.add('self-message');
   } else {
@@ -60,3 +64,8 @@ function addMessage(message, user) {
 
   messageContainer.append(messageElement);
 }
+
+// Disconnects when path changes.
+socket.on('disconnect', () => {
+  socket.disconnect();
+});

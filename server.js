@@ -7,7 +7,6 @@ const express = require('express');
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-const app = express();
 const mysql = require('mysql2');
 const { JSDOM } = require('jsdom');
 const multer = require('multer');
@@ -30,17 +29,6 @@ const upload = multer({
     callback(null, true);
   }
 });
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
-//using this to do chat css because chat-server isn't working
-// io.on('connect', socket => {
-//   console.log('New user joined chat.');
-//   socket.emit('chat-message', 'Chat up a collab!');
-//   socket.on('send-message', (message, user) => {
-//     console.log(message, user);
-//     socket.emit('chat-message', message, user);
-//   });
-// });
 
 // ---------------- Custom Dependencies ----------------- \\
 
@@ -61,6 +49,11 @@ const chatServer = require('./server_modules/chat-server');
 // ------------------------------------------------------ \\
 // ------------vvv----- Server Init ------vvv------------ \\
 
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+chatServer.runChatServer(io);
+
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -74,6 +67,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
 
 let con;
 const isHeroku = process.env.IS_HEROKU || false;
@@ -89,6 +83,8 @@ server.listen(port, () => {
       });
     });
 });
+
+
 
 // ------------^^^--- End Server Init ----^^^------------ \\
 // ------------------------------------------------------ \\
@@ -356,7 +352,6 @@ app.route('/admin-add-account')
 // CHAT PAGE
 app.get('/chat', (req, res) => {
   if (req.session.loggedIn) {
-    chatServer.runChatServer(io, req.session.username);
     let chatPage = new JSDOM(fs.readFileSync('./views/chat.html', 'utf8').toString());
     chatPage.window.document.querySelector('nav').innerHTML = navbarHTML;
     chatPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;

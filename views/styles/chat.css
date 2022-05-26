@@ -7,12 +7,26 @@
  grid-row: 1 / span 1;
 }
 
-.message-content {
+.message-container {
   grid-row: 2 / span 1;
 }
 
+#message-content {
+  display: flex;
+  flex-direction: column;
+  float: bottom;
+}
+
+.message {
+  background-color: var(--primary-light);
+  border-radius: 10px;
+  padding: 5px;
+  border-radius: 20px;
+  margin: 3px;
+}
+
 .self-message {
-  background-color: var(--secondary-light);
+  background-color: var(--secondary-text);
   text-align: right;
   float: right;
 }
@@ -24,7 +38,9 @@
 }
 
 .message-footer {
-  grid-row: 3 / span 1;
+  position: absolute;
+  bottom: 50px;
+  left: 0;
   justify-items: center;
 }
 
@@ -47,17 +63,4 @@
   border-radius: 10px;
   cursor: pointer;
   border: none;
-}
-
-.message {
-  background-color: var(--primary-light);
-  border-radius: 10px;
-  padding: 5px;
-  border-radius: 3px;
-  margin: 3px;
-}
-
-#message-content {
-  display: flex;
-  flex-direction: column;
 }

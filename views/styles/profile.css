@@ -38,7 +38,7 @@ p {
   padding-bottom: 5px;
   padding-top: 5px;
   font-weight: bolder;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
 }
 
 .profile-header {
@@ -214,6 +214,10 @@ p {
   visibility: visible;
 }
 
+.overflow-tooltip {
+  transform: translate(-70%, -50%);
+}
+
 /* End of tooltips */
 
 @media only screen and (max-width: 800px) and (min-width: 601px) {
@@ -387,10 +391,6 @@ p {
   
   .profile-location {
     margin-bottom: 0;
-  }
-
-  .biz-name-tooltip {
-    transform: translate(-50%, -50%);
   }
 }
 

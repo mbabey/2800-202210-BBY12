@@ -30,31 +30,29 @@
           </div>
           <div class="edit-profile-container">
             <div class="edit-profile">
-            <a id="edit-button">Edit Profile</a>
-            <a id="save-button"></a>
-          </div>
-          <div class="edit-profile">
-            <a id="password-button" href="reset-password.html">Change Password</a>
-          </div>
+              <a id="edit-button">Edit Profile</a>
+              <a id="save-button"></a>
+            </div>
+            <div class="edit-profile">
+              <a id="password-button" href="/reset-password">Change Password</a>
+            </div>
           </div>
           <span id="edit-status"></span>
         </div>
 
         <div class="profile-picture">
-            <div class="edit-profile-image">
-            
-              <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
-                <label for="edit-avatar">
-                  <div class="profile-picture-background">
+          <div class="edit-profile-image">
+            <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
+              <!-- <label for="edit-avatar"> -->
+                <div class="profile-picture-background">
                   <img class="business-picture-block" id="profile-picture" src="./avatars/logo.png" alt="Profile Image">
                   <input type="file" id="edit-avatar" name="edit-avatar" accept="image/png, image/jpeg" hidden
                     onchange="form.submit()">
-                  </div>
-                </label>
-                
-              </form>
-            </div>
-   
+                </div>
+              <!-- </label> -->
+            </form>
+          </div>
+
         </div>
         <div class="profile-info">
           <h3>Business Owner<br>Name</h3>

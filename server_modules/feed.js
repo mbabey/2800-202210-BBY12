@@ -49,24 +49,11 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
   let pAddImgTemplateContent = postTemp.getElementById("add-image-template").content;
 
   for (const post of posts) {
-    let postImages = await getImages(post.username, post.postId, con);
-    let postTags = await getTags(post.username, post.postId, con);
-
-    let clone = pTemplateContent.cloneNode(true);
-    clone.querySelector("#post").dataset.postId = post.postId;
-    clone.querySelector("#post").dataset.username = post.username;
-    clone.querySelector("#post-user-avatar").src = "./avatars/" + post.profilePic;
-    clone.querySelector("#post-business-name").textContent = post.cName;
-    clone.querySelector("#post-business-type").textContent = post.bType;
-    clone.querySelector("#post-timestamp").textContent = post.timestamp.toDateString().split(' ').slice(1).join(' ');
-    clone.querySelector("#post-description").textContent = post.content;
-    clone.querySelector("#post-title").textContent = post.postTitle;
-    clone.querySelector("#link-avatar").href = "/users?" + new URLSearchParams({ "user": post.username });
-    clone.querySelector("#link-bName").href = "/users?" + new URLSearchParams({ "user": post.username });
-
-
+    let clone = await makePostBody(pTemplateContent, post);
     let pImgs = clone.querySelector(".gallery");
     let pTags = clone.querySelector(".post-tags");
+    let postImages = await getImages(post.username, post.postId, con);
+    let postTags = await getTags(post.username, post.postId, con);
     await renderImgs(postImages, pImgs, pImgTemplateContent);
     await renderTags(postTags, pTags, pTagTemplateContent);
 
@@ -80,6 +67,21 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
     pBody.appendChild(clone);
   }
   return homeDOM;
+}
+
+async function makePostBody(pTemplateContent, post) {
+  let clone = pTemplateContent.cloneNode(true);
+  clone.querySelector("#post").dataset.postId = post.postId;
+  clone.querySelector("#post").dataset.username = post.username;
+  clone.querySelector("#post-user-avatar").src = "./avatars/" + post.profilePic;
+  clone.querySelector("#post-business-name").textContent = post.cName;
+  clone.querySelector("#post-business-type").textContent = post.bType;
+  clone.querySelector("#post-timestamp").textContent = post.timestamp.toDateString().split(' ').slice(1).join(' ');
+  clone.querySelector("#post-description").textContent = post.content;
+  clone.querySelector("#post-title").textContent = post.postTitle;
+  clone.querySelector("#link-avatar").href = "/users?" + new URLSearchParams({ "user": post.username });
+  clone.querySelector("#link-bName").href = "/users?" + new URLSearchParams({ "user": post.username });
+  return clone;
 }
 
 async function renderImgs(postImages, pImgs, pImgTemplateContent) {

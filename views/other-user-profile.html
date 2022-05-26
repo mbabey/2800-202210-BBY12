@@ -30,11 +30,15 @@
             <span class="tooltiptext">Business Type</span>
           </div>
         </div>
-        <span id="edit-status"></span>
+
         <div class="profile-picture">
-          <div class="profile-picture-background">
-            <img class="business-picture-block" id="profile-picture" src="./avatars/logo.png" alt="Profile Image">
-          </div>
+            <div class="edit-profile-image">
+              <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
+                  <div class="profile-picture-background">
+                  <img class="business-picture-block" id="profile-picture" src="./avatars/logo.png" alt="Profile Image">
+                  </div>
+              </form>
+            </div>
         </div>
         <div class="profile-info">
           <h3>Business Owner<br>Name</h3>
@@ -69,14 +73,17 @@
         </div>
       </div>
     </div>
-    <!--End of header-->
     <div class="profile-description">
       <h3>Business Description</h3>
-      <p class="business-description-block"></p>
+      <p class="business-description-block">I am an independant woman look at me go I do it all I read I write I sell
+        drugs I surf I drink I drive I box I square dance I make stone tools I dig tunnels I jump rope I dance I I I I
+        sell soap :) Also I do more because I am ambitious I play
+        guitar I sing I write poetry I lament the loss of humanity I howl at the moon I rub dirt on my cheeks I sleep
+        in
+        a bed of thorns I ride the breeze of my whims in a bed of flowers</p>
     </div>
-
     <div class="post-block">
-      <!-- Populated by user-posts.js -->
+      <!-- Populated by feed.js -->
     </div>
   </div>
   <a href="#" class="chat-button bounce">

@@ -24,9 +24,8 @@ docLoaded(() => {
   // Send messages to the server by pressing the send button.
   messageSendButton.addEventListener('click', e => {
     e.preventDefault();
-    let message = messageInput.value;
+    let message = messageInput.value.trim();
     socket.emit('send-message', message, thisUser);
-    console.log(message, thisUser);
     messageInput.value = "";
   });
 
@@ -53,6 +52,15 @@ docLoaded(() => {
     }
 
     messageContainer.append(messageBlock);
+
+    let shouldScroll = messageContainer.scrollTop + messageContainer.clientHeight === messageContainer.scrollHeight;
+    if (!shouldScroll) {
+      scrollToBottom();
+    }
+  }
+
+  function scrollToBottom() {
+    messageContainer.scrollTop = messageContainer.scrollHeight;
   }
 
   // Disconnects when path changes.

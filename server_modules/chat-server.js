@@ -12,7 +12,9 @@ module.exports = {
 
       // Catch messages that are coming from a client and send them to all clients.
       socket.on('send-message', (message, user) => {
-        io.emit('chat-message', message, user);
+        //check message
+        if (message)
+          io.emit('chat-message', message, user);
       });
 
       socket.on('new-connection', (user) => {
@@ -28,6 +30,6 @@ module.exports = {
         console.log(reason);
         delete connectedUsers[socket.id];
       });
-    }); 
+    });
   }
 };

@@ -21,6 +21,16 @@
   <div class="container">
     <div class="profile-header-wrapper">
       <div class="profile-header">
+        <div class="edit-profile-container">
+          <div class="edit-profile">
+            <a id="edit-button">Edit Profile</a>
+            <a id="save-button"></a>
+          </div>
+          <div class="edit-profile">
+            <a id="password-button" href="/reset-password">Change Password</a>
+          </div>
+        </div>
+        <span id="edit-status"></span>
         <div class="profile-name">
           <h2 class="business-name-block tooltip underline-opening">Business Name</h2>
           <span class="tooltiptext">Business Name</span>
@@ -28,18 +38,7 @@
             <p class="business-type-block tooltip">Type of Business</p>
             <span class="tooltiptext">Business Type</span>
           </div>
-          <div class="edit-profile-container">
-            <div class="edit-profile">
-              <a id="edit-button">Edit Profile</a>
-              <a id="save-button"></a>
-            </div>
-            <div class="edit-profile">
-              <a id="password-button" href="/reset-password">Change Password</a>
-            </div>
-          </div>
-          <span id="edit-status"></span>
         </div>
-
         <div class="profile-picture">
           <div class="edit-profile-image">
             <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">

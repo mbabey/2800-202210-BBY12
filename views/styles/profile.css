@@ -39,13 +39,15 @@ p {
 
 .profile-header {
   display: grid;
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 2;
   grid-template-columns: 24.75% 50.5% 24.75%;
-  grid-template-rows: 100%;
+  grid-template-rows: 60% 40%;
 }
 
 .profile-picture {
   grid-column: 2 / span 1;
-  grid-row: 1 / span 1;
+  grid-row: 1 / span 2;
   padding: 0 10px;
   text-align: center;
   display: flex;
@@ -66,7 +68,7 @@ p {
 
 .profile-name {
   grid-column: 1 / span 1;
-  grid-row: 1 / span 1;
+  grid-row: 1 / span 2;
   text-align: right;
 }
 
@@ -82,7 +84,8 @@ p {
 }
 
 .edit-profile-container {
-  margin-top: 60px;
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 1;
   padding-left: 10%;
 }
 
@@ -141,7 +144,7 @@ p {
 .profile-info {
   position: relative;
   grid-column: 3 / span 1;
-  grid-row: 1 / span 1;
+  grid-row: 1 / span 2;
 }
 
 .profile-info h3 {
@@ -209,17 +212,18 @@ p {
 
 /* End of tooltips */
 
-@media only screen and (min-width: 601px) and (max-width: 800px) {
+@media only screen and (max-width: 800px) and (min-width: 601px) {
   .profile-header {
     display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 220px 15% 15% 30%;
+    grid-template-columns: 20% 50% 30%;
+    grid-template-rows: 220px 15% 15% 1fr;
     margin: 0 2%;
+    padding-bottom: 3%;
   }
 
   .profile-picture {
     padding: 0;
-    grid-column: 1 / span 1;
+    grid-column: 2 / span 1;
     grid-row: 1 / span 1;
     width: auto;
     height: 100%;
@@ -232,7 +236,7 @@ p {
   }
 
   .profile-name {
-    grid-column: 1 / span 1;
+    grid-column: 2 / span 1;
     grid-row: 2 / span 1;
     text-align: center;
     position: relative;
@@ -249,24 +253,16 @@ p {
   }
 
   .edit-profile {
-    padding: 20px 15px;
+    padding: 15px 15px;
     margin: 5px;
     font-size: 1rem;
-    margin-left: 50px;
   }
 
   .profile-info {
     display: grid;
-    grid-column: 2 / span 1;
+    grid-column: 3 / span 1;
     grid-row: 1 / span 1;
-    margin-left: 15%;
-    margin-top: 23%;
-  }
-
-  .profile-contact {
-    display: grid;
-    grid-column: 2 / span 1;
-    grid-row: 3 / span 1;
+    overflow-wrap: break-word;
   }
   
   #name-block-d,
@@ -296,15 +292,21 @@ p {
   .post-block {
     width: 96%;
   }
+
+  .edit-profile-container {
+    padding-left: 0;
+    margin-left: 0;
+  }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) and (min-width: 320px) {
   .profile-header {
     display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 38% 1fr;
+    grid-template-columns: 100%;
+    grid-template-rows: 30% 15% 15% 1fr;
     margin: 0 2%;
     margin-bottom: 0;
+    padding-bottom: 0;
   }
   
   .profile-header-wrapper {
@@ -313,7 +315,7 @@ p {
 
   .profile-picture {
     padding: 0;
-    grid-column: 1 / span 2;
+    grid-column: 1 / span 1;
     grid-row: 1 / span 1;
     width: auto;
     height: 100%;
@@ -326,7 +328,7 @@ p {
   }
 
   .profile-name {
-    grid-column: 1 / span 2;
+    grid-column: 1 / span 1;
     grid-row: 2 / span 1;
     text-align: center;
     position: relative;
@@ -336,25 +338,27 @@ p {
     margin: 0;
   }
 
-  .profile-edit-buttons {
-    top: 50px;
-    right: 0;
+  .edit-profile {
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 1;
+    padding: 10px 15px;
+    font-size: 1rem;
+    margin-top: 0;
   }
 
-  .edit-profile {
-    grid-row: 2 / span 1;
-    padding: 20px 15px;
-    margin: 5px;
-    font-size: 1rem;
-    margin-left: 50px;
+  .edit-profile-container {
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 1;
+    justify-self: center;
+    margin: 0;
+    margin-left: 0;
+    padding-left: 0;
   }
 
   .profile-info {
     grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-    margin-left: 5%;
-    margin-top: 40%;
-    padding-bottom: 20%;
+    grid-row: 4 / span 1;
+    padding-bottom: 30px;
   }
 
   .profile-info h3,
@@ -375,32 +379,33 @@ p {
   .post-block {
     width: 96%;
   }
-
-  .edit-profile-container {
-    margin-top: 50px;
-    margin-left: 48%;
-  }
   
   .profile-location {
     margin-bottom: 0;
   }
 }
 
-@media only screen and (max-width: 330px) {
+@media only screen and (max-width: 319px) {
   .profile-header {
     display: grid;
-    grid-template-rows: 31% 1fr;
+    grid-template-columns: 100%;
+    grid-template-rows: 30% 15% 15% 1fr;
+    margin: 0 2%;
+    margin-bottom: 0;
+    padding-bottom: 40px;
+  }
+  
+  .profile-header-wrapper {
+    padding-bottom: 15px;
   }
 
-  .profile-header-wrapper {
-    padding-bottom: 0;
-  }
   .profile-picture-background {
     height: 180px;
     width: 180px;
   }
 
   .profile-picture {
+    grid-row: 1 / span 1;
     margin: 0;
     padding: 0;
   }
@@ -414,23 +419,19 @@ p {
   }
 
   .profile-name {
+    grid-row: 2 / span 1;
     padding: 0;
     margin: 0;
   }
-  
-  .profile-info {
-    padding-top: 20%;
-    padding-left: 10px;
-  }
 
   .edit-profile-container {
-    margin-top: 100px;
-    margin-left: 100px;
+    grid-row: 3 / span 1;
+    padding-left: 0;
+    margin-left: 0;
   }
-
-  .edit-profile {
-    margin-left: 50px;
-    width: 50%;
-    padding: 8px;
+  
+  .profile-info {
+    grid-row: 4 / span 1;
+    padding-top: 30px;
   }
 }

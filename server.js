@@ -100,7 +100,10 @@ app.get('/', (req, res) => {
   if (req.session.loggedIn) {
     if (req.session.admin)
       res.redirect('/admin-manage-users');
+<<<<<<< HEAD
       // res.redirect('/chat'); // TEMP FOR TESTING CHAT
+=======
+>>>>>>> 2ffdf917135faa14809252ad2d4fb4771a27d65b
     else
       res.redirect('/home');
   } else {

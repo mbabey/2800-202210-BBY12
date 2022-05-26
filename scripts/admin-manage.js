@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Getting the admin table and users table from the server (from the database)
+ *     and populate the user cards, and adding functionality to searching users
+ */
 docLoaded(() => {
   getData('/get-all-admins', (adminData) => {
     createAdminArray(adminData);
@@ -12,6 +16,10 @@ docLoaded(() => {
   searchUser();
 });
 
+/**
+ * Run the rest of the script when the web page is loaded
+ * @param {*} action Run the actions on the script
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();
@@ -19,6 +27,12 @@ function docLoaded(action) {
     document.addEventListener('DOMContentLoaded', action);
 }
 
+/**
+ * Sending the data from the server (from the database)
+ * @param {*} data data from the server
+ * @param {*} path the path to sending the data to the server
+ * @param {*} callback the call back function to run
+ */
 async function sendData(data, path, callback) {
   try {
     let response = await fetch(path, {
@@ -36,6 +50,11 @@ async function sendData(data, path, callback) {
   }
 }
 
+/**
+ * Retrieving the users data
+ * @param {*} path the path to the data retrieval
+ * @param {*} callback the call back function to run
+ */
 async function getData(path, callback) {
   try {
     let response = await fetch(path, {
@@ -49,20 +68,34 @@ async function getData(path, callback) {
   }
 }
 
+/**
+ * The array to store the admin users in
+ */
 const adminArray = [];
 
+/**
+ * Storing the admin list into adminArray
+ * @param {*} adminData the admin users
+ */
 function createAdminArray(adminData) {
   for (let i = 0; i < adminData.rows.length; i++) {
     adminArray.push(adminData.rows[i].username);
   }
 }
 
+/**
+ * Populating the user cards with the user data
+ * @param {*} userData the user data from the server (database)
+ */
 function populateUserCardData(userData) {
   // USER CARD CREATED HERE
   let userCard = makeUserCard(userData);
   document.getElementById("user-list").innerHTML = userCard;
 }
 
+/**
+ * Repopulating the user cards after removing them from the admin table
+ */
 function repopulateUserCardData() {
   getData('/get-all-users', (userData) => {
     populateUserCardData(userData);
@@ -70,6 +103,9 @@ function repopulateUserCardData() {
   });
 }
 
+/**
+ * Searching the users by username
+ */
 function searchUser() {
   document.querySelector('#search-user-button').addEventListener("click", function (e) {
     e.preventDefault();
@@ -85,6 +121,10 @@ function searchUser() {
   });
 }
 
+/**
+ * Showing the search result
+ * @param {*} searchData the search input
+ */
 function showSearchResults(searchData) {
   // USER CARD CREATED HERE FOR SEARCH RESULT
   if (searchData.status == 'fail') {
@@ -96,8 +136,14 @@ function showSearchResults(searchData) {
   }
 }
 
-let user = null; // Global variable to store name of user being manipulated by DOM.
+/**
+ * Global variable to store name of user being manipulated by DOM.
+ */
+let user = null;
 
+/**
+ * A constant to store the user profile edit
+ */
 const editUserFormInputs = {
   emailInput: document.querySelector('input[name=\'email\']'),
   emailVerifyInput: document.querySelector('input[name=\'emailVerify\']'),
@@ -116,7 +162,9 @@ const lengthEditUser = 10; // Length of 'edit-user '. Used for getting username 
 const lengthRemoveAdmin = 13; // Length of 'remove-admin '. Used for getting username from class name.
 const lengthMakeAdmin = 11; // Length of 'make-admin '. Used for getting username from class name.
 
-
+/**
+ * Adding listeners to the admin management buttons
+ */
 function initCardEventListeners() {
   // Initialize event listeners for buttons in card options menu.
   document.querySelectorAll(".view-profile").forEach((deleteButton) => {
@@ -165,9 +213,11 @@ function initCardEventListeners() {
   });
 }
 
+/**
+ * Adding event listener to confirm user deletion
+ */
 function initUpdateListeners() {
   initCardEventListeners();
-  // Event listener to confirm user deletion.
   document.getElementById("popup-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
     let userInput = { username: user };
@@ -178,7 +228,9 @@ function initUpdateListeners() {
     });
   });
 
-  // Event listener to confirm admin removal.
+  /**
+   * Event listener to confirm admin removal.
+   */
   document.getElementById("popup-admin-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-admin-delete").style.display = 'none';
     let userInput = { username: user };
@@ -189,7 +241,9 @@ function initUpdateListeners() {
     });
   });
 
-  // Event listener to confirm admin addition.
+  /**
+   * Event listener to confirm admin addition.
+   */
   document.getElementById("popup-make-admin-confirm").addEventListener('click', () => {
     document.getElementById("popup-make-admin").style.display = 'none';
     let userInput = { username: user };
@@ -204,7 +258,9 @@ function initUpdateListeners() {
     });
   });
 
-  // Event listener to confirm edit account information.
+  /**
+   * Event listener to confirm edit account information.
+   */
   document.getElementById('edit-submit').addEventListener('click', () => {
     document.getElementById('popup-edit-block').style.display = 'none';
     let userInput = getEditUserFormInput();
@@ -219,6 +275,9 @@ function initUpdateListeners() {
   });
 }
 
+/**
+ * Adding listeners to close the pop up boxes
+ */
 function addUniversalListeners() {
   // Event listener to close delete user pop up
   document.getElementById("popup-negate-delete").addEventListener('click', () => {
@@ -247,6 +306,11 @@ function addUniversalListeners() {
   });
 }
 
+/**
+ * Providing error messages when deleting a user
+ * @param {*} response the response from /delete-user on server
+ * @param {*} user the username
+ */
 function handleDeleteConditions(response, user) {
   let val = 0;
   if (response.adminX) val += 8;
@@ -281,6 +345,11 @@ function handleDeleteConditions(response, user) {
   document.querySelector('#query-response-message').innerHTML = message;
 }
 
+/**
+ * Providing error messages when deleting an admin
+ * @param {*} response the response from /delete-admin on server
+ * @param {*} user the username
+ */
 function handleRemoveAdminConditions(response, user) {
   let val = 0;
   if (response.adminX) val += 2;
@@ -308,6 +377,11 @@ function handleRemoveAdminConditions(response, user) {
 }
 
 // Function from https://stackoverflow.com/a/5767357
+/**
+ * Removing user name from local list
+ * @param {*} arr the array of users as admins
+ * @param {*} value the username
+ */
 function removeItemOnce(arr, value) {
   let index = arr.indexOf(value);
   if (index > -1) {
@@ -315,17 +389,30 @@ function removeItemOnce(arr, value) {
   }
 }
 
+/**
+ * Providing messages when managing the admin status
+ * @param {*} response the response from the server side (/make-admin)
+ * @param {*} user the username
+ */
 function handleMakeAdminConditions(response, user) {
   let message = (response.adminCreated) ? ' was promoted to an administrator.' : ' could not be promoted to an administrator';
   document.querySelector('#query-response-message').innerHTML = user + message;
 }
 
+/**
+ * Providing messages when updating the user profile information
+ * @param {*} response the response from the server side (/admin-edit-user)
+ * @param {*} user the username
+ */
 function handleEditUserConditions(response, user) {
   clearEditUserFormInputs();
   let message = (response.status == 'success') ? ' was successfully updated.' : ' could not be updated.';
   document.querySelector('#query-response-message').innerHTML = user + message;
 }
 
+/**
+ * Send username, retrieve specific user data, populate the user data in the edit profile pop-up box
+ */
 function fillEditUserFormInputs() {
   sendData({ username: user }, '/search-user', (response) => {
     if (response.status = 'success') {
@@ -348,12 +435,22 @@ function fillEditUserFormInputs() {
   });
 }
 
+/**
+ * Populating input fields with user information 
+ * @param {*} filledInputsArray the inputs of user information as an array
+ * @param {*} input the input fields
+ * @param {*} value the values of the input fields
+ */
 function populateInputField(filledInputsArray, input, value) {
   input.value = value;
   if (value != '')
     filledInputsArray.push(input);
 }
 
+/**
+ * Storing the user profile information 
+ * @returns the user profile information
+ */
 function getEditUserFormInput() {
   let userInput = {
     username: user,
@@ -366,6 +463,9 @@ function getEditUserFormInput() {
   return userInput;
 }
 
+/**
+ * Cancelling any new input
+ */
 function clearEditUserFormInputs() {
   editUserFormInputs.emailInput.value = "";
   editUserFormInputs.emailVerifyInput.value = "";
@@ -379,6 +479,11 @@ function clearEditUserFormInputs() {
   setInputLabelUp(false, getAllFormInputAsArray(editUserFormInputs));
 }
 
+/**
+ * Storing all input contents as an array
+ * @param {*} inputsObject the inputs
+ * @returns input contents as an array
+ */
 function getAllFormInputAsArray(inputsObject) {
   const inputsArray = [];
   for (const [key, value] of Object.entries(inputsObject)) {
@@ -387,6 +492,11 @@ function getAllFormInputAsArray(inputsObject) {
   return inputsArray;
 }
 
+/**
+ * Giving the filled input a "filled" label as the class name
+ * @param {Boolean} labelsUp boolean status of the input field, true if the field is filled
+ * @param {*} inputs the input field
+ */
 function setInputLabelUp(labelsUp, inputs) {
   inputs.forEach((input) => {
     if (labelsUp)
@@ -396,6 +506,11 @@ function setInputLabelUp(labelsUp, inputs) {
   });
 }
 
+/**
+ * Making user cards
+ * @param {*} userData user's data
+ * @returns the user card (data and html)
+ */
 function makeUserCard(userData) {
   let userCard = "<div class='user-card-group'>";
   for (let i = 0; i < userData.rows.length; i++) {

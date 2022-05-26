@@ -1,7 +1,11 @@
 'use strict';
 
+/**
+ * Add listeners to the footers, populate the username in the nav bar,
+ *     add admin dashboard button (star) to the nav bar if the user is an admin
+ *     after loading the webpage
+ */
 docLoaded(() => {
-  // getData('/nav-and-footer', popNavAndFooter);
   document.querySelector('footer #footer-search').addEventListener("click", openOverlay, false);
   getData('/get-user', popNavName);
   getData('/is-admin', (isAdmin) => {
@@ -11,6 +15,10 @@ docLoaded(() => {
   });
 });
 
+/**
+ * Run the rest of the script when the web page is loaded
+ * @param {*} action Run the actions on the script
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();
@@ -18,6 +26,11 @@ function docLoaded(action) {
     document.addEventListener('DOMContentLoaded', action);
 }
 
+/**
+ * Retrieve the username and the admin status
+ * @param {String} path the get path to server
+ * @param {*} callback the callback function to run
+ */
 async function getData(path, callback) {
   try {
     let response = await fetch(path, {
@@ -31,20 +44,18 @@ async function getData(path, callback) {
   } catch (err) { }
 }
 
-function popNavAndFooter(navAndFooter) {
-  document.querySelector('nav').innerHTML = navAndFooter.nav;
-  document.querySelector('footer').innerHTML = navAndFooter.footer;
-}
-
-function popSearchOverlay(searchOverlay){
-  document.querySelector('footer').innerHTML += searchOverlay.overlay;
-}
-
+/**
+ * Populating the profile icon with the username
+ * @param {*} data The data retrieved fro the database on the current user
+ */
 function popNavName(data) {
   document.querySelector('#nav-profile').href += (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
   document.querySelector('#profile-name').innerHTML = (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
 }
 
+/**
+ * Adding the admin dashboard button (star) if the user is an admin
+ */
 function addAdminStar() {
   let admin_button = document.querySelector('#nav-admin');
   admin_button.setAttribute('href', "/admin-manage-users");
@@ -57,13 +68,23 @@ function addAdminStar() {
   admin_button.innerHTML = content;
 }
 
+/**
+ * Styling the overlay on the nav/footer
+ */
 function openOverlay(){
   document.getElementById("overlay").style.top = "0vh";
 }
 
+/**
+ * Styling the overlay on the nav/footer
+ */
 function closeOverlay() {
   document.getElementById("overlay").style.top = "100vh";
 }
+
+/**
+ * Styling the edit profile menu
+ */
 function displayMenu() {
   let menu = document.getElementById("edit-profile-menu");
   menu.style.display = "block";

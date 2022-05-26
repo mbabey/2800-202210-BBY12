@@ -34,10 +34,18 @@ const upload = multer({
 });
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+//using this to do chat css because chat-server isn't working
+io.on('connect', socket => {
+  console.log('New user joined chat.');
+  socket.emit('chat-message', 'Chat up a collab!');
+  socket.on('send-message', message => {
+    console.log(message);
+    socket.emit('chat-message', message);
+  });
+});
 
 // ---------------- Custom Dependencies ----------------- \\
 
-const chatServer = require('./server_modules/chat-server');
 const createAccount = require('./server_modules/create-account');
 const createPost = require('./server_modules/create-post');
 const dbInitialize = require('./server_modules/db-init');
@@ -343,22 +351,6 @@ app.route('/admin-add-account')
         });
     }
   });
-
-//LOCATING URL OF ANY USER'S PROFILE
-// Other user URL in the form './profile?user=[username]'
-app.get('/users', (req, res) => {
-  //need to redirect the page if the id doesn't exist
-  if (req.session.loggedIn) {
-    if (req.session.username == req.query.user) {
-      res.redirect('/profile?user=' + req.session.username);
-    } else {
-      let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
-      res.send(otherProfile);
-    }
-  } else {
-    res.redirect('/');
-  }
-});
 
 // CHAT PAGE
 app.get('/chat', (req, res) => {

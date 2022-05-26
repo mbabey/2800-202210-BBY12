@@ -11,10 +11,6 @@
   grid-row: 2 / span 1;
 }
 
-.message {
-  border-radius: 3px;
-}
-
 .self-message {
   background-color: var(--secondary-light);
   text-align: right;
@@ -56,6 +52,12 @@
 .message {
   background-color: var(--primary-light);
   border-radius: 10px;
-  display: inline-block;
   padding: 5px;
+  border-radius: 3px;
+  margin: 3px;
+}
+
+#message-content {
+  display: flex;
+  flex-direction: column;
 }

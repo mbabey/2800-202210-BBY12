@@ -101,6 +101,10 @@
   right: 0;
 }
 
+span>svg {
+  cursor: pointer;
+}
+
 #password-message {
   text-align: center;
   grid-row: 3 / span 1;
@@ -171,8 +175,8 @@
   color: var(--primary-dark);
 }
 
-span > svg{
-  cursor:pointer;
+#error-message {
+  color: var(--danger-red);
 }
 
 @media only screen and (max-width: 800px) {

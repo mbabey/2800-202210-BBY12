@@ -267,13 +267,14 @@ app.route('/create-account')
     }
   })
   .post((req, res) => {
+    res.setHeader('content-type', 'application/json');
     createAccount.createAccount(req, res, con)
       .then(async () => {
         await loginQuery.login(req, req.body["username"], req.body['password'], con);
-        res.redirect('/');
+        res.send({ status: 'success' });
       })
       .catch((err) => {
-        res.redirect('/create-account');
+        res.send({ status: 'fail' });
       });
   });
 

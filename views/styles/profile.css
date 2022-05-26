@@ -1,3 +1,7 @@
+#content {
+  margin: 0;
+}
+
 .profile-header-wrapper {
   /* background-color: #67c093; */
   background-color: var(--primary-med);
@@ -384,6 +388,12 @@ p {
   .profile-location {
     margin-bottom: 0;
   }
+
+  .biz-name-tooltip {
+    transform: translate(-50%, -50%);
+  }
+  
+
 }
 
 @media only screen and (max-width: 319px) {

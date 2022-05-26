@@ -2,7 +2,6 @@
   margin: 0 auto;
   width: 50%;
   grid-column: 2 / span 1;
-  width: 100% !important;
 }
 
 .post {

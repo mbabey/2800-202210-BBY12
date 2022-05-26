@@ -433,7 +433,7 @@ function makeUserCard(userData) {
         </div>
       </div>
       <div class="user-card-options">
-        <button class="view-profile ${userData.rows[i].username}" type="button">View profile</button>
+        <button class="view-profile ${userData.rows[i].username}" type="button">View Profile</button>
         <button class="delete-user ${userData.rows[i].username}" type="button">Delete User</button>
         <button class="edit-user ${userData.rows[i].username}" type="button">Edit User</button>`;
     if (isAdmin) // Add a 'Remove admin' button if the card belongs to an admin.

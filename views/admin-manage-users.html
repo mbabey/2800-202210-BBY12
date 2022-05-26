@@ -5,20 +5,35 @@
   <title>Gro-Operate | Admin Manage Accounts</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="./styles/form-inputs.css">
   <link rel="stylesheet" type="text/css" href="./styles/admin-manage-users.css">
   <link rel="stylesheet" type="text/css" href="./styles/global.css">
-  <link href="./images/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="./assets/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
 
   <nav>
-    <!-- Populated by nav.js -->
+    <!-- Populated by server -->
   </nav>
 
   <div class="container">
     <div class="dashboard-header">
       <h3 id="dashboard-title">Administration Board</h3>
+      <!-- Hamburger to X -->
+      <input id="dashboard-drop-menu-trigger" type="checkbox">
+      <div id="hamborger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <!-- End hamburger to X -->
+      <div id="admin-button-group-container">
+        <div id="admin-button-group">
+          <a href="#" class="admin-button here">Manage Users</a>
+          <a href="/admin-add-account" class="admin-button">Add User</a>
+        </div>
+      </div>
     </div>
     <div id="content">
       <div id="search-user">
@@ -27,18 +42,17 @@
           <button id="search-user-button" type="button" name="search-user-button">
             <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -3 28 28" width="20" height="20">
               <path fill="currentColor"
-              d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
+                d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
             </svg>
           </button>
         </form>
       </div>
       <div id="search-error-message">
-        <!-- Populated by admin-tables.js in the event a query fails -->
+        <!-- Populated by admin-manage.js in the event a query fails -->
       </div>
       <div id="user-profiles">
-        <!-- <h2>User Accounts</h2> -->
         <div id="user-list">
-          <!-- user cards populates -->
+          <!-- Populated by admin-manage.js -->
         </div>
       </div>
     </div>
@@ -51,7 +65,7 @@
       <button id="popup-negate-delete" class="popup-button neutral">No</button>
     </div>
   </div>
-  
+
   <div id="popup-admin-delete" class="popup-confirm">
     <h2>Are you sure you want to remove admin privileges for <span id="popup-admin-header-username"></span>?</h2>
     <div class="popup-button-wrapper">
@@ -59,7 +73,7 @@
       <button id="popup-admin-negate-delete" class="popup-button neutral">No</button>
     </div>
   </div>
-  
+
   <div id="popup-make-admin" class="popup-confirm">
     <h2>Are you sure you want to give admin privileges to <span id="popup-make-admin-header-username"></span>?</h2>
     <div class="popup-button-wrapper">
@@ -67,22 +81,82 @@
       <button id="popup-make-admin-negate" class="popup-button neutral">No</button>
     </div>
   </div>
-  
+
   <div id="popup-okay">
     <div id="query-response-message">
-      <!-- Populated by admin-tables.js based on results of delete query -->
+      <!-- Populated by admin-manage.js based on results of query -->
     </div>
     <div class="popup-button-wrapper">
       <button id="popup-okay-button" class="popup-button neutral">Okay</button>
-    </div>  
+    </div>
+  </div>
+
+  <div id="popup-edit-block">
+    <p><b>Edit Account</b></p>
+    <form>
+      <div id="email-block" class="input-wrapper">
+        <div class="input-container">
+          <input id="email-input" name="email" type="text" placeholder="Email" class="input" required>
+          <label for="email-input" class="label">Email*</label>
+        </div>
+        <div class="input-container">
+          <input id="email-verify-input" name="emailVerify" type="text" placeholder="Verify Email" class="input">
+          <label for="email-verify-input" class="label">Verify Email*</label>
+        </div>
+      </div>
+      <div id="biz-block" class="input-wrapper">
+        <div class="input-container">
+          <input id="cName" name="cName" type="text" placeholder="Business Name" class="input">
+          <label for="cName" class="label">Business Name</label>
+        </div>
+        <div class="input-container">
+          <input id="bType" name="bType" type="text" placeholder="Business Type" class="input">
+          <label for="bType" class="label">Business Type</label>
+        </div>
+      </div>
+      <div id="phone-num-block" class="input-wrapper">
+        <div class="input-container">
+          <input id="phoneNo" name="phoneNo" type="text" placeholder="Phone Number" class="input">
+          <label for="phoneNo" class="label">Phone Number</label>
+        </div>
+      </div>
+      <div id="name-block" class="input-wrapper">
+        <div class="input-container">
+          <input id="fName" name="fName" type="text" placeholder="First Name" class="input">
+          <label for="fName" class="label">First Name</label>
+        </div>
+        <div class="input-container">
+          <input id="lName" name="lName" type="text" placeholder="Last Name" class="input">
+          <label for="lName" class="label">Last Name</label>
+        </div>
+      </div>
+      <div id="location-block" class="input-wrapper">
+        <div class="input-container">
+          <input id="location" name="location" type="text" placeholder="Address" class="input">
+          <label for="location" class="label">Address</label>
+        </div>
+      </div>
+      <div class="input-wrapper">
+        <div class="input-container textarea">
+          <textarea id="description-block" name="description" placeholder="Business Description" class="input"></textarea>
+          <label for="description-block" class="label">Business Description</label>
+        </div>
+      </div>
+      <a href="/reset-password">Change Password</a>
+      <div class="popup-button-wrapper">
+        <button id="edit-submit" class="popup-button warning edit-popup-button" type="button">Save Changes</button>
+        <button id="edit-negate" class="popup-button neutral edit-popup-button" type="button">Cancel</button>
+      </div>
+    </form>
   </div>
 
   <footer>
-    <!-- Populated by nav.js -->
+    <!-- Populated by server -->
   </footer>
 
   <script src="nav.js"></script>
-  <script src="admin-tables.js"></script>
+  <script src="admin-manage.js"></script>
+  <script src="form-inputs.js"></script>
 </body>
 
 </html>

@@ -92,70 +92,14 @@
   grid-column: 2 / span 1;
 }
 
-/* Styles for inputs brought to you by https://www.instagram.com/p/CdGXl-1PJZ1/?utm_source=ig_web_copy_link  */
-
-.input-container {
+.password-container {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 3rem;
 }
 
-.label {
+.password-container .visible-password-toggle {
   position: absolute;
-  top: 0.9rem;
-  left: 0.5rem;
-  padding: 0 0.5rem;
-  z-index: 1;
-  transition: all 0.2s;
-  -webkit-transition: all 0.2s;
+  right: 0;
 }
-
-.label:before {
-  content: ' ';
-  height: 3px;
-  position: absolute;
-  background:rgb(222, 222, 222);
-  top: 0.5rem;
-  left: 0;
-  width: 100%;
-  z-index: -1;
-}
-
-.create-input {
-  width: calc(100% - 2rem);
-  padding: 0.5rem;
-  border: 2px solid var(--primary-dark);
-  font-size: 0.9rem;
-  margin: 0.5rem 0;
-  background-color: rgb(222, 222, 222);
-  outline: none;
-  transition: all 0.5s;
-  -webkit-transition: all 0.5s;
-}
-
-.create-input:focus {
-  border: 2px solid var(--primary-light);
-}
-
-.create-input:focus+.label,
-.filled {
-  top: -0.2rem;
-  font-size: 0.9rem;
-}
-
-.create-input::placeholder {
-  opacity: 0;
-  transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-}
-
-.create-input:focus::placeholder {
-  opacity: 1;
-}
-
-/* End styles for inputs */
 
 #create-submit {
   grid-row: 3 / span 1;
@@ -219,6 +163,10 @@
 #create-block a:active {
   text-decoration: underline;
   color: var(--primary-dark);
+}
+
+span > svg{
+  cursor:pointer;
 }
 
 @media only screen and (max-width: 800px) {

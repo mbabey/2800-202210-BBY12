@@ -5,6 +5,7 @@
 
 const express = require('express');
 const session = require('express-session');
+const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
@@ -17,7 +18,7 @@ const storage = multer.diskStorage({
     cb(null, './uploads');
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname + file.originalname.split('.')[file.originalname.split('.').length - 1]);
+    cb(null, uuidv4() + "." + file.originalname.split('.')[file.originalname.split('.').length - 1]);
   }
 });
 const upload = multer({
@@ -31,20 +32,23 @@ const upload = multer({
     callback(null, true);
   }
 });
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 // ---------------- Custom Dependencies ----------------- \\
 
-const createAccount = require('./scripts/create-account');
-const resetPassword = require('./scripts/reset-password');
-const createPost = require('./scripts/create-post');
-const deleteQueries = require('./scripts/query-delete');
-const loginQuery = require('./scripts/query-login');
-const updateQueries = require('./scripts/query-post');
-const searchQueries = require('./scripts/query-search');
-const dbInitialize = require('./db-init');
-const { H_CONFIG, LOCAL_CONFIG } = require('./server-configs');
-const feed = require('./scripts/feed');
-const res = require('express/lib/response');
+const chatServer = require('./server_modules/chat-server');
+const createAccount = require('./server_modules/create-account');
+const createPost = require('./server_modules/create-post');
+const dbInitialize = require('./server_modules/db-init');
+const feed = require('./server_modules/feed');
+const deleteQueries = require('./server_modules/query-delete');
+const loginQuery = require('./server_modules/query-login');
+const postQueries = require('./server_modules/query-post');
+const searchQueries = require('./server_modules/query-search');
+const userQueries = require('./server_modules/query-user');
+const resetPassword = require('./server_modules/reset-password');
+const { H_CONFIG, LOCAL_CONFIG } = require('./server_modules/server-configs');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -67,7 +71,7 @@ app.use(session({
 let con;
 const isHeroku = process.env.IS_HEROKU || false;
 const port = process.env.PORT || 8000;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log('Gro-Operate running on ' + port);
   dbInitialize.dbInitialize(isHeroku)
     .then(() => {
@@ -87,7 +91,8 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
   if (req.session.loggedIn) {
     if (req.session.admin)
-      res.redirect('/admin-dashboard');
+      res.redirect('/admin-manage-users');
+      // res.redirect('/chat'); // TEMP FOR TESTING CHAT
     else
       res.redirect('/home');
   } else {
@@ -95,20 +100,17 @@ app.get('/', (req, res) => {
   }
 });
 
-// NAVBAR AND FOOTER
-app.get('/nav-and-footer', (req, res) => {
-  let navbarHTML = fs.readFileSync('./views/chunks/nav.xml', 'utf8');
-  let footerHTML = fs.readFileSync('./views/chunks/footer.xml', 'utf8');
-  res.setHeader('content-type', 'application/json');
-  res.send({ nav: navbarHTML, footer: footerHTML });
-});
+// TEMPLATES: NAV, FOOTER, SEARCH OVERLAY
+const navbarHTML = fs.readFileSync('./views/chunks/nav.xml', 'utf8');
+const footerHTML = fs.readFileSync('./views/chunks/footer.xml', 'utf8');
+const searchOverlayHTML = fs.readFileSync('./views/chunks/search-overlay.xml', 'utf8');
 
 // LOGIN
 app.route('/login')
   .get((req, res) => {
     if (!req.session.loggedIn) {
-      let loginPage = fs.readFileSync('./views/login.html', 'utf8');
-      res.send(loginPage);
+      let loginPage = new JSDOM(fs.readFileSync('./views/login.html', 'utf8').toString());
+      res.send(loginPage.serialize());
     } else {
       res.redirect('/');
     }
@@ -122,12 +124,6 @@ app.route('/login')
     req = result.request;
     res.send({ status: result.status });
   });
-
-// EGG
-app.get('/egg', (req, res) => {
-  let eggDOM = new JSDOM(fs.readFileSync('./views/egg.html', 'utf8'));
-  res.send(eggDOM.serialize());
-});
 
 // LOGOUT
 app.get('/logout', (req, res) => {
@@ -147,10 +143,8 @@ app.get('/is-admin', (req, res) => {
 // HOME PAGE
 app.get('/home', async (req, res) => {
   if (req.session.loggedIn) {
-    let homePage = fs.readFileSync('./views/home.html', 'utf8').toString();
-    let homeDOM = new JSDOM(homePage);
-    let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
-    let templateDOM = new JSDOM(templates);
+    let homeDOM = new JSDOM(fs.readFileSync('./views/home.html', 'utf8').toString());
+    let templateDOM = new JSDOM(fs.readFileSync('./views/templates.html', 'utf8').toString());
     await feed.populateFeed(req, homeDOM, templateDOM, con)
       .then((result) => {
         homeDOM = result;
@@ -158,26 +152,273 @@ app.get('/home', async (req, res) => {
       .catch((reject) => {
         console.log(reject);
       });
+    let [results] = await con.promise().query(`SELECT profilePic FROM BBY_12_users WHERE username = ?`, [req.session.username]);
+    homeDOM.window.document.querySelector('#profile-picture').src = './avatars/' + results[0].profilePic;
     homeDOM.window.document.getElementsByTagName("title").innerHTML = "Gro-Operate | " + req.session.fName + "'s Home Page";
     homeDOM.window.document.querySelector(".profile-name-spot").innerHTML = req.session.username;
-    homePage = homeDOM.serialize();
-    res.send(homePage);
+    homeDOM.window.document.querySelector('nav').innerHTML = navbarHTML;
+    homeDOM.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+    res.send(homeDOM.serialize());
   } else {
     res.redirect("/");
   }
 });
 
 // PROFILE
-app.get('/profile', (req, res) => {
+app.get('/profile', async (req, res) => {
   if (req.session.loggedIn) {
-    let profilePage = fs.readFileSync('./views/profile.html', 'utf8');
-    res.send(profilePage);
+    let profileDOM = new JSDOM(fs.readFileSync('./views/profile.html', 'utf8').toString());
+    let templateDOM = new JSDOM(fs.readFileSync('./views/templates.html', 'utf8').toString());
+    await feed.populateProfileFeed(req, profileDOM, templateDOM, con)
+    .then((result) => {
+      profileDOM = result;
+    })
+    .catch((reject) => {
+      console.log(reject);
+    });
+    profileDOM.window.document.querySelector('nav').innerHTML = navbarHTML;
+    profileDOM.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+    res.send(profileDOM.serialize());
   } else {
     res.redirect('/');
   }
 });
 
-// UPLOAD PROFILE AVATAR
+// OTHER USER'S PROFILE
+// Other user URL in the form './profile?user=[username]'
+app.get('/users', (req, res) => {
+  //need to redirect the page if the id doesn't exist
+  if (req.session.loggedIn) {
+    if (req.session.username == req.query.user) {
+      res.redirect('/profile?user=' + req.session.username);
+    } else {
+      let otherProfilePage = new JSDOM(fs.readFileSync('./views/other-user-profile.html', 'utf8').toString());
+      otherProfilePage.window.document.querySelector('nav').innerHTML = navbarHTML;
+      otherProfilePage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+      res.send(otherProfilePage.serialize());
+    }
+  } else {
+    res.redirect('/');
+  }
+});
+
+// SEARCH FOR POSTS
+app.get("/search", (req, res) => {
+  if (req.session.loggedIn) {
+    let searchPage = new JSDOM(fs.readFileSync('./views/search.html', 'utf8').toString());
+    searchPage.window.document.querySelector('nav').innerHTML = navbarHTML;
+    searchPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+    res.send(searchPage.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+// GET TEMPLATE FOR POSTS 
+app.get('/get-template', (req, res) => {
+  let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
+  res.setHeader('content-type', 'application/json');
+  res.send({ dom: templates });
+});
+
+// CREATE POST
+app.route("/create-post")
+  .get((req, res) => {
+    if (req.session.loggedIn) {
+      let createPostPage = new JSDOM(fs.readFileSync('./views/create-post.html', 'utf8').toString());
+      createPostPage.window.document.querySelector('nav').innerHTML = navbarHTML;
+      createPostPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+      res.send(createPostPage.serialize());
+    } else {
+      res.redirect('/');
+    }
+  })
+  .post(upload.array('image-upload'), (req, res) => {
+    if (req.session.loggedIn && !req.fileValidtionError) {
+      createPost.createPost(req, res, storage, con)
+        .then((resolve) => {
+          if (req.files.length > 0) {
+            req.files.forEach(async image => {
+              let oldPath = image.path;
+              let newPath = "./views/images/" + image.filename;
+              fs.rename(oldPath, newPath, function (err) {
+                if (err) throw err;
+              });
+            });
+          }
+          res.redirect('/home');
+        })
+        .catch((err) => {
+          res.redirect('back');
+        });
+    } else {
+      res.redirect('back');
+    }
+  });
+
+// CREATE ACCOUNT
+app.route('/create-account')
+  .get((req, res) => {
+    if (!req.session.loggedIn) {
+      let createAccountPage = new JSDOM(fs.readFileSync('./views/create-account.html', 'utf8').toString());
+      res.send(createAccountPage.serialize());
+    } else {
+      res.redirect('/');
+    }
+  })
+  .post((req, res) => {
+    createAccount.createAccount(req, res, con)
+      .then(async () => {
+        await loginQuery.login(req, req.body["username"], req.body['password'], con);
+        res.redirect('/');
+      })
+      .catch((err) => {
+        res.redirect('/create-account');
+      });
+  });
+
+// RESET PASSWORD
+app.route("/reset-password")
+  .get((req, res) => {
+    if (req.session.loggedIn) {
+      let resetPasswordPage = new JSDOM(fs.readFileSync('./views/reset-password.html', 'utf8').toString());
+      resetPasswordPage.window.document.querySelector('nav').innerHTML = navbarHTML;
+      resetPasswordPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+      res.send(resetPasswordPage.serialize());
+    }
+  })
+  .post((req, res) => {
+    if (req.session.loggedIn) {
+      resetPassword.resetPassword(req, res, con)
+        .then(() => {
+          res.redirect("/");
+        })
+        .catch((err) => {
+          res.redirect("/reset-password");
+        });
+      //Add some token for reset confirmation
+    }
+  });
+
+// ADMIN MANAGE USERS
+app.get('/admin-manage-users', (req, res) => {
+  if (req.session.loggedIn && req.session.admin) {
+    let adminManageAcc = new JSDOM(fs.readFileSync('./views/admin-manage-users.html', 'utf8').toString());
+    adminManageAcc.window.document.querySelector('nav').innerHTML = navbarHTML;
+    adminManageAcc.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+    res.send(adminManageAcc.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+// ADMIN ADD ACCOUNT
+app.route('/admin-add-account')
+  .get((req, res) => {
+    if (req.session.loggedIn && req.session.admin) {
+      let accountAddPage = new JSDOM(fs.readFileSync('./views/admin-add-account.html', 'utf8').toString());
+      accountAddPage.window.document.querySelector('nav').innerHTML = navbarHTML;
+      accountAddPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+      res.send(accountAddPage.serialize());
+    } else {
+      res.redirect('/');
+    }
+  })
+  .post((req, res) => {
+    if (req.body.isAdmin) {
+      createAccount.createAdmin(req, res, con)
+        .then(() => {
+          res.redirect('/admin-manage-users');
+        })
+        .catch(() => {
+          res.redirect('/admin-add-account');
+        });
+    } else {
+      createAccount.createAccount(req, res, con)
+        .then(() => {
+          res.redirect('/admin-manage-users');
+        })
+        .catch(() => {
+          res.redirect('/admin-add-account');
+        });
+    }
+  });
+
+//LOCATING URL OF ANY USER'S PROFILE
+// Other user URL in the form './profile?user=[username]'
+app.get('/users', (req, res) => {
+  //need to redirect the page if the id doesn't exist
+  if (req.session.loggedIn) {
+    if (req.session.username == req.query.user) {
+      res.redirect('/profile?user=' + req.session.username);
+    } else {
+      let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
+      res.send(otherProfile);
+    }
+  } else {
+    res.redirect('/');
+  }
+});
+
+// CHAT PAGE
+app.get('/chat', (req, res) => {
+  if (req.session.loggedIn) {
+    let chatPage = new JSDOM(fs.readFileSync('./views/chat.html', 'utf8').toString());
+    chatPage.window.document.querySelector('nav').innerHTML = navbarHTML;
+    chatPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;
+    res.send(chatPage.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+// EGG
+app.get('/egg', (req, res) => {
+  let eggDOM = new JSDOM(fs.readFileSync('./views/egg.html', 'utf8'));
+  res.send(eggDOM.serialize());
+});
+
+// QUERY: GET ALL USERS' INFORMATION
+app.get('/get-all-users', async (req, res) => {
+  let users = await userQueries.getAllUser(con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ status: "success", rows: users, thisUser: req.session.username });
+});
+
+// QUERY: GET LOGGED IN USER'S INFORMATION
+app.get('/get-user', async (req, res) => {
+  let user = await userQueries.getUser(req.session.username, con);
+  res.setHeader('content-type', 'application/json');
+  res.send(user);
+});
+
+// QUERY: GET USER OTHER USER'S INFO
+app.get('/get-other-user', async (req, res) => {
+  let user = await userQueries.getUser(req.query.user, con);
+  res.setHeader('content-type', 'application/json');
+  res.send(user);
+});
+
+// QUERY: GET POST FROM ID AND USERNAME
+app.get('/get-post/:username/:postId', async (req, res) => {
+  let postContent = await postQueries.getPost(req, con);
+  let postImgs = await postQueries.getImgs(req, con);
+  let postTags = await postQueries.getTags(req, con);
+  res.setHeader('content-type', 'application/json');
+  res.send([postContent, postImgs, postTags]);
+});
+
+
+// QUERY: UPDATE USER INFORMATION
+app.post('/update-user', async (req, res) => {
+  if (req.session.loggedIn) {
+    let status = await userQueries.updateUser(req, con, false);
+    res.setHeader('Content-Type', 'application/json');
+    res.send({ status: status });
+  }
+});
+
+// QUERY: UPLOAD PROFILE AVATAR
 app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
   if (req.session.loggedIn && !req.fileValidtionError) {
     con.query('UPDATE BBY_12_users SET profilePic = ? WHERE username = ?', [req.file.filename, req.session.username],
@@ -193,206 +434,30 @@ app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
   res.redirect("/profile");
 });
 
-// CREATE POST
-app.route("/create-post")
-  .get((req, res) => {
-    if (req.session.loggedIn) {
-      let createPostPage = fs.readFileSync('./views/create-post.html', 'utf8');
-      res.send(createPostPage);
-    } else {
-      res.redirect('/');
-    }
-  })
-  .post(upload.array('image-upload'), (req, res) => {
-    if (req.session.loggedIn && !req.fileValidtionError) {
-      createPost.createPost(req, res, storage, con)
-        .then((resolve) => {
-          res.redirect('/home');
-        })
-        .catch((err) => {
-          console.log(err);
-          res.redirect('back');
-        });
-    } else {
-      res.redirect('back');
-    }
-  });
-
-// CREATE ACCOUNT
-app.route('/create-account')
-  .get((req, res) => {
-    if (!req.session.loggedIn) {
-      let createAccountPage = fs.readFileSync('./views/create-account.html', 'utf8');
-      res.send(createAccountPage);
-    } else {
-      res.redirect('/');
-    }
-  })
-  .post((req, res) => {
-    createAccount.createAccount(req, res, con)
-      .then(() => {
-        login(req, req.body["username"]);
-        res.redirect('/');
-      })
-      .catch((err) => {
-        res.redirect('/create-account');
-      });
-  });
-
-// RESET PASSWORD
-app.route("/reset-password")
-  .get((req, res) => {
-    let resetPasswordPage = fs.readFileSync('./views/reset-password.html', 'utf8');
-    res.send(resetPasswordPage);
-  })
-  .post((req, res) => {
-    resetPassword.resetPassword(req, res, con)
-      .then(() => {
-        res.redirect("/");
-      })
-      .catch((err) => {
-        res.redirect("/reset-password");
-      });
-    //Add some token for reset confirmation
-  });
-
-// ADMIN DASHBOARD
-app.get('/admin-dashboard', (req, res) => {
+// QUERY: UPDATE USER INFORMATION AS ADMIN
+app.post('/admin-edit-user', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let adminDashPage = fs.readFileSync('./views/admin-dashboard.html', 'utf8');
-    res.send(adminDashPage);
-  } else {
-    res.redirect('/');
+    let status = await userQueries.updateUser(req, con, true);
+    res.setHeader('Content-Type', 'application/json');
+    res.send({ status: status });
   }
-});
-
-// ADMIN VIEW ACCOUNTS
-app.get('/admin-manage-users', (req, res) => {
-  if (req.session.loggedIn && req.session.admin) {
-    let adminManageAcc = fs.readFileSync('./views/admin-manage-users.html', 'utf8');
-    res.send(adminManageAcc);
-  } else {
-    res.redirect('/');
-  }
-});
-
-// ADMIN ADD ACCOUNT
-app.route('/admin-add-account')
-  .get((req, res) => {
-    if (req.session.loggedIn && req.session.admin) {
-      let accountAddPage = fs.readFileSync('./views/admin-add-account.html', 'utf8');
-      res.send(accountAddPage);
-    } else {
-      res.redirect('/');
-    }
-  })
-  .post((req, res) => {
-    if (req.body.isAdmin) {
-      createAccount.createAdmin(req, res, con)
-        .then(() => {
-          res.redirect('/admin-dashboard');
-        })
-        .catch(() => {
-          res.redirect('/admin-add-account');
-        });
-    } else {
-      createAccount.createAccount(req, res, con)
-        .then(() => {
-          res.redirect('/admin-dashboard');
-        })
-        .catch(() => {
-          res.redirect('/admin-add-account');
-        });
-    }
-  });
-
-// ADMIN EDIT USER PAGE
-app.route('/admin-edit-user')
-  .get((req, res) => {
-    if (req.session.loggedIn && req.session.admin) {
-      let profilePage = fs.readFileSync('./views/admin-edit-user.html', 'utf8');
-      res.send(profilePage);
-    } else {
-      res.redirect('/');
-    }
-  })
-  .post((req, res) => {
-    if (req.body.username) {
-      con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?',
-        [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.body.username],
-        function (error) {
-          if (error) throw error;
-          res.redirect('/admin-edit-user');
-        });
-    } else {
-      res.redirect('/admin-edit-user');
-    }
-  });
-
-// QUERY: GET ALL USERS' INFORMATION
-app.get('/get-all-users', (req, res) => {
-  con.query('SELECT * FROM BBY_12_users', (err, results) => {
-    if (err) throw "Query to database failed.";
-    res.setHeader('content-type', 'application/json');
-    res.send({ status: "success", rows: results, thisUser: req.session.username });
-  });
-});
-
-// QUERY: GET LOGGED IN USER'S INFORMATION
-app.get('/get-user', (req, res) => {
-  con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.session.username], (error, results, fields) => {
-    if (error) throw error;
-    res.setHeader('content-type', 'application/json');
-    res.send(results);
-  });
-});
-
-// QUERY: UPDATE USER INFORMATION
-app.post('/update-user', (req, res) => {
-  con.query('UPDATE BBY_12_users SET cName = ? , fName = ? , lName = ? , bType = ? , email = ? , phoneNo = ? , location = ? , description = ? WHERE username = ?', [req.body.cName, req.body.fName, req.body.lName, req.body.bType, req.body.email, req.body.phoneNo, req.body.location, req.body.description, req.session.username],
-    (error) => {
-      if (error) throw error;
-      res.setHeader('Content-Type', 'application/json');
-      res.send({
-        status: "Success",
-        msg: "User information updated."
-      });
-    });
 });
 
 // QUERY: GET ALL ADMINS
-app.get('/get-all-admins', (req, res) => {
-  let admins = 'SELECT * FROM BBY_12_admins';
-  con.query(admins, (err, results) => {
-    if (err) throw "Query to database failed.";
+app.get('/get-all-admins', async (req, res) => {
+  try {
+    let admins = await userQueries.getAllAdmin(con);
     res.setHeader('content-type', 'application/json');
-    res.send({
-      status: "success",
-      rows: results
-    });
-  });
-});
-
-// QUERY: GET CURRENT USER INFO IF USER IS ADMIN
-app.get('/get-admin', (req, res) => {
-  if (req.session.loggedIn && req.session.admin) {
-    let session_username = req.session.username;
-    let admins = 'SELECT * FROM BBY_12_users WHERE BBY_12_users.username = ?';
-    con.query(admins, [session_username], (err, results) => {
-      if (err) throw "Query to database failed.";
-      res.setHeader('content-type', 'application/json');
-      res.send({
-        status: "success",
-        rows: results
-      });
-    });
+    res.send({ status: "success", rows: admins });
+  } catch (err) {
+    throw "Query to database failed.";
   }
 });
 
 // QUERY: UPGRADE USER ACCOUNT TO ADMIN ACCOUNT
 app.post('/make-admin', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let [rows, fields] = await con.promise().query('INSERT INTO BBY_12_admins (username) VALUES (?);', [req.body.username]);
+    let [rows, fields] = await userQueries.insertAdmin(req, con);
     let newAdmin = (rows.affectedRows) ? true : false;
     res.setHeader('Content-Type', 'application/json');
     res.send({ adminCreated: newAdmin });
@@ -402,146 +467,90 @@ app.post('/make-admin', async (req, res) => {
 // QUERY: DOWNGRADE ADMIN ACCOUNT TO USER ACCOUNT
 app.post('/delete-admin', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numAdmins FROM BBY_12_admins');
-    let numAdmins = rows[0].numAdmins;
-
-    let adminDeleted = false;
-    let lastAdmin = false;
+    let adminCount = await userQueries.countAdmin(con);
+    let results = { adminX: false, finalAdmin: false };
 
     if (req.session.username == req.body.username) {
-      adminDeleted = true;
-      lastAdmin = true;
-    } else if (numAdmins > 1) {
-      [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Admins WHERE username = ?', [req.body.username]);
+      results.adminX = true;
+      results.finalAdmin = true;
+    } else if (adminCount[0].numAdmins > 1) {
+      let [rows, fields] = await userQueries.deleteAdmin(req, con);
       if (rows.affectedRows)
-        adminDeleted = true;
+        results.adminX = true;
     } else {
-      lastAdmin = true;
+      results.finalAdmin = true;
     }
     res.setHeader('Content-Type', 'application/json');
-    res.send({ adminX: adminDeleted, finalAdmin: lastAdmin });
+    res.send(results);
   }
 });
 
 // QUERY: DELETE USER
 app.post('/delete-user', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numAdmins FROM BBY_12_admins');
-    let numAdmins = rows[0].numAdmins;
-    [rows, fields] = await con.promise().query('SELECT COUNT(*) AS numUsers FROM BBY_12_users');
-    let numUsers = rows[0].numUsers;
-
-    let adminDeleted = false;
-    let userDeleted = false;
-    let lastAdmin = false;
-    let lastUser = false;
+    let results = { adminX: false, userX: false, finalAdmin: false, finalUser: false };
 
     if (req.session.username == req.body.username) {
-      adminDeleted = true;
-      userDeleted = true;
-      lastAdmin = true;
-      lastUser = true;
-    } else if (numUsers > 1) {
-      if (numAdmins > 1) {
-        [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Admins WHERE username = ?', [req.body.username]);
-        if (rows.affectedRows)
-          adminDeleted = true;
-      }
-      try {
-        [rows, fields] = await con.promise().query('DELETE FROM BBY_12_Users WHERE username = ?', [req.body.username]);
-        if (rows.affectedRows)
-          userDeleted = true;
-      } catch (err) {
-        console.log(err);
-        lastAdmin = true;
-      }
+      results.adminX = true;
+      results.userX = true;
+      results.finalAdmin = true;
+      results.finalUser = true;
     } else {
-      lastUser = true;
+      let adminCount = await userQueries.countAdmin(con);
+      let userCount = await userQueries.countUser(con);
+
+      if (userCount[0].numUsers > 1) {
+        if (adminCount[0].numAdmins > 1) {
+          let [rows, fields] = await userQueries.deleteAdmin(req, con);
+          if (rows.affectedRows)
+            results.adminX = true;
+        }
+        try {
+          let [rows, fields] = await userQueries.deleteUser(req, con);
+          if (rows.affectedRows)
+            results.userX = true;
+        } catch (err) {
+          console.log(err);
+          results.finalAdmin = true;
+        }
+      } else {
+        results.finalUser = true;
+      }
     }
     res.setHeader('Content-Type', 'application/json');
-    res.send({ adminX: adminDeleted, userX: userDeleted, finalAdmin: lastAdmin, finalUser: lastUser });
+    res.send(results);
   }
 });
 
 //QUERY: ADMIN EDIT USER PROFILE SEARCH
-app.post('/search-user', (req, res) => {
-  con.query('SELECT * FROM BBY_12_users WHERE username = ?', [req.body.username],
-    function (error, results) {
-      if (error) throw error;
-      if (results.length > 0) {
-        res.setHeader('content-type', 'application/json');
-        res.send({ status: 'success', rows: results });
-      } else {
-        res.send({ status: "fail", msg: "Search Fail" });
-      }
-    });
-});
-
-//LOCATING URL OF ANY USER'S PROFILE
-app.get('/users/:id', (req, res) => {
-  //need to redirect the page if the id doesn't exist
-  if (req.session.loggedIn) {
-    if (req.session.username == req.params.id) {
-      res.redirect('/profile');
-    } else {
-      let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
-      res.send(otherProfile);
-    }
-  } else {
-    res.redirect('/');
-  }
-});
-
-app.get('/users/:id/get-other-user', (req, res) => {
-  con.query('SELECT * FROM `BBY_12_users` WHERE (`username` = ?)', [req.params.id], (error, results, fields) => {
-    if (error) throw error;
-    res.setHeader('content-type', 'application/json');
-    res.send(results);
-  });
-});
-
-//QUERY: ADMIN PROFILE SEARCH
-app.post('/search-admin', (req, res) => {
-  con.query('SELECT * FROM BBY_12_admins WHERE username = ?', [req.body.username],
-    function (error, results) {
-      if (error) throw error;
-      if (results.length > 0) {
-        res.setHeader('content-type', 'application/json');
-        res.send({ status: 'success', rows: results });
-      } else {
-        res.send({ status: "fail", msg: "Search Fail" });
-      }
-    });
-});
-
-// QUERY: GET POST FROM ID AND USERNAME
-app.get('/get-post/:username/:postId', async (req, res) => {
-  let postContent, postImgs, postTags;
-  await con.promise().query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId])
-    .then((results) => {
-      postContent = results[0];
-    }).catch((err) => console.log(err));
-
-  await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
-    .then((results) => postImgs = results[0])
-    .catch((err) => console.log(err));
-
-  await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
-    .then((results) => postTags = results[0])
-    .catch((err) => console.log(err));
+app.post('/search-user', async (req, res) => {
+  let status, msg;
+  let user = await userQueries.getUser(req.body.username, con);
+  (user.length > 0) ? status = 'success' : (status = "fail", msg = "Search Fail");
   res.setHeader('content-type', 'application/json');
-  res.send([postContent, postImgs, postTags]);
+  res.send({ status: status, rows: user, msg: msg });
 });
 
 // QUERY: UPDATE POST WITH GIVEN INFO
 app.post('/edit-post', upload.array('image-upload'), async (req, res) => {
-  await updateQueries.updatePost(req, con);
+  await postQueries.updatePost(req, con);
   await deleteQueries.deleteTags(req, con);
-  await updateQueries.updateTags(req, con);
+  await postQueries.updateTags(req, con);
   if (req.body["image-delete"]) {
-    await updateQueries.deleteImgs(req, con);
+    await postQueries.deleteImgs(req, con);
   }
-  await updateQueries.updateImgs(req, con);
+  if (req.files.length > 0) {
+    req.files.forEach(async image => {
+      let oldPath = image.path;
+      let newPath = "./views/images/" + image.filename;
+      fs.rename(oldPath, newPath, function (err) {
+        if (err) throw err;
+      });
+    });
+  }
+  await postQueries.updateImgs(req, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ ayy: 'lmao' });
 });
 
 //QUERY: DELETE POST
@@ -549,29 +558,6 @@ app.post('/delete-post', upload.none(), async (req, res) => {
   await deleteQueries.deleteTags(req, con);
   await deleteQueries.deleteImgs(req, con);
   await deleteQueries.deletePost(req, con);
-});
-
-// SEARCH FOR POSTS
-app.get("/search", (req, res) => {
-  if (req.session.loggedIn) {
-    let searchPage = fs.readFileSync('./views/search.html', 'utf8');
-    res.send(searchPage);
-  } else {
-    res.redirect('/');
-  }
-});
-
-// MOBILE SEARCH OVERLAY 
-app.get('/search-overlay', (req, res) => {
-  let searchOverlayHTML = fs.readFileSync('./views/chunks/search-overlay.xml', 'utf8');
-  res.setHeader('content-type', 'application/json');
-  res.send({ overlay: searchOverlayHTML });
-});
-
-app.get('/get-template', (req, res) => {
-  let templates = fs.readFileSync('./views/templates.html', 'utf8').toString();
-  res.setHeader('content-type', 'application/json');
-  res.send({ dom: templates });
 });
 
 // QUERY GET USERS BY SEARCH TERM
@@ -593,4 +579,11 @@ app.get('/get-session', (req, res) => {
   let session = req.session;
   res.setHeader('content-type', 'application/json');
   res.send({ session: session });
+});
+
+// QUERY GET POSTS BY USERNAME
+app.get('/get-user-posts', async (req, res) => {
+  let posts = await searchQueries.userPosts(req.query.user, con);
+  res.setHeader('content-type', 'application/json');
+  res.send({ posts: posts });
 });

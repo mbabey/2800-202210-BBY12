@@ -1,6 +1,8 @@
 .post-block {
   margin: 0 auto;
   width: 50%;
+  grid-column: 2 / span 1;
+  width: 100% !important;
 }
 
 .post {
@@ -84,7 +86,7 @@
   float: left;
   width: 45%;
   position: relative;
-  height: 100%;
+  height: auto;
 }
 
 .post-images img {
@@ -123,6 +125,7 @@
   margin-bottom: 10px;
 }
 
+.input-label-hide,
 .post-edit-hide,
 .post-save-hide,
 .post-delete-hide,
@@ -140,8 +143,7 @@
 
 .post-edit,
 .post-save,
-.post-cancel,
-.post-delete {
+.post-cancel {
   visibility: visible;
   text-align: center;
   margin: 5px 0;
@@ -215,7 +217,31 @@
   grid-row: 2;
   grid-column: 1;
   justify-self: left;
-  background-color: var(--danger-red);
+  text-align: center;
+  color: var(--danger-red);
+  border: 1px solid var(--danger-red);
+  visibility: visible;
+  margin: 5px 0;
+  padding: 10px 13%;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.post-description{
+  font-weight: normal;
+}
+
+.post-images img {
+  background-color: #dff7ff;
+}
+
+@media only screen and (min-width: 801px) and (max-width: 1200px) {
+  .post-save,
+  .post-cancel,
+  .post-delete {
+    margin: 5px 0;
+    padding: 10px 10%;
+  }
 }
 
 @media only screen and (max-width: 800px) {
@@ -238,5 +264,14 @@
     width: 100%;
     height: auto;
     margin: 6px 0;
+  }
+  .post-cancel,
+  .post-delete {
+    margin: 5px 0;
+    padding: 10px 10%;
+  }
+  .post-save {
+    margin: 5px 0;
+    padding: 10px 15%;
   }
 }

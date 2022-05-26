@@ -3,10 +3,11 @@
 :root {
   /*Colours*/
   --primary: #588676;
-  --primary-med: #00764b;;
+  --primary-med: #00764b;
   /* --primary-light: #86b6a5; Old colour, saved */
   --primary-light: #249c60;
   --primary-dark: #2c594a;
+  --primary-darker: #134031;
   --light-grey: #efebe0;
   --light-yellow: rgb(246, 255, 179);
   --primary-text: #ffeb88;
@@ -245,7 +246,6 @@ footer {
     background-color: rgb(247, 247, 247);
   }
 
-
   footer {
     display: block;
     position: fixed;
@@ -253,8 +253,8 @@ footer {
     width: 100vw;
     height: 50px;
     bottom: 0;
-    left: 0;
-    
+    left: 0; 
+    z-index: 100;
   }
 
   #footer-wrapper {

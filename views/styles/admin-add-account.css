@@ -1,7 +1,7 @@
 .container {
   display: grid;
   grid-template-columns: 40% 60%;
-  grid-template-rows: 10% 1fr;
+  grid-template-rows: 50px 1fr;
 }
 
 .dashboard-header {
@@ -14,9 +14,137 @@
 }
 
 #dashboard-title {
-  font-size: 2rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0;
+  height: 100%;
+}
+
+/* Styles for hamburger menu button courtesy of https://codepen.io/erikterwan/pen/EVzeRP */
+/* IF CHANGING STYLES HERE, CHANGE THEM IN ADMIN-MANAGE-USERS.CSS AS WELL */
+#dashboard-drop-menu-trigger {
+  display: block;
+  z-index: 69;
+  position: absolute;
+  top: 92px;
+  right: 2%;
+  height: 32px;
+  width: 32px;
+  cursor: pointer;
+  opacity: 0;
+  -webkit-touch-callout: none;
+}
+
+#hamborger {
+  position: absolute;
+  top: 100px;
+  right: calc(2% + 3px);
+  width: 33px;
+  height: 33px;
+  z-index: 68;
+}
+
+#dashboard-drop-menu-trigger+#hamborger span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+  background-color: black;
+  /* Hamburger button color */
+  border-radius: 5px;
+  transform-origin: 4px 0px;
+  /* Animation of the close button */
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0),
+    opacity 0.55s ease;
+}
+
+#dashboard-drop-menu-trigger+#hamborger span:first-child {
+  transform-origin: 0% 0%;
+}
+
+#dashboard-drop-menu-trigger+#hamborger span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+#dashboard-drop-menu-trigger:checked+#hamborger span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-1.5px, -3px);
+  background-color: black;
+  /* Close button color */
+}
+
+#dashboard-drop-menu-trigger:checked+#hamborger span:nth-last-child(2) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+#dashboard-drop-menu-trigger:checked+#hamborger span:nth-last-child(1) {
+  transform: rotate(-45deg) translate(-1.5px, -3px);
+}
+
+/* End styles for hamburger menu button */
+
+#admin-button-group-container {
+  background: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+#admin-button-group {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  min-width: 380px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+#admin-button-group>.admin-button {
+  padding: 1rem 0.7rem;
+  margin: 10px 0;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.2rem;
+  background-color: var(--primary-light);
+  color: white;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+#admin-button-group>.admin-button.here {
+  background-color: grey;
+}
+
+#admin-button-group>.admin-button:focus,
+#admin-button-group>.admin-button:hover {
+  transform: scale(1.025, 1.025);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+#admin-button-group>.admin-button:active {
+  transform: scale(1);
+}
+
+#dashboard-drop-menu-trigger:checked~#admin-button-group-container {
+  display: block;
 }
 
 #welcome {
@@ -54,15 +182,15 @@
 }
 
 #create-block p {
-    text-align: center;
-    font-size: 1.3rem;
+  text-align: center;
+  font-size: 1.3rem;
 }
 
 #create-block>form {
-  height: 29.8rem;
+  height: calc(34rem + 6 * 3px);
   display: grid;
   grid-template-columns: 50% 50%;
-  grid-template-rows: 2.4rem 5.6rem 2.4rem 7.4rem 4rem 2rem 4rem;
+  grid-template-rows: 3rem 6rem 6rem 9rem 4rem 2rem 4rem;
   /* size in rem so form scales with font size. */
   gap: 3px;
 }
@@ -98,7 +226,7 @@
   width: 130%;
   border-top: 1px solid rgba(0, 128, 0, 0.7);
   border-radius: 50%;
-  top: -0.4rem;
+  top: -1.5px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -113,28 +241,25 @@
   grid-column: 2 / span 1;
 }
 
-#description-block {
+/* description-block */
+.input-container.textarea {
   grid-row: 5 / span 1;
   grid-column: 1 / span 2;
-}
-
-div>.create-input,
-#description-block {
-    border: 1px black solid;
-    font-size: 0.9rem;
-    margin: 2px;
-    background-color: rgba(128, 128, 128, 0.3);
-}
-
-div>.create-input{
-    padding: 0.5rem;
-    text-align: center;
 }
 
 #admin-block {
   grid-row: 6 / span 1;
   grid-column: 1 / span 2;
   margin: auto;
+}
+
+.input-container.textarea {
+  height: auto;
+}
+
+.input-container.textarea .input:focus+.label,
+.input-container.textarea .filled {
+  top: -0.02rem;
 }
 
 /* Code for checkbox styles from https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox */
@@ -255,7 +380,21 @@ div>.create-input{
     grid-template-rows: 50px 1fr;
     grid-template-columns: 100%;
   }
-  
+
+  #hamborger {
+    top: 65px;
+    right: 2%;
+  }
+
+  #dashboard-drop-menu-trigger,
+  #dashboard-drop-menu-trigger+label {
+    top: 56px;
+  }
+
+  #admin-button-group {
+    min-width: 300px;
+  }
+
   #welcome {
     display: none;
   }
@@ -265,10 +404,17 @@ div>.create-input{
     grid-row: 2 / span 1;
   }
 
+  #create-block {
+    min-width: 300px;
+  }
+
+  #admin-checkbox-container {
+    font-size: 1.2rem;
+  }
 
   #biz-name-block:before {
     width: 100%;
-}
+  }
 
   .create-block-container {
     grid-row: 2 / span 1;

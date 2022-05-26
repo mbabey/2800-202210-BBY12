@@ -1,8 +1,8 @@
 'use strict';
 
 docLoaded(() => {
-  getData('/nav-and-footer', popNavAndFooter);
-  getData('/search-overlay', popSearchOverlay);
+  // getData('/nav-and-footer', popNavAndFooter);
+  document.querySelector('footer #footer-search').addEventListener("click", openOverlay, false);
   getData('/get-user', popNavName);
   getData('/is-admin', (isAdmin) => {
     if (isAdmin.admin) {
@@ -38,16 +38,16 @@ function popNavAndFooter(navAndFooter) {
 
 function popSearchOverlay(searchOverlay){
   document.querySelector('footer').innerHTML += searchOverlay.overlay;
-  document.querySelector('footer #footer-search').addEventListener("click", openOverlay, false);
 }
 
 function popNavName(data) {
+  document.querySelector('#nav-profile').href += (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
   document.querySelector('#profile-name').innerHTML = (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
 }
 
 function addAdminStar() {
   let admin_button = document.querySelector('#nav-admin');
-  admin_button.setAttribute('href', "/admin-dashboard");
+  admin_button.setAttribute('href', "/admin-manage-users");
   admin_button.setAttribute('class', "nav-button");
 
   let content = "<svg xmlns='http://www.w3.org/2000/svg' viewbox='0 0 48 48' height='32' width='32'>" +
@@ -67,5 +67,4 @@ function closeOverlay() {
 function displayMenu() {
   let menu = document.getElementById("edit-profile-menu");
   menu.style.display = "block";
-  
 }

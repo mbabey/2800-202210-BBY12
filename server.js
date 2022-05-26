@@ -364,6 +364,13 @@ app.get('/chat', (req, res) => {
   }
 });
 
+// GET CURRENT SESSION
+app.get('/get-session', (req, res) => {
+  let session = req.session;
+  res.setHeader('content-type', 'application/json');
+  res.send({ session: session });
+});
+
 // EGG
 app.get('/egg', (req, res) => {
   let eggDOM = new JSDOM(fs.readFileSync('./views/egg.html', 'utf8'));
@@ -552,7 +559,7 @@ app.post('/delete-post', upload.none(), async (req, res) => {
   await deleteQueries.deletePost(req, con);
 });
 
-// QUERY GET USERS BY SEARCH TERM
+// QUERY: GET USERS BY SEARCH TERM
 // TODO: COMBINE WITH GET-USER
 app.get('/get-filter-users', async (req, res) => {
   let users = await searchQueries.searchUsers(req.query.search, con);
@@ -560,20 +567,14 @@ app.get('/get-filter-users', async (req, res) => {
   res.send({ users: users });
 });
 
-// QUERY GET POSTS BY SEARCH TERM
+// QUERY: GET POSTS BY SEARCH TERM
 app.get('/get-filter-posts', async (req, res) => {
   let posts = await searchQueries.searchPosts(req.query.search, con);
   res.setHeader('content-type', 'application/json');
   res.send({ posts: posts });
 });
 
-app.get('/get-session', (req, res) => {
-  let session = req.session;
-  res.setHeader('content-type', 'application/json');
-  res.send({ session: session });
-});
-
-// QUERY GET POSTS BY USERNAME
+// QUERY: GET POSTS BY USERNAME
 app.get('/get-user-posts', async (req, res) => {
   let posts = await searchQueries.userPosts(req.query.user, con);
   res.setHeader('content-type', 'application/json');

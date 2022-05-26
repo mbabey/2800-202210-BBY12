@@ -390,8 +390,6 @@ p {
   .biz-name-tooltip {
     transform: translate(-50%, -50%);
   }
-  
-
 }
 
 @media only screen and (max-width: 319px) {

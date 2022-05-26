@@ -1,20 +1,21 @@
-.container {
-  display: grid;
-  grid-template-rows: 10% 80% 10%;
-}
-
 .message-header {
- grid-row: 1 / span 1;
-}
-
-.message-container {
-  grid-row: 2 / span 1;
+  grid-row: 1 / span 1;
+  text-align: center;
+  width: 100%;
+  background-color: #fff;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  margin: 0;
+  height: 50px;
 }
 
 #message-content {
   display: flex;
+  height: calc(100vh - 200px);
+  padding-top: 50px;
   flex-direction: column;
-  float: bottom;
+  overflow: auto;
 }
 
 .message {
@@ -23,6 +24,7 @@
   padding: 5px;
   border-radius: 20px;
   margin: 3px;
+  min-height: 1rem;
 }
 
 .self-message {
@@ -38,13 +40,14 @@
 }
 
 .message-footer {
-  position: absolute;
+  position: fixed;
   bottom: 50px;
   left: 0;
-  justify-items: center;
+  background-color: #fff;
+  width: 100%;
 }
 
-.message-send-block { 
+.message-send-block {
   display: flex;
   justify-content: center;
   gap: 7px;

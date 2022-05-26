@@ -114,7 +114,7 @@
   box-sizing: border-box;
 }
 
-.container {
+.error-container {
   background-color: var(--primary-med);
   display: flex;
   justify-content: center;

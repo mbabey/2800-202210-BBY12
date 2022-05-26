@@ -1,81 +1,120 @@
-## Conventions ##
+# My Web Application Gro-Operate
 
-### Git Branches ###
-Git branches should be named in the format 'feature-(feature-name)'.
- - eg: While working on the login page css, name the branch 'feature-login-css' 
+* [General info](#general-info)
+* [Developers](#developers)
+* [Technologies](#technologies)
+* [Contents](#content)
 
-Git branches should not be deleted after they have been merged. It can be useful to retain past code in case we need to go back to a previous version.
+## General Info
+Gro-Operate is a platform that will set the bar to help small businesses communicate, 
+collaborate, and grow together by creating connections, so that ultimately success can bloom.
 
-### Git Commits ###
-Git commit messages should be made in the present tense.
- - eg: 'Add login functionality and storage of user IDs. Bug remains with redirect after login.'
+## Developers
+[Betty Nguyen], [A01028857], [Set 1B], [May 27, 2022]
+[Maxwell Babey], [A01271687], [Set 2C], [May 27, 2022]
+[Caroline Lin], [A01206267], [Set 1B], [May 27, 2022]
+[Kyle Ng], [A01017006], [Set 2A], [May 27, 2022]
 
-### Code ###
-Functions and variables should be named clearly and in camel case.
- - eg: A variable that stores the number of clicks should be labelled 'numClicks' or 'numUserClicks'
- - eg: A function that generates a form in the DOM should be labelled 'generateForm()' or 'createForm()'
+## Technologies
+Technologies used for this project:
+* HTML5
+* CSS
+* Javascript
+* Node.js
+* Express
+* Mysql
+* Socket.io
+	
+## Content
+Content of the project folder:
 
-Every line should end with a semi-colon.
+```
+ Top level of project folder: 
+├── .gitignore                   # Git ignore file
+├── package-lock.json            # Node modules and package dependencies file
+├── package.json                 # Dependencies file
+├── README-git.md                # Git conventions user guide
+├── README.md                    # Readme file
+└── server.js                    # Server code file to run the application
 
-Class and ID names should be in the format `class-item-name`
+It has the following subfolders and files:
+├── .vscode                      # Folder for vscode settings
+├── node_modules                 # Folder for installed node modules and packages
+├── scripts                      # Folder for client-side scripts
+        └── egg                      # Folder for easter egg
+            /Ball.js                     # File for the ping pong ball functions
+            /egg.js                      # File for the ping pong functions
+            /Paddle.js                   # File for the paddle functions
+        /account.js                  # File for editing profile information function
+        /admin-manage.js             # File for admin CRUD functions
+        /chat.js                     # File for chat function
+        /delete-post.js              # File for deleting post function
+        /edit-post.js                # File for editing post function
+        /form-inputs.js              # File for password visibility toggle function
+        /login.js                    # File for login function
+        /nav.js                      # File for navbar function
+        /other-account.js            # File to read and populate user info
+        /reset-password-client.js    # File to reset user password
+├── server_modules               # Folder for server-side scripts
+        /chat-server.js              # File to connect to socket.io and emit messages
+        /create-account.js           # File for user account creation function
+        /create-post.js              # File for create post function
+        /db-init.js                  # File to initialize database with data
+        /feed.js                     # File to populate posts on timeline
+        /query-delete.js             # File to query and delete users in the database
+        /query-login.js              # File to query and authenticate users in the database
+        /query-post.js               # File to query posts and perform CRUD in the database
+        /query-search.js             # File to query posts from the database and populate search results
+        /query-user.js               # File to query and read or update users in the database
+        /reset-password.js           # File to query user passwords and perform CRUD on passwords
+        /server-configs.js           # File to connect to database and Heroku
+├── uploads                      # Folder for image uploads
+├── views                        # Folder for html files
+        └── assets                   # Folder for app images
+                /chat.png                # Chat icon image
+                /favicon.ico             # Favicon image
+                /Logo.png                # Gro-operate logo
+                /LogoWithTitle.png       # Gro-operate logo with name
+        ├── avatars                  # Folder for users' images
+        ├── chunks                   # Folder for xml snippets
+                /footer.xml              # File for the footer
+                /nav.xml                 # File for the navbar
+                /search-overlay.xml      # File for the search bar
+        ├── images                   # Folder for users' images
+        ├── styles                   # Folder for css styles
+                /admin-add-account.css   # CSS file for the admin add users page
+                /admin-manage-users.css  # CSS file for the admin CRUD page
+                /animation.css           # CSS file for some animations on the app
+                /chat.css                # CSS file for the chat page
+                /create-account.css      # CSS file for the create account page
+                /create-post.css         # CSS file for the create post page
+                /egg.css                 # CSS file for the easter egg
+                /form-inputs.css         # CSS file for form inputs on the app
+                /global.css              # CSS file for the app for application to all pages
+                /home.css                # CSS file for the home page
+                /login.css               # CSS file for the login page
+                /other-user-profile.css  # CSS file for the business profile page
+                /post.css                # CSS file for the posts
+                /profile.css             # CSS file for the user's profile page
+                /reset-password.css      # CSS file for the reset password page
+                /search.css              # CSS file for the search bar
+        /404.html                # HTML file for error page stating that user doesn't exists
+        /admin-add-account.html  # HTML file for admin adding users page
+        /admin-manage-users.html # HTML file for admin CRUD page
+        /chat.html               # HTML file for chat page
+        /create-account.html     # HTML file for creating account page
+        /create-post.html        # HTML file for creating post page
+        /egg.html                # HTML file for easter egg
+        /home.html               # HTML file for home page
+        /login.html              # HTML file for login page
+        /other-user-profile.html # HTML file for business profile of other users pages
+        /profile.html            # HTML file for current user's profile page
+        /reset-password.html     # HTML file for password reset page
+        /search.html             # HTML file for search bar
+        /templates.html          # HTML file for post template
 
----
-# Git Guide #
+```
 
-### Pulling ###
-Warning: Always pull from a branch before you make changes, lest you run into merge conflicts.
-
-To pull from a branch, navigate to the branch and type:
-`git pull`
-
-### Creating and Moving To a New Branch ###
-To create a new branch, type:
-`git branch (branch name)`
-
-To go to the new branch, type:
-`git checkout (branch name)`
-
-Alternatively, these actions can be performed at once by typing:
-`git checkout -b (branch name)`
-
-### Switching Branches ###
-To switch branches, type:
-`git checkout (branch name)`
-
-### Commiting ###
-To check which files are currently slated to be commited, type:
-`git status`
-
-To add files to a commit, type:
-`git add (filename)`
- - Alternatively, type: `git add *` to add all files to the commit.
-
-To commit changes, type:
-`git commit -m "(commit message)"`
-
-Note: if necessary, longer commit messages can be created with `git commit -m` which will take you to a text editor. Write your commit message, save, and close to commit.
-
-### Pushing ###
-To make doubly sure you are on the correct branch, type:
-`git branch`
-
-To push commited changes to the desired branch, type:
-`git push`
-
-### Merging Branches ###
-To merge branches:
- 1. Go to the repository on GitHub.
- 2. Click the dropdown to the top-left of where the files in the repo are displayed.
- 3. Click the branch you want to merge.
- 4. Click the dropdown menu labelled 'Contribute' located in the text box just below the branch-selection dropdown.
- 5. Click 'Open pull request'.
- 6. Select the branch you would like to merge into in the dropdown menu above the comment box.
- 7. Click 'Create pull request'.
- 8. Resolve any merge conficts.
- 9. Merge.
-
-There are other ways to merge using the command line that can be googled if desired.
-
-### Troubleshooting ###
-Things are bound to get messy at some point. There are many resources online which can be helpful for solving git-related issues. for example, [Oh Sh*t Git](ohshitgit.com).
-If things are really bad, get in touch with a team member.
+Tips for file naming files and folders:
+* use lowercase with no spaces
+* use dashes (not underscore) for word separation

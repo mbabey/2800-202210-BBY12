@@ -106,3 +106,45 @@
   animation-delay: 5s;
 }
 /* End of button bouncing animation */
+
+/*Error text animation referenced from https://codepen.io/WaadAlnwar/pen/dyXGNwM */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  background-color: var(--primary-med);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: var(--light-yellow);
+}
+.error-text {
+  position: relative;
+}
+.error-text span {
+  position: relative;
+  display: inline-block;
+  font-size: 100px;
+  font-weight: bolder;
+  color: var(--gold);
+  text-transform: uppercase;
+  animation: flip 2s infinite;
+  animation-delay: calc(0.3s * var(--i))
+}
+@keyframes flip {
+  0%,80% {
+    transform: rotateY(360deg) 
+  }
+}
+/* End of error text animation */

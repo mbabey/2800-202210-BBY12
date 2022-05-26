@@ -42,7 +42,7 @@ function savePost(event) {
   formData.append("tag-field", tags);
 
   for (let i = 0; i < gallery.length; i++) {
-    let img = gallery[i].src.toString().split('/')[gallery[i].src.toString().split('/').length - 1]
+    let img = gallery[i].src.toString().split('/')[gallery[i].src.toString().split('/').length - 1];
     formData.append("image-delete", img);
   }
   for (let i = 0; i < imgs.files.length; i++) {
@@ -77,7 +77,6 @@ async function cancelEdit(event) {
 
       post.querySelector(".post-title").textContent = postText[0].postTitle;
       post.querySelector(".post-description").textContent = postText[0].content;
-      //post.querySelector(".post-tags").textContent = data[0].postTitle;
       let gallery = post.querySelector(".gallery");
       gallery.innerHTML = "";
       for (let i = 0; i < postImgs.length; i++) {
@@ -105,7 +104,7 @@ async function cancelEdit(event) {
 }
 
 function addImage(event) {
-  
+
   let imageHolder = event.target.parentNode.parentNode.parentNode;
   let preview = imageHolder.querySelector(".preview-gallery");
   let imgs = imageHolder.querySelector(".edit-image-upload");
@@ -145,7 +144,7 @@ function enableEdit(post) {
 }
 
 function deleteImg(event) {
-  event.target.parentNode.setAttribute("class", "frame-delete")
+  event.target.parentNode.setAttribute("class", "frame-delete");
 }
 
 function disableEdit(post) {

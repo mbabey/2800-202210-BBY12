@@ -17,4 +17,4 @@ function docLoaded(action) {
     action();
   else
     document.addEventListener('DOMContentLoaded', action);
-};
+}

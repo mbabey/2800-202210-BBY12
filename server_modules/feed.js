@@ -88,8 +88,8 @@ async function renderImgs(postImages, pImgs, pImgTemplateContent) {
   for (const image of postImages) {
     if (image) {
       let img = pImgTemplateContent.cloneNode(true);
-      img.querySelector("img").src = "./images/" + image["imgFile"];
-      img.querySelector("img").alt = image["imgFile"];
+      img.querySelector("img").src = "./images/" + image.imgFile;
+      img.querySelector("img").alt = image.imgFile;
       pImgs.appendChild(img);
     }
   }
@@ -99,8 +99,8 @@ async function renderTags(postTags, pTags, pTagTemplateContent) {
   for (const tags of postTags) {
     if (tags) {
       let tag = pTagTemplateContent.cloneNode(true);
-      tag.querySelector("a").textContent = '#' + tags["tag"];
-      tag.querySelector("a").href = '#' + tags["tag"];
+      tag.querySelector("a").textContent = '#' + tags.tag;
+      tag.querySelector("a").href = '#' + tags.tag;
       pTags.appendChild(tag);
     }
   }

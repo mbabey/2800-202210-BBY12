@@ -19,86 +19,79 @@
   </nav>
 
   <div class="container">
-    <div class="profile-header-wrapper">
-      <div class="profile-header">
-        <div class="edit-profile-container">
-          <div class="edit-profile">
-            <a id="edit-button">Edit Profile</a>
-            <a id="save-button"></a>
+      <div class="profile-header-wrapper">
+        <div class="profile-header">
+          <div class="edit-profile-container">
+            <div class="edit-profile">
+              <a id="edit-button">Edit Profile</a>
+              <a id="save-button"></a>
+            </div>
+            <div class="edit-profile">
+              <a id="password-button" href="/reset-password">Change Password</a>
+            </div>
           </div>
-          <div class="edit-profile">
-            <a id="password-button" href="/reset-password">Change Password</a>
+          <span id="edit-status"></span>
+          <div class="profile-name">
+            <h2 class="business-name-block tooltip underline-opening">Business Name</h2>
+            <span class="tooltiptext biz-name-tooltip">Business Name</span>
+            <div>
+              <p class="business-type-block tooltip">Type of Business</p>
+              <span class="tooltiptext">Business Type</span>
+            </div>
           </div>
-        </div>
-        <span id="edit-status"></span>
-        <div class="profile-name">
-          <h2 class="business-name-block tooltip underline-opening">Business Name</h2>
-          <span class="tooltiptext">Business Name</span>
-          <div>
-            <p class="business-type-block tooltip">Type of Business</p>
-            <span class="tooltiptext">Business Type</span>
-          </div>
-        </div>
-        <div class="profile-picture">
-          <div class="edit-profile-image">
-            <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
-              <label for="edit-avatar">
+          <div class="profile-picture">
+            <div class="edit-profile-image">
+              <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
                 <div class="profile-picture-background">
                   <img class="business-picture-block" id="profile-picture" src="./avatars/logo.png" alt="Profile Image">
                   <input type="file" id="edit-avatar" name="edit-avatar" accept="image/png, image/jpeg" hidden
                     onchange="form.submit()">
                 </div>
-              </label>
-            </form>
-          </div>
+              </form>
+            </div>
 
-        </div>
-        <div class="profile-info">
-          <h3>Business Owner<br>Name</h3>
-          <div class="profile-owner">
-            <div id="name-block-container">
-              <div>
-                <span class="business-owner-fname-block tooltip" id="name-block">First</span>
-                <span class="tooltiptext">First Name</span>
+          </div>
+          <div class="profile-info">
+            <h3>Business Owner<br>Name</h3>
+            <div class="profile-owner">
+              <div id="name-block-container">
+                <div>
+                  <span class="business-owner-fname-block tooltip" id="name-block">First</span>
+                  <span class="tooltiptext">First Name</span>
+                </div>
+                <div>
+                  <span class="business-owner-lname-block tooltip" id="lastname-block">Last</span>
+                  <span class="tooltiptext">Last Name</span>
+                </div>
               </div>
-              <div>
-                <span class="business-owner-lname-block tooltip" id="lastname-block">Last</span>
-                <span class="tooltiptext">Last Name</span>
+              <div class="profile-contact">
+                <h3>Contact Info</h3>
+                <div>
+                  <p class="business-email-block tooltip">Business Email</p>
+                  <span class="tooltiptext">Email</span>
+                </div>
+                <div>
+                  <p class="business-phone-block tooltip">Business Phone</p>
+                  <span class="tooltiptext">Phone</span>
+                </div>
               </div>
-            </div>
-            <div class="profile-contact">
-              <h3>Contact Info</h3>
-              <div>
-                <p class="business-email-block tooltip">Business Email</p>
-                <span class="tooltiptext">Email</span>
+              <div class="profile-location">
+                <h3>Business Address</h3>
+                <p class="business-location-block tooltip">123 Fun St. Vancouver, BC</p>
+                <span class="tooltiptext">Address</span>
               </div>
-              <div>
-                <p class="business-phone-block tooltip">Business Phone</p>
-                <span class="tooltiptext">Phone</span>
-              </div>
-            </div>
-            <div class="profile-location">
-              <h3>Business Address</h3>
-              <p class="business-location-block tooltip">123 Fun St. Vancouver, BC</p>
-              <span class="tooltiptext">Address</span>
             </div>
           </div>
         </div>
       </div>
+      <div class="profile-description">
+        <h3>Business Description</h3>
+        <p class="business-description-block"></p>
+      </div>
+      <div class="post-block">
+        <!-- Populated by feed.js -->
+      </div>
     </div>
-    <div class="profile-description">
-      <h3>Business Description</h3>
-      <p class="business-description-block">I am an independant woman look at me go I do it all I read I write I sell
-        drugs I surf I drink I drive I box I square dance I make stone tools I dig tunnels I jump rope I dance I I I I
-        sell soap :) Also I do more because I am ambitious I play
-        guitar I sing I write poetry I lament the loss of humanity I howl at the moon I rub dirt on my cheeks I sleep
-        in
-        a bed of thorns I ride the breeze of my whims in a bed of flowers</p>
-    </div>
-    <div class="post-block">
-      <!-- Populated by feed.js -->
-    </div>
-  </div>
 
   <footer>
     <!-- Populated by server -->

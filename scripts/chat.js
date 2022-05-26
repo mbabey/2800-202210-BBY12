@@ -33,23 +33,26 @@ function getThisUser() {
   });
 }
 
-socket.on('chat-message', data => {
-  addMessage(data);
+// Catch messages coming from the server and display it on the DOM.
+socket.on('chat-message', (data, user) => {
+  addMessage(data, user);
 });
 
+// Send messages to the server by pressing the send button.
 messageSendButton.addEventListener('click', e => {
   e.preventDefault();
   let message = messageInput.value;
-  socket.emit('send-message', message);
+  socket.emit('send-message', message, thisUser);
   messageInput.value = "";
 });
 
-function addMessage(message, isSelf = false) {
+// Builds the DOM for a message.
+function addMessage(message, user) {
   let messageElement = document.createElement("span");
   messageElement.classList.add('message');
   messageElement.innerHTML += message;
 
-  if (isSelf) {
+  if (thisUser === user) {
     messageElement.classList.add('self-message');
   } else {
     messageElement.classList.add('other-message');

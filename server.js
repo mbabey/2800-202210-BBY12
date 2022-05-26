@@ -9,9 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const app = express();
 const mysql = require('mysql2');
-const {
-  JSDOM
-} = require('jsdom');
+const { JSDOM } = require('jsdom');
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -35,14 +33,14 @@ const upload = multer({
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 //using this to do chat css because chat-server isn't working
-io.on('connect', socket => {
-  console.log('New user joined chat.');
-  socket.emit('chat-message', 'Chat up a collab!');
-  socket.on('send-message', message => {
-    console.log(message);
-    socket.emit('chat-message', message);
-  });
-});
+// io.on('connect', socket => {
+//   console.log('New user joined chat.');
+//   socket.emit('chat-message', 'Chat up a collab!');
+//   socket.on('send-message', (message, user) => {
+//     console.log(message, user);
+//     socket.emit('chat-message', message, user);
+//   });
+// });
 
 // ---------------- Custom Dependencies ----------------- \\
 
@@ -57,6 +55,7 @@ const searchQueries = require('./server_modules/query-search');
 const userQueries = require('./server_modules/query-user');
 const resetPassword = require('./server_modules/reset-password');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server_modules/server-configs');
+const chatServer = require('./server_modules/chat-server');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
@@ -100,10 +99,7 @@ app.get('/', (req, res) => {
   if (req.session.loggedIn) {
     if (req.session.admin)
       res.redirect('/admin-manage-users');
-<<<<<<< HEAD
       // res.redirect('/chat'); // TEMP FOR TESTING CHAT
-=======
->>>>>>> 2ffdf917135faa14809252ad2d4fb4771a27d65b
     else
       res.redirect('/home');
   } else {
@@ -358,6 +354,7 @@ app.route('/admin-add-account')
 // CHAT PAGE
 app.get('/chat', (req, res) => {
   if (req.session.loggedIn) {
+    chatServer.runChatServer(io, req.session.username);
     let chatPage = new JSDOM(fs.readFileSync('./views/chat.html', 'utf8').toString());
     chatPage.window.document.querySelector('nav').innerHTML = navbarHTML;
     chatPage.window.document.querySelector('footer').innerHTML = footerHTML + searchOverlayHTML;

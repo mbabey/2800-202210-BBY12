@@ -267,13 +267,14 @@ app.route('/create-account')
     }
   })
   .post((req, res) => {
+    res.setHeader('content-type', 'application/json');
     createAccount.createAccount(req, res, con)
       .then(async () => {
         await loginQuery.login(req, req.body["username"], req.body['password'], con);
-        res.redirect('/');
+        res.send({ status: 'success' });
       })
       .catch((err) => {
-        res.redirect('/create-account');
+        res.send({ status: 'fail' });
       });
   });
 
@@ -325,21 +326,22 @@ app.route('/admin-add-account')
     }
   })
   .post((req, res) => {
+    res.setHeader('content-type', 'application/json');
     if (req.body.isAdmin) {
-      createAccount.createAdmin(req, res, con)
+      createAccount.adminCreateAdmin(req, res, con)
         .then(() => {
-          res.redirect('/admin-manage-users');
+          res.send({ status: 'success' });
         })
         .catch(() => {
-          res.redirect('/admin-add-account');
+          res.send({ status: 'fail' });
         });
     } else {
-      createAccount.createAccount(req, res, con)
+      createAccount.adminCreateAccount(req, res, con)
         .then(() => {
-          res.redirect('/admin-manage-users');
+          res.send({ status: 'success' });
         })
         .catch(() => {
-          res.redirect('/admin-add-account');
+          res.send({ status: 'fail' });
         });
     }
   });
@@ -412,7 +414,7 @@ app.get('/get-post/:username/:postId', async (req, res) => {
 // QUERY: UPDATE USER INFORMATION
 app.post('/update-user', async (req, res) => {
   if (req.session.loggedIn) {
-    let status = await userQueries.updateUser(req, con);
+    let status = await userQueries.updateUser(req, con, false);
     res.setHeader('Content-Type', 'application/json');
     res.send({ status: status });
   }
@@ -437,7 +439,7 @@ app.post("/edit-avatar", upload.single('edit-avatar'), (req, res) => {
 // QUERY: UPDATE USER INFORMATION AS ADMIN
 app.post('/admin-edit-user', async (req, res) => {
   if (req.session.loggedIn && req.session.admin) {
-    let status = await userQueries.updateUser(req, con);
+    let status = await userQueries.updateUser(req, con, true);
     res.setHeader('Content-Type', 'application/json');
     res.send({ status: status });
   }

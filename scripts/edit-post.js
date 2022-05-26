@@ -122,6 +122,9 @@ function enableEdit(post) {
   post.querySelector(".post-cancel-hide").setAttribute("class", "post-cancel");
   post.querySelector(".post-save-hide").setAttribute("class", "post-save");
   post.querySelector(".post-edit").setAttribute("class", "post-edit-hide");
+  post.querySelectorAll(".input-label-hide").forEach((label) => {
+    label.setAttribute("class", "input-label");
+  });
 
   let frames = post.querySelectorAll(".frame");
   for (let i = 0; i < frames.length; i++) {
@@ -136,8 +139,8 @@ function enableEdit(post) {
   let fields = [post.querySelector(".post-title"), post.querySelector(".post-description"), post.querySelector(".post-tags")];
 
   for (let i = 0; i < fields.length; i++) {
-    fields[i].setAttribute("contentEditable", "true");
-    fields[i].style.border = "1px solid black";
+    fields[i].setAttribute("contenteditable", "true");
+    fields[i].style.border = "2px solid var(--primary-dark)";
   }
 }
 
@@ -151,6 +154,9 @@ function disableEdit(post) {
   post.querySelector(".post-cancel").setAttribute("class", "post-cancel-hide");
   post.querySelector(".post-save").setAttribute("class", "post-save-hide");
   post.querySelector(".post-edit-hide").setAttribute("class", "post-edit");
+  post.querySelectorAll(".input-label").forEach((label) => {
+    label.setAttribute("class", "input-label-hide");
+  });
 
   post.querySelector(".edit-image-upload").value = "";
 
@@ -162,7 +168,7 @@ function disableEdit(post) {
   let fields = [post.querySelector(".post-title"), post.querySelector(".post-description"), post.querySelector(".post-tags")];
 
   for (let i = 0; i < fields.length; i++) {
-    fields[i].setAttribute("contentEditable", "false");
+    fields[i].setAttribute("contenteditable", "false");
     fields[i].style.border = "none";
   }
 }

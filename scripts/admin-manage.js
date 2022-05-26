@@ -98,15 +98,17 @@ function showSearchResults(searchData) {
 
 let user = null; // Global variable to store name of user being manipulated by DOM.
 
-const emailInput = document.querySelector('input[name=\'email\']');
-const emailVerifyInput = document.querySelector('input[name=\'emailVerify\']');
-const companyNameInput = document.querySelector('input[name=\'cName\']');
-const bizTypeInput = document.querySelector('input[name=\'bType\']');
-const firstNameInput = document.querySelector('input[name=\'fName\']');
-const lastNameInput = document.querySelector('input[name=\'lName\']');
-const phoneNumInput = document.querySelector('input[name=\'phoneNo\']');
-const locationInput = document.querySelector('input[name=\'location\']');
-const descriptionInput = document.querySelector('textarea[name=\'description\']');
+const editUserFormInputs = {
+  emailInput: document.querySelector('input[name=\'email\']'),
+  emailVerifyInput: document.querySelector('input[name=\'emailVerify\']'),
+  companyNameInput: document.querySelector('input[name=\'cName\']'),
+  bizTypeInput: document.querySelector('input[name=\'bType\']'),
+  firstNameInput: document.querySelector('input[name=\'fName\']'),
+  lastNameInput: document.querySelector('input[name=\'lName\']'),
+  phoneNumInput: document.querySelector('input[name=\'phoneNo\']'),
+  locationInput: document.querySelector('input[name=\'location\']'),
+  descriptionInput: document.querySelector('textarea[name=\'description\']')
+};
 
 const lengthViewProfile = 13; // Length of 'view-profile '. Used for getting username from class name.
 const lengthDeleteUser = 12; // Length of 'delete-user '. Used for getting username from class name.
@@ -153,7 +155,6 @@ function initCardEventListeners() {
   });
   document.querySelectorAll('.user-card-menu-toggle').forEach((checkbox) => {
     checkbox.addEventListener('change', (e) => {
-      console.log(e.target.parentNode);
       if (checkbox.checked)
         e.target.parentNode.classList.add('toggled');
       else
@@ -315,30 +316,30 @@ function removeItemOnce(arr, value) {
 }
 
 function handleMakeAdminConditions(response, user) {
-  let message = ' could not be promoted to an administrator';
-  if (response.adminCreated) message = ' was promoted to an administrator.';
+  let message = (response.adminCreated) ? ' was promoted to an administrator.' : ' could not be promoted to an administrator';
   document.querySelector('#query-response-message').innerHTML = user + message;
 }
 
 function handleEditUserConditions(response, user) {
   clearEditUserFormInputs();
-  let message = ' could not be updated.';
-  if (response.status == 'success') message = ' was successfully updated.';
+  let message = (response.status == 'success') ? ' was successfully updated.' : ' could not be updated.';
   document.querySelector('#query-response-message').innerHTML = user + message;
 }
 
 function fillEditUserFormInputs() {
   sendData({ username: user }, '/search-user', (response) => {
     if (response.status = 'success') {
-      emailInput.value = response.rows[0].email;
-      emailVerifyInput.value = response.rows[0].email;
-      companyNameInput.value = response.rows[0].cName;
-      bizTypeInput.value = response.rows[0].bType;
-      firstNameInput.value = response.rows[0].fName;
-      lastNameInput.value = response.rows[0].lName;
-      phoneNumInput.value = response.rows[0].phoneNo;
-      locationInput.value = response.rows[0].location;
-      descriptionInput.value = response.rows[0].description;
+      const filledInputsArray = [];
+      populateInputField(filledInputsArray, editUserFormInputs.emailInput, response.rows[0].email);
+      populateInputField(filledInputsArray, editUserFormInputs.emailVerifyInput, response.rows[0].email);
+      populateInputField(filledInputsArray, editUserFormInputs.companyNameInput, response.rows[0].cName);
+      populateInputField(filledInputsArray, editUserFormInputs.bizTypeInput, response.rows[0].bType);
+      populateInputField(filledInputsArray, editUserFormInputs.firstNameInput, response.rows[0].fName);
+      populateInputField(filledInputsArray, editUserFormInputs.lastNameInput, response.rows[0].lName);
+      populateInputField(filledInputsArray, editUserFormInputs.phoneNumInput, response.rows[0].phoneNo);
+      populateInputField(filledInputsArray, editUserFormInputs.locationInput, response.rows[0].location);
+      populateInputField(filledInputsArray, editUserFormInputs.descriptionInput, response.rows[0].description);
+      setInputLabelUp(true, filledInputsArray);
     } else {
       document.getElementById('popup-edit-block').style.display = 'none';
       document.querySelector('#query-response-message').innerHTML = 'Could not get information for ' + user + '.';
@@ -347,28 +348,52 @@ function fillEditUserFormInputs() {
   });
 }
 
+function populateInputField(filledInputsArray, input, value) {
+  input.value = value;
+  if (value != '')
+    filledInputsArray.push(input);
+}
+
 function getEditUserFormInput() {
   let userInput = {
     username: user,
-    email: emailInput.value,
-    cName: companyNameInput.value, bType: bizTypeInput.value,
-    fName: firstNameInput.value, lName: lastNameInput.value,
-    phoneNo: phoneNumInput.value, location: locationInput.value,
-    description: descriptionInput.value
+    email: editUserFormInputs.emailInput.value,
+    cName: editUserFormInputs.companyNameInput.value, bType: editUserFormInputs.bizTypeInput.value,
+    fName: editUserFormInputs.firstNameInput.value, lName: editUserFormInputs.lastNameInput.value,
+    phoneNo: editUserFormInputs.phoneNumInput.value, location: editUserFormInputs.locationInput.value,
+    description: editUserFormInputs.descriptionInput.value
   };
   return userInput;
 }
 
 function clearEditUserFormInputs() {
-  emailInput.value = "";
-  emailVerifyInput.value = "";
-  companyNameInput.value = "";
-  bizTypeInput.value = "";
-  firstNameInput.value = "";
-  lastNameInput.value = "";
-  phoneNumInput.value = "";
-  locationInput.value = "";
-  descriptionInput.value = "";
+  editUserFormInputs.emailInput.value = "";
+  editUserFormInputs.emailVerifyInput.value = "";
+  editUserFormInputs.companyNameInput.value = "";
+  editUserFormInputs.bizTypeInput.value = "";
+  editUserFormInputs.firstNameInput.value = "";
+  editUserFormInputs.lastNameInput.value = "";
+  editUserFormInputs.phoneNumInput.value = "";
+  editUserFormInputs.locationInput.value = "";
+  editUserFormInputs.descriptionInput.value = "";
+  setInputLabelUp(false, getAllFormInputAsArray(editUserFormInputs));
+}
+
+function getAllFormInputAsArray(inputsObject) {
+  const inputsArray = [];
+  for (const [key, value] of Object.entries(inputsObject)) {
+    inputsArray.push(value);
+  }
+  return inputsArray;
+}
+
+function setInputLabelUp(labelsUp, inputs) {
+  inputs.forEach((input) => {
+    if (labelsUp)
+      input.nextElementSibling.classList.add('filled');
+    else
+      input.nextElementSibling.classList.remove('filled');
+  });
 }
 
 function makeUserCard(userData) {

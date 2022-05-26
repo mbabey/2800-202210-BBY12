@@ -11,27 +11,24 @@ docLoaded(() => {
         description: document.querySelectorAll('.business-description-block')
     };
 
-    async function sendName() {
-        try {
-            let response = await fetch('/get-other-user?' + new URLSearchParams(window.location.search), {
-                method: 'GET',
-            });
-            if (response.status == 200) {
-                response = await response.text();
-                response = JSON.parse(response);
-                popThaSpots(response);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    sendName();
+    const bizInfoDefaults = {
+      cName: "Business Name",
+      fName: "First Name",
+      lName: "Last Name",
+      bType: "Business Type",
+      email: "email@business.gov",
+      phoneNo: "(###)-###-####",
+      location: "Location",
+      description: "Description"
+    };
+
+    sendName(popThaSpots);
 
     function popThaSpots(data) {
         document.querySelector("#profile-picture").src = "./avatars/" + data[0].profilePic;
         for (const [key, value] of Object.entries(bizInfo)) {
             value.forEach((element) => {
-                element.innerHTML = (data[0][key] != undefined && data[0][key] != null) ? data[0][key] : '';
+                element.innerHTML = (data[0][key] != undefined && data[0][key] != null) ? data[0][key] : bizInfoDefaults[key];
             });
         }
     }
@@ -44,6 +41,17 @@ function docLoaded(action) {
         document.addEventListener('DOMContentLoaded', action);
 }
 
-
-
-
+async function sendName(callback) {
+  try {
+      let response = await fetch('/get-other-user?' + new URLSearchParams(window.location.search), {
+          method: 'GET',
+      });
+      if (response.status == 200) {
+          response = await response.text();
+          response = JSON.parse(response);
+          callback(response);
+      }
+  } catch (err) {
+      console.log(err);
+  }
+}

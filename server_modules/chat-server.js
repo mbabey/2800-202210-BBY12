@@ -3,29 +3,29 @@
 const connectedUsers = [];
 
 module.exports = {
+  /**
+   * runChatServer. Starts the chat server and listens for and responds to socket events on the serverside. 
+   * @param {io} io - the chat server
+   */
   runChatServer: (io) => {
     io.on('connect', socket => {
-
       console.log('New user joined chat: ', socket.id);
-
       socket.emit('chat-message', 'Chat up a collab!');
 
       // Catch messages that are coming from a client and send them to all clients.
       socket.on('send-message', (message, user) => {
-        //check message
         if (message)
           io.emit('chat-message', message, user);
       });
 
+      // Catch new connections and print a joined message to all users.
       socket.on('new-connection', (user) => {
-        // Store user info.
         connectedUsers[socket.id] = user;
-
-        // Send message about user joining.
         const userJoinMessage = user + ' has joined the collab!';
         socket.emit('chat-message', userJoinMessage);
       });
 
+      // Catch a disconnect and remove the disconnected user from the list of connected users.
       socket.on('disconnect', (reason) => {
         console.log(reason);
         delete connectedUsers[socket.id];

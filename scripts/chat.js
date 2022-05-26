@@ -8,17 +8,10 @@ docLoaded(() => {
   const messageInput = document.querySelector('#message-input');
 
   getThisUser();
-  async function getThisUser() {
-    await getData('/get-user', (results) => {
-      thisUser = results[0].username;
-      socket.emit('new-connection', thisUser);
-    });
-  }
 
   // Catch messages coming from the server and display it on the DOM.
-  // user is the sender of the message.
-  socket.on('chat-message', (data, user) => {
-    addMessage(data, user);
+  socket.on('chat-message', (message, user) => {
+    addMessage(message, user);
   });
 
   // Send messages to the server by pressing the send button.
@@ -29,7 +22,26 @@ docLoaded(() => {
     messageInput.value = "";
   });
 
-  // Builds the DOM for a message.
+  // Disconnect when the path changes.
+  socket.on('disconnect', () => {
+    socket.disconnect();
+  });
+
+  /**
+   * getThisUser. Retreives user data from server.
+   */
+  async function getThisUser() {
+    await getData('/get-user', (results) => {
+      thisUser = results[0].username;
+      socket.emit('new-connection', thisUser);
+    });
+  }
+
+  /**
+   * addMessage. Builds and add the DOM for a message.
+   * @param {string} message - Message to display
+   * @param {string} user - User that sent message
+   */
   function addMessage(message, user) {
     let messageBlock = document.createElement('div');
     let usernameElement = document.createElement('div');
@@ -38,11 +50,8 @@ docLoaded(() => {
     let messageElement = document.createElement("div");
     messageElement.classList.add('message');
     messageElement.innerHTML += message;
-
     messageBlock.appendChild(usernameElement);
     messageBlock.appendChild(messageElement);
-
-    console.log(thisUser, user);
     if (user === undefined) {
       messageBlock.classList.add('server-message');
     } else if (thisUser === user) {
@@ -50,25 +59,25 @@ docLoaded(() => {
     } else {
       messageBlock.classList.add('other-message');
     }
-
     messageContainer.append(messageBlock);
+    scrollToBottom();
+  }
 
+  /**
+   * scrollToBottom. Scrolls to the bottom of the chat container if chat messages overflow their container.
+   */
+  function scrollToBottom() {
     let shouldScroll = messageContainer.scrollTop + messageContainer.clientHeight === messageContainer.scrollHeight;
     if (!shouldScroll) {
-      scrollToBottom();
+      messageContainer.scrollTop = messageContainer.scrollHeight;
     }
   }
-
-  function scrollToBottom() {
-    messageContainer.scrollTop = messageContainer.scrollHeight;
-  }
-
-  // Disconnects when path changes.
-  socket.on('disconnect', () => {
-    socket.disconnect();
-  });
 });
 
+/**
+ * docLoaded. Executes a callback function when the DOM content is loaded on the page.
+ * @param {*} action - the callback
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();
@@ -76,6 +85,11 @@ function docLoaded(action) {
     document.addEventListener('DOMContentLoaded', action);
 }
 
+/**
+ * getData. Retreive and parse data from server path and sends it to callback.
+ * @param {string} path - The path to execute a get request on
+ * @param {function} callback - The function to send the data to
+ */
 async function getData(path, callback) {
   try {
     let response = await fetch(path, {
@@ -85,7 +99,5 @@ async function getData(path, callback) {
     response = JSON.parse(response);
     callback(response);
   } catch (err) {
-    console.log(err);
   }
 }
-

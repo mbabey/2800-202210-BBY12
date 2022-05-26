@@ -58,7 +58,7 @@ function insertDBAdmin(req, connection) {
         }
       });
   });
-};
+}
 
 function insertAdmin(username, connection) {
   return new Promise((resolve, reject) => {

@@ -83,10 +83,10 @@ function renderPosts(posts) {
 
   for (let i = 0; i < posts.posts.length; i++) {
     let postData = posts.posts[i];
-    let user = postData["user"][0];
-    let post = postData["post"][0];
-    let postImages = postData["imgs"];
-    let postTags = postData["tags"];
+    let user = postData.user[0];
+    let post = postData.post[0];
+    let postImages = postData.imgs;
+    let postTags = postData.tags;
 
     let clone = pTemplateContent.cloneNode(true);
     clone.querySelector("#post").dataset.postId = post.postId;
@@ -106,8 +106,8 @@ function renderPosts(posts) {
     for (const image of postImages) {
       if (image) {
         let img = pImgTemplateContent.cloneNode(true);
-        img.querySelector("img").src = "./images/" + image["imgFile"];
-        img.querySelector("img").alt = image["imgFile"];
+        img.querySelector("img").src = "./images/" + image.imgFile;
+        img.querySelector("img").alt = image.imgFile;
         pImgs.appendChild(img);
       }
     }
@@ -118,8 +118,8 @@ function renderPosts(posts) {
     for (const tags of postTags) {
       if (tags) {
         let tag = pTagTemplateContent.cloneNode(true);
-        tag.querySelector("a").textContent = '#' + tags["tag"];
-        tag.querySelector("a").href = '#' + tags["tag"];
+        tag.querySelector("a").textContent = '#' + tags.tag;
+        tag.querySelector("a").href = '#' + tags.tag;
         pTags.appendChild(tag);
       }
     }

@@ -17,7 +17,7 @@ docLoaded(() => {
     locationCountry : document.querySelector('input[name=\'locationCountry\']'),
     description : document.querySelector('#description-block'),
     isAdmin: document.querySelector('input[name=\'isAdmin\'')
-  }
+  };
   
   document.querySelector('#create-submit').addEventListener('click', (e) => {
     e.preventDefault();

@@ -22,11 +22,22 @@ module.exports = {
     }
 }
 
+// async function initLocalDB() {
+//     const con = await mysql.createConnection({
+//         host: '127.0.0.1',
+//         user: 'root',
+//         password: ' ',
+//         multipleStatements: true
+//     });
+//     await con.query(`CREATE DATABASE IF NOT EXISTS COMP2800; USE COMP2800;`);
+//     con.destroy();
+// }
+
 async function initLocalDB() {
     const con = await mysql.createConnection({
-        host: '127.0.0.1',
+        host: 'localhost',
         user: 'root',
-        password: ' ',
+        password: '',
         multipleStatements: true
     });
     await con.query(`CREATE DATABASE IF NOT EXISTS COMP2800; USE COMP2800;`);

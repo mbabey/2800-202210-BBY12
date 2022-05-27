@@ -4,10 +4,7 @@
  * Loading the webpage and be ready to store the input values of create account content
  */
 docLoaded(() => {
-  /**
-   * Storing form inputs into a constant
-   * @param {Constant} formInputs The values of the form fields
-   */
+  /** The input elements that make up the create account form. */
   const formInputs = {
     username : document.querySelector('input[name=\'username\']'),
     password : document.querySelector('input[name=\'password\']'),
@@ -66,12 +63,13 @@ docLoaded(() => {
 });
 
 /**
- * Checking the inputs for the requirements
- * @param {*} password The password value
- * @param {*} passwordVerify The password verfiy value
- * @param {*} email The email value
- * @param {*} emailVerify The email verify value
- * @returns false if the requirements are not met, otherwise true
+ * checkData. Check that the password matches the specified pattern, that the email and email-verify are 
+ * the same, and that the password and password-verify are the same.
+ * @param {String} password - The password value
+ * @param {String} passwordVerify - The password verfiy value
+ * @param {String} email - The email value
+ * @param {String} emailVerify - The email verify value
+ * @returns tru if the requirements are met, otherwise false
  */
 function checkData(password, passwordVerify, email, emailVerify) {
   // Password must have one letter, one number, one special character, and be at least 8 characters. From https://stackoverflow.com/a/21456918
@@ -92,8 +90,9 @@ function checkData(password, passwordVerify, email, emailVerify) {
 }
 
 /**
- * Posting the form inputs to the server
- * @param {*} data The form inputs
+ * sendData. Sends information to a specified path and then 
+ * either redirect or print an error message in response to that information.
+ * @param {Object} data - the data to send to the server
  */
 async function sendData(data) {
   try {

@@ -70,14 +70,12 @@ async function getData(path, callback) {
   }
 }
 
-/**
- * The array to store the admin users in
- */
+/** The array in which to store the admin users. */
 const adminArray = [];
 
 /**
- * Storing the admin list into adminArray
- * @param {*} adminData the admin users
+ * createAdminArray. Stores the usernames of administators in the global adminArray.
+ * @param {Object} adminData - the data object containing the list of administrators.
  */
 function createAdminArray(adminData) {
   for (let i = 0; i < adminData.rows.length; i++) {
@@ -86,17 +84,16 @@ function createAdminArray(adminData) {
 }
 
 /**
- * Populating the user cards with the user data
- * @param {*} userData the user data from the server (database)
+ * populateUserCardData. Populate the user cards with the user data.
+ * @param {Object} userData - the user data from the server (database)
  */
 function populateUserCardData(userData) {
-  // USER CARD CREATED HERE
   let userCard = makeUserCard(userData);
   document.getElementById("user-list").innerHTML = userCard;
 }
 
 /**
- * Repopulating the user cards after removing them from the admin table
+ * repopulateUserCardData. Populate user card data and add event listeners when the DOM is reloaded.
  */
 function repopulateUserCardData() {
   getData('/get-all-users', (userData) => {
@@ -106,7 +103,8 @@ function repopulateUserCardData() {
 }
 
 /**
- * Searching the users by username
+ * searchUser. Adds an event listener to the search button on the page. Clicking the search 
+ * button returns data from the server, and then populates the user data based on the query result.
  */
 function searchUser() {
   document.querySelector('#search-user-button').addEventListener("click", function (e) {
@@ -124,11 +122,10 @@ function searchUser() {
 }
 
 /**
- * Showing the search result
- * @param {*} searchData the search input
+ * showSearchResults. Shows the search results on the DOM.
+ * @param {Object} searchData - the search query results
  */
 function showSearchResults(searchData) {
-  // USER CARD CREATED HERE FOR SEARCH RESULT
   if (searchData.status == 'fail') {
     document.getElementById("user-list").innerHTML = '';
     document.querySelector('#search-error-message').innerHTML = 'No users found.';
@@ -138,14 +135,10 @@ function showSearchResults(searchData) {
   }
 }
 
-/**
- * Global variable to store name of user being manipulated by DOM.
- */
+/** Global variable to store name of user being manipulated by DOM. */
 let user = null;
 
-/**
- * A constant to store the user profile edit
- */
+/** The edit user form inputs. */
 const editUserFormInputs = {
   emailInput: document.querySelector('input[name=\'email\']'),
   emailVerifyInput: document.querySelector('input[name=\'emailVerify\']'),
@@ -158,14 +151,23 @@ const editUserFormInputs = {
   descriptionInput: document.querySelector('textarea[name=\'description\']')
 };
 
-const lengthViewProfile = 13; // Length of 'view-profile '. Used for getting username from class name.
-const lengthDeleteUser = 12; // Length of 'delete-user '. Used for getting username from class name.
-const lengthEditUser = 10; // Length of 'edit-user '. Used for getting username from class name.
-const lengthRemoveAdmin = 13; // Length of 'remove-admin '. Used for getting username from class name.
-const lengthMakeAdmin = 11; // Length of 'make-admin '. Used for getting username from class name.
+/** Length of 'view-profile '. Used for getting username from class name. */ 
+const lengthViewProfile = 13;
+
+/** Length of 'delete-user '. Used for getting username from class name. */ 
+const lengthDeleteUser = 12; 
+
+/** Length of 'edit-user '. Used for getting username from class name. */ 
+const lengthEditUser = 10; 
+
+/** Length of 'remove-admin '. Used for getting username from class name. */ 
+const lengthRemoveAdmin = 13; 
+
+/** Length of 'make-admin '. Used for getting username from class name. */ 
+const lengthMakeAdmin = 11; 
 
 /**
- * Adding listeners to the admin management buttons
+ * initEventCardListener. Add event listeners to the admin management buttons attached to each user card.
  */
 function initCardEventListeners() {
   // Initialize event listeners for buttons in card options menu.
@@ -216,10 +218,12 @@ function initCardEventListeners() {
 }
 
 /**
- * Adding event listener to confirm user deletion
+ * initUpdateEventListeners. Add event listeners to user cards and to popup confirm buttons for each operation.
  */
 function initUpdateListeners() {
   initCardEventListeners();
+
+  //Event listener to confirm user deletion.
   document.getElementById("popup-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
     let userInput = { username: user };
@@ -230,9 +234,7 @@ function initUpdateListeners() {
     });
   });
 
-  /**
-   * Event listener to confirm admin removal.
-   */
+  // Event listener to confirm admin removal.
   document.getElementById("popup-admin-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-admin-delete").style.display = 'none';
     let userInput = { username: user };
@@ -243,9 +245,7 @@ function initUpdateListeners() {
     });
   });
 
-  /**
-   * Event listener to confirm admin addition.
-   */
+  // Event listener to confirm admin addition.
   document.getElementById("popup-make-admin-confirm").addEventListener('click', () => {
     document.getElementById("popup-make-admin").style.display = 'none';
     let userInput = { username: user };
@@ -260,9 +260,7 @@ function initUpdateListeners() {
     });
   });
 
-  /**
-   * Event listener to confirm edit account information.
-   */
+  // Event listener to confirm edit account information.
   document.getElementById('edit-submit').addEventListener('click', () => {
     document.getElementById('popup-edit-block').style.display = 'none';
     let userInput = getEditUserFormInput();
@@ -278,7 +276,7 @@ function initUpdateListeners() {
 }
 
 /**
- * Adding listeners to close the pop up boxes
+ * addUniversalListeners. Add event listeners to close the pop up boxes.
  */
 function addUniversalListeners() {
   // Event listener to close delete user pop up
@@ -286,6 +284,7 @@ function addUniversalListeners() {
     document.getElementById("popup-delete").style.display = 'none';
     user = null;
   });
+  // Event listener to close edit user pop up
   document.getElementById('edit-negate').addEventListener('click', () => {
     document.getElementById('popup-edit-block').style.display = 'none';
     clearEditUserFormInputs();
@@ -309,9 +308,9 @@ function addUniversalListeners() {
 }
 
 /**
- * Providing error messages when deleting a user
- * @param {*} response the response from /delete-user on server
- * @param {*} user the username
+ * handleDeleteConditions. Provides messages when deleting a user based on flags set by the server.
+ * @param {Object} response - the response from /delete-user on server
+ * @param {String} user - the username of the user being deleted.
  */
 function handleDeleteConditions(response, user) {
   let val = 0;
@@ -348,9 +347,9 @@ function handleDeleteConditions(response, user) {
 }
 
 /**
- * Providing error messages when deleting an admin
- * @param {*} response the response from /delete-admin on server
- * @param {*} user the username
+ * handleRemoveAdminConditions. Provides messages when removing an admin based on flags set by the server.
+ * @param {Object} response - the response from on server
+ * @param {String} user - the username of the user being unmade an admin.
  */
 function handleRemoveAdminConditions(response, user) {
   let val = 0;
@@ -378,11 +377,11 @@ function handleRemoveAdminConditions(response, user) {
   document.querySelector('#query-response-message').innerHTML = message;
 }
 
-// Function from https://stackoverflow.com/a/5767357
 /**
- * Removing user name from local list
- * @param {*} arr the array of users as admins
- * @param {*} value the username
+ * removeItemOnce. Remove one item from an array
+ * Function from https://stackoverflow.com/a/5767357
+ * @param {*[]} arr - the array to remove an item from.
+ * @param {*} value - the value to remove from the array.
  */
 function removeItemOnce(arr, value) {
   let index = arr.indexOf(value);
@@ -392,9 +391,9 @@ function removeItemOnce(arr, value) {
 }
 
 /**
- * Providing messages when managing the admin status
- * @param {*} response the response from the server side (/make-admin)
- * @param {*} user the username
+ * handleMakeAdminConditions. Provides messages when making a user an admin based on flags set by the server.
+ * @param {Object} response - the response from on server
+ * @param {String} user - the username of the user being made an admin.
  */
 function handleMakeAdminConditions(response, user) {
   let message = (response.adminCreated) ? ' was promoted to an administrator.' : ' could not be promoted to an administrator';
@@ -402,9 +401,9 @@ function handleMakeAdminConditions(response, user) {
 }
 
 /**
- * Providing messages when updating the user profile information
- * @param {*} response the response from the server side (/admin-edit-user)
- * @param {*} user the username
+ * handleEditUserConditions. Provides messages when editing a user based on flags set by the server.
+ * @param {Object} response - the response from on server
+ * @param {String} user - the username of the user being edited.
  */
 function handleEditUserConditions(response, user) {
   clearEditUserFormInputs();
@@ -413,7 +412,7 @@ function handleEditUserConditions(response, user) {
 }
 
 /**
- * Send username, retrieve specific user data, populate the user data in the edit profile pop-up box
+ * fillEditUserFormInputs. Send username, retrieve specific user data, populate the user data in the edit profile pop-up box.
  */
 function fillEditUserFormInputs() {
   sendData({ username: user }, '/search-user', (response) => {
@@ -438,10 +437,10 @@ function fillEditUserFormInputs() {
 }
 
 /**
- * Populating input fields with user information 
- * @param {*} filledInputsArray the inputs of user information as an array
- * @param {*} input the input fields
- * @param {*} value the values of the input fields
+ * populateInputField. Populate an input field with user information. If information exists, add it to the an array.
+ * @param {DOM element[]} filledInputsArray - an array to store filled inputs
+ * @param {DOM element} input - the input field
+ * @param {String} value - the value provided by the server
  */
 function populateInputField(filledInputsArray, input, value) {
   input.value = value;
@@ -450,7 +449,7 @@ function populateInputField(filledInputsArray, input, value) {
 }
 
 /**
- * Storing the user profile information 
+ * getEditUserFormInput. Store the user profile information into the edit user form inputs.
  * @returns the user profile information
  */
 function getEditUserFormInput() {
@@ -466,7 +465,7 @@ function getEditUserFormInput() {
 }
 
 /**
- * Cancelling any new input
+ * clearEditUserFormInputs. Clears the edit user form inputs.
  */
 function clearEditUserFormInputs() {
   editUserFormInputs.emailInput.value = "";
@@ -482,8 +481,8 @@ function clearEditUserFormInputs() {
 }
 
 /**
- * Storing all input contents as an array
- * @param {*} inputsObject the inputs
+ * getAllFormInputsAsArray. Store all input contents as an array
+ * @param {Object} inputsObject - the inputs
  * @returns input contents as an array
  */
 function getAllFormInputAsArray(inputsObject) {
@@ -495,9 +494,9 @@ function getAllFormInputAsArray(inputsObject) {
 }
 
 /**
- * Giving the filled input a "filled" label as the class name
- * @param {Boolean} labelsUp boolean status of the input field, true if the field is filled
- * @param {*} inputs the input field
+ * setInputLabelUp. Give the filled input a "filled" class based on the param boolean labelsUp.
+ * @param {Boolean} labelsUp - true to set input class to 'filled', false otherwise.
+ * @param {DOM element[]} inputs - an array containing the input elements 
  */
 function setInputLabelUp(labelsUp, inputs) {
   inputs.forEach((input) => {
@@ -509,9 +508,9 @@ function setInputLabelUp(labelsUp, inputs) {
 }
 
 /**
- * Making user cards
- * @param {*} userData user's data
- * @returns the user card (data and html)
+ * makeUserCard. Conditionally creates a user card element.
+ * @param {Object} userData - the user's data from the server
+ * @returns the user card HTML
  */
 function makeUserCard(userData) {
   let userCard = "<div class='user-card-group'>";

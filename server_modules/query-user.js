@@ -11,7 +11,7 @@ module.exports = {
     let userInfo;
     await con.promise().query('SELECT username, fName, lName, cName, bType, email, phoneNo, location, description, profilePic FROM BBY_12_users WHERE (username = ?);',
       [user]).then((results) => userInfo = results[0])
-      .catch((err) => console.log(err));
+      .catch((err) => console.log('query-user.js\n', err));
     return userInfo;
   },
 
@@ -130,7 +130,6 @@ module.exports = {
         status = "success";
       })
       .catch((err) => {
-        console.log(err);
         status = 'fail';
       });
     return status;

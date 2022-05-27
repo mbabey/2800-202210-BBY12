@@ -16,7 +16,8 @@ function deletePost(event) {
     const formData = new FormData();
     formData.append("username", post.dataset.username);
     formData.append("postId", post.dataset.postId);
-    sendData(formData)
+    console.log(formData);
+    sendData(formData);
     post.remove();
 }
 
@@ -32,7 +33,7 @@ function deletePost(event) {
       body: data
     });
   } catch (err) {
-    console.log(err);
+    console.log('get some', err);
   }
 }
 

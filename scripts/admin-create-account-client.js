@@ -69,7 +69,7 @@ docLoaded(() => {
  * @param {String} passwordVerify - The password verfiy value
  * @param {String} email - The email value
  * @param {String} emailVerify - The email verify value
- * @returns tru if the requirements are met, otherwise false
+ * @returns true if the requirements are met, otherwise false
  */
 function checkData(password, passwordVerify, email, emailVerify) {
   // Password must have one letter, one number, one special character, and be at least 8 characters. From https://stackoverflow.com/a/21456918

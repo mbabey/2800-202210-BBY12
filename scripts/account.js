@@ -1,5 +1,7 @@
 'use strict';
 docLoaded(() => {
+
+  /** The information currently entered in the profile information. */
   const bizInfo = {
     cName: document.querySelectorAll('.business-name-block'),
     fName: document.querySelectorAll('.business-owner-fname-block'),
@@ -11,6 +13,7 @@ docLoaded(() => {
     description: document.querySelectorAll('.business-description-block')
   };
 
+  /** The default values for the profile information. */
   const bizInfoDefaults = {
     cName: "Business Name",
     fName: "First Name",
@@ -27,6 +30,10 @@ docLoaded(() => {
   
   getData(popThaSpots);
   
+  /**
+   * popThaSpots. Populates the profile with information from the database.
+   * @param {Object} data - the data with which to populate the profile.
+   */
   function popThaSpots(data) {
     document.querySelector("#profile-picture").src = "./avatars/" + data[0].profilePic;
     for (const [key, value] of Object.entries(bizInfo)) {
@@ -36,6 +43,7 @@ docLoaded(() => {
     }
   }
 
+  // Add event listeners to edit buttons on the page.
   document.getElementById("edit-button").addEventListener("click", (event) => {
     for (const [key, value] of Object.entries(bizInfo)) {
       clickEdit(value[0]);
@@ -46,6 +54,7 @@ docLoaded(() => {
     event.preventDefault();
   });
 
+  // Add event listeners to save buttons on the page.
   document.getElementById("save-button").addEventListener("click", async (event) => {
     let dataToSend = {};
     for (const [key, value] of Object.entries(bizInfo)) {
@@ -98,19 +107,34 @@ async function getData(callback) {
   }
 }
 
-function saved(data) {
-  data.contentEditable = false;
-  data.style.color = '#ffd500';
+/**
+ * saved. Sets an element's content to no longer be editable and changes the style
+ * to reflect that change.
+ * @param {DOM element} element - the element to be made editable 
+ */
+function saved(element) {
+  element.contentEditable = false;
+  element.style.color = '#ffd500';
 };
 
-function clickEdit(section) {
-  section.contentEditable = true;
-  section.style.color = "white";
-  section.style.borderRadius = "5px";
-  section.style.padding = "10px";
-  section.style.backgroundColor = "var(--primary-dark)";
+/**
+ * clickEdit. Makes a clicked element's content editable and changes the style 
+ * to reflect that change.
+ * @param {DOM element} element - the element to be made editable. 
+ */
+function clickEdit(element) {
+  element.contentEditable = true;
+  element.style.color = "white";
+  element.style.borderRadius = "5px";
+  element.style.padding = "10px";
+  element.style.backgroundColor = "var(--primary-dark)";
 }
 
+/**
+ * checkEmpty. Determines whether the input data is empty.
+ * @param {String} data - the data to determine emptiness for.
+ * @returns true if data is empty, false otherwise.
+ */
 function checkEmpty(data) {
   let checkEmpty = data.trim();
   let checkSpace = data.replace('/&nbsp;/g', '');

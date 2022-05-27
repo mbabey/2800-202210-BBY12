@@ -16,7 +16,6 @@ function deletePost(event) {
     const formData = new FormData();
     formData.append("username", post.dataset.username);
     formData.append("postId", post.dataset.postId);
-    console.log(formData);
     sendFormData(formData);
     post.remove();
 }

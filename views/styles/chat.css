@@ -1,9 +1,13 @@
+.container {
+  display: grid;
+  grid-template-rows: 1fr 80% 1fr;
+}
+
 .message-header {
   grid-row: 1 / span 1;
   text-align: center;
   width: 100%;
   background-color: #fff;
-  position: fixed;
   top: 50px;
   left: 0;
   margin: 0;
@@ -13,7 +17,6 @@
 #message-content {
   display: flex;
   height: calc(100vh - 200px);
-  padding-top: 50px;
   flex-direction: column;
   overflow: auto;
 }
@@ -71,9 +74,7 @@
 }
 
 .message-footer {
-  position: fixed;
-  bottom: 50px;
-  left: 0;
+  grid-row: 3 / span 1;
   background-color: #fff;
   width: 100%;
 }
@@ -97,4 +98,20 @@
   border-radius: 10px;
   cursor: pointer;
   border: none;
+}
+
+/* Media query for desktop-size */
+@media only screen and (max-width: 800px) {
+  .container {
+    display: grid;
+    grid-template-rows: 10% 80% 1fr; 
+  }
+
+  .message-header {
+    grid-row: 1 / span 1;
+  }
+
+  .message-footer {
+    grid-row: 3 / span 1;
+  }
 }

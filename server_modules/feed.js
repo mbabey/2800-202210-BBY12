@@ -1,6 +1,14 @@
 'use strict';
 
 module.exports = {
+  /**
+   * populateFeed. Fills the homeDOM with posts built on templateDOM queried from the database.
+   * @param {Object} req - the request from the client.
+   * @param {DOM} homeDOM - the page to populate with posts.
+   * @param {DOM} templateDOM - the template to be used for posts.
+   * @param {Object} con - the connection to the server.
+   * @returns promise: resolve if no problem, reject otherwise.
+   */
   populateFeed: async (req, homeDOM, templateDOM, con) => {
     return new Promise(async (resolve, reject) => {
       let posts;
@@ -17,6 +25,14 @@ module.exports = {
     });
   },
 
+  /**
+   * populateProfileFeed. Fills the profileDOM with posts built on templateDOM queried from the database. Only looks for the current user's posts.
+   * @param {Object} req - the request from the client.
+   * @param {DOM} profileDOM - the page to populate with posts.
+   * @param {DOM} templateDOM - the template to be used for posts.
+   * @param {Object} con - the connection to the server.
+   * @returns promise: resolve if no problem, reject otherwise.
+   */
   populateProfileFeed: async (req, profileDOM, templateDOM, con) => {
     return new Promise(async (resolve, reject) => {
       let posts;
@@ -38,6 +54,15 @@ module.exports = {
 
 // build the post using all data
 //appendchild to the post block
+/**
+ * populatePosts. Builds the posts using data from the database and appends the posts to the post block.
+ * @param {Object} req - the request from the client.
+ * @param {DOM} homeDOM - the page to populate with posts.
+ * @param {DOM} templateDOM - the template to be used for posts.
+ * @param {Object} posts - the variable holding all the posts.
+ * @param {Object} con - the connection to the server.
+ * @returns the homeDOM with posts attached.
+ */
 async function populatePosts(req, homeDOM, templateDOM, posts, con) {
   let doc = homeDOM.window.document;
   let postTemp = templateDOM.window.document;
@@ -69,6 +94,12 @@ async function populatePosts(req, homeDOM, templateDOM, posts, con) {
   return homeDOM;
 }
 
+/**
+ * makePostBody. Place upon the post all of the data queried formt he server.
+ * @param {DOM element} pTemplateContent - the post template HTML.
+ * @param {Object} post - the post information
+ * @returns clone - the HTML of the post.
+ */
 async function makePostBody(pTemplateContent, post) {
   let clone = pTemplateContent.cloneNode(true);
   clone.querySelector("#post").dataset.postId = post.postId;
@@ -84,6 +115,12 @@ async function makePostBody(pTemplateContent, post) {
   return clone;
 }
 
+/**
+ * renderImages. Adds all images to a post image container.
+ * @param {Object} postImages - the post image information
+ * @param {DOM element} pImgs - the image container on the post DOM
+ * @param {DOM element} pImgTemplateContent - the template for post images.
+ */
 async function renderImgs(postImages, pImgs, pImgTemplateContent) {
   for (const image of postImages) {
     if (image) {
@@ -95,6 +132,12 @@ async function renderImgs(postImages, pImgs, pImgTemplateContent) {
   }
 }
 
+/**
+ * renderTags. Adds all images to a post tag container
+ * @param {Object} postTags - the post tag information.
+ * @param {DOM element} pTags - the tag container on the post DOM
+ * @param {DOM element} pTagTemplateContent - the template for post tags.
+ */
 async function renderTags(postTags, pTags, pTagTemplateContent) {
   for (const tags of postTags) {
     if (tags) {
@@ -106,6 +149,13 @@ async function renderTags(postTags, pTags, pTagTemplateContent) {
   }
 }
 
+/**
+ * getImages. Gets all the image from the database with matching username and postId.
+ * @param {String} username - the username to be queried against
+ * @param {int} postId - the postId to be queried against
+ * @param {Object} con - the connection to the database.
+ * @returns the images queried from the database.
+ */
 async function getImages(username, postId, con) {
   let imgs;
   await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [username, postId])
@@ -119,6 +169,13 @@ async function getImages(username, postId, con) {
   return imgs;
 }
 
+/**
+ * getTags. Gets all the tags from the database with matching username and postId.
+ * @param {String} username - the username to be queried against
+ * @param {int} postId - the postId to be queried against
+ * @param {Object} con - the connection to the database.
+ * @returns the tags queried from the database.
+ */Great 
 async function getTags(username, postId, con) {
   let tags;
   await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [username, postId])

@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+<!-- This is the profile page (view for current logged in user to see other user's profile) -->
+
 <html lang="en">
 
 <head>
@@ -22,6 +25,8 @@
   <div class="container">
     <div class="profile-header-wrapper-other-user">
       <div class="profile-header">
+        <!--The html where the user's business name and type of business are populated. 
+          Also includes tool tips-->
         <div class="profile-name">
           <h2 class="business-name-block tooltip underline-opening">Business Name</h2>
           <span class="tooltiptext overflow-tooltip">Business Name</span>
@@ -30,6 +35,7 @@
             <span class="tooltiptext">Business Type</span>
           </div>
         </div>
+        <!--The profile picture for the user-->
         <div class="profile-picture">
           <div class="edit-profile-image">
             <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
@@ -39,6 +45,8 @@
             </form>
           </div>
         </div>
+        <!--The business profile information that is populated which includes the name of the user, 
+          email address, phone number, and business address-->
         <div class="profile-info">
           <h3>Business Owner<br>Name</h3>
           <div class="profile-owner">
@@ -72,6 +80,7 @@
         </div>
       </div>
     </div>
+    <!--The description of the business is populated into this div-->
     <div class="profile-description">
       <h3>Business Description</h3>
       <p class="business-description-block"></p>
@@ -80,6 +89,7 @@
       <!-- Populated by feed.js -->
     </div>
   </div>
+  <!--A chat button that redirects the user to the chat page-->
   <a href="#" class="chat-button bounce">
     <img src="./assets/chat.png" alt="chat button image">
   </a>

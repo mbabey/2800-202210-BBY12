@@ -1,6 +1,11 @@
 'use strict';
 
 module.exports = {
+  /**
+   * updatePost. Update post content in DB.
+   * @param {Object} req - Query to send to DB.
+   * @param {Object} con - the connection to the database.
+   */
   updatePost: async (req, con) => {
     await con.promise().query('UPDATE BBY_12_POST SET postTitle = ?, content = ? WHERE (username = ?) AND (postId = ?)',
       [req.body["input-title"], req.body["input-description"], req.body.username, req.body.postId])
@@ -9,6 +14,11 @@ module.exports = {
       });
   },
 
+  /**
+   * updateTags. Insert tags into DB.
+   * @param {Object} req - Query to send to DB.
+   * @param {Object} con - the connection to the database.
+   */
   updateTags: async (req, con) => {
     //Add Updated Tags from Post
     let tags = req.body["tag-field"].split(/[\s#]/);
@@ -25,6 +35,11 @@ module.exports = {
     });
   },
 
+  /**
+   * deleteImgs. Delete image paths into DB.
+   * @param {Object} req - Query to send to DB.
+   * @param {Object} con - the connection to the database.
+   */
   deleteImgs: async (req, con) => {
     let imgDelete = [].concat(req.body["image-delete"]);
     imgDelete.forEach(async img => {
@@ -35,6 +50,11 @@ module.exports = {
     });
   },
 
+  /**
+   * updateImgs. Insert image paths into DB.
+   * @param {Object} req - Query to send to DB.
+   * @param {Object} con - the connection to the database.
+   */
   updateImgs: async (req, con) => {
     if (req.files.length > 0) {
       req.files.forEach(async image => {
@@ -46,6 +66,12 @@ module.exports = {
     }
   },
 
+  /**
+   * getPost. Retrieve post content from DB.
+   * @param {Object} req - Query to send to DB.
+   * @param {Object} con - the connection to the database.
+   * @returns postContent: Post content associated with post if no issue, undefined otherwise
+   */
   getPost: async (req, con) => {
     let postContent;
     await con.promise().query('SELECT * FROM `BBY_12_POST` WHERE (username = ?) AND (postId = ?)', [req.params.username, req.params.postId])
@@ -55,6 +81,12 @@ module.exports = {
     return postContent;
   },
 
+  /**
+   * getImgs. Retrieve list of images from DB.
+   * @param {Object} req - Query to send to DB.
+   * @param {Object} con - the connection to the database.
+   * @returns postImgs: Images associated with post if no issue, undefined otherwise
+   */
   getImgs: async (req, con) => {
     let postImgs;
     await con.promise().query('SELECT imgFile FROM BBY_12_post_img WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])
@@ -63,6 +95,12 @@ module.exports = {
     return postImgs;
   },
   
+  /**
+   * getTags. Retrieve list of tags from DB.
+   * @param {Object} req - Query to send to DB.
+   * @param {Object} con - the connection to the database.
+   * @returns postTags: Tags associated with post if no issue, undefined otherwise
+   */
   getTags: async (req, con) => {
     let postTags;
     await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [req.params.username, req.params.postId])

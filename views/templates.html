@@ -9,23 +9,26 @@
 </head>
 
 <body>
+  <!-- Template for a post -->
   <template id="post-template">
     <div class="post" id="post" data-username="">
       <div class="post-header" id="post-header">
+        <!-- Post user profile picture -->
         <div class="post-user-avatar-background">
           <a id="link-avatar">
             <img id="post-user-avatar" src="#" alt="Profile Picture">
           </a>
         </div>
+        <!-- Post information: poster, date -->
         <div class="post-info" id="post-info">
           <a id="link-bName">
             <h3 class="post-business-name" id="post-business-name"></h3>
           </a>
-
           <span class="post-business-type" id="post-business-type"><small></small></span>
           <span class="post-timestamp" id="post-timestamp"><small></small></span>
         </div>
       </div>
+      <!-- Body of the post: images, content, tags -->
       <div class="post-body" id="post-body">
         <div class="input-label-hide">Post Title</div>
         <h1 id="post-title" class="post-title" contenteditable="false"></h1>
@@ -43,16 +46,19 @@
     </div>
   </template>
 
+  <!-- Template for holding images -->
   <template id="image-template">
     <div class="frame">
       <img src="#" alt="">
     </div>
   </template>
 
+  <!-- Template for holding tags -->
   <template id="tag-template">
     <a href="#"></a>
   </template>
 
+  <!-- Template for edit post interface -->
   <template id="edit-template">
     <a class="post-delete-hide" id="post-delete">Delete</a>
     <a class="post-cancel-hide" id="post-cancel">Cancel</a>
@@ -60,6 +66,7 @@
     <a class="post-save-hide" id="post-save">Save Post</a>
   </template>
 
+  <!-- Template for adding images to a post on edit -->
   <template id="add-image-template">
     <div class="add-image-hide">
       <div id="drop-area">

@@ -21,6 +21,7 @@
   <div class="container">
     <div class="profile-header-wrapper">
       <div class="profile-header">
+        <!-- Edit profile information buttons -->
         <div class="edit-profile-container">
           <div class="edit-profile">
             <a id="edit-button">Edit Profile</a>
@@ -31,6 +32,7 @@
           </div>
         </div>
         <span id="edit-status"></span>
+        <!-- Profile business name and business type -->
         <div class="profile-name">
           <h2 class="business-name-block tooltip underline-opening">Business Name</h2>
           <span class="tooltiptext overflow-tooltip">Business Name</span>
@@ -39,9 +41,11 @@
             <span class="tooltiptext">Business Type</span>
           </div>
         </div>
+        <!-- Profile image -->
         <div class="profile-picture">
           <div class="edit-profile-image">
             <form id="form-edit-avatar" action="/edit-avatar" method="post" enctype="multipart/form-data">
+              <!-- Label required to allow image to be clickable and therefore updateable -->
               <label for="edit-avatar">
                 <div class="profile-picture-background">
                   <img class="business-picture-block" id="profile-picture" src="./avatars/logo.png" alt="Profile Image">
@@ -52,6 +56,7 @@
             </form>
           </div>
         </div>
+        <!-- Profile information: Owner name, location, contact information -->
         <div class="profile-info">
           <h3>Business Owner<br>Name</h3>
           <div class="profile-owner">
@@ -85,10 +90,12 @@
         </div>
       </div>
     </div>
+    <!-- Profile description -->
     <div class="profile-description">
       <h3>Business Description</h3>
       <p class="business-description-block"></p>
     </div>
+    <!-- Posts that the profile owner has made -->
     <div class="post-block">
       <!-- Populated by feed.js -->
     </div>

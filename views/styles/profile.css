@@ -91,6 +91,7 @@ p {
   grid-row: 2 / span 1;
   grid-column: 1 / span 1;
   padding-left: 10%;
+  z-index: 2;
 }
 
 .edit-profile {

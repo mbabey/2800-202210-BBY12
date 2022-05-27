@@ -277,6 +277,7 @@ app.route('/create-account')
         res.send({ status: 'success' });
       })
       .catch((err) => {
+        console.log(err);
         res.send({ status: 'fail' });
       });
   });

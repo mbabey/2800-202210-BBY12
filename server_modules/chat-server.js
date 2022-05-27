@@ -9,7 +9,6 @@ module.exports = {
    */
   runChatServer: (io) => {
     io.on('connect', socket => {
-      console.log('New user joined chat: ', socket.id);
       socket.emit('chat-message', 'Chat up a collab!');
 
       // Catch messages that are coming from a client and send them to all clients.
@@ -26,8 +25,7 @@ module.exports = {
       });
 
       // Catch a disconnect and remove the disconnected user from the list of connected users.
-      socket.on('disconnect', (reason) => {
-        console.log(reason);
+      socket.on('disconnect', () => {
         delete connectedUsers[socket.id];
       });
     });

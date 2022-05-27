@@ -6,6 +6,11 @@ docLoaded(() => {
     });
 });
 
+/**
+ * deletePost. Removes the post that is the target of the mouse event from 
+ * the database and from the DOM.
+ * @param {Event} event - the mouse event targeting the delete button. 
+ */
 function deletePost(event) {
     let post = event.target.parentNode.parentNode.parentNode;
     const formData = new FormData();

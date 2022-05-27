@@ -1,6 +1,6 @@
 .post-block {
   margin: 0 auto;
-  width: 50%;
+  width: 100%;
   grid-column: 2 / span 1;
 }
 

@@ -81,11 +81,3 @@ function openOverlay(){
 function closeOverlay() {
   document.getElementById("overlay").style.top = "100vh";
 }
-
-/**
- * Styling the edit profile menu
- */
-function displayMenu() {
-  let menu = document.getElementById("edit-profile-menu");
-  menu.style.display = "block";
-}

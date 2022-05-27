@@ -4,13 +4,13 @@ const crypto = require('crypto');
 module.exports = {
   createAccount: async function (req, res, con) {
     let success = await insertDBNewUser(req, con);
-    await success.catch(() => {});
+    await success;
     return success;
   },
 
   adminCreateAccount: async function (req, res, con) {
     let success = insertDBAdmin(req, con);
-    await success.catch(() => {});
+    await success;
     return success;
   },
 
@@ -58,7 +58,7 @@ function insertDBAdmin(req, connection) {
         }
       });
   });
-};
+}
 
 function insertAdmin(username, connection) {
   return new Promise((resolve, reject) => {

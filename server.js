@@ -7,11 +7,8 @@ const express = require('express');
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
-const app = express();
 const mysql = require('mysql2');
-const {
-  JSDOM
-} = require('jsdom');
+const { JSDOM } = require('jsdom');
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -32,12 +29,9 @@ const upload = multer({
     callback(null, true);
   }
 });
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
 
 // ---------------- Custom Dependencies ----------------- \\
 
-const chatServer = require('./server_modules/chat-server');
 const createAccount = require('./server_modules/create-account');
 const createPost = require('./server_modules/create-post');
 const dbInitialize = require('./server_modules/db-init');
@@ -49,10 +43,16 @@ const searchQueries = require('./server_modules/query-search');
 const userQueries = require('./server_modules/query-user');
 const resetPassword = require('./server_modules/reset-password');
 const { H_CONFIG, LOCAL_CONFIG } = require('./server_modules/server-configs');
+const chatServer = require('./server_modules/chat-server');
 
 // ------------^^^--- End Dependencies ---^^^------------ \\
 // ------------------------------------------------------ \\
 // ------------vvv----- Server Init ------vvv------------ \\
+
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+chatServer.runChatServer(io);
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -68,6 +68,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
+
 let con;
 const isHeroku = process.env.IS_HEROKU || false;
 const port = process.env.PORT || 8000;
@@ -82,6 +83,8 @@ server.listen(port, () => {
       });
     });
 });
+
+
 
 // ------------^^^--- End Server Init ----^^^------------ \\
 // ------------------------------------------------------ \\
@@ -274,6 +277,7 @@ app.route('/create-account')
         res.send({ status: 'success' });
       })
       .catch((err) => {
+        console.log(err);
         res.send({ status: 'fail' });
       });
   });
@@ -346,22 +350,6 @@ app.route('/admin-add-account')
     }
   });
 
-//LOCATING URL OF ANY USER'S PROFILE
-// Other user URL in the form './profile?user=[username]'
-app.get('/users', (req, res) => {
-  //need to redirect the page if the id doesn't exist
-  if (req.session.loggedIn) {
-    if (req.session.username == req.query.user) {
-      res.redirect('/profile?user=' + req.session.username);
-    } else {
-      let otherProfile = fs.readFileSync('./views/other-user-profile.html', 'utf8');
-      res.send(otherProfile);
-    }
-  } else {
-    res.redirect('/');
-  }
-});
-
 // CHAT PAGE
 app.get('/chat', (req, res) => {
   if (req.session.loggedIn) {
@@ -372,6 +360,13 @@ app.get('/chat', (req, res) => {
   } else {
     res.redirect('/');
   }
+});
+
+// GET CURRENT SESSION
+app.get('/get-session', (req, res) => {
+  let session = req.session;
+  res.setHeader('content-type', 'application/json');
+  res.send({ session: session });
 });
 
 // EGG
@@ -562,7 +557,7 @@ app.post('/delete-post', upload.none(), async (req, res) => {
   await deleteQueries.deletePost(req, con);
 });
 
-// QUERY GET USERS BY SEARCH TERM
+// QUERY: GET USERS BY SEARCH TERM
 // TODO: COMBINE WITH GET-USER
 app.get('/get-filter-users', async (req, res) => {
   let users = await searchQueries.searchUsers(req.query.search, con);
@@ -570,20 +565,14 @@ app.get('/get-filter-users', async (req, res) => {
   res.send({ users: users });
 });
 
-// QUERY GET POSTS BY SEARCH TERM
+// QUERY: GET POSTS BY SEARCH TERM
 app.get('/get-filter-posts', async (req, res) => {
   let posts = await searchQueries.searchPosts(req.query.search, con);
   res.setHeader('content-type', 'application/json');
   res.send({ posts: posts });
 });
 
-app.get('/get-session', (req, res) => {
-  let session = req.session;
-  res.setHeader('content-type', 'application/json');
-  res.send({ session: session });
-});
-
-// QUERY GET POSTS BY USERNAME
+// QUERY: GET POSTS BY USERNAME
 app.get('/get-user-posts', async (req, res) => {
   let posts = await searchQueries.userPosts(req.query.user, con);
   res.setHeader('content-type', 'application/json');

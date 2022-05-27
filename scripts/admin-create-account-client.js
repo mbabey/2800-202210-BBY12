@@ -24,7 +24,7 @@ docLoaded(() => {
     locationCountry : document.querySelector('input[name=\'locationCountry\']'),
     description : document.querySelector('#description-block'),
     isAdmin: document.querySelector('input[name=\'isAdmin\'')
-  }
+  };
   
   /**
    * Add a listener to store the field values and post them to the server 

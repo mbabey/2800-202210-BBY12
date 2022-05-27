@@ -207,7 +207,7 @@ function initCardEventListeners() {
         e.target.parentNode.classList.add('toggled');
       else
         setTimeout(() => {
-          e.target.parentNode.classList.remove('toggled')
+          e.target.parentNode.classList.remove('toggled');
         }, 500);
     });
   });
@@ -415,7 +415,7 @@ function handleEditUserConditions(response, user) {
  */
 function fillEditUserFormInputs() {
   sendData({ username: user }, '/search-user', (response) => {
-    if (response.status = 'success') {
+    if (response.status == 'success') {
       const filledInputsArray = [];
       populateInputField(filledInputsArray, editUserFormInputs.emailInput, response.rows[0].email);
       populateInputField(filledInputsArray, editUserFormInputs.emailVerifyInput, response.rows[0].email);
@@ -548,7 +548,7 @@ function makeUserCard(userData) {
         </div>
       </div>
       <div class="user-card-options">
-        <button class="view-profile ${userData.rows[i].username}" type="button">View profile</button>
+        <button class="view-profile ${userData.rows[i].username}" type="button">View Profile</button>
         <button class="delete-user ${userData.rows[i].username}" type="button">Delete User</button>
         <button class="edit-user ${userData.rows[i].username}" type="button">Edit User</button>`;
     if (isAdmin) // Add a 'Remove admin' button if the card belongs to an admin.

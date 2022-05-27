@@ -4,7 +4,6 @@
   /*Colours*/
   --primary: #588676;
   --primary-med: #00764b;
-  /* --primary-light: #86b6a5; Old colour, saved */
   --primary-light: #249c60;
   --primary-dark: #2c594a;
   --primary-darker: #134031;
@@ -185,7 +184,7 @@ footer {
     left: 0;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.5);
-    overflow-y: hidden;
+    overflow: hidden;
     transition: 0.5s;
   }
 

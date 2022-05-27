@@ -26,6 +26,10 @@ function togglePasswordVisibility(e, toggle) {
   }
 }
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();

@@ -22,7 +22,7 @@ docLoaded(() => {
     description: "Description"
   };
 
-  sendName(popThaSpots);
+  getData(popThaSpots);
 
   function popThaSpots(data) {
     document.querySelector("#profile-picture").src = "./avatars/" + data[0].profilePic;
@@ -34,6 +34,10 @@ docLoaded(() => {
   }
 });
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();
@@ -41,7 +45,12 @@ function docLoaded(action) {
     document.addEventListener('DOMContentLoaded', action);
 }
 
-async function sendName(callback) {
+/**
+ * getData. Retrieve information from a specified path and then 
+ * execute a callback with that information.
+ * @param {function} callback - the callback function to run
+ */
+async function getData(callback) {
   try {
     let response = await fetch('/get-other-user?' + new URLSearchParams(window.location.search), {
       method: 'GET',

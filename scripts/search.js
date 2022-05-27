@@ -3,14 +3,18 @@
 const template = document.createElement('template');
 let session;
 docLoaded(async () => {
-  await getSearchData('/get-session?', getSession);
-  await getSearchData('/get-template?', getTemplate);
-  getSearchData('/get-filter-posts?', renderPosts);
-  getSearchData('/get-filter-users?', renderUsers);
+  await getData('/get-session?', getSession);
+  await getData('/get-template?', getTemplate);
+  getData('/get-filter-posts?', renderPosts);
+  getData('/get-filter-users?', renderUsers);
 
   document.getElementById("header-search").addEventListener("submit", search);
 });
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();
@@ -23,12 +27,18 @@ function search(e) {
   const url = new URL(window.location);
   url.searchParams.set(e.target.search.name, e.target.search.value);
   window.history.pushState('', '', url);
-  getSearchData('/get-filter-users?', renderUsers);
-  getSearchData('/get-filter-posts?', renderPosts);
+  getData('/get-filter-users?', renderUsers);
+  getData('/get-filter-posts?', renderPosts);
   return false;
 }
 
-async function getSearchData(path, callback) {
+/**
+ * getData. Retrieve information from a specified path and then 
+ * execute a callback with that information.
+ * @param {String} path - the get path to server
+ * @param {function} callback - the callback function to run
+ */
+async function getData(path, callback) {
   try {
     let response = await fetch(path + new URLSearchParams(window.location.search), {
       method: 'GET'

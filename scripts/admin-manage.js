@@ -17,8 +17,8 @@ docLoaded(() => {
 });
 
 /**
- * Run the rest of the script when the web page is loaded
- * @param {*} action Run the actions on the script
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
  */
 function docLoaded(action) {
   if (document.readyState != 'loading')
@@ -28,10 +28,11 @@ function docLoaded(action) {
 }
 
 /**
- * Sending the data from the server (from the database)
- * @param {*} data data from the server
- * @param {*} path the path to sending the data to the server
- * @param {*} callback the call back function to run
+ * sendData. Sends information to a specified path and then 
+ * execute a callback with the response to that information.
+ * @param {Object} data - the data to send to the server
+ * @param {String} path - the post path to server
+ * @param {function} callback - the callback function to run
  */
 async function sendData(data, path, callback) {
   try {
@@ -51,9 +52,10 @@ async function sendData(data, path, callback) {
 }
 
 /**
- * Retrieving the users data
- * @param {*} path the path to the data retrieval
- * @param {*} callback the call back function to run
+ * getData. Retrieve information from a specified path and then 
+ * execute a callback with that information.
+ * @param {String} path - the get path to server
+ * @param {function} callback - the callback function to run
  */
 async function getData(path, callback) {
   try {

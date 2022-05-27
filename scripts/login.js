@@ -19,6 +19,11 @@ docLoaded(() => {
   });
 });
 
+/**
+ * sendData. Sends information to a specified path and then 
+ * either redirect or print an error message in response to that information.
+ * @param {Object} data - the data to send to the server
+ */
 async function sendData(data) {
   try {
     let response = await fetch('/login', {
@@ -40,6 +45,10 @@ async function sendData(data) {
   }
 }
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();

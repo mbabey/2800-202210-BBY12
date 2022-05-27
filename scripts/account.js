@@ -63,6 +63,10 @@ docLoaded(() => {
   });
 });
 
+/**
+ * sendData. Sends information to a specified path.
+ * @param {Object} data - the data to send to the server
+ */
 async function sendData(data) {
   try {
     await fetch('/update-user', {
@@ -75,6 +79,11 @@ async function sendData(data) {
   }
 }
 
+/**
+ * getData. Retrieve information from a specified path and then 
+ * execute a callback with that information.
+ * @param {function} callback - the callback function to run
+ */
 async function getData(callback) {
   try {
     let response = await fetch('/get-user', {
@@ -113,6 +122,10 @@ function checkEmpty(data) {
   }
 };
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();

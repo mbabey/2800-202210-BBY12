@@ -47,8 +47,8 @@ function writeTag() {
 }
 
 /**
- * docLoaded. Executes a callback function when the DOM content is loaded.
- * @param {*} action - the callback function.
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
  */
 function docLoaded(action) {
   if (document.readyState != 'loading')

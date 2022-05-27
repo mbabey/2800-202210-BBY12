@@ -18,8 +18,8 @@ docLoaded(() => {
 });
 
 /**
- * Run the rest of the script when the web page is loaded
- * @param {*} action Run the actions on the script
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
  */
 function docLoaded(action) {
   if (document.readyState != 'loading')

@@ -16,8 +16,8 @@ docLoaded(() => {
 });
 
 /**
- * Run the rest of the script when the web page is loaded
- * @param {*} action Run the actions on the script
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
  */
 function docLoaded(action) {
   if (document.readyState != 'loading')
@@ -27,9 +27,10 @@ function docLoaded(action) {
 }
 
 /**
- * Retrieve the username and the admin status
- * @param {String} path the get path to server
- * @param {*} callback the callback function to run
+ * getData. Retrieve information from a specified path and then 
+ * execute a callback with that information.
+ * @param {String} path - the get path to server
+ * @param {function} callback - the callback function to run
  */
 async function getData(path, callback) {
   try {
@@ -45,8 +46,8 @@ async function getData(path, callback) {
 }
 
 /**
- * Populating the profile icon with the username
- * @param {*} data The data retrieved fro the database on the current user
+ * popNavName. Populates the profile icon with the username
+ * @param {Object} data - The data retrieved from the database on the current user
  */
 function popNavName(data) {
   document.querySelector('#nav-profile').href += (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
@@ -54,7 +55,7 @@ function popNavName(data) {
 }
 
 /**
- * Adding the admin dashboard button (star) if the user is an admin
+ * addAdminStar. Adds the admin navbar button (star) if the user is an admin
  */
 function addAdminStar() {
   let admin_button = document.querySelector('#nav-admin');
@@ -69,14 +70,14 @@ function addAdminStar() {
 }
 
 /**
- * Styling the overlay on the nav/footer
+ * openOverlay. Brings the search overlay up to cover the screen.
  */
 function openOverlay(){
   document.getElementById("overlay").style.top = "0vh";
 }
 
 /**
- * Styling the overlay on the nav/footer
+ * closeOverlay. Pushes the search overlay below the screen.
  */
 function closeOverlay() {
   document.getElementById("overlay").style.top = "100vh";

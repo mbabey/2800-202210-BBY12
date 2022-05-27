@@ -4,7 +4,6 @@ docLoaded(() => {
   editButtons.forEach((target) => {
     target.addEventListener("click", editPost, false);
   });
-
   let saveButtons = document.querySelectorAll("#post-save");
   saveButtons.forEach((target) => {
     target.addEventListener("click", savePost, false);
@@ -23,7 +22,6 @@ docLoaded(() => {
 
 async function editPost(event) {
   let post = event.target.parentNode.parentNode.parentNode;
-  // console.log('/get-post/' + post.dataset.username + '/' + post.dataset.postId);
   enableEdit(post);
 }
 
@@ -44,7 +42,7 @@ function savePost(event) {
   formData.append("tag-field", tags);
 
   for (let i = 0; i < gallery.length; i++) {
-    let img = gallery[i].src.toString().split('/')[gallery[i].src.toString().split('/').length - 1]
+    let img = gallery[i].src.toString().split('/')[gallery[i].src.toString().split('/').length - 1];
     formData.append("image-delete", img);
   }
   for (let i = 0; i < imgs.files.length; i++) {
@@ -79,7 +77,6 @@ async function cancelEdit(event) {
 
       post.querySelector(".post-title").textContent = postText[0].postTitle;
       post.querySelector(".post-description").textContent = postText[0].content;
-      //post.querySelector(".post-tags").textContent = data[0].postTitle;
       let gallery = post.querySelector(".gallery");
       gallery.innerHTML = "";
       for (let i = 0; i < postImgs.length; i++) {
@@ -107,7 +104,7 @@ async function cancelEdit(event) {
 }
 
 function addImage(event) {
-  
+
   let imageHolder = event.target.parentNode.parentNode.parentNode;
   let preview = imageHolder.querySelector(".preview-gallery");
   let imgs = imageHolder.querySelector(".edit-image-upload");
@@ -124,6 +121,9 @@ function enableEdit(post) {
   post.querySelector(".post-cancel-hide").setAttribute("class", "post-cancel");
   post.querySelector(".post-save-hide").setAttribute("class", "post-save");
   post.querySelector(".post-edit").setAttribute("class", "post-edit-hide");
+  post.querySelectorAll(".input-label-hide").forEach((label) => {
+    label.setAttribute("class", "input-label");
+  });
 
   let frames = post.querySelectorAll(".frame");
   for (let i = 0; i < frames.length; i++) {
@@ -138,15 +138,13 @@ function enableEdit(post) {
   let fields = [post.querySelector(".post-title"), post.querySelector(".post-description"), post.querySelector(".post-tags")];
 
   for (let i = 0; i < fields.length; i++) {
-    fields[i].setAttribute("contentEditable", "true");
-    fields[i].style.border = "1px solid black";
+    fields[i].setAttribute("contenteditable", "true");
+    fields[i].style.border = "2px solid var(--primary-dark)";
   }
-
-
 }
 
 function deleteImg(event) {
-  event.target.parentNode.setAttribute("class", "frame-delete")
+  event.target.parentNode.setAttribute("class", "frame-delete");
 }
 
 function disableEdit(post) {
@@ -155,6 +153,9 @@ function disableEdit(post) {
   post.querySelector(".post-cancel").setAttribute("class", "post-cancel-hide");
   post.querySelector(".post-save").setAttribute("class", "post-save-hide");
   post.querySelector(".post-edit-hide").setAttribute("class", "post-edit");
+  post.querySelectorAll(".input-label").forEach((label) => {
+    label.setAttribute("class", "input-label-hide");
+  });
 
   post.querySelector(".edit-image-upload").value = "";
 
@@ -166,17 +167,10 @@ function disableEdit(post) {
   let fields = [post.querySelector(".post-title"), post.querySelector(".post-description"), post.querySelector(".post-tags")];
 
   for (let i = 0; i < fields.length; i++) {
-    fields[i].setAttribute("contentEditable", "false");
+    fields[i].setAttribute("contenteditable", "false");
     fields[i].style.border = "none";
   }
 }
-
-// async function addLink(){
-//     let aTag = document.createElement("a");
-//     aTag.href = window.location.hostname + '/' + post.dataset.username;
-
-// }
-
 
 function docLoaded(action) {
   if (document.readyState != 'loading')

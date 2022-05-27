@@ -1,57 +1,74 @@
-<template id="post-template">
-  <div class="post" id="post" data-postId="" data-username="">
-    <div class="post-header" id="post-header">
-      <div class="post-user-avatar-background">
-        <a id="link-avatar">
-          <img id="post-user-avatar" src="#" alt="Profile Picture">
-        </a>
-      </div>
-      <div class="post-info" id="post-info">
-        <a id="link-bName">
-          <h3 class="post-business-name" id="post-business-name"></h3>
-        </a>
+<!DOCTYPE html>
+<html lang="en">
 
-        <span class="post-business-type" id="post-business-type"><small></small></span>
-        <span class="post-timestamp" id="post-timestamp"><small></small></span>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Template</title>
+</head>
+
+<body>
+  <template id="post-template">
+    <div class="post" id="post" data-username="">
+      <div class="post-header" id="post-header">
+        <div class="post-user-avatar-background">
+          <a id="link-avatar">
+            <img id="post-user-avatar" src="#" alt="Profile Picture">
+          </a>
+        </div>
+        <div class="post-info" id="post-info">
+          <a id="link-bName">
+            <h3 class="post-business-name" id="post-business-name"></h3>
+          </a>
+
+          <span class="post-business-type" id="post-business-type"><small></small></span>
+          <span class="post-timestamp" id="post-timestamp"><small></small></span>
+        </div>
+      </div>
+      <div class="post-body" id="post-body">
+        <div class="input-label-hide">Post Title</div>
+        <h1 id="post-title" class="post-title" contenteditable="false"></h1>
+        <div class="post-images" id="post-images">
+          <div class="gallery" id="gallery"></div>
+          <div class="preview-gallery" id="preview-gallery"></div>
+        </div>
+        <div class="input-label-hide">Content</div>
+        <p class="post-description" id="post-description" contenteditable="false"></p>
+        <div class="input-label-hide">Tags</div>
+        <div class="post-footer" id="post-footer">
+          <div class="post-tags" contenteditable="false"></div>
+        </div>
       </div>
     </div>
-    <div class="post-body" id="post-body">
-      <h1 id="post-title" class="post-title" contentEditable="false"></h1>
-      <div class="post-images" id="post-images">
-        <div class="gallery" id="gallery"></div>
-        <div class="preview-gallery" id="preview-gallery"></div>
-      </div>
-      <p class="post-description" id="post-description" contentEditable="false"></p>
-      <div class="post-footer" id="post-footer">
-        <div class="post-tags" contentEditable="false"></div>
+  </template>
+
+  <template id="image-template">
+    <div class="frame">
+      <img src="#" alt="">
+    </div>
+  </template>
+
+  <template id="tag-template">
+    <a href="#"></a>
+  </template>
+
+  <template id="edit-template">
+    <a class="post-delete-hide" id="post-delete">Delete</a>
+    <a class="post-cancel-hide" id="post-cancel">Cancel</a>
+    <a class="post-edit" id="post-edit">Edit</a>
+    <a class="post-save-hide" id="post-save">Save Post</a>
+  </template>
+
+  <template id="add-image-template">
+    <div class="add-image-hide">
+      <div id="drop-area">
+        <label>Upload Images</label>
+        <input type="file" class="edit-image-upload" id="edit-image-upload" name="image-upload" multiple
+          accept="image/*">
       </div>
     </div>
-  </div>
-</template>
+  </template>
+</body>
 
-<template id="image-template">
-  <div class="frame">
-    <img src="#" alt="">
-  </div>
-</template>
-
-<template id="tag-template">
-  <a href="#"></a>
-</template>
-
-<template id="edit-template">
-  <a class="post-delete-hide" id="post-delete">Delete Post</a>
-  <a class="post-cancel-hide" id="post-cancel">Cancel</a>
-  <a class="post-edit" id="post-edit">Edit</a>
-  <a class="post-save-hide" id="post-save">Save</a>
-</template>
-
-<template id="add-image-template">
-  <div class="add-image-hide">
-    <div id="drop-area">
-      <label>Upload Images</label>
-      <input type="file" class="edit-image-upload" id="edit-image-upload" name="image-upload"
-        multiple accept="image/*">
-    </div>
-  </div>
-</template>
+</html>

@@ -6,15 +6,16 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./styles/global.css">
+  <link rel="stylesheet" href="./styles/form-inputs.css">
   <link rel="stylesheet" href="./styles/admin-add-account.css">
+  <link rel="stylesheet" href="./styles/global.css">
   <link href="./assets/favicon.ico" rel="icon" type="image/x-icon">
 </head>
 
 <body>
 
   <nav>
-    <!-- Populated by nav.js -->
+    <!-- Populated by server -->
   </nav>
 
   <div class="container">
@@ -42,49 +43,97 @@
     <div class="admin-right">
       <div id="create-block">
         <p><b>Create Account</b></p>
-        <form method="post">
-          <div id="admin-block" class="input-wrapper">
+        <form>
+          <div id="admin-block">
             <label id="admin-checkbox-container">Make this user an administrator
               <input name="isAdmin" type="checkbox">
               <span id="admin-checkmark"></span>
             </label>
           </div>
-          <div id="username-block" class="input-wrapper">
-            <input name="username" type="text" placeholder="Username" class="create-input" required>
+          <div id="username-block">
+            <div class="input-container">
+              <input id="username" name="username" type="text" placeholder="Username" class="input" required>
+              <label for="username" class="label">Username*</label>
+            </div>
           </div>
           <div id="email-block">
-            <input name="email" type="text" placeholder="Email" class="create-input" required>
-            <input name="email-verify" type="text" placeholder="Verify Email" class="create-input" required>
+            <div class="input-container">
+              <input id="email" name="email" type="text" placeholder="Email" class="input" required>
+              <label for="email" class="label">Email*</label>
+            </div>
+            <div class="input-container">
+              <input id="email-verify" name="email-verify" type="text" placeholder="Verify Email" class="input"
+                required>
+              <label for="email-verify" class="label">Verify Email*</label>
+            </div>
           </div>
-          <div id="password-block" class="input-wrapper">
-            <input name="password" type="password" placeholder="Password" class="create-input" required>
-            <input name="password-verify" type="password" placeholder="Verify Password" class="create-input" required>
+          <div id="password-block">
+            <div class="input-container">
+              <input id="password" name="password" type="password" placeholder="Password" class="input" required>
+              <label for="password" class="label">Password*</label>
+            </div>
+            <div class="input-container">
+              <input id="password-verify" name="password-verify" type="password" placeholder="Verify Password"
+                class="input" required>
+              <label for="password-verify" class="label">Verify Password*</label>
+            </div>
           </div>
           <div id="biz-name-block">
-            <input name="company-name" type="text" placeholder="Business Name" class="create-input">
+            <div class="input-container">
+              <input id="company-name" name="cName" type="text" placeholder="Business Name" class="input">
+              <label for="company-name" class="label">Business Name</label>
+            </div>
+            <div class="input-container">
+              <input id="company-type" name="bType" type="text" placeholder="Business Type" class="input">
+              <label for="company-type" class="label">Business Type</label>
+            </div>
           </div>
-          <div id="name-block" class="input-wrapper">
-            <input name="first-name" type="text" placeholder="First Name" class="create-input">
-            <input name="last-name" type="text" placeholder="Last Name" class="create-input">
-            <input name="phone-num" type="text" placeholder="Phone Number" class="create-input">
+          <div id="name-block">
+            <div class="input-container">
+              <input id="first-name" name="fName" type="text" placeholder="First Name" class="input">
+              <label for="first-name" class="label">First Name</label>
+            </div>
+            <div class="input-container">
+              <input id="last-name" name="lName" type="text" placeholder="Last Name" class="input">
+              <label for="last-name" class="label">Last Name</label>
+            </div>
+            <div class="input-container">
+              <input id="phone-num" name="phoneNo" type="text" placeholder="Phone Number" class="input">
+              <label for="phone-num" class="label">Phone Number</label>
+            </div>
           </div>
-          <div id="location-block" class="input-wrapper">
-            <input name="location-country" type="text" placeholder="Country" class="create-input">
-            <input name="location-city" type="text" placeholder="City" class="create-input">
-            <input name="location-street" type="text" placeholder="Street Address" class="create-input">
+          <div id="location-block">
+            <div class="input-container">
+              <input id="location-country" name="locationCountry" type="text" placeholder="Country" class="input">
+              <label for="location-country" class="label">Country</label>
+            </div>
+            <div class="input-container">
+              <input id="location-city" name="locationCity" type="text" placeholder="City" class="input">
+              <label for="location-city" class="label">City</label>
+            </div>
+            <div class="input-container">
+              <input id="location-street" name="locationStreet" type="text" placeholder="Street Address" class="input">
+              <label for="location-street" class="label">Street Address</label>
+            </div>
           </div>
-          <textarea id="description-block" name="description" placeholder="Business description"
-            class="create-input"></textarea>
-          <button id="create-submit" type="submit" value="submit">Create Account</button>
+          <div class="input-container textarea">
+            <textarea id="description-block" name="description" placeholder="Business Description"
+              class="input"></textarea>
+            <label for="description-block" class="label">Business Description</label>
+          </div>
+          <button id="create-submit" type="button" value="submit">Create Account</button>
         </form>
+        <p id="error-message"></p>
       </div>
     </div>
   </div>
 
   <footer>
-    <!-- Populated by nav.js -->
+    <!-- Populated by server -->
   </footer>
   <script src="nav.js"></script>
+  <script src="form-inputs.js"></script>
+  <script src="admin-create-account-client.js"></script>
 </body>
 
 </html>

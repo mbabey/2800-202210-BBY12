@@ -10,21 +10,11 @@ docLoaded(() => {
   });
 
   // Add listener to each input to activate button on enter press.
-  document.querySelectorAll('.login-input').forEach((input) => {
+  document.querySelectorAll('.input').forEach((input) => {
     input.addEventListener('keyup', (e) => {
       if (e.keyCode === 13) { // If key pressed is enter key
         document.querySelector('#login-submit').click();
       }
-    });
-  });
-
-  // Function from https://www.instagram.com/p/CdGXl-1PJZ1/?utm_source=ig_web_copy_link
-  document.querySelectorAll('.login-input').forEach((input) => {
-    input.addEventListener('blur', (e) => {
-      if (e.target.value != "")
-        e.target.nextElementSibling.classList.add('filled');
-      else
-        e.target.nextElementSibling.classList.remove('filled');
     });
   });
 });
@@ -38,7 +28,6 @@ async function sendData(data) {
     });
     response = await response.text();
     response = JSON.parse(response);
-    console.log(response.status);
     if (response.status == 'success') {
       window.location.replace('/');
     } else if (response.status == 'egg') {

@@ -1,8 +1,7 @@
 'use strict';
 
 docLoaded(() => {
-  getData('/nav-and-footer', popNavAndFooter);
-  getData('/search-overlay', popSearchOverlay);
+  document.querySelector('footer #footer-search').addEventListener("click", openOverlay, false);
   getData('/get-user', popNavName);
   getData('/is-admin', (isAdmin) => {
     if (isAdmin.admin) {
@@ -31,14 +30,8 @@ async function getData(path, callback) {
   } catch (err) { }
 }
 
-function popNavAndFooter(navAndFooter) {
-  document.querySelector('nav').innerHTML = navAndFooter.nav;
-  document.querySelector('footer').innerHTML = navAndFooter.footer;
-}
-
 function popSearchOverlay(searchOverlay){
   document.querySelector('footer').innerHTML += searchOverlay.overlay;
-  document.querySelector('footer #footer-search').addEventListener("click", openOverlay, false);
 }
 
 function popNavName(data) {
@@ -64,8 +57,4 @@ function openOverlay(){
 
 function closeOverlay() {
   document.getElementById("overlay").style.top = "100vh";
-}
-function displayMenu() {
-  let menu = document.getElementById("edit-profile-menu");
-  menu.style.display = "block";
 }

@@ -51,17 +51,14 @@
     text-align: center;
     cursor: default;
   }
-  
-  .profile-header-wrapper-other-user {
-    padding-bottom: 0;
-  }
 }
+
 
 @media only screen and (max-width: 600px) {
   .chat-button {
     background-color: #ddba0e;
   }
-
+  
   .chat-label {
     position: fixed;
     bottom: 65px;
@@ -70,8 +67,22 @@
     text-align: center;
     cursor: default;
   }
+}
 
-  .profile-header-wrapper-other-user {
+@media only screen and (max-width: 600px) and (min-width: 320px) {
+  .profile-header {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 35% 15% 1fr;
+    margin: 0 2%;
+    margin-bottom: 0;
     padding-bottom: 0;
+    padding-top: 3%;
+  }
+
+  .profile-info {
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 1;
+    padding-bottom: 30px;
   }
 }

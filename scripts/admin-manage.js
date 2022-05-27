@@ -76,7 +76,7 @@ function searchUser() {
     document.querySelector('#search-error-message').innerHTML = '';
     let userSearchInput = document.querySelector('#search-user-input').value;
     if (userSearchInput != "") {
-      let userSearchInputData = { username: userSearchInput }
+      let userSearchInputData = { username: userSearchInput };
       sendData(userSearchInputData, '/search-user', showSearchResults);
     } else {
       repopulateUserCardData();
@@ -98,15 +98,17 @@ function showSearchResults(searchData) {
 
 let user = null; // Global variable to store name of user being manipulated by DOM.
 
-const emailInput = document.querySelector('input[name=\'email\']');
-const emailVerifyInput = document.querySelector('input[name=\'emailVerify\']');
-const companyNameInput = document.querySelector('input[name=\'cName\']');
-const bizTypeInput = document.querySelector('input[name=\'bType\']');
-const firstNameInput = document.querySelector('input[name=\'fName\']');
-const lastNameInput = document.querySelector('input[name=\'lName\']');
-const phoneNumInput = document.querySelector('input[name=\'phoneNo\']');
-const locationInput = document.querySelector('input[name=\'location\']');
-const descriptionInput = document.querySelector('textarea[name=\'description\']');
+const editUserFormInputs = {
+  emailInput: document.querySelector('input[name=\'email\']'),
+  emailVerifyInput: document.querySelector('input[name=\'emailVerify\']'),
+  companyNameInput: document.querySelector('input[name=\'cName\']'),
+  bizTypeInput: document.querySelector('input[name=\'bType\']'),
+  firstNameInput: document.querySelector('input[name=\'fName\']'),
+  lastNameInput: document.querySelector('input[name=\'lName\']'),
+  phoneNumInput: document.querySelector('input[name=\'phoneNo\']'),
+  locationInput: document.querySelector('input[name=\'location\']'),
+  descriptionInput: document.querySelector('textarea[name=\'description\']')
+};
 
 const lengthViewProfile = 13; // Length of 'view-profile '. Used for getting username from class name.
 const lengthDeleteUser = 12; // Length of 'delete-user '. Used for getting username from class name.
@@ -151,6 +153,16 @@ function initCardEventListeners() {
       document.getElementById('popup-make-admin').style.display = 'block';
     });
   });
+  document.querySelectorAll('.user-card-menu-toggle').forEach((checkbox) => {
+    checkbox.addEventListener('change', (e) => {
+      if (checkbox.checked)
+        e.target.parentNode.classList.add('toggled');
+      else
+        setTimeout(() => {
+          e.target.parentNode.classList.remove('toggled');
+        }, 500);
+    });
+  });
 }
 
 function initUpdateListeners() {
@@ -158,9 +170,7 @@ function initUpdateListeners() {
   // Event listener to confirm user deletion.
   document.getElementById("popup-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-delete").style.display = 'none';
-    let userInput = {
-      username: user
-    };
+    let userInput = { username: user };
     sendData(userInput, '/delete-user', (response) => {
       handleDeleteConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
@@ -171,9 +181,7 @@ function initUpdateListeners() {
   // Event listener to confirm admin removal.
   document.getElementById("popup-admin-confirm-delete").addEventListener('click', () => {
     document.getElementById("popup-admin-delete").style.display = 'none';
-    let userInput = {
-      username: user
-    };
+    let userInput = { username: user };
     sendData(userInput, '/delete-admin', (response) => {
       handleRemoveAdminConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
@@ -184,9 +192,7 @@ function initUpdateListeners() {
   // Event listener to confirm admin addition.
   document.getElementById("popup-make-admin-confirm").addEventListener('click', () => {
     document.getElementById("popup-make-admin").style.display = 'none';
-    let userInput = {
-      username: user
-    };
+    let userInput = { username: user };
     sendData(userInput, '/make-admin', (response) => {
       handleMakeAdminConditions(response, user);
       document.getElementById("popup-okay").style.display = 'block';
@@ -242,51 +248,63 @@ function addUniversalListeners() {
 }
 
 function handleDeleteConditions(response, user) {
-  // I don't know why I need to do it this way but it doesn't work when I bare back the conditionals.
-  let adminDeleted = response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
-  let userDeleted = !response.adminX && response.userX && !response.finalAdmin && !response.finalUser;
-  let lastAdmin = !response.adminX && !response.userX && response.finalAdmin && !response.finalUser;
-  let lastUser = !response.adminX && !response.userX && !response.finalAdmin && response.finalUser;
-  let notExists = !response.adminX && !response.userX && !response.finalAdmin && !response.finalUser;
-  let isSelf = response.adminX && response.userX && response.finalAdmin && response.finalUser;
+  let val = 0;
+  if (response.adminX) val += 8;
+  if (response.finalAdmin) val += 4;
+  if (response.finalUser) val += 2;
+  if (response.userX) val += 1;
 
-  let message = document.querySelector('#query-response-message');
+  let message;
 
-  if (adminDeleted)
-    message.innerHTML = 'Administrator ' + user + ' deleted.';
-  else if (userDeleted)
-    message.innerHTML = 'User ' + user + ' deleted.';
-  else if (lastAdmin)
-    message.innerHTML = 'Administrator ' + user + ' could not be deleted; ' + user + ' is the only administrator.';
-  else if (lastUser)
-    message.innerHTML = 'User ' + user + ' could not be deleted; ' + user + ' is the only user.';
-  else if (notExists)
-    message.innerHTML = 'User ' + user + ' not found.';
-  else if (isSelf)
-    message.innerHTML = 'Gro-Operate does not want you to delete yourself (it will get better).';
-  else
-    message.innerHTML = 'User ' + user + ' could not be deleted.';
+  switch (val) {
+    case 0: // notExists
+      message = 'User ' + user + ' not found.';
+      break;
+    case 1: // userDeleted
+      message = 'User ' + user + ' deleted.';
+      break;
+    case 2: // lastUser
+      message = 'User ' + user + ' could not be deleted; ' + user + ' is the only user.';
+      break;
+    case 4: // lastAdmin
+      message = 'Administrator ' + user + ' could not be deleted; ' + user + ' is the only administrator.';
+      break;
+    case 9: // adminDeleted
+      message = 'Administrator ' + user + ' deleted.';
+      break;
+    case 16: // isSelf
+      message = 'Gro-Operate does not want you to delete yourself (it will get better).';
+      break;
+    default: // Fail
+      message = 'User ' + user + ' could not be deleted.';
+  }
+  document.querySelector('#query-response-message').innerHTML = message;
 }
 
 function handleRemoveAdminConditions(response, user) {
-  let adminDeleted = response.adminX && !response.finalAdmin;
-  let lastAdmin = !response.adminX && response.finalAdmin;
-  let isSelf = response.adminX && response.finalAdmin;
-  let notExists = !response.adminX && !response.finalAdmin;
+  let val = 0;
+  if (response.adminX) val += 2;
+  if (response.finalAdmin) val += 1;
 
-  let message = document.querySelector('#query-response-message');
-
-  if (adminDeleted) {
-    removeItemOnce(adminArray, user); // Remove user name from local list of admins.
-    message.innerHTML = 'Administrator privileges revoked for ' + user + '.';
-  } else if (lastAdmin)
-    message.innerHTML = 'Administrator ' + user + ' could not have their privileges revoked; ' + user + ' is the only administrator.';
-  else if (isSelf)
-    message.innerHTML = 'Cannot revoke your own admin privileges.';
-  else if (notExists)
-    message.innerHTML = 'Administrator ' + user + ' not found.';
-  else
-    message.innerHTML = 'Administrator ' + user + ' could not have their privileges revoked.';
+  let message;
+  switch (val) {
+    case 0: //notExists
+      message = 'Administrator ' + user + ' not found.';
+      break;
+    case 1: //lastAdmin
+      message = 'Administrator ' + user + ' could not have their privileges revoked; ' + user + ' is the only administrator.';
+      break;
+    case 2: //adminDeleted
+      removeItemOnce(adminArray, user); // Remove user name from local list of admins.
+      message = 'Administrator privileges revoked for ' + user + '.';
+      break;
+    case 3: //isSelf
+      message = 'Cannot revoke your own admin privileges.';
+      break;
+    default: // fail
+      message = 'Administrator ' + user + ' could not have their privileges revoked.';
+  }
+  document.querySelector('#query-response-message').innerHTML = message;
 }
 
 // Function from https://stackoverflow.com/a/5767357
@@ -298,37 +316,30 @@ function removeItemOnce(arr, value) {
 }
 
 function handleMakeAdminConditions(response, user) {
-  let message = document.querySelector('#query-response-message');
-
-  if (response.adminCreated)
-    message.innerHTML = user + ' was promoted to an administrator.';
-  else
-    message.innerHTML = user + ' could not be promoted to an administrator';
+  let message = (response.adminCreated) ? ' was promoted to an administrator.' : ' could not be promoted to an administrator';
+  document.querySelector('#query-response-message').innerHTML = user + message;
 }
 
 function handleEditUserConditions(response, user) {
   clearEditUserFormInputs();
-
-  let message = document.querySelector('#query-response-message');
-
-  if (response.status == 'success')
-    message.innerHTML = user + ' was successfully updated.';
-  else
-    message.innerHTML = user + ' could not be updated.';
+  let message = (response.status == 'success') ? ' was successfully updated.' : ' could not be updated.';
+  document.querySelector('#query-response-message').innerHTML = user + message;
 }
 
 function fillEditUserFormInputs() {
   sendData({ username: user }, '/search-user', (response) => {
-    if (response.status = 'success') {
-      emailInput.value = response.rows[0].email;
-      emailVerifyInput.value = response.rows[0].email;
-      companyNameInput.value = response.rows[0].cName;
-      bizTypeInput.value = response.rows[0].bType;
-      firstNameInput.value = response.rows[0].fName;
-      lastNameInput.value = response.rows[0].lName;
-      phoneNumInput.value = response.rows[0].phoneNo;
-      locationInput.value = response.rows[0].location;
-      descriptionInput.value = response.rows[0].description;
+    if (response.status == 'success') {
+      const filledInputsArray = [];
+      populateInputField(filledInputsArray, editUserFormInputs.emailInput, response.rows[0].email);
+      populateInputField(filledInputsArray, editUserFormInputs.emailVerifyInput, response.rows[0].email);
+      populateInputField(filledInputsArray, editUserFormInputs.companyNameInput, response.rows[0].cName);
+      populateInputField(filledInputsArray, editUserFormInputs.bizTypeInput, response.rows[0].bType);
+      populateInputField(filledInputsArray, editUserFormInputs.firstNameInput, response.rows[0].fName);
+      populateInputField(filledInputsArray, editUserFormInputs.lastNameInput, response.rows[0].lName);
+      populateInputField(filledInputsArray, editUserFormInputs.phoneNumInput, response.rows[0].phoneNo);
+      populateInputField(filledInputsArray, editUserFormInputs.locationInput, response.rows[0].location);
+      populateInputField(filledInputsArray, editUserFormInputs.descriptionInput, response.rows[0].description);
+      setInputLabelUp(true, filledInputsArray);
     } else {
       document.getElementById('popup-edit-block').style.display = 'none';
       document.querySelector('#query-response-message').innerHTML = 'Could not get information for ' + user + '.';
@@ -337,27 +348,52 @@ function fillEditUserFormInputs() {
   });
 }
 
+function populateInputField(filledInputsArray, input, value) {
+  input.value = value;
+  if (value != '')
+    filledInputsArray.push(input);
+}
+
 function getEditUserFormInput() {
   let userInput = {
-    username: user, email: emailInput.value,
-    cName: companyNameInput.value, bType: bizTypeInput.value,
-    fName: firstNameInput.value, lName: lastNameInput.value,
-    phoneNo: phoneNumInput.value, location: locationInput.value,
-    description: descriptionInput.value
-  }
+    username: user,
+    email: editUserFormInputs.emailInput.value,
+    cName: editUserFormInputs.companyNameInput.value, bType: editUserFormInputs.bizTypeInput.value,
+    fName: editUserFormInputs.firstNameInput.value, lName: editUserFormInputs.lastNameInput.value,
+    phoneNo: editUserFormInputs.phoneNumInput.value, location: editUserFormInputs.locationInput.value,
+    description: editUserFormInputs.descriptionInput.value
+  };
   return userInput;
 }
 
 function clearEditUserFormInputs() {
-  emailInput.value = "";
-  emailVerifyInput.value = "";
-  companyNameInput.value = "";
-  bizTypeInput.value = "";
-  firstNameInput.value = "";
-  lastNameInput.value = "";
-  phoneNumInput.value = "";
-  locationInput.value = "";
-  descriptionInput.value = "";
+  editUserFormInputs.emailInput.value = "";
+  editUserFormInputs.emailVerifyInput.value = "";
+  editUserFormInputs.companyNameInput.value = "";
+  editUserFormInputs.bizTypeInput.value = "";
+  editUserFormInputs.firstNameInput.value = "";
+  editUserFormInputs.lastNameInput.value = "";
+  editUserFormInputs.phoneNumInput.value = "";
+  editUserFormInputs.locationInput.value = "";
+  editUserFormInputs.descriptionInput.value = "";
+  setInputLabelUp(false, getAllFormInputAsArray(editUserFormInputs));
+}
+
+function getAllFormInputAsArray(inputsObject) {
+  const inputsArray = [];
+  for (const [key, value] of Object.entries(inputsObject)) {
+    inputsArray.push(value);
+  }
+  return inputsArray;
+}
+
+function setInputLabelUp(labelsUp, inputs) {
+  inputs.forEach((input) => {
+    if (labelsUp)
+      input.nextElementSibling.classList.add('filled');
+    else
+      input.nextElementSibling.classList.remove('filled');
+  });
 }
 
 function makeUserCard(userData) {
@@ -378,11 +414,11 @@ function makeUserCard(userData) {
     userCard += ` 
       <input type="checkbox" class="user-card-menu-toggle"/>
       <div class='user-card'>
-        <div class='user-card-info'>`
+        <div class='user-card-info'>`;
     if (isUser) // Add an indicator if the card belongs to the current user.
-      userCard += `<span class='user-card-username'>${userData.rows[i].username} <small>(you)</small></span>`
+      userCard += `<span class='user-card-username'>${userData.rows[i].username} <small>(you)</small></span>`;
     else
-      userCard += `<span class='user-card-username'>${userData.rows[i].username}</span>`
+      userCard += `<span class='user-card-username'>${userData.rows[i].username}</span>`;
     userCard += `
           <span class='user-card-cName'>${userData.rows[i].cName}</span>
           <span class='user-card-bType'>${userData.rows[i].bType}</span>
@@ -397,13 +433,13 @@ function makeUserCard(userData) {
         </div>
       </div>
       <div class="user-card-options">
-        <button class="view-profile ${userData.rows[i].username}" type="button">View profile</button>
+        <button class="view-profile ${userData.rows[i].username}" type="button">View Profile</button>
         <button class="delete-user ${userData.rows[i].username}" type="button">Delete User</button>
         <button class="edit-user ${userData.rows[i].username}" type="button">Edit User</button>`;
     if (isAdmin) // Add a 'Remove admin' button if the card belongs to an admin.
       userCard += `<button class="remove-admin ${userData.rows[i].username}" type="button">Remove Admin</button>`;
     else // Otherwise, add a 'Make admin' button.
-      userCard += `<button class="make-admin ${userData.rows[i].username}" type="button">Make Admin</button>`
+      userCard += `<button class="make-admin ${userData.rows[i].username}" type="button">Make Admin</button>`;
     userCard += `</div></div>`;
   }
   userCard += "</div>";

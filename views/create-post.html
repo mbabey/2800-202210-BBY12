@@ -13,7 +13,7 @@
 <body>
 
   <nav>
-    <!-- Populated by nav.js -->
+    <!-- Populated by server -->
   </nav>
 
   <div class="container">
@@ -27,7 +27,7 @@
         <div class="form-image">
           <div id="drop-area">
             <label>Upload Images</label>
-            <p id="drop-text">Drag and drop images you with to upload</p>
+            <p id="drop-text">Drag and drop images to upload</p>
             <input type="file" class="form-image-upload" id="form-image-upload" name="image-upload" multiple
               accept="image/*">
             <progress id="progress-bar" max="100" value="0"></progress>
@@ -37,7 +37,7 @@
         </div>
         <label>Description</label>
         <textarea rows="10" name="input-description"
-          placeholder="Add description for your business and promote to others for collaboration!"
+          placeholder="Add a description for your business and promote to others to collaborate!"
           required></textarea><br>
         <div class="tags">
           <input id="input-tag" name="input-tag" type="text" placeholder="Add tag">
@@ -45,7 +45,7 @@
           <textarea id="tag-field" name="tag-field" rows="4" readonly></textarea>
         </div>
         <div class="buttons">
-          <input type="button" value="Cancel" id="cancel-button">
+          <button type="button" value="Cancel" id="cancel-button">Cancel</button>
           <input type="submit" value="Publish Post" id="post-button">
         </div>
       </form>
@@ -53,7 +53,7 @@
   </div>
 
   <footer>
-    <!-- Populated by nav.js -->
+    <!-- Populated by server -->
   </footer>
 
   <script src="nav.js"></script>

@@ -1,8 +1,7 @@
 .post-block {
   margin: 0 auto;
-  width: 50%;
+  width: 100%;
   grid-column: 2 / span 1;
-  width: 100% !important;
 }
 
 .post {
@@ -42,7 +41,9 @@
   margin: 0;
   line-height: 100%;
   font-size: 1.6em;
-  margin-top: 5px;
+  margin-top: 10px;
+  padding: 5px;
+  margin-bottom: 5px;
 }
 
 .post-business-name {
@@ -86,15 +87,16 @@
   float: left;
   width: 45%;
   position: relative;
-  height: 100%;
+  height: auto;
 }
 
 .post-images img {
   width: 100%;
   height: auto;
   border-radius: 10px;
-  margin-top: 10px;
+  margin-top: 15px;
   object-fit: contain;
+  margin-bottom: 5px;
 }
 
 .delete-image {
@@ -118,13 +120,15 @@
 }
 
 .post-tags {
-  margin: auto 0;
+  margin-top: 10px;
   grid-row: 1;
   grid-column: 1 / span 3;
   vertical-align: middle;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  padding: 5px;
 }
 
+.input-label-hide,
 .post-edit-hide,
 .post-save-hide,
 .post-delete-hide,
@@ -142,8 +146,7 @@
 
 .post-edit,
 .post-save,
-.post-cancel,
-.post-delete {
+.post-cancel {
   visibility: visible;
   text-align: center;
   margin: 5px 0;
@@ -217,17 +220,44 @@
   grid-row: 2;
   grid-column: 1;
   justify-self: left;
-  background-color: var(--danger-red);
+  text-align: center;
+  color: var(--danger-red);
+  border: 1px solid var(--danger-red);
+  visibility: visible;
+  margin: 5px 0;
+  padding: 10px 13%;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .post-description{
   font-weight: normal;
+  margin-top: 10px;
+  padding: 5px;
 }
 
 .post-images img {
   background-color: #dff7ff;
 }
 
+.input-label, label {
+  font-size: large;
+  font-weight: bold;
+  margin: 0;
+}
+
+.edit-image-upload {
+  margin-bottom: 15px;
+}
+
+@media only screen and (min-width: 801px) and (max-width: 1200px) {
+  .post-save,
+  .post-cancel,
+  .post-delete {
+    margin: 5px 0;
+    padding: 10px 10%;
+  }
+}
 
 @media only screen and (max-width: 800px) {
   .post-block {
@@ -249,5 +279,14 @@
     width: 100%;
     height: auto;
     margin: 6px 0;
+  }
+  .post-cancel,
+  .post-delete {
+    margin: 5px 0;
+    padding: 10px 10%;
+  }
+  .post-save {
+    margin: 5px 0;
+    padding: 10px 15%;
   }
 }

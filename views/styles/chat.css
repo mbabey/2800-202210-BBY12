@@ -16,7 +16,7 @@
 
 #message-content {
   display: flex;
-  height: calc(100vh - 200px);
+  height: calc(92vh - 150px);
   flex-direction: column;
   overflow: auto;
 }
@@ -113,5 +113,9 @@
 
   .message-footer {
     grid-row: 3 / span 1;
+  }
+
+  #message-content {
+    height: calc(90vh - 150px);
   }
 }

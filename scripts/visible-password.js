@@ -1,6 +1,8 @@
 'use strict';
 
 docLoaded(() => {
+
+  // Add event listeners to all password toggle buttons.
   document.querySelectorAll('.visible-password-toggle').forEach((toggle) => {
     toggle.addEventListener("click", (e) => {
       togglePasswordVisibility(e, toggle);
@@ -8,6 +10,11 @@ docLoaded(() => {
   });
 });
 
+/**
+ * togglePasswordVisibility. Toggles the type of the target input between password and text.
+ * @param {Event} e - the event targeting the toggle button. 
+ * @param {DOM element} toggle - the svg that makes up the toggle button. 
+ */
 function togglePasswordVisibility(e, toggle) {
   try {
     let passwordInput = e.target.parentNode.parentNode.querySelector('.password');
@@ -26,6 +33,10 @@ function togglePasswordVisibility(e, toggle) {
   }
 }
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();

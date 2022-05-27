@@ -1,31 +1,40 @@
 'use strict';
 docLoaded(() => {
-  let editButtons = document.querySelectorAll("#post-edit");
-  editButtons.forEach((target) => {
+
+  // Add event listeners to all post edit buttons.
+  document.querySelectorAll("#post-edit").forEach((target) => {
     target.addEventListener("click", editPost, false);
   });
-  let saveButtons = document.querySelectorAll("#post-save");
-  saveButtons.forEach((target) => {
+  
+  // Add event listeners to all post save buttons.
+  document.querySelectorAll("#post-save").forEach((target) => {
     target.addEventListener("click", savePost, false);
   });
-
-  let cancelButtons = document.querySelectorAll("#post-cancel");
-  cancelButtons.forEach((target) => {
+  
+  // Add event listeners to all post cancel buttons.
+  document.querySelectorAll("#post-cancel").forEach((target) => {
     target.addEventListener("click", cancelEdit, false);
   });
-
-  let imageField = document.querySelectorAll("#post-images");
-  imageField.forEach((target) => {
+  
+  // Add event listeners to all post images.
+  document.querySelectorAll("#post-images").forEach((target) => {
     target.addEventListener("change", addImage, false);
   });
 });
 
+/**
+ * editPost. Selects the post that is the parent of the pressed edit button.
+ * @param {Event} event - the event that occurred on the edit post button 
+ */
 async function editPost(event) {
   let post = event.target.parentNode.parentNode.parentNode;
   enableEdit(post);
 }
 
-// SAVE EDIT POST AND SAVE CHANGES
+/**
+ * savePost. Save the edited post's content and send the new content to the server.
+ * @param {Event} event - the event that occurred on the save post button.
+ */
 function savePost(event) {
   let post = event.target.parentNode.parentNode.parentNode;
   let title = post.querySelector(".post-title").textContent;
@@ -42,7 +51,7 @@ function savePost(event) {
   formData.append("tag-field", tags);
 
   for (let i = 0; i < gallery.length; i++) {
-    let img = gallery[i].src.toString().split('/')[gallery[i].src.toString().split('/').length - 1]
+    let img = gallery[i].src.toString().split('/')[gallery[i].src.toString().split('/').length - 1];
     formData.append("image-delete", img);
   }
   for (let i = 0; i < imgs.files.length; i++) {
@@ -59,7 +68,10 @@ function savePost(event) {
   });
 }
 
-// CANCEL EDIT POST AND REVERT CHANGES
+/**
+ * cancelEdit. Cancel the editing of the post and return the data to its original state.
+ * @param {Event} event - the event that occurred on the cancel edit button.
+ */
 async function cancelEdit(event) {
   let post = event.target.parentNode.parentNode.parentNode;
   disableEdit(post);
@@ -77,7 +89,6 @@ async function cancelEdit(event) {
 
       post.querySelector(".post-title").textContent = postText[0].postTitle;
       post.querySelector(".post-description").textContent = postText[0].content;
-      //post.querySelector(".post-tags").textContent = data[0].postTitle;
       let gallery = post.querySelector(".gallery");
       gallery.innerHTML = "";
       for (let i = 0; i < postImgs.length; i++) {
@@ -104,8 +115,11 @@ async function cancelEdit(event) {
   }
 }
 
+/**
+ * addImage. Adds images that have been uploaded to the post to the preview gallery.
+ * @param {Event} event - the event that targets the add image button.
+ */
 function addImage(event) {
-  
   let imageHolder = event.target.parentNode.parentNode.parentNode;
   let preview = imageHolder.querySelector(".preview-gallery");
   let imgs = imageHolder.querySelector(".edit-image-upload");
@@ -116,6 +130,10 @@ function addImage(event) {
   }
 }
 
+/**
+ * enableEdit. Enable editing of all post fields and allow uploading of new images.
+ * @param {DOM element} post - the post to be edited. 
+ */
 function enableEdit(post) {
   post.querySelector(".add-image-hide").setAttribute("class", "add-image");
   post.querySelector(".post-delete-hide").setAttribute("class", "post-delete");
@@ -144,10 +162,18 @@ function enableEdit(post) {
   }
 }
 
+/**
+ * deleteImg. Delete the image from the post.
+ * @param {Event} event - the event that targets the delete image button. 
+ */
 function deleteImg(event) {
-  event.target.parentNode.setAttribute("class", "frame-delete")
+  event.target.parentNode.setAttribute("class", "frame-delete");
 }
 
+/**
+ * disableEdit. Disable editing of the post and return it to its original state.
+ * @param {DOM element} post - the post being edited. 
+ */
 function disableEdit(post) {
   post.querySelector(".add-image").setAttribute("class", "add-image-hide");
   post.querySelector(".post-delete").setAttribute("class", "post-delete-hide");
@@ -173,6 +199,10 @@ function disableEdit(post) {
   }
 }
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();

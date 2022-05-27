@@ -1,16 +1,24 @@
 'use strict';
 
+/** Template for posts that appear upon search. */
 const template = document.createElement('template');
+
+/** The session of the client user. */
 let session;
+
 docLoaded(async () => {
-  await getSearchData('/get-session?', getSession);
-  await getSearchData('/get-template?', getTemplate);
-  getSearchData('/get-filter-posts?', renderPosts);
-  getSearchData('/get-filter-users?', renderUsers);
+  await getData('/get-session?', getSession);
+  await getData('/get-template?', getTemplate);
+  getData('/get-filter-posts?', renderPosts);
+  getData('/get-filter-users?', renderUsers);
 
   document.getElementById("header-search").addEventListener("submit", search);
 });
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();
@@ -18,17 +26,28 @@ function docLoaded(action) {
     document.addEventListener('DOMContentLoaded', action);
 }
 
+/**
+ * search. Sends search parameters to the server and runs functions to print returned data on the DOM.
+ * @param {Event} e - the event occuring on the search button. 
+ * @returns 
+ */
 function search(e) {
   e.preventDefault();
   const url = new URL(window.location);
   url.searchParams.set(e.target.search.name, e.target.search.value);
   window.history.pushState('', '', url);
-  getSearchData('/get-filter-users?', renderUsers);
-  getSearchData('/get-filter-posts?', renderPosts);
+  getData('/get-filter-users?', renderUsers);
+  getData('/get-filter-posts?', renderPosts);
   return false;
 }
 
-async function getSearchData(path, callback) {
+/**
+ * getData. Retrieve information from a specified path and then 
+ * execute a callback with that information.
+ * @param {String} path - the get path to server
+ * @param {function} callback - the callback function to run
+ */
+async function getData(path, callback) {
   try {
     let response = await fetch(path + new URLSearchParams(window.location.search), {
       method: 'GET'
@@ -41,14 +60,26 @@ async function getSearchData(path, callback) {
   } catch (err) { console.log(err); }
 }
 
+/**
+ * getSession. Sets the global variable session using the session in the server response.
+ * @param {Object} response - the server response.
+ */
 function getSession(response) {
   session = response.session;
 }
 
+/**
+ * getTemplate. Set the HTML of the global variable template using the DOM object in the server response.
+ * @param {Object} response - the server response. 
+ */
 function getTemplate(response) {
   template.innerHTML = response.dom;
 }
 
+/**
+ * renderUsers. Renders users as cards on the search result page.
+ * @param {Object[]} users - the users returned by the search query.
+ */
 function renderUsers(users) {
   let uBody = document.querySelector(".user-block");
   while (uBody.firstChild) {
@@ -69,6 +100,10 @@ function renderUsers(users) {
   }
 }
 
+/**
+ * renderUsers. Renders posts on the search result page.
+ * @param {Object[]} users - the users returned by the search query.
+ */
 function renderPosts(posts) {
   let pBody = document.querySelector(".post-block");
   while (pBody.firstChild) {
@@ -83,10 +118,10 @@ function renderPosts(posts) {
 
   for (let i = 0; i < posts.posts.length; i++) {
     let postData = posts.posts[i];
-    let user = postData["user"][0];
-    let post = postData["post"][0];
-    let postImages = postData["imgs"];
-    let postTags = postData["tags"];
+    let user = postData.user[0];
+    let post = postData.post[0];
+    let postImages = postData.imgs;
+    let postTags = postData.tags;
 
     let clone = pTemplateContent.cloneNode(true);
     clone.querySelector("#post").dataset.postId = post.postId;
@@ -106,8 +141,8 @@ function renderPosts(posts) {
     for (const image of postImages) {
       if (image) {
         let img = pImgTemplateContent.cloneNode(true);
-        img.querySelector("img").src = "./images/" + image["imgFile"];
-        img.querySelector("img").alt = image["imgFile"];
+        img.querySelector("img").src = "./images/" + image.imgFile;
+        img.querySelector("img").alt = image.imgFile;
         pImgs.appendChild(img);
       }
     }
@@ -118,8 +153,8 @@ function renderPosts(posts) {
     for (const tags of postTags) {
       if (tags) {
         let tag = pTagTemplateContent.cloneNode(true);
-        tag.querySelector("a").textContent = '#' + tags["tag"];
-        tag.querySelector("a").href = '#' + tags["tag"];
+        tag.querySelector("a").textContent = '#' + tags.tag;
+        tag.querySelector("a").href = '#' + tags.tag;
         pTags.appendChild(tag);
       }
     }

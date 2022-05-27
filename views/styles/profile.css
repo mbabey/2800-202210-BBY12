@@ -1,5 +1,12 @@
+/* Styles for profile.html and other-user-profile.html */
+
+#content {
+  margin: 0;
+}
+
+/* -- Profile header: information section. -- */
+
 .profile-header-wrapper {
-  /* background-color: #67c093; */
   background-color: var(--primary-med);
   color: var(--light-yellow);
   padding-bottom: 3%;
@@ -34,22 +41,32 @@ p {
   padding-bottom: 5px;
   padding-top: 5px;
   font-weight: bolder;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
 }
 
 .profile-header {
   display: grid;
+  grid-column: 1 / span 3;
+  grid-row: 1 / span 2;
   grid-template-columns: 24.75% 50.5% 24.75%;
-  grid-template-rows: 100%;
+  grid-template-rows: 60% 40%;
 }
 
 .profile-picture {
   grid-column: 2 / span 1;
-  grid-row: 1 / span 1;
+  grid-row: 1 / span 2;
   padding: 0 10px;
   text-align: center;
   display: flex;
   justify-content: center;
+}
+
+.profile-picture-background {
+  width: 300px;
+  height: 300px;
+  clip-path: circle(50% at center);
+  justify-content: center;
+  display: flex;
 }
 
 .profile-header h4:after,
@@ -66,82 +83,15 @@ p {
 
 .profile-name {
   grid-column: 1 / span 1;
-  grid-row: 1 / span 1;
+  grid-row: 1 / span 2;
   text-align: right;
 }
 
-.profile-edit-buttons {
-  position: absolute;
-  top: 85px;
-  right: 0;
-  z-index: 1;
-}
-
-.edit-profile-image > form > label:hover {
-  cursor: pointer;
-}
-
-.edit-profile-container {
-  margin-top: 60px;
-  padding-left: 10%;
-}
-
-.edit-profile {
-  background-color: var(--light-grey);
-  color: black;
-  border: 1px solid var(--light-grey);
-  text-align: center;
-  width: 7rem;
-  padding: 15px;
-  margin: 5px;
-  cursor: pointer;
-  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  font-weight: bolder;
-  border-radius: 10px;
-}
-
-.profile-picture-background {
-  width: 300px;
-  height: 300px;
-  clip-path: circle(50% at center);
-  justify-content: center;
-  display: flex;
-}
-
-.edit-profile-image {
-  display: flex;
-  justify-content: center;
-}
-
-.edit-profile img {
-  width: 100%;
-  object-fit: cover;
-}
-
-.edit-profile:hover {
-  background-color: var(--secondary-dark);
-}
-
-.edit-profile a {
-  margin: auto;
-  text-decoration: none;
-  color: black;
-  font-weight: bolder;
-}
-
-.edit-profile a:hover {
-  color: white;
-}
-
-.edit-profile>form>label:hover {
-  color: white;
-}
 
 .profile-info {
   position: relative;
   grid-column: 3 / span 1;
-  grid-row: 1 / span 1;
+  grid-row: 1 / span 2;
 }
 
 .profile-info h3 {
@@ -185,6 +135,74 @@ p {
   background: var(--secondary-dark);
 }
 
+/* -- End profile header -- */
+/* -- Edit profile --  */
+
+.profile-edit-buttons {
+  position: absolute;
+  top: 85px;
+  right: 0;
+  z-index: 1;
+}
+
+.edit-profile-image>form>label:hover {
+  cursor: pointer;
+}
+
+.edit-profile-container {
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 1;
+  padding-left: 10%;
+  z-index: 2;
+}
+
+.edit-profile {
+  background-color: var(--light-grey);
+  color: black;
+  border: 1px solid var(--light-grey);
+  text-align: center;
+  width: 7rem;
+  padding: 15px;
+  margin: 5px;
+  cursor: pointer;
+  -webkit-transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  font-weight: bolder;
+  border-radius: 10px;
+}
+
+
+.edit-profile-image {
+  display: flex;
+  justify-content: center;
+}
+
+.edit-profile img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.edit-profile:hover {
+  background-color: var(--secondary-dark);
+}
+
+.edit-profile a {
+  margin: auto;
+  text-decoration: none;
+  color: black;
+  font-weight: bolder;
+}
+
+.edit-profile a:hover {
+  color: white;
+}
+
+.edit-profile>form>label:hover {
+  color: white;
+}
+
+/* -- End edit profile. -- */
+
 .post-block {
   width: 96%;
   max-width: 700px;
@@ -207,19 +225,25 @@ p {
   visibility: visible;
 }
 
+.overflow-tooltip {
+  transform: translate(-70%, -50%);
+}
+
 /* End of tooltips */
 
-@media only screen and (min-width: 601px) and (max-width: 800px) {
+/* Media query for mid-size: changes header layout. */
+@media only screen and (max-width: 800px) and (min-width: 601px) {
   .profile-header {
     display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 220px 15% 15% 30%;
-    margin: 0 2%;
+    grid-template-columns: 20% 50% 30%;
+    grid-template-rows: 220px 15% 15% 1fr;
+    padding-bottom: 3%;
+    padding-top: 3%;
   }
 
   .profile-picture {
     padding: 0;
-    grid-column: 1 / span 1;
+    grid-column: 2 / span 1;
     grid-row: 1 / span 1;
     width: auto;
     height: 100%;
@@ -232,7 +256,7 @@ p {
   }
 
   .profile-name {
-    grid-column: 1 / span 1;
+    grid-column: 2 / span 1;
     grid-row: 2 / span 1;
     text-align: center;
     position: relative;
@@ -249,26 +273,18 @@ p {
   }
 
   .edit-profile {
-    padding: 20px 15px;
+    padding: 15px 15px;
     margin: 5px;
     font-size: 1rem;
-    margin-left: 50px;
   }
 
   .profile-info {
     display: grid;
-    grid-column: 2 / span 1;
+    grid-column: 3 / span 1;
     grid-row: 1 / span 1;
-    margin-left: 15%;
-    margin-top: 23%;
+    overflow-wrap: break-word;
   }
 
-  .profile-contact {
-    display: grid;
-    grid-column: 2 / span 1;
-    grid-row: 3 / span 1;
-  }
-  
   #name-block-d,
   #lastname-block-d {
     font-size: 1.1rem;
@@ -296,24 +312,33 @@ p {
   .post-block {
     width: 96%;
   }
+
+  .edit-profile-container {
+    padding-left: 0;
+    margin-left: 0;
+  }
 }
 
-@media only screen and (max-width: 600px) {
+
+/* Media query for small-size: changes header layout. */
+@media only screen and (max-width: 600px) and (min-width: 320px) {
   .profile-header {
     display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 38% 1fr;
+    grid-template-columns: 100%;
+    grid-template-rows: 30% 15% 15% 1fr;
     margin: 0 2%;
     margin-bottom: 0;
+    padding-bottom: 0;
+    padding-top: 3%;
   }
-  
+
   .profile-header-wrapper {
     margin-bottom: 0;
   }
 
   .profile-picture {
     padding: 0;
-    grid-column: 1 / span 2;
+    grid-column: 1 / span 1;
     grid-row: 1 / span 1;
     width: auto;
     height: 100%;
@@ -326,7 +351,7 @@ p {
   }
 
   .profile-name {
-    grid-column: 1 / span 2;
+    grid-column: 1 / span 1;
     grid-row: 2 / span 1;
     text-align: center;
     position: relative;
@@ -336,25 +361,27 @@ p {
     margin: 0;
   }
 
-  .profile-edit-buttons {
-    top: 50px;
-    right: 0;
+  .edit-profile {
+    grid-column: 1 / span 1;
+    grid-row: 3 / span 1;
+    padding: 10px 15px;
+    font-size: 1rem;
+    margin-top: 0;
   }
 
-  .edit-profile {
-    grid-row: 2 / span 1;
-    padding: 20px 15px;
-    margin: 5px;
-    font-size: 1rem;
-    margin-left: 50px;
+  .edit-profile-container {
+    grid-row: 3 / span 1;
+    grid-column: 1 / span 1;
+    justify-self: center;
+    margin: 0;
+    margin-left: 0;
+    padding-left: 0;
   }
 
   .profile-info {
     grid-column: 1 / span 1;
-    grid-row: 2 / span 1;
-    margin-left: 5%;
-    margin-top: 40%;
-    padding-bottom: 20%;
+    grid-row: 4 / span 1;
+    padding-bottom: 30px;
   }
 
   .profile-info h3,
@@ -376,61 +403,7 @@ p {
     width: 96%;
   }
 
-  .edit-profile-container {
-    margin-top: 50px;
-    margin-left: 48%;
-  }
-  
   .profile-location {
     margin-bottom: 0;
-  }
-}
-
-@media only screen and (max-width: 330px) {
-  .profile-header {
-    display: grid;
-    grid-template-rows: 31% 1fr;
-  }
-
-  .profile-header-wrapper {
-    padding-bottom: 0;
-  }
-  .profile-picture-background {
-    height: 180px;
-    width: 180px;
-  }
-
-  .profile-picture {
-    margin: 0;
-    padding: 0;
-  }
-
-  .edit-profile-image {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    margin-bottom: 0;
-    padding: 0;
-  }
-
-  .profile-name {
-    padding: 0;
-    margin: 0;
-  }
-  
-  .profile-info {
-    padding-top: 20%;
-    padding-left: 10px;
-  }
-
-  .edit-profile-container {
-    margin-top: 100px;
-    margin-left: 100px;
-  }
-
-  .edit-profile {
-    margin-left: 50px;
-    width: 50%;
-    padding: 8px;
   }
 }

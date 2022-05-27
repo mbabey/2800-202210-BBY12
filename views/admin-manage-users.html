@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- This is the manage users account page for the admin user -->
+
 <head>
   <title>Gro-Operate | Admin Manage Accounts</title>
   <meta charset="utf-8">
@@ -28,14 +30,17 @@
         <span></span>
       </div>
       <!-- End hamburger to X -->
+      <!-- The manage user button and the add user button inside the hamburger menu -->
       <div id="admin-button-group-container">
         <div id="admin-button-group">
           <a href="#" class="admin-button here">Manage Users</a>
           <a href="/admin-add-account" class="admin-button">Add User</a>
         </div>
       </div>
+      <!-- End of the buttons -->
     </div>
     <div id="content">
+      <!-- Search user bar -->
       <div id="search-user">
         <form>
           <input id="search-user-input" type="text" placeholder="Search Users" name="search-user">
@@ -57,7 +62,7 @@
       </div>
     </div>
   </div>
-
+<!-- Pop up messages for actions done on the page -->
   <div id="popup-delete" class="popup-confirm">
     <h2>Are you sure you want to delete <span id="popup-header-username"></span>?</h2>
     <div class="popup-button-wrapper">

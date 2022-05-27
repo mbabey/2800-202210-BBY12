@@ -2,73 +2,80 @@
 
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-*::after, *::before {
-    box-sizing: border-box;
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
 :root {
-    --hue: 0;
-    --saturation: 0%;
-    --foreground-color: hsl(var(--hue), var(--saturation), 75%);
-    --background-color: hsl(var(--hue), var(--saturation), 20%);
+  --hue: 0;
+  --saturation: 0%;
+  --foreground-color: hsl(var(--hue), var(--saturation), 75%);
+  --background-color: hsl(var(--hue), var(--saturation), 20%);
 }
 
 body {
-    margin: 0;
-    background-color: var(--background-color);
-    overflow: hidden;
+  margin: 0;
+  background-color: var(--background-color);
+  overflow: hidden;
 }
 
 .paddle {
-    --position: 50; /* JS Changes */
+  /* JS Changes */
+  --position: 50;
 
-    position: absolute;
-    background-color: var(--foreground-color);
-    top: calc(var(--position) * 1vh); /* Validator says this is not a number, but it is. */
-    transform: translateY(-50%);
-    width: 1vh;
-    height: 10vh;
+  position: absolute;
+  background-color: var(--foreground-color);
+  top: calc(var(--position) * 1vh);
+  /* Validator says this is not a number, but it is. */
+  transform: translateY(-50%);
+  width: 1vh;
+  height: 10vh;
 }
 
 .paddle.left {
-    left: 1vw;
+  left: 1vw;
 }
 
 .paddle.right {
-    right: 1vw;
+  right: 1vw;
 }
 
 .ball {
-    --x: 50; /* JS Changes */
-    --y: 50; /* JS Changes */
+  /* JS Changes */
+  --x: 50;
+  /* JS Changes */
+  --y: 50;
 
-    position: absolute;
-    background-color: var(--foreground-color);
-    left: calc(var(--x) * 1vw); /* Validator says this is not a number, but it is. */
-    top: calc(var(--y) * 1vh); /* Validator says this is not a number, but it is. */
-    transform: translate(-50%, -50%);
-    width: 2.5vh;
-    height: 2.5vh;
+  position: absolute;
+  background-color: var(--foreground-color);
+  left: calc(var(--x) * 1vw);
+  /* Validator says this is not a number, but it is. */
+  top: calc(var(--y) * 1vh);
+  /* Validator says this is not a number, but it is. */
+  transform: translate(-50%, -50%);
+  width: 2.5vh;
+  height: 2.5vh;
 }
 
 .score {
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 5vh;
-    color: var(--foreground-color);
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 5vh;
+  color: var(--foreground-color);
 }
 
-.score > * {
-    flex-grow: 1;
-    flex-basis: 0;
-    padding: 0 2vh;
-    margin: 1vh 0;
-    opacity: .5;
-    font-family: 'VT323', monospace;
+.score>* {
+  flex-grow: 1;
+  flex-basis: 0;
+  padding: 0 2vh;
+  margin: 1vh 0;
+  opacity: .5;
+  font-family: 'VT323', monospace;
 }
 
-.score > :first-child {
-    text-align: right;
-    border-right: .3vh solid var(--foreground-color);
+.score> :first-child {
+  text-align: right;
+  border-right: .3vh solid var(--foreground-color);
 }

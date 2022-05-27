@@ -1,8 +1,11 @@
+<!-- This is the nav bar -->
+
 <div id="nav-wrapper">
   <div id="nav-left">
     <div id="nav-logo">
       <img src="./assets/LogoWithTitle.png" alt="Gro-Operate">
     </div>
+    <!-- The home button -->
     <a href="/home" id="nav-home" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
         <path fill="currentColor"
@@ -10,9 +13,11 @@
       </svg>
       <span>Home</span>
     </a>
+    <!-- The location to place the admin dashboard button -->
     <a id="nav-admin">
     </a>
   </div>
+  <!-- The search bar -->
   <div id="nav-right">
     <div id="nav-search">
       <form method="get" action="/search">
@@ -25,6 +30,7 @@
         </button>
       </form>
     </div>
+    <!-- The post button -->
     <a href="/create-post" id="nav-post" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="-4 -4 32 32" width="32" height="32">
         <path fill="currentColor"
@@ -35,13 +41,15 @@
 
       <span>Post</span>
     </a>
-    <a href="#" id="nav-chat" class="nav-button">
+    <!-- The chat button -->
+    <a href="/chat" id="nav-chat" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -4 50 50" height="32" width="32">
         <path fill="currentColor"
           d="M4 44V7Q4 5.85 4.9 4.925Q5.8 4 7 4H41Q42.15 4 43.075 4.925Q44 5.85 44 7V33Q44 34.15 43.075 35.075Q42.15 36 41 36H12ZM7 36.75 10.75 33H41Q41 33 41 33Q41 33 41 33V7Q41 7 41 7Q41 7 41 7H7Q7 7 7 7Q7 7 7 7ZM7 7Q7 7 7 7Q7 7 7 7Q7 7 7 7Q7 7 7 7V33Q7 33 7 33Q7 33 7 33V36.75Z" />
       </svg>
-      <span>Inbox</span>
+      <span>Chat</span>
     </a>
+    <!-- The profile button -->
     <a href="/profile?user=" id="nav-profile" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 28 28" width="32" height="32">
         <path fill="currentColor"
@@ -51,6 +59,7 @@
       </svg>
       <span id="profile-name">Profile</span>
     </a>
+    <!-- The logout button -->
     <a href="/logout" id="nav-logout" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 44 44" height="32" width="32">
         <path fill="currentColor"

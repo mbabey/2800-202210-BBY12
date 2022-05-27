@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- This  is the post creation page -->
+
 <head>
   <title>Gro-Operate | Create Post</title>
   <meta charset="utf-8">
@@ -15,30 +17,34 @@
   <nav>
     <!-- Populated by server -->
   </nav>
-
+<!-- The form for post creation -->
   <div class="container">
     <header class="create-post-header">
       <h3 id="create-post-title">Create Post</h3>
     </header>
     <div class="content">
+      <!-- The title input field -->
       <form id="form-post" class="form-post" action="/create-post" method="post" enctype="multipart/form-data">
         <label>Post Title</label>
         <input id="input-title" name="input-title" placeholder="Add Title" required><br>
+        <!-- The image upload field -->
         <div class="form-image">
           <div id="drop-area">
             <label>Upload Images</label>
-            <p id="drop-text">Drag and drop images you with to upload</p>
+            <p id="drop-text">Drag and drop images to upload</p>
             <input type="file" class="form-image-upload" id="form-image-upload" name="image-upload" multiple
               accept="image/*">
             <progress id="progress-bar" max="100" value="0"></progress>
-
+            <!-- The gallery for the uploaded images -->
           </div>
           <div id="gallery"></div>
         </div>
+        <!-- The text content of the post-->
         <label>Description</label>
         <textarea rows="10" name="input-description"
-          placeholder="Add description for your business and promote to others for collaboration!"
+          placeholder="Add a description for your business and promote to others to collaborate!"
           required></textarea><br>
+          <!-- The tags section -->
         <div class="tags">
           <input id="input-tag" name="input-tag" type="text" placeholder="Add tag">
           <button id="button-tag" type="button" onclick="writeTag()">Add tag</button>
@@ -57,36 +63,7 @@
   </footer>
 
   <script src="nav.js"></script>
-
-  <script>
-    document.getElementById("input-tag").onkeypress = function (e) {
-      if (checkKey(e)) {
-        e.preventDefault();
-        writeTag()
-      }
-    }
-    document.getElementById("input-title").onkeypress = function (e) {
-      if (checkKey(e)) {
-        e.preventDefault();
-      }
-    }
-
-    function checkKey(e) {
-      let key = e.charCode || e.keyCode || 0;
-      return (key == 13)
-    }
-
-    function writeTag() {
-      let tagField = document.getElementById("tag-field");
-      const re = /[\s,]/
-      let tags = document.getElementById("input-tag").value.split(re);
-      tags.forEach(tag => {
-        if (tag) tagField.value += "#" + tag + " ";
-      });
-      document.getElementById("input-tag").value = "";
-    }
-  </script>
-  <script src="nav.js"></script>
+  <script src="create-post-client.js"></script>
 </body>
 
 </html>

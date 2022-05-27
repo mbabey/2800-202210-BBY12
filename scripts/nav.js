@@ -1,7 +1,11 @@
 'use strict';
 
+/**
+ * Add listeners to the footers, populate the username in the nav bar,
+ *     add admin dashboard button (star) to the nav bar if the user is an admin
+ *     after loading the webpage
+ */
 docLoaded(() => {
-  // getData('/nav-and-footer', popNavAndFooter);
   document.querySelector('footer #footer-search').addEventListener("click", openOverlay, false);
   getData('/get-user', popNavName);
   getData('/is-admin', (isAdmin) => {
@@ -11,6 +15,10 @@ docLoaded(() => {
   });
 });
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();
@@ -18,6 +26,12 @@ function docLoaded(action) {
     document.addEventListener('DOMContentLoaded', action);
 }
 
+/**
+ * getData. Retrieve information from a specified path and then 
+ * execute a callback with that information.
+ * @param {String} path - the get path to server
+ * @param {function} callback - the callback function to run
+ */
 async function getData(path, callback) {
   try {
     let response = await fetch(path, {
@@ -31,20 +45,18 @@ async function getData(path, callback) {
   } catch (err) { }
 }
 
-function popNavAndFooter(navAndFooter) {
-  document.querySelector('nav').innerHTML = navAndFooter.nav;
-  document.querySelector('footer').innerHTML = navAndFooter.footer;
-}
-
-function popSearchOverlay(searchOverlay){
-  document.querySelector('footer').innerHTML += searchOverlay.overlay;
-}
-
+/**
+ * popNavName. Populates the profile icon with the username
+ * @param {Object} data - The data retrieved from the database on the current user
+ */
 function popNavName(data) {
   document.querySelector('#nav-profile').href += (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
   document.querySelector('#profile-name').innerHTML = (data[0].username != undefined && data[0].username != null) ? data[0].username : '';
 }
 
+/**
+ * addAdminStar. Adds the admin navbar button (star) if the user is an admin
+ */
 function addAdminStar() {
   let admin_button = document.querySelector('#nav-admin');
   admin_button.setAttribute('href', "/admin-manage-users");
@@ -57,14 +69,16 @@ function addAdminStar() {
   admin_button.innerHTML = content;
 }
 
+/**
+ * openOverlay. Brings the search overlay up to cover the screen.
+ */
 function openOverlay(){
   document.getElementById("overlay").style.top = "0vh";
 }
 
+/**
+ * closeOverlay. Pushes the search overlay below the screen.
+ */
 function closeOverlay() {
   document.getElementById("overlay").style.top = "100vh";
-}
-function displayMenu() {
-  let menu = document.getElementById("edit-profile-menu");
-  menu.style.display = "block";
 }

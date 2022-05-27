@@ -1,3 +1,5 @@
+<!-- Search overlay that appears on footer search button click -->
+
 <div id="overlay" class="overlay">
   <a href="javascript:void(0)" class="closebtn" onclick="closeOverlay()">&times;</a>
   <div id="overlay-search" class="overlay-search">

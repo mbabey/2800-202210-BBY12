@@ -22,7 +22,7 @@ h3 {
 }
 
 /* Styles for hamburger menu button courtesy of https://codepen.io/erikterwan/pen/EVzeRP */
-/* IF CHANGING STYLES HERE, CHANGE THEM IN ADMIN-ADD-ACCOUNT.CSS AS WELL */
+/* Styles here should match similar styles in admin-add-account.css */
 #dashboard-drop-menu-trigger {
   display: block;
   z-index: 69;

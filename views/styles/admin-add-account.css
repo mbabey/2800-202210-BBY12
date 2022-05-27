@@ -22,7 +22,7 @@
 }
 
 /* Styles for hamburger menu button courtesy of https://codepen.io/erikterwan/pen/EVzeRP */
-/* IF CHANGING STYLES HERE, CHANGE THEM IN ADMIN-MANAGE-USERS.CSS AS WELL */
+/* Styles here should match similar styles in admin-manage-users.css */
 #dashboard-drop-menu-trigger {
   display: block;
   z-index: 69;

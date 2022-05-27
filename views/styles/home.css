@@ -70,15 +70,15 @@
 }
 
 .edit-profile a:hover {
-  color:white;
+  color: white;
 }
 
-#link-bName{
+#link-bName {
   text-decoration: none;
   color: black;
 }
 
-#link-bName:hover{
+#link-bName:hover {
   text-decoration: none;
 }
 

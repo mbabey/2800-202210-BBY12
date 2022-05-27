@@ -1,5 +1,7 @@
 'use strict';
 docLoaded(() => {
+  
+  /** The information currently entered in the profile information. */
   const bizInfo = {
     cName: document.querySelectorAll('.business-name-block'),
     fName: document.querySelectorAll('.business-owner-fname-block'),
@@ -11,6 +13,7 @@ docLoaded(() => {
     description: document.querySelectorAll('.business-description-block')
   };
 
+  /** The default values for the profile information. */
   const bizInfoDefaults = {
     cName: "Business Name",
     fName: "First Name",
@@ -24,6 +27,10 @@ docLoaded(() => {
 
   getData(popThaSpots);
 
+  /**
+   * popThaSpots. Populates the profile with information from the database.
+   * @param {Object} data - the data with which to populate the profile.
+   */
   function popThaSpots(data) {
     document.querySelector("#profile-picture").src = "./avatars/" + data[0].profilePic;
     for (const [key, value] of Object.entries(bizInfo)) {

@@ -1,6 +1,8 @@
 'use strict';
 
 docLoaded(() => {
+
+  // Event listener for the login button.
   document.querySelector('#login-submit').addEventListener('click', () => {
     let data = {
       username: document.querySelector('input[name=\'username\']').value,

@@ -229,7 +229,7 @@ footer {
     border-radius: var(--border-radius);
   }
 
-  .input-search{
+  .input-search {
     width: 100%;
     font-size: 1em;
     border: none;
@@ -237,7 +237,7 @@ footer {
     outline: none;
   }
 
-  .submit-search{
+  .submit-search {
     padding: 10px 5%;
     border: none;
     border-left: 2px solid rgb(240, 240, 240);
@@ -252,7 +252,7 @@ footer {
     width: 100vw;
     height: 50px;
     bottom: 0;
-    left: 0; 
+    left: 0;
     z-index: 100;
   }
 

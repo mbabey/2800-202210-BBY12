@@ -1,5 +1,7 @@
 'use strict';
 docLoaded(() => {
+  
+  /** The information currently entered in the profile information. */
   const bizInfo = {
     cName: document.querySelectorAll('.business-name-block'),
     fName: document.querySelectorAll('.business-owner-fname-block'),
@@ -11,6 +13,7 @@ docLoaded(() => {
     description: document.querySelectorAll('.business-description-block')
   };
 
+  /** The default values for the profile information. */
   const bizInfoDefaults = {
     cName: "Business Name",
     fName: "First Name",
@@ -22,8 +25,12 @@ docLoaded(() => {
     description: "Description"
   };
 
-  sendName(popThaSpots);
+  getData(popThaSpots);
 
+  /**
+   * popThaSpots. Populates the profile with information from the database.
+   * @param {Object} data - the data with which to populate the profile.
+   */
   function popThaSpots(data) {
     document.querySelector("#profile-picture").src = "./avatars/" + data[0].profilePic;
     for (const [key, value] of Object.entries(bizInfo)) {
@@ -34,6 +41,10 @@ docLoaded(() => {
   }
 });
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();
@@ -41,7 +52,12 @@ function docLoaded(action) {
     document.addEventListener('DOMContentLoaded', action);
 }
 
-async function sendName(callback) {
+/**
+ * getData. Retrieve information from a specified path and then 
+ * execute a callback with that information.
+ * @param {function} callback - the callback function to run
+ */
+async function getData(callback) {
   try {
     let response = await fetch('/get-other-user?' + new URLSearchParams(window.location.search), {
       method: 'GET',

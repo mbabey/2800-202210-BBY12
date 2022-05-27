@@ -76,7 +76,7 @@
   color: white;
 }
 
-#post-button, 
+#post-button,
 #cancel-button,
 #button-tag {
   text-decoration: none;
@@ -88,7 +88,7 @@
 
 /* Pseudo-element shadow. Animating the opacity of this element is faster than animating a shadow. /
 / https://tobiasahlin.com/blog/how-to-animate-box-shadow/ */
-#post-button::after, 
+#post-button::after,
 #cancel-button::after,
 #button-tag::after {
   content: '';
@@ -121,7 +121,7 @@
   opacity: 1;
 }
 
-#post-button:active, 
+#post-button:active,
 #cancel-button:active,
 #button-tag:active {
   transform: scale(1);

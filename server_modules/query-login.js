@@ -2,6 +2,14 @@
 const crypto = require('crypto');
 
 module.exports = {
+  /**
+   * login. Checks the req parameters against the database and logs in the user.
+   * @param {Object} req - the request from the client.
+   * @param {String} user - the username coming from the client.
+   * @param {String} pass - the password coming from the client.
+   * @param {Object} con - the connection to the server.
+   * @returns json: status of the response, and the req object.
+   */
   login: async (req, user, pass, con) => {
     const hash = crypto.createHash('sha256').update(pass).digest('hex');
     let status;
@@ -22,6 +30,13 @@ module.exports = {
   }
 };
 
+/**
+ * login. Sets the user's session to logged in. Queries the admin table; 
+ * if the user is an admin, sets the user's session to an admin session. 
+ * @param {Object} req - the request from the client.
+ * @param {String} user - the username coming from the client.
+ * @param {Object} con - the connection to the database.
+ */
 function login(req, user, con) {
   req.session.loggedIn = true;
   req.session.username = user;

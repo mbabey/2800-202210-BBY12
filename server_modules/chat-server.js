@@ -1,5 +1,6 @@
 'use strict';
 
+/** Stores the users connected to the chat server. */
 const connectedUsers = [];
 
 module.exports = {

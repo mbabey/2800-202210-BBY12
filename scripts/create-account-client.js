@@ -1,6 +1,8 @@
 'use strict';
 
 docLoaded(() => {
+
+  // Event listener for create account submit button.
   document.querySelector('#create-submit').addEventListener('click', (e) => {
     e.preventDefault();
     const username = document.querySelector('input[name=\'username\']').value;
@@ -28,6 +30,15 @@ docLoaded(() => {
   });
 });
 
+/**
+ * checkData. Check that the password matches the specified pattern, that the email and email-verify are 
+ * the same, and that the password and password-verify are the same.
+ * @param {String} password - The password value
+ * @param {String} passwordVerify - The password verfiy value
+ * @param {String} email - The email value
+ * @param {String} emailVerify - The email verify value
+ * @returns true if the requirements are met, otherwise false
+ */
 function checkData(password, passwordVerify, email, emailVerify) {
   // Password must have one letter, one number, one special character, and be at least 8 characters. From https://stackoverflow.com/a/21456918
   let regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
@@ -46,6 +57,11 @@ function checkData(password, passwordVerify, email, emailVerify) {
   return true;
 }
 
+/**
+ * sendData. Sends information to a specified path and then 
+ * either redirect or print an error message in response to that information.
+ * @param {Object} data - the data to send to the server
+ */
 async function sendData(data) {
   try {
     let response = await fetch('/create-account', {
@@ -65,6 +81,10 @@ async function sendData(data) {
   }
 }
 
+/**
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
+ */
 function docLoaded(action) {
   if (document.readyState != 'loading')
     action();

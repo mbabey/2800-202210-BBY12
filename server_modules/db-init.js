@@ -1,12 +1,14 @@
 'use strict';
 
-// import LOCAL_CONFIG from './server-configs.js';
-
 const mysql = require('mysql2/promise');
 const Importer = require('mysql-import');
 const { LOCAL_CONFIG } = require('./server-configs');
 
 module.exports = {
+  /**
+   * dbInitialize. Initialize the database using a sql file import if the server is not Heroku.
+   * @param {boolean} isHeroku - true if server is Heroku, false otherwise.
+   */
   dbInitialize: async (isHeroku) => {
     if (!isHeroku) {
       await initLocalDB();
@@ -22,6 +24,9 @@ module.exports = {
   }
 };
 
+/**
+ * initLocalDB. Initializes localhost database.
+ */
 async function initLocalDB() {
   const con = await mysql.createConnection({
     host: 'localhost',

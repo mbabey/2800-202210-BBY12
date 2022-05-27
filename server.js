@@ -277,7 +277,6 @@ app.route('/create-account')
         res.send({ status: 'success' });
       })
       .catch((err) => {
-        console.log(err);
         res.send({ status: 'fail' });
       });
   });
@@ -507,7 +506,6 @@ app.post('/delete-user', async (req, res) => {
           if (rows.affectedRows)
             results.userX = true;
         } catch (err) {
-          console.log(err);
           results.finalAdmin = true;
         }
       } else {
@@ -519,7 +517,7 @@ app.post('/delete-user', async (req, res) => {
   }
 });
 
-//QUERY: ADMIN EDIT USER PROFILE SEARCH
+// QUERY: ADMIN EDIT USER PROFILE SEARCH
 app.post('/search-user', async (req, res) => {
   let status, msg;
   let user = await userQueries.getUser(req.body.username, con);

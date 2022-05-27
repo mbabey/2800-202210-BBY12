@@ -1,10 +1,20 @@
 'use strict';
 
 docLoaded(() => {
+
+  /** The client user. */
   let thisUser;
+
+  /** The client socket. */
   const socket = io.connect('/');
+
+  /** The DOM element that holds the messages. */
   const messageContainer = document.querySelector('#message-content');
+
+  /** The DOM element submit button to send messages. */
   const messageSendButton = document.querySelector('#message-submit');
+  
+  /** The DOM element input within which messages are written. */
   const messageInput = document.querySelector('#message-input');
 
   getThisUser();
@@ -39,8 +49,8 @@ docLoaded(() => {
 
   /**
    * addMessage. Builds and add the DOM for a message.
-   * @param {string} message - Message to display
-   * @param {string} user - User that sent message
+   * @param {String} message - Message to display
+   * @param {String} user - User that sent message
    */
   function addMessage(message, user) {
     let messageBlock = document.createElement('div');
@@ -75,8 +85,8 @@ docLoaded(() => {
 });
 
 /**
- * docLoaded. Executes a callback function when the DOM content is loaded on the page.
- * @param {*} action - the callback
+ * docLoaded. Runs a callback function when the web page is loaded.
+ * @param {function} action - the function to run when the DOM is loaded.
  */
 function docLoaded(action) {
   if (document.readyState != 'loading')
@@ -86,9 +96,10 @@ function docLoaded(action) {
 }
 
 /**
- * getData. Retreive and parse data from server path and sends it to callback.
- * @param {string} path - The path to execute a get request on
- * @param {function} callback - The function to send the data to
+ * getData. Retrieve information from a specified path and then 
+ * execute a callback with that information.
+ * @param {String} path - the get path to server
+ * @param {function} callback - the callback function to run
  */
 async function getData(path, callback) {
   try {

@@ -1,8 +1,11 @@
+<!-- This is the nav bar -->
+
 <div id="nav-wrapper">
   <div id="nav-left">
     <div id="nav-logo">
       <img src="./assets/LogoWithTitle.png" alt="Gro-Operate">
     </div>
+    <!-- The home button -->
     <a href="/home" id="nav-home" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
         <path fill="currentColor"
@@ -10,9 +13,11 @@
       </svg>
       <span>Home</span>
     </a>
+    <!-- The location to place the admin dashboard button -->
     <a id="nav-admin">
     </a>
   </div>
+  <!-- The search bar -->
   <div id="nav-right">
     <div id="nav-search">
       <form method="get" action="/search">
@@ -25,6 +30,7 @@
         </button>
       </form>
     </div>
+    <!-- The post button -->
     <a href="/create-post" id="nav-post" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="-4 -4 32 32" width="32" height="32">
         <path fill="currentColor"
@@ -35,6 +41,7 @@
 
       <span>Post</span>
     </a>
+    <!-- The chat button -->
     <a href="/chat" id="nav-chat" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -4 50 50" height="32" width="32">
         <path fill="currentColor"
@@ -42,6 +49,7 @@
       </svg>
       <span>Chat</span>
     </a>
+    <!-- The profile button -->
     <a href="/profile?user=" id="nav-profile" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 28 28" width="32" height="32">
         <path fill="currentColor"
@@ -51,6 +59,7 @@
       </svg>
       <span id="profile-name">Profile</span>
     </a>
+    <!-- The logout button -->
     <a href="/logout" id="nav-logout" class="nav-button">
       <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 44 44" height="32" width="32">
         <path fill="currentColor"

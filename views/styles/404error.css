@@ -20,9 +20,11 @@ p {
   font-size: 20px;
   color: var(--light-yellow);
 }
+
 .error-text {
   position: relative;
 }
+
 .error-text span {
   position: relative;
   display: inline-block;
@@ -31,11 +33,15 @@ p {
   color: var(--gold);
   text-transform: uppercase;
   animation: flip 2s infinite;
-  animation-delay: calc(0.3s * var(--i))
+  animation-delay: calc(0.3s * var(--i));
 }
+
 @keyframes flip {
-  0%,80% {
-    transform: rotateY(360deg) 
+
+  0%,
+  80% {
+    transform: rotateY(360deg)
   }
 }
+
 /* End of error text animation */

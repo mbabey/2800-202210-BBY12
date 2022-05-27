@@ -1,4 +1,7 @@
+<!-- This is the footer of the mobile view -->
+
 <div id="footer-wrapper">
+  <!-- The home button -->
   <a href="/home" id="footer-home" class="nav-button">
     <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 48 48" height="32" width="32">
       <path fill="currentColor"
@@ -6,6 +9,7 @@
     </svg>
     <span>Home</span>
   </a>
+  <!-- The search button -->
   <a href="#" id="footer-search" class="nav-button">
     <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -4 32 32" width="32" height="32">
       <path fill="currentColor"
@@ -13,6 +17,7 @@
     </svg>
     <span>Search</span>
   </a>
+  <!-- The post button -->
   <a href="/create-post" id="footer-post" class="nav-button">
     <svg xmlns="http://www.w3.org/2000/svg" viewbox="-4 -4 32 32" width="32" height="32">
       <path fill="currentColor"
@@ -22,6 +27,7 @@
     </svg>
     <span>Post</span>
   </a>
+  <!-- The chat button -->
   <a href="/chat" id="footer-chat" class="nav-button">
     <svg xmlns="http://www.w3.org/2000/svg" viewbox="-4 -5 54 54" height="32" width="32">
       <path fill="currentColor"

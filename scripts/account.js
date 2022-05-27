@@ -84,7 +84,7 @@ async function sendData(data) {
       body: JSON.stringify(data)
     });
   } catch (err) {
-    console.log('account.js\n', err);
+    console.log(err);
   }
 }
 

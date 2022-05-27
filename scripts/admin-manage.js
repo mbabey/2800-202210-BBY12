@@ -444,7 +444,7 @@ function fillEditUserFormInputs() {
  */
 function populateInputField(filledInputsArray, input, value) {
   input.value = value;
-  if (value != '')
+  if (value != '' && value != null)
     filledInputsArray.push(input);
 }
 

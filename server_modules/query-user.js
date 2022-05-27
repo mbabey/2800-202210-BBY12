@@ -130,7 +130,6 @@ module.exports = {
         status = "success";
       })
       .catch((err) => {
-        console.log(err);
         status = 'fail';
       });
     return status;

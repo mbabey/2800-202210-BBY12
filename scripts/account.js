@@ -55,7 +55,7 @@ docLoaded(() => {
   });
 
   // Add event listeners to save buttons on the page.
-  document.getElementById("save-button").addEventListener("click", async (event) => {
+  document.getElementById("save-button").addEventListener("click", async () => {
     let dataToSend = {};
     for (const [key, value] of Object.entries(bizInfo)) {
       saved(value[0]);

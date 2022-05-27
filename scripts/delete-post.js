@@ -16,23 +16,21 @@ function deletePost(event) {
     const formData = new FormData();
     formData.append("username", post.dataset.username);
     formData.append("postId", post.dataset.postId);
-    sendData(formData)
+    sendFormData(formData);
     post.remove();
 }
 
 /**
- * sendData. Sends information to a specified path.
+ * sendFormData. Sends information to a specified path.
  * @param {Object} data - the data to send to the server
  */
- async function sendData(data) {
+ async function sendFormData(data) {
   try {
     await fetch('/delete-post', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: data
     });
   } catch (err) {
-    console.log(err);
   }
 }
 

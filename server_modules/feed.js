@@ -175,7 +175,7 @@ async function getImages(username, postId, con) {
  * @param {int} postId - the postId to be queried against
  * @param {Object} con - the connection to the database.
  * @returns the tags queried from the database.
- */Great 
+ */
 async function getTags(username, postId, con) {
   let tags;
   await con.promise().query('SELECT tag FROM BBY_12_post_tag WHERE (`username` = ?) AND (`postId` = ?)', [username, postId])

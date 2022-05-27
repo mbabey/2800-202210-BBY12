@@ -145,7 +145,7 @@ p {
   z-index: 1;
 }
 
-.edit-profile-image > form > label:hover {
+.edit-profile-image>form>label:hover {
   cursor: pointer;
 }
 
@@ -200,6 +200,7 @@ p {
 .edit-profile>form>label:hover {
   color: white;
 }
+
 /* -- End edit profile. -- */
 
 .post-block {
@@ -283,7 +284,7 @@ p {
     grid-row: 1 / span 1;
     overflow-wrap: break-word;
   }
-  
+
   #name-block-d,
   #lastname-block-d {
     font-size: 1.1rem;
@@ -330,7 +331,7 @@ p {
     padding-bottom: 0;
     padding-top: 3%;
   }
-  
+
   .profile-header-wrapper {
     margin-bottom: 0;
   }
@@ -401,7 +402,7 @@ p {
   .post-block {
     width: 96%;
   }
-  
+
   .profile-location {
     margin-bottom: 0;
   }

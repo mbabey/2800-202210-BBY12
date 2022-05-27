@@ -116,7 +116,7 @@ module.exports = {
    * @param {Object} req - the request from the client.
    * @param {Object} con - the connection to the database.
    * @param {boolean} isAdmin - Flag if updater is an admin
-   * @returns result: status of query
+   * @returns status: success if no issue, fail otherwise
    */
   updateUser: async (req, con, isAdmin) => {
     let status, username;

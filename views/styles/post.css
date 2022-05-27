@@ -230,7 +230,7 @@
   cursor: pointer;
 }
 
-.post-description{
+.post-description {
   font-weight: normal;
   margin-top: 10px;
   padding: 5px;
@@ -240,7 +240,8 @@
   background-color: #dff7ff;
 }
 
-.input-label, label {
+.input-label,
+label {
   font-size: large;
   font-weight: bold;
   margin: 0;
@@ -251,6 +252,7 @@
 }
 
 @media only screen and (min-width: 801px) and (max-width: 1200px) {
+
   .post-save,
   .post-cancel,
   .post-delete {
@@ -280,11 +282,13 @@
     height: auto;
     margin: 6px 0;
   }
+
   .post-cancel,
   .post-delete {
     margin: 5px 0;
     padding: 10px 10%;
   }
+
   .post-save {
     margin: 5px 0;
     padding: 10px 15%;

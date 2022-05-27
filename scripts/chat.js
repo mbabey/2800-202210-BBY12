@@ -1,10 +1,20 @@
 'use strict';
 
 docLoaded(() => {
+
+  /** The client user. */
   let thisUser;
+
+  /** The client socket. */
   const socket = io.connect('/');
+
+  /** The DOM element that holds the messages. */
   const messageContainer = document.querySelector('#message-content');
+
+  /** The DOM element submit button to send messages. */
   const messageSendButton = document.querySelector('#message-submit');
+  
+  /** The DOM element input within which messages are written. */
   const messageInput = document.querySelector('#message-input');
 
   getThisUser();
@@ -39,8 +49,8 @@ docLoaded(() => {
 
   /**
    * addMessage. Builds and add the DOM for a message.
-   * @param {string} message - Message to display
-   * @param {string} user - User that sent message
+   * @param {String} message - Message to display
+   * @param {String} user - User that sent message
    */
   function addMessage(message, user) {
     let messageBlock = document.createElement('div');
